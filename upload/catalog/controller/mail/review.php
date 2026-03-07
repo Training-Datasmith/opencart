@@ -7,19 +7,17 @@ namespace Opencart\Catalog\Controller\Mail;
  */
 class Review extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * catalog/model/catalog/review.addReview/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * catalog/model/catalog/review.addReview/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		if (!in_array('review', (array)$this->config->get('config_mail_alert'))) {
 			return;
 		}

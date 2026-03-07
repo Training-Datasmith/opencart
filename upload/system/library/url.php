@@ -14,33 +14,11 @@ namespace Opencart\System\Library;
  * Class URL
  */
 class Url {
-	/**
-	 * @var string
-	 */
-	private string $url;
-	/**
-	 * @var string
-	 */
 	private string $scheme;
-	/**
-	 * @var string
-	 */
 	private string $host;
-	/**
-	 * @var int
-	 */
 	private int $port;
-	/**
-	 * @var string
-	 */
 	private string $path;
-	/**
-	 * @var string
-	 */
 	private string $query;
-	/**
-	 * @var string
-	 */
 	private string $fragment;
 
 	/**
@@ -49,14 +27,10 @@ class Url {
 	private array $rewrite = [];
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $url
-	 */
-	public function __construct(string $url) {
-		$this->url = $url;
-
-		$parts = parse_url($url);
+     * Constructor
+     */
+    public function __construct(private string $url) {
+		$parts = parse_url($this->url);
 
 		foreach ($parts as $key => $value) {
 			$this->{$key} = $value;
@@ -64,32 +38,27 @@ class Url {
 	}
 
 	/**
-	 * Add Rewrite
-	 *
-	 * Add a rewrite method to the URL system
-	 *
-	 * @param \Opencart\System\Engine\Controller $rewrite
-	 *
-	 * @return void
-	 */
-	public function addRewrite(object $rewrite): void {
+     * Add Rewrite
+     *
+     * Add a rewrite method to the URL system
+     *
+     * @param \Opencart\System\Engine\Controller $rewrite
+     */
+    public function addRewrite(object $rewrite): void {
 		if (is_callable([$rewrite, 'rewrite'])) {
 			$this->rewrite[] = $rewrite;
 		}
 	}
 
 	/**
-	 * Link
-	 *
-	 * Generates a URL
-	 *
-	 * @param string $route
-	 * @param mixed  $args
-	 * @param bool   $js
-	 *
-	 * @return string
-	 */
-	public function link(string $route, $args = '', bool $js = false): string {
+     * Link
+     *
+     * Generates a URL
+     *
+     * @param mixed  $args
+     *
+     */
+    public function link(string $route, $args = '', bool $js = false): string {
 		$url = $this->url . 'index.php?route=' . $route;
 
 		if ($args) {
@@ -110,8 +79,7 @@ class Url {
 
 		if (!$js) {
 			return str_replace('&', '&amp;', $url);
-		} else {
-			return $url;
 		}
+        return $url;
 	}
 }

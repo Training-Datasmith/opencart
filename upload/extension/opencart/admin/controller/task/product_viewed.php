@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Report;
  */
 class ProductViewed extends \Opencart\System\Engine\Controller {
 	/**
-	 * Generate
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Generate
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/report/product_viewed');
 
 		$limit = 10;

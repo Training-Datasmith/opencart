@@ -9,26 +9,22 @@ namespace Opencart\Admin\Model\Tool;
  */
 class Image extends \Opencart\System\Engine\Model {
 	/**
-	 * Resize
-	 *
-	 * @param string $filename
-	 * @param int    $width
-	 * @param int    $height
-	 *
-	 * @throws \Exception
-	 *
-	 * @return string
-	 *
-	 * @example
-	 *
-	 * $this->load->model('tool/image');
-	 *
-	 * $placeholder = $this->model_tool_image->resize($filename, $width, $height);
-	 */
-	public function resize(string $filename, int $width, int $height): string {
+     * Resize
+     *
+     *
+     * @throws \Exception
+     *
+     *
+     * @example
+     *
+     * $this->load->model('tool/image');
+     *
+     * $placeholder = $this->model_tool_image->resize($filename, $width, $height);
+     */
+    public function resize(string $filename, int $width, int $height): string {
 		$filename = html_entity_decode($filename, ENT_QUOTES, 'UTF-8');
 
-		if (!is_file(DIR_IMAGE . $filename) || substr(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), 0, strlen(DIR_IMAGE)) != DIR_IMAGE) {
+		if (!is_file(DIR_IMAGE . $filename) || !str_starts_with(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), DIR_IMAGE)) {
 			return '';
 		}
 

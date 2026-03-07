@@ -17,11 +17,9 @@ namespace Opencart\Admin\Controller\Startup;
  */
 class Cli extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function index() {
+     * Index
+     */
+    public function index(): ?\Opencart\System\Engine\Action {
 		if (php_sapi_name() == 'cli') {
 			if (isset($this->request->server['argv'])) {
 				$argv = (array)$this->request->server['argv'];
@@ -44,13 +42,9 @@ class Cli extends \Opencart\System\Engine\Controller {
 					}
 
 					return new \Opencart\System\Engine\Action('marketplace/task.cli', $argv);
-
-					break;
 				case 'usage':
 				default:
 					return new \Opencart\System\Engine\Action('startup/task.usage', $argv);
-
-					break;
 			}
 		}
 

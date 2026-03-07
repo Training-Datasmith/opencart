@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Api;
  */
 class Coupon extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('extension/opencart/api/coupon');
 
 		if (isset($this->request->get['order_id'])) {

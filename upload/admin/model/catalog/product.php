@@ -191,55 +191,54 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Product
-	 *
-	 * Edit product record in the database.
-	 *
-	 * @param int                  $product_id primary key of the product record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data = [
-	 *     'product_description'           => [],
-	 *     'product_attribute_description' => [],
-	 *     'master_id'                     => 'Master ID',
-	 *     'model'                         => 'Product Model',
-	 *     'sku'                           => 'Product Sku',
-	 *     'upc'                           => 'Product Upc',
-	 *     'ean'                           => 'Product Ean',
-	 *     'jan'                           => 'Product Jan',
-	 *     'isbn'                          => 'Product Isbn',
-	 *     'mpn'                           => 'Product Mpn',
-	 *     'location'                      => 'Location',
-	 *     'variant'                       => [],
-	 *     'override'                      => [],
-	 *     'quantity'                      => 1,
-	 *     'minimum'                       => 1,
-	 *     'subtract'                      => 0,
-	 *     'stock_status_id'               => 1,
-	 *     'date_available'                => '2021-01-01',
-	 *     'manufacturer_id'               => 0,
-	 *     'shipping'                      => 0,
-	 *     'price'                         => 1.00,
-	 *     'points'                        => 0,
-	 *     'weight'                        => 0.00000000,
-	 *     'weight_class_id'               => 0,
-	 *     'length'                        => 0.00000000,
-	 *     'length_class_id'               => 0,
-	 *     'status'                        => 1,
-	 *     'tax_class_id'                  => 0,
-	 *     'sort_order'                    => 0,
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editProduct($product_id, $product_data);
-	 */
-	public function editProduct(int $product_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `model` = '" . $this->db->escape((string)$data['model']) . "', `location` = '" . $this->db->escape((string)$data['location']) . "', `variant` = '" . $this->db->escape(!empty($data['variant']) ? json_encode($data['variant']) : '') . "', `override` = '" . $this->db->escape(!empty($data['override']) ? json_encode($data['override']) : '') . "', `quantity` = '" . (int)$data['quantity'] . "', `minimum` = '" . (int)$data['minimum'] . "', `subtract` = '" . (isset($data['subtract']) ? (bool)$data['subtract'] : 0) . "', `stock_status_id` = '" . (int)$data['stock_status_id'] . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `date_available` = '" . $this->db->escape((string)$data['date_available']) . "', `manufacturer_id` = '" . (int)$data['manufacturer_id'] . "', `shipping` = '" . (isset($data['shipping']) ? (bool)$data['shipping'] : 0) . "', `price` = '" . (float)$data['price'] . "', `points` = '" . (int)$data['points'] . "', `weight` = '" . (float)$data['weight'] . "', `weight_class_id` = '" . (int)$data['weight_class_id'] . "', `length` = '" . (float)$data['length'] . "', `width` = '" . (float)$data['width'] . "', `height` = '" . (float)$data['height'] . "', `length_class_id` = '" . (int)$data['length_class_id'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `tax_class_id` = '" . (int)$data['tax_class_id'] . "', `sort_order` = '" . (int)$data['sort_order'] . "', `date_modified` = NOW() WHERE `product_id` = '" . (int)$product_id . "'");
+     * Edit Product
+     *
+     * Edit product record in the database.
+     *
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $product_data = [
+     *     'product_description'           => [],
+     *     'product_attribute_description' => [],
+     *     'master_id'                     => 'Master ID',
+     *     'model'                         => 'Product Model',
+     *     'sku'                           => 'Product Sku',
+     *     'upc'                           => 'Product Upc',
+     *     'ean'                           => 'Product Ean',
+     *     'jan'                           => 'Product Jan',
+     *     'isbn'                          => 'Product Isbn',
+     *     'mpn'                           => 'Product Mpn',
+     *     'location'                      => 'Location',
+     *     'variant'                       => [],
+     *     'override'                      => [],
+     *     'quantity'                      => 1,
+     *     'minimum'                       => 1,
+     *     'subtract'                      => 0,
+     *     'stock_status_id'               => 1,
+     *     'date_available'                => '2021-01-01',
+     *     'manufacturer_id'               => 0,
+     *     'shipping'                      => 0,
+     *     'price'                         => 1.00,
+     *     'points'                        => 0,
+     *     'weight'                        => 0.00000000,
+     *     'weight_class_id'               => 0,
+     *     'length'                        => 0.00000000,
+     *     'length_class_id'               => 0,
+     *     'status'                        => 1,
+     *     'tax_class_id'                  => 0,
+     *     'sort_order'                    => 0,
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editProduct($product_id, $product_data);
+     */
+    public function editProduct(int $product_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `model` = '" . $this->db->escape((string)$data['model']) . "', `location` = '" . $this->db->escape((string)$data['location']) . "', `variant` = '" . $this->db->escape(!empty($data['variant']) ? json_encode($data['variant']) : '') . "', `override` = '" . $this->db->escape(!empty($data['override']) ? json_encode($data['override']) : '') . "', `quantity` = '" . (int)$data['quantity'] . "', `minimum` = '" . (int)$data['minimum'] . "', `subtract` = '" . (isset($data['subtract']) ? (bool)$data['subtract'] : 0) . "', `stock_status_id` = '" . (int)$data['stock_status_id'] . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `date_available` = '" . $this->db->escape((string)$data['date_available']) . "', `manufacturer_id` = '" . (int)$data['manufacturer_id'] . "', `shipping` = '" . (isset($data['shipping']) ? (bool)$data['shipping'] : 0) . "', `price` = '" . (float)$data['price'] . "', `points` = '" . (int)$data['points'] . "', `weight` = '" . (float)$data['weight'] . "', `weight_class_id` = '" . (int)$data['weight_class_id'] . "', `length` = '" . (float)$data['length'] . "', `width` = '" . (float)$data['width'] . "', `height` = '" . (float)$data['height'] . "', `length_class_id` = '" . (int)$data['length_class_id'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `tax_class_id` = '" . (int)$data['tax_class_id'] . "', `sort_order` = '" . (int)$data['sort_order'] . "', `date_modified` = NOW() WHERE `product_id` = '" . $product_id . "'");
 
 		// Description
 		$this->model_catalog_product->deleteDescriptions($product_id);
@@ -393,19 +392,18 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Copy Product
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->copyProduct($product_id);
-	 */
-	public function copyProduct(int $product_id): int {
+     * Copy Product
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->copyProduct($product_id);
+     */
+    public function copyProduct(int $product_id): int {
 		$new_product_id = 0;
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
@@ -450,22 +448,21 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Product
-	 *
-	 * Delete product record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteProduct($product_id);
-	 */
-	public function deleteProduct(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Product
+     *
+     * Delete product record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteProduct($product_id);
+     */
+    public function deleteProduct(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product` WHERE `product_id` = '" . $product_id . "'");
 
 		$this->model_catalog_product->deleteAttributes($product_id);
 		$this->model_catalog_product->deleteCodes($product_id);
@@ -504,20 +501,19 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Variant
-	 *
-	 * @param int                  $master_id primary key of the product record
-	 * @param array<string, mixed> $data      array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $product_id = $this->model_catalog_product->addVariant($master_id, $data);
-	 */
-	public function addVariant(int $master_id, array $data): int {
+     * Add Variant
+     *
+     * @param int                  $master_id primary key of the product record
+     * @param array<string, mixed> $data      array of data
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $product_id = $this->model_catalog_product->addVariant($master_id, $data);
+     */
+    public function addVariant(int $master_id, array $data): int {
 		$product_data = [];
 
 		// Use master values to override the values
@@ -643,21 +639,20 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Variant
-	 *
-	 * @param int                  $master_id  primary key of the product record
-	 * @param int                  $product_id primary key of the product record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editVariant($master_id, $product_id, $data);
-	 */
-	public function editVariant(int $master_id, int $product_id, array $data): void {
+     * Edit Variant
+     *
+     * @param int                  $master_id  primary key of the product record
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editVariant($master_id, $product_id, $data);
+     */
+    public function editVariant(int $master_id, int $product_id, array $data): void {
 		$product_data = [];
 
 		// Use master values to override the values
@@ -782,20 +777,19 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Variants
-	 *
-	 * @param int                  $master_id primary key of the product record
-	 * @param array<string, mixed> $data      array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editVariants($product_id, $data);
-	 */
-	public function editVariants(int $master_id, array $data): void {
+     * Edit Variants
+     *
+     * @param int                  $master_id primary key of the product record
+     * @param array<string, mixed> $data      array of data
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editVariants($product_id, $data);
+     */
+    public function editVariants(int $master_id, array $data): void {
 		// product_option should not be passed to product variants
 		unset($data['product_option']);
 
@@ -927,83 +921,77 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Master ID
-	 *
-	 * Edit product master record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $master_id  primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editMasterId($product_id, 0);
-	 */
-	public function editMasterId(int $product_id, int $master_id): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `master_id` = '" . (int)$master_id . "', `date_modified` = NOW() WHERE `product_id` = '" . (int)$product_id . "'");
+     * Edit Master ID
+     *
+     * Edit product master record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     * @param int $master_id  primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editMasterId($product_id, 0);
+     */
+    public function editMasterId(int $product_id, int $master_id): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `master_id` = '" . $master_id . "', `date_modified` = NOW() WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Edit Sales
-	 *
-	 * Edit product rating record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $rating
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editSale($result['product_id'], $this->model_catalog_review->getRating($product_id));
-	 */
-	public function editSale(int $product_id, int $total): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `sale` = '" . (int)$total . "', `date_modified` = NOW() WHERE `product_id` = '" . (int)$product_id . "'");
+     * Edit Sales
+     *
+     * Edit product rating record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     * @param int $rating
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editSale($result['product_id'], $this->model_catalog_review->getRating($product_id));
+     */
+    public function editSale(int $product_id, int $total): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `sale` = '" . $total . "', `date_modified` = NOW() WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Edit Rating
-	 *
-	 * Edit product rating record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $rating
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editRating($result['product_id'], $this->model_catalog_review->getRating($product_id));
-	 */
-	public function editRating(int $product_id, int $rating): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `rating` = '" . (int)$rating . "', `date_modified` = NOW() WHERE `product_id` = '" . (int)$product_id . "'");
+     * Edit Rating
+     *
+     * Edit product rating record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editRating($result['product_id'], $this->model_catalog_review->getRating($product_id));
+     */
+    public function editRating(int $product_id, int $rating): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `rating` = '" . $rating . "', `date_modified` = NOW() WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit category status record in the database.
-	 *
-	 * @param int  $product_id primary key of the product record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->editStatus($product_id, $status);
-	 */
-	public function editStatus(int $product_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `status` = '" . (bool)$status . "' WHERE `product_id` = '" . (int)$product_id . "'");
+     * Edit Status
+     *
+     * Edit category status record in the database.
+     *
+     * @param int  $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->editStatus($product_id, $status);
+     */
+    public function editStatus(int $product_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `status` = '" . $status . "' WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
@@ -1024,7 +1012,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getProduct(int $product_id): array {
 		$product_data = [];
 
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product` `p` LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) WHERE `p`.`product_id` = '" . (int)$product_id . "' AND `pd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product` `p` LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) WHERE `p`.`product_id` = '" . $product_id . "' AND `pd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		if ($query->num_rows) {
 			$product_data = $query->row;
@@ -1290,7 +1278,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($manufacturer_id);
 	 */
 	public function getTotalProductsByManufacturerId(int $manufacturer_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `manufacturer_id` = '" . (int)$manufacturer_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `manufacturer_id` = '" . $manufacturer_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -1311,7 +1299,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalProductsByTaxClassId($tax_class_id);
 	 */
 	public function getTotalProductsByTaxClassId(int $tax_class_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `tax_class_id` = '" . (int)$tax_class_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `tax_class_id` = '" . $tax_class_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -1332,7 +1320,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalProductsByStockStatusId($stock_status_id);
 	 */
 	public function getTotalProductsByStockStatusId(int $stock_status_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `stock_status_id` = '" . (int)$stock_status_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `stock_status_id` = '" . $stock_status_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -1353,7 +1341,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalProductsByWeightClassId($weight_class_id);
 	 */
 	public function getTotalProductsByWeightClassId(int $weight_class_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `weight_class_id` = '" . (int)$weight_class_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `weight_class_id` = '" . $weight_class_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -1374,77 +1362,74 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalProductsByLengthClassId($length_class_id);
 	 */
 	public function getTotalProductsByLengthClassId(int $length_class_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `length_class_id` = '" . (int)$length_class_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product` WHERE `length_class_id` = '" . $length_class_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Description
-	 *
-	 * Create a new product description record in the database.
-	 *
-	 * @param int                  $product_id  primary key of the product record
-	 * @param int                  $language_id primary key of the language record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data['product_description'] = [
-	 *     'name'             => 'Product Name',
-	 *     'description'      => 'Product Description',
-	 *     'tag'              => 'Product Tag',
-	 *     'meta_title'       => 'Meta Title',
-	 *     'meta_description' => 'Meta Description',
-	 *     'meta_keyword'     => 'Meta Keyword'
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addDescription($product_id, $language_id, $product_data);
-	 */
-	public function addDescription(int $product_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_description` SET `product_id` = '" . (int)$product_id . "', `language_id` = '" . (int)$language_id . "', `name` = '" . $this->db->escape($data['name']) . "', `description` = '" . $this->db->escape($data['description']) . "', `tag` = '" . $this->db->escape($data['tag']) . "', `meta_title` = '" . $this->db->escape($data['meta_title']) . "', `meta_description` = '" . $this->db->escape($data['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($data['meta_keyword']) . "'");
+     * Add Description
+     *
+     * Create a new product description record in the database.
+     *
+     * @param int                  $product_id  primary key of the product record
+     * @param int                  $language_id primary key of the language record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_description'] = [
+     *     'name'             => 'Product Name',
+     *     'description'      => 'Product Description',
+     *     'tag'              => 'Product Tag',
+     *     'meta_title'       => 'Meta Title',
+     *     'meta_description' => 'Meta Description',
+     *     'meta_keyword'     => 'Meta Keyword'
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addDescription($product_id, $language_id, $product_data);
+     */
+    public function addDescription(int $product_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_description` SET `product_id` = '" . $product_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "', `description` = '" . $this->db->escape($data['description']) . "', `tag` = '" . $this->db->escape($data['tag']) . "', `meta_title` = '" . $this->db->escape($data['meta_title']) . "', `meta_description` = '" . $this->db->escape($data['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($data['meta_keyword']) . "'");
 	}
 
 	/**
-	 * Delete Descriptions
-	 *
-	 * Delete product description records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteDescriptions($product_id);
-	 */
-	public function deleteDescriptions(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_description` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Descriptions
+     *
+     * Delete product description records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteDescriptions($product_id);
+     */
+    public function deleteDescriptions(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_description` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Descriptions By Language ID
-	 *
-	 * Delete product descriptions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteDescriptionsByLanguageId($language_id);
-	 */
-	public function deleteDescriptionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_description` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Descriptions By Language ID
+     *
+     * Delete product descriptions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteDescriptionsByLanguageId($language_id);
+     */
+    public function deleteDescriptionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_description` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -1465,7 +1450,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getDescriptions(int $product_id): array {
 		$product_description_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_description_data[$result['language_id']] = $result;
@@ -1490,54 +1475,52 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_catalog_product->getDescriptionsByLanguageId($language_id);
 	 */
 	public function getDescriptionsByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Add Code
-	 *
-	 * Create a new product code record in the database.
-	 *
-	 * @param int                  $product_id primary key of the product record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $data['product_code'] = [
-	 *     'product_id' => 1,
-	 *     'code'       => 'Product Code',
-	 *     'value'      => 'Product Value'
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $results = $this->model_catalog_product->addCode($product_id, $data);
-	 */
-	public function addCode(int $product_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_code` SET `product_id` = '" . (int)$product_id . "', `identifier_id` = '" . (int)$data['identifier_id'] . "', `value` = '" . $this->db->escape($data['value']) . "'");
+     * Add Code
+     *
+     * Create a new product code record in the database.
+     *
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $data['product_code'] = [
+     *     'product_id' => 1,
+     *     'code'       => 'Product Code',
+     *     'value'      => 'Product Value'
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $results = $this->model_catalog_product->addCode($product_id, $data);
+     */
+    public function addCode(int $product_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_code` SET `product_id` = '" . $product_id . "', `identifier_id` = '" . (int)$data['identifier_id'] . "', `value` = '" . $this->db->escape($data['value']) . "'");
 	}
 
 	/**
-	 * Delete Codes
-	 *
-	 * Delete product code records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $results = $this->model_catalog_product->deleteCodes($product_id);
-	 */
-	public function deleteCodes(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_code` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Codes
+     *
+     * Delete product code records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $results = $this->model_catalog_product->deleteCodes($product_id);
+     */
+    public function deleteCodes(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_code` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
@@ -1556,67 +1539,64 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_catalog_product->getCodes($product_id);
 	 */
 	public function getCodes(int $product_id): array {
-		$query = $this->db->query("SELECT *, (SELECT `code` FROM `" . DB_PREFIX . "identifier` WHERE `identifier_id` = `pc`.`identifier_id`) AS `code` FROM `" . DB_PREFIX . "product_code` `pc` WHERE `pc`.`product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT *, (SELECT `code` FROM `" . DB_PREFIX . "identifier` WHERE `identifier_id` = `pc`.`identifier_id`) AS `code` FROM `" . DB_PREFIX . "product_code` `pc` WHERE `pc`.`product_id` = '" . $product_id . "'");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Add Category
-	 *
-	 * Create a new product category record in the database.
-	 *
-	 * @param int $product_id  primary key of the product record
-	 * @param int $category_id primary key of the category record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addCategory($product_id, $category_id);
-	 */
-	public function addCategory(int $product_id, int $category_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_category` SET `product_id` = '" . (int)$product_id . "', `category_id` = '" . (int)$category_id . "'");
+     * Add Category
+     *
+     * Create a new product category record in the database.
+     *
+     * @param int $product_id  primary key of the product record
+     * @param int $category_id primary key of the category record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addCategory($product_id, $category_id);
+     */
+    public function addCategory(int $product_id, int $category_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_category` SET `product_id` = '" . $product_id . "', `category_id` = '" . $category_id . "'");
 	}
 
 	/**
-	 * Delete Categories
-	 *
-	 * Delete product category records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteCategories($product_id);
-	 */
-	public function deleteCategories(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Categories
+     *
+     * Delete product category records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteCategories($product_id);
+     */
+    public function deleteCategories(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Categories By Category ID
-	 *
-	 * Delete categories by category record in the database.
-	 *
-	 * @param int $category_id primary key of the category record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteCategoriesByCategoryId($category_id);
-	 */
-	public function deleteCategoriesByCategoryId(int $category_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `category_id` = '" . (int)$category_id . "'");
+     * Delete Categories By Category ID
+     *
+     * Delete categories by category record in the database.
+     *
+     * @param int $category_id primary key of the category record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteCategoriesByCategoryId($category_id);
+     */
+    public function deleteCategoriesByCategoryId(int $category_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `category_id` = '" . $category_id . "'");
 	}
 
 	/**
@@ -1637,7 +1617,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getCategories(int $product_id): array {
 		$product_category_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_category_data[] = $result['category_id'];
@@ -1647,61 +1627,58 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Filter
-	 *
-	 * Create a new product filter record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $filter_id  primary key of the filter record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addFilter($product_id, $filter_id);
-	 */
-	public function addFilter(int $product_id, int $filter_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_filter` SET `product_id` = '" . (int)$product_id . "', `filter_id` = '" . (int)$filter_id . "'");
+     * Add Filter
+     *
+     * Create a new product filter record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     * @param int $filter_id  primary key of the filter record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addFilter($product_id, $filter_id);
+     */
+    public function addFilter(int $product_id, int $filter_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_filter` SET `product_id` = '" . $product_id . "', `filter_id` = '" . $filter_id . "'");
 	}
 
 	/**
-	 * Delete Filters
-	 *
-	 * Delete product filter records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteFilters($product_id);
-	 */
-	public function deleteFilters(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_filter` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Filters
+     *
+     * Delete product filter records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteFilters($product_id);
+     */
+    public function deleteFilters(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_filter` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Filters By Filter ID
-	 *
-	 * Delete product filters by filter records in the database.
-	 *
-	 * @param int $filter_id primary key of the filter record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteFiltersByFilterId($filter_id);
-	 */
-	public function deleteFiltersByFilterId(int $filter_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_filter` WHERE `filter_id` = '" . (int)$filter_id . "'");
+     * Delete Filters By Filter ID
+     *
+     * Delete product filters by filter records in the database.
+     *
+     * @param int $filter_id primary key of the filter record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteFiltersByFilterId($filter_id);
+     */
+    public function deleteFiltersByFilterId(int $filter_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_filter` WHERE `filter_id` = '" . $filter_id . "'");
 	}
 
 	/**
@@ -1722,7 +1699,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getFilters(int $product_id): array {
 		$product_filter_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_filter` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_filter` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_filter_data[] = $result['filter_id'];
@@ -1732,49 +1709,47 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Attribute
-	 *
-	 * Create a new product attribute record in the database.
-	 *
-	 * @param int                  $product_id   primary key of the product record
-	 * @param int                  $attribute_id primary key of the attribute record
-	 * @param int                  $language_id  primary key of the language record
-	 * @param array<string, mixed> $data         array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data['product_attribute'] = [
-	 *     'text' => 'Product Attribute Text'
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addAttribute($product_id, $attribute_id, $language_id, $product_data);
-	 */
-	public function addAttribute(int $product_id, int $attribute_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_attribute` SET `product_id` = '" . (int)$product_id . "', `attribute_id` = '" . (int)$attribute_id . "', `language_id` = '" . (int)$language_id . "', `text` = '" . $this->db->escape($data['text']) . "'");
+     * Add Attribute
+     *
+     * Create a new product attribute record in the database.
+     *
+     * @param int                  $product_id   primary key of the product record
+     * @param int                  $attribute_id primary key of the attribute record
+     * @param int                  $language_id  primary key of the language record
+     * @param array<string, mixed> $data         array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_attribute'] = [
+     *     'text' => 'Product Attribute Text'
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addAttribute($product_id, $attribute_id, $language_id, $product_data);
+     */
+    public function addAttribute(int $product_id, int $attribute_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_attribute` SET `product_id` = '" . $product_id . "', `attribute_id` = '" . $attribute_id . "', `language_id` = '" . $language_id . "', `text` = '" . $this->db->escape($data['text']) . "'");
 	}
 
 	/**
-	 * Delete Attributes
-	 *
-	 * Delete product attribute records in the database.
-	 *
-	 * @param int $product_id   primary key of the product record
-	 * @param int $attribute_id primary key of the attribute record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteAttributes($product_id, $attribute_id);
-	 */
-	public function deleteAttributes(int $product_id, int $attribute_id = 0): void {
-		$sql = "DELETE FROM `" . DB_PREFIX . "product_attribute` WHERE `product_id` = '" . (int)$product_id . "'";
+     * Delete Attributes
+     *
+     * Delete product attribute records in the database.
+     *
+     * @param int $product_id   primary key of the product record
+     * @param int $attribute_id primary key of the attribute record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteAttributes($product_id, $attribute_id);
+     */
+    public function deleteAttributes(int $product_id, int $attribute_id = 0): void {
+		$sql = "DELETE FROM `" . DB_PREFIX . "product_attribute` WHERE `product_id` = '" . $product_id . "'";
 
 		if ($attribute_id) {
 			$sql .= " AND `attribute_id` = '" . (int)$attribute_id . "'";
@@ -1784,22 +1759,21 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Attributes By Language ID
-	 *
-	 * Delete product attributes by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteAttributesByLanguageId($language_id);
-	 */
-	public function deleteAttributesByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_attribute` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Attributes By Language ID
+     *
+     * Delete product attributes by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteAttributesByLanguageId($language_id);
+     */
+    public function deleteAttributesByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_attribute` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -1820,12 +1794,12 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getAttributes(int $product_id): array {
 		$product_attribute_data = [];
 
-		$product_attribute_query = $this->db->query("SELECT `pa`.`attribute_id` FROM `" . DB_PREFIX . "product_attribute` `pa` LEFT JOIN `" . DB_PREFIX . "attribute` a ON (`a`.`attribute_id` = `pa`.`attribute_id`) LEFT JOIN `" . DB_PREFIX . "attribute_group` `ag` ON (`ag`.`attribute_group_id` = `a`.`attribute_group_id`) WHERE `pa`.`product_id` = '" . (int)$product_id . "' GROUP BY `pa`.`attribute_id` ORDER BY `ag`.`sort_order` ASC, `a`.`sort_order` ASC");
+		$product_attribute_query = $this->db->query("SELECT `pa`.`attribute_id` FROM `" . DB_PREFIX . "product_attribute` `pa` LEFT JOIN `" . DB_PREFIX . "attribute` a ON (`a`.`attribute_id` = `pa`.`attribute_id`) LEFT JOIN `" . DB_PREFIX . "attribute_group` `ag` ON (`ag`.`attribute_group_id` = `a`.`attribute_group_id`) WHERE `pa`.`product_id` = '" . $product_id . "' GROUP BY `pa`.`attribute_id` ORDER BY `ag`.`sort_order` ASC, `a`.`sort_order` ASC");
 
 		foreach ($product_attribute_query->rows as $product_attribute) {
 			$product_attribute_description_data = [];
 
-			$product_attribute_description_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_attribute` WHERE `product_id` = '" . (int)$product_id . "' AND `attribute_id` = '" . (int)$product_attribute['attribute_id'] . "'");
+			$product_attribute_description_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_attribute` WHERE `product_id` = '" . $product_id . "' AND `attribute_id` = '" . (int)$product_attribute['attribute_id'] . "'");
 
 			foreach ($product_attribute_description_query->rows as $product_attribute_description) {
 				$product_attribute_description_data[$product_attribute_description['language_id']] = $product_attribute_description;
@@ -1853,7 +1827,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_catalog_product->getAttributesByLanguageId($language_id);
 	 */
 	public function getAttributesByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_attribute` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_attribute` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}
@@ -1874,7 +1848,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalAttributesByAttributeId($attribute_id);
 	 */
 	public function getTotalAttributesByAttributeId(int $attribute_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_attribute` WHERE `attribute_id` = '" . (int)$attribute_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_attribute` WHERE `attribute_id` = '" . $attribute_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -1905,9 +1879,9 @@ class Product extends \Opencart\System\Engine\Model {
 	 */
 	public function addOption(int $product_id, array $data): int {
 		if ($data['product_option_id']) {
-			$sql = "INSERT INTO `" . DB_PREFIX . "product_option` SET `product_option_id` = '" . (int)$data['product_option_id'] . "', `product_id` = '" . (int)$product_id . "'";
+			$sql = "INSERT INTO `" . DB_PREFIX . "product_option` SET `product_option_id` = '" . (int)$data['product_option_id'] . "', `product_id` = '" . $product_id . "'";
 		} else {
-			$sql = "INSERT INTO `" . DB_PREFIX . "product_option` SET `product_id` = '" . (int)$product_id . "'";
+			$sql = "INSERT INTO `" . DB_PREFIX . "product_option` SET `product_id` = '" . $product_id . "'";
 		}
 
 		$sql .= ", `option_id` = '" . (int)$data['option_id'] . "'";
@@ -1932,22 +1906,21 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Options
-	 *
-	 * Delete product option description records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteOptions($product_id);
-	 */
-	public function deleteOptions(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_option` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Options
+     *
+     * Delete product option description records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteOptions($product_id);
+     */
+    public function deleteOptions(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_option` WHERE `product_id` = '" . $product_id . "'");
 
 		$this->model_catalog_product->deleteOptionValues($product_id);
 	}
@@ -1969,7 +1942,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_option_info = $this->model_catalog_product->getOption($product_id, $product_option_id);
 	 */
 	public function getOption(int $product_id, int $product_option_id): array {
-		$query = $this->db->query("SELECT *, (SELECT `name` FROM `" . DB_PREFIX . "option_description` `od` WHERE `o`.`option_id` = `od`.`option_id` AND `od`.`language_id` = '" . (int)$this->config->get('config_language_id') . "') AS `name` FROM `" . DB_PREFIX . "product_option` `po` LEFT JOIN `" . DB_PREFIX . "option` `o` ON (`po`.`option_id` = `o`.`option_id`) WHERE `po`.`product_id` = '" . (int)$product_id . "' AND `po`.`product_option_id` = '" . (int)$product_option_id . "'");
+		$query = $this->db->query("SELECT *, (SELECT `name` FROM `" . DB_PREFIX . "option_description` `od` WHERE `o`.`option_id` = `od`.`option_id` AND `od`.`language_id` = '" . (int)$this->config->get('config_language_id') . "') AS `name` FROM `" . DB_PREFIX . "product_option` `po` LEFT JOIN `" . DB_PREFIX . "option` `o` ON (`po`.`option_id` = `o`.`option_id`) WHERE `po`.`product_id` = '" . $product_id . "' AND `po`.`product_option_id` = '" . $product_option_id . "'");
 
 		return $query->row;
 	}
@@ -1992,7 +1965,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getOptions(int $product_id): array {
 		$product_option_data = [];
 
-		$product_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option` `po` LEFT JOIN `" . DB_PREFIX . "option` `o` ON (`po`.`option_id` = `o`.`option_id`) LEFT JOIN `" . DB_PREFIX . "option_description` `od` ON (`o`.`option_id` = `od`.`option_id`) WHERE `po`.`product_id` = '" . (int)$product_id . "' AND `od`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY `o`.`sort_order` ASC");
+		$product_option_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_option` `po` LEFT JOIN `" . DB_PREFIX . "option` `o` ON (`po`.`option_id` = `o`.`option_id`) LEFT JOIN `" . DB_PREFIX . "option_description` `od` ON (`o`.`option_id` = `od`.`option_id`) WHERE `po`.`product_id` = '" . $product_id . "' AND `od`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY `o`.`sort_order` ASC");
 
 		foreach ($product_option_query->rows as $product_option) {
 			$value = $product_option['value'];
@@ -2036,53 +2009,52 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalOptionsByOptionId($option_id);
 	 */
 	public function getTotalOptionsByOptionId(int $option_id): int {
-		$query = $this->db->query("SELECT COUNT(DISTINCT `product_id`) AS `total` FROM `" . DB_PREFIX . "product_option` WHERE `option_id` = '" . (int)$option_id . "'");
+		$query = $this->db->query("SELECT COUNT(DISTINCT `product_id`) AS `total` FROM `" . DB_PREFIX . "product_option` WHERE `option_id` = '" . $option_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Option Value
-	 *
-	 * Create a new product option value record in the database.
-	 *
-	 * @param int                  $product_id        primary key of the product record
-	 * @param int                  $product_option_id primary key of the product option record
-	 * @param int                  $option_id         primary key of the option record
-	 * @param array<string, mixed> $data              array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $product_data['product_option_value'] = [
-	 *     'product_option_value_id' => 1,
-	 *     'product_option_id'       => 1,
-	 *     'product_id'              => 1,
-	 *     'option_id'               => 1,
-	 *     'option_value_id'         => 1,
-	 *     'quantity'                => 1,
-	 *     'subtract'                => 0,
-	 *     'price'                   => '0.0000',
-	 *     'price_prefix'            => '',
-	 *     'points'                  => '0',
-	 *     'points_prefix'           => '',
-	 *     'weight'                  => '0.0000',
-	 *     'weight_prefix'           => ''
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addOptionValue($product_id, $product_option_id, $option_id, $product_option_value);
-	 */
-	public function addOptionValue(int $product_id, int $product_option_id, int $option_id, array $data): int {
+     * Add Option Value
+     *
+     * Create a new product option value record in the database.
+     *
+     * @param int                  $product_id        primary key of the product record
+     * @param int                  $product_option_id primary key of the product option record
+     * @param int                  $option_id         primary key of the option record
+     * @param array<string, mixed> $data              array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_option_value'] = [
+     *     'product_option_value_id' => 1,
+     *     'product_option_id'       => 1,
+     *     'product_id'              => 1,
+     *     'option_id'               => 1,
+     *     'option_value_id'         => 1,
+     *     'quantity'                => 1,
+     *     'subtract'                => 0,
+     *     'price'                   => '0.0000',
+     *     'price_prefix'            => '',
+     *     'points'                  => '0',
+     *     'points_prefix'           => '',
+     *     'weight'                  => '0.0000',
+     *     'weight_prefix'           => ''
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addOptionValue($product_id, $product_option_id, $option_id, $product_option_value);
+     */
+    public function addOptionValue(int $product_id, int $product_option_id, int $option_id, array $data): int {
 		$sql = "INSERT INTO `" . DB_PREFIX . "product_option_value` SET ";
 
 		if (isset($data['product_option_value_id'])) {
 			$sql .= "`product_option_value_id` = '" . (int)$data['product_option_value_id'] . "', ";
 		}
 
-		$sql .= "`product_option_id` = '" . (int)$product_option_id . "', `product_id` = '" . (int)$product_id . "', `option_id` = '" . (int)$option_id . "', `option_value_id` = '" . (int)$data['option_value_id'] . "', `quantity` = '" . (int)$data['quantity'] . "', `subtract` = '" . (int)$data['subtract'] . "', `price` = '" . (float)$data['price'] . "', `price_prefix` = '" . $this->db->escape($data['price_prefix']) . "', `points` = '" . (int)$data['points'] . "', `points_prefix` = '" . $this->db->escape($data['points_prefix']) . "', `weight` = '" . (float)$data['weight'] . "', `weight_prefix` = '" . $this->db->escape($data['weight_prefix']) . "'";
+		$sql .= "`product_option_id` = '" . $product_option_id . "', `product_id` = '" . $product_id . "', `option_id` = '" . $option_id . "', `option_value_id` = '" . (int)$data['option_value_id'] . "', `quantity` = '" . (int)$data['quantity'] . "', `subtract` = '" . (int)$data['subtract'] . "', `price` = '" . (float)$data['price'] . "', `price_prefix` = '" . $this->db->escape($data['price_prefix']) . "', `points` = '" . (int)$data['points'] . "', `points_prefix` = '" . $this->db->escape($data['points_prefix']) . "', `weight` = '" . (float)$data['weight'] . "', `weight_prefix` = '" . $this->db->escape($data['weight_prefix']) . "'";
 
 		$this->db->query($sql);
 
@@ -2090,22 +2062,21 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Option Values
-	 *
-	 * Delete product option value records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteOptionValues($product_id);
-	 */
-	public function deleteOptionValues(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_option_value` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Option Values
+     *
+     * Delete product option value records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteOptionValues($product_id);
+     */
+    public function deleteOptionValues(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_option_value` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
@@ -2125,7 +2096,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_option_value_info = $this->model_catalog_product->getOptionValue($product_id, $product_option_value_id);
 	 */
 	public function getOptionValue(int $product_id, int $product_option_value_id): array {
-		$query = $this->db->query("SELECT `pov`.`option_value_id`, `ovd`.`name`, `pov`.`quantity`, `pov`.`subtract`, `pov`.`price`, `pov`.`price_prefix`, `pov`.`points`, `pov`.`points_prefix`, `pov`.`weight`, `pov`.`weight_prefix` FROM `" . DB_PREFIX . "product_option_value` `pov` LEFT JOIN `" . DB_PREFIX . "option_value` `ov` ON (`pov`.`option_value_id` = `ov`.`option_value_id`) LEFT JOIN `" . DB_PREFIX . "option_value_description` `ovd` ON (`ov`.`option_value_id` = `ovd`.`option_value_id`) WHERE `pov`.`product_id` = '" . (int)$product_id . "' AND `pov`.`product_option_value_id` = '" . (int)$product_option_value_id . "' AND `ovd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT `pov`.`option_value_id`, `ovd`.`name`, `pov`.`quantity`, `pov`.`subtract`, `pov`.`price`, `pov`.`price_prefix`, `pov`.`points`, `pov`.`points_prefix`, `pov`.`weight`, `pov`.`weight_prefix` FROM `" . DB_PREFIX . "product_option_value` `pov` LEFT JOIN `" . DB_PREFIX . "option_value` `ov` ON (`pov`.`option_value_id` = `ov`.`option_value_id`) LEFT JOIN `" . DB_PREFIX . "option_value_description` `ovd` ON (`ov`.`option_value_id` = `ovd`.`option_value_id`) WHERE `pov`.`product_id` = '" . $product_id . "' AND `pov`.`product_option_value_id` = '" . $product_option_value_id . "' AND `ovd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
@@ -2146,7 +2117,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_option_values = $this->model_catalog_product->getOptionValuesByOptionId($option_id);
 	 */
 	public function getOptionValuesByOptionId(int $option_id): array {
-		$query = $this->db->query("SELECT DISTINCT `option_value_id` FROM `" . DB_PREFIX . "product_option_value` WHERE `option_id` = '" . (int)$option_id . "'");
+		$query = $this->db->query("SELECT DISTINCT `option_value_id` FROM `" . DB_PREFIX . "product_option_value` WHERE `option_id` = '" . $option_id . "'");
 
 		return $query->rows;
 	}
@@ -2167,53 +2138,51 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $option_value = $this->model_catalog_product->getTotalOptionValuesByOptionValueId($option_value_id);
 	 */
 	public function getTotalOptionValuesByOptionValueId(int $option_value_id): int {
-		$query = $this->db->query("SELECT COUNT(DISTINCT `product_id`) AS `total` FROM `" . DB_PREFIX . "product_option_value` WHERE `option_value_id` = '" . (int)$option_value_id . "'");
+		$query = $this->db->query("SELECT COUNT(DISTINCT `product_id`) AS `total` FROM `" . DB_PREFIX . "product_option_value` WHERE `option_value_id` = '" . $option_value_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Image
-	 *
-	 * Create a new product image record in the database.
-	 *
-	 * @param int                  $product_id primary key of the product record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data['product_image'] = [
-	 *     'image'      => 'product_image',
-	 *     'sort_order' => 0
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addImage($product_id, $product_data);
-	 */
-	public function addImage(int $product_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_image` SET `product_id` = '" . (int)$product_id . "', `image` = '" . $this->db->escape($data['image']) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
+     * Add Image
+     *
+     * Create a new product image record in the database.
+     *
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_image'] = [
+     *     'image'      => 'product_image',
+     *     'sort_order' => 0
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addImage($product_id, $product_data);
+     */
+    public function addImage(int $product_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_image` SET `product_id` = '" . $product_id . "', `image` = '" . $this->db->escape($data['image']) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
 	}
 
 	/**
-	 * Delete Images
-	 *
-	 * Delete product image records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteImages($product_id);
-	 */
-	public function deleteImages(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Images
+     *
+     * Delete product image records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteImages($product_id);
+     */
+    public function deleteImages(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
@@ -2232,78 +2201,75 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_images = $this->model_catalog_product->getImages($product_id);
 	 */
 	public function getImages(int $product_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . (int)$product_id . "' ORDER BY `sort_order` ASC");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . $product_id . "' ORDER BY `sort_order` ASC");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Add Discount
-	 *
-	 * Create a new discount record in the database.
-	 *
-	 * @param int                  $product_id primary key of the product record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data['product_discount'] = [
-	 *     'customer_group_id' => 1,
-	 *     'quantity'          => 1,
-	 *     'priority'          => 0,
-	 *     'price'             => '0.0000',
-	 *     'type'              => 'Product Discount Type',
-	 *     'special'           => 0,
-	 *     'date_start'        => '2021-01-01',
-	 *     'date_end'          => '2021-01-31'
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addDiscount($product_id, $product_data);
-	 */
-	public function addDiscount(int $product_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_discount` SET `product_id` = '" . (int)$product_id . "', `customer_group_id` = '" . (int)$data['customer_group_id'] . "', `quantity` = '" . (int)$data['quantity'] . "', `priority` = '" . (int)$data['priority'] . "', `price` = '" . (float)$data['price'] . "', `type` = '" . $this->db->escape($data['type']) . "', `special` = '" . (bool)$data['special'] . "', `date_start` = '" . $this->db->escape($data['date_start']) . "', `date_end` = '" . $this->db->escape($data['date_end']) . "'");
+     * Add Discount
+     *
+     * Create a new discount record in the database.
+     *
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_discount'] = [
+     *     'customer_group_id' => 1,
+     *     'quantity'          => 1,
+     *     'priority'          => 0,
+     *     'price'             => '0.0000',
+     *     'type'              => 'Product Discount Type',
+     *     'special'           => 0,
+     *     'date_start'        => '2021-01-01',
+     *     'date_end'          => '2021-01-31'
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addDiscount($product_id, $product_data);
+     */
+    public function addDiscount(int $product_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_discount` SET `product_id` = '" . $product_id . "', `customer_group_id` = '" . (int)$data['customer_group_id'] . "', `quantity` = '" . (int)$data['quantity'] . "', `priority` = '" . (int)$data['priority'] . "', `price` = '" . (float)$data['price'] . "', `type` = '" . $this->db->escape($data['type']) . "', `special` = '" . (bool)$data['special'] . "', `date_start` = '" . $this->db->escape($data['date_start']) . "', `date_end` = '" . $this->db->escape($data['date_end']) . "'");
 	}
 
 	/**
-	 * Delete Discounts
-	 *
-	 * Delete discount records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteDiscounts($product_id);
-	 */
-	public function deleteDiscounts(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_discount` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Discounts
+     *
+     * Delete discount records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteDiscounts($product_id);
+     */
+    public function deleteDiscounts(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_discount` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Discounts By Customer Group ID
-	 *
-	 * Delete discounts by customer group records in the database.
-	 *
-	 * @param int $customer_group_id primary key of the customer group record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteDiscountsByCustomerGroupId($customer_group_id);
-	 */
-	public function deleteDiscountsByCustomerGroupId(int $customer_group_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_discount` WHERE `customer_group_id` = '" . (int)$customer_group_id . "'");
+     * Delete Discounts By Customer Group ID
+     *
+     * Delete discounts by customer group records in the database.
+     *
+     * @param int $customer_group_id primary key of the customer group record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteDiscountsByCustomerGroupId($customer_group_id);
+     */
+    public function deleteDiscountsByCustomerGroupId(int $customer_group_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_discount` WHERE `customer_group_id` = '" . $customer_group_id . "'");
 	}
 
 	/**
@@ -2322,72 +2288,69 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_discounts = $this->model_catalog_product->getDiscounts($product_id);
 	 */
 	public function getDiscounts(int $product_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_discount` WHERE `product_id` = '" . (int)$product_id . "' ORDER BY `quantity`, `priority`, `price`");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_discount` WHERE `product_id` = '" . $product_id . "' ORDER BY `quantity`, `priority`, `price`");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Add Reward
-	 *
-	 * Create a new reward record in the database.
-	 *
-	 * @param int                  $product_id        primary key of the product record
-	 * @param int                  $customer_group_id primary key of the customer group record
-	 * @param array<string, mixed> $data              array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data['product_reward'] = [
-	 *     'points' => 0
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addReward($product_id, $customer_group_id, $product_data);
-	 */
-	public function addReward(int $product_id, int $customer_group_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_reward` SET `product_id` = '" . (int)$product_id . "', `customer_group_id` = '" . (int)$customer_group_id . "', `points` = '" . (int)$data['points'] . "'");
+     * Add Reward
+     *
+     * Create a new reward record in the database.
+     *
+     * @param int                  $product_id        primary key of the product record
+     * @param int                  $customer_group_id primary key of the customer group record
+     * @param array<string, mixed> $data              array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_reward'] = [
+     *     'points' => 0
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addReward($product_id, $customer_group_id, $product_data);
+     */
+    public function addReward(int $product_id, int $customer_group_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_reward` SET `product_id` = '" . $product_id . "', `customer_group_id` = '" . $customer_group_id . "', `points` = '" . (int)$data['points'] . "'");
 	}
 
 	/**
-	 * Delete Rewards
-	 *
-	 * Delete product reward records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteRewards($product_id);
-	 */
-	public function deleteRewards(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_reward` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Rewards
+     *
+     * Delete product reward records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteRewards($product_id);
+     */
+    public function deleteRewards(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_reward` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Rewards By Customer Group ID
-	 *
-	 * Delete rewards by customer group records in the database.
-	 *
-	 * @param int $customer_group_id primary key of the customer group record to be deleted
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteRewardsByCustomerGroupId($customer_group_id);
-	 */
-	public function deleteRewardsByCustomerGroupId(int $customer_group_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_reward` WHERE `customer_group_id` = '" . (int)$customer_group_id . "'");
+     * Delete Rewards By Customer Group ID
+     *
+     * Delete rewards by customer group records in the database.
+     *
+     * @param int $customer_group_id primary key of the customer group record to be deleted
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteRewardsByCustomerGroupId($customer_group_id);
+     */
+    public function deleteRewardsByCustomerGroupId(int $customer_group_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_reward` WHERE `customer_group_id` = '" . $customer_group_id . "'");
 	}
 
 	/**
@@ -2408,7 +2371,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getRewards(int $product_id): array {
 		$product_reward_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_reward` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_reward` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_reward_data[$result['customer_group_id']] = $result;
@@ -2418,61 +2381,58 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Download
-	 *
-	 * Create a product download record in the database.
-	 *
-	 * @param int $product_id  primary key of the product record
-	 * @param int $download_id primary key of the download record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addDownload($product_id, $download_id);
-	 */
-	public function addDownload(int $product_id, int $download_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_download` SET `product_id` = '" . (int)$product_id . "', `download_id` = '" . (int)$download_id . "'");
+     * Add Download
+     *
+     * Create a product download record in the database.
+     *
+     * @param int $product_id  primary key of the product record
+     * @param int $download_id primary key of the download record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addDownload($product_id, $download_id);
+     */
+    public function addDownload(int $product_id, int $download_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_download` SET `product_id` = '" . $product_id . "', `download_id` = '" . $download_id . "'");
 	}
 
 	/**
-	 * Delete Downloads
-	 *
-	 * Delete download records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteDownloads($product_id);
-	 */
-	public function deleteDownloads(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_download` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Downloads
+     *
+     * Delete download records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteDownloads($product_id);
+     */
+    public function deleteDownloads(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_download` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Downloads By Download ID
-	 *
-	 * Delete product downloads by download records in the database.
-	 *
-	 * @param int $download_id primary key of the download record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteDownloadsByDownloadId($download_id);
-	 */
-	public function deleteDownloadsByDownloadId(int $download_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_download` WHERE `download_id` = '" . (int)$download_id . "'");
+     * Delete Downloads By Download ID
+     *
+     * Delete product downloads by download records in the database.
+     *
+     * @param int $download_id primary key of the download record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteDownloadsByDownloadId($download_id);
+     */
+    public function deleteDownloadsByDownloadId(int $download_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_download` WHERE `download_id` = '" . $download_id . "'");
 	}
 
 	/**
@@ -2493,7 +2453,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getDownloads(int $product_id): array {
 		$product_download_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_download` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_download` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_download_data[] = $result['download_id'];
@@ -2518,67 +2478,64 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalDownloadsByDownloadId($download_id);
 	 */
 	public function getTotalDownloadsByDownloadId(int $download_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_to_download` WHERE `download_id` = '" . (int)$download_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_to_download` WHERE `download_id` = '" . $download_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Store
-	 *
-	 * Create a new product store record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $store_id   primary key of the store record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addStore($product_id, $store_id);
-	 */
-	public function addStore(int $product_id, int $store_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int)$product_id . "', `store_id` = '" . (int)$store_id . "'");
+     * Add Store
+     *
+     * Create a new product store record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     * @param int $store_id   primary key of the store record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addStore($product_id, $store_id);
+     */
+    public function addStore(int $product_id, int $store_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . $product_id . "', `store_id` = '" . $store_id . "'");
 	}
 
 	/**
-	 * Delete Stores
-	 *
-	 * Delete product store records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteStores($product_id);
-	 */
-	public function deleteStores(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Stores
+     *
+     * Delete product store records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteStores($product_id);
+     */
+    public function deleteStores(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Stores By Store ID
-	 *
-	 * Delete product stores by store records in the database.
-	 *
-	 * @param int $store_id primary key of the store record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteStoresByStoreId($store_id);
-	 */
-	public function deleteStoresByStoreId(int $store_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `store_id` = '" . (int)$store_id . "'");
+     * Delete Stores By Store ID
+     *
+     * Delete product stores by store records in the database.
+     *
+     * @param int $store_id primary key of the store record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteStoresByStoreId($store_id);
+     */
+    public function deleteStoresByStoreId(int $store_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `store_id` = '" . $store_id . "'");
 	}
 
 	/**
@@ -2599,7 +2556,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getStores(int $product_id): array {
 		$product_store_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_store_data[] = $result['store_id'];
@@ -2609,81 +2566,77 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Layout
-	 *
-	 * Create a new product layout record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $store_id   primary key of the store record
-	 * @param int $layout_id  primary key of the layout record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addLayout($product_id, $store_id, $layout_id);
-	 */
-	public function addLayout(int $product_id, int $store_id, int $layout_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_layout` SET `product_id` = '" . (int)$product_id . "', `store_id` = '" . (int)$store_id . "', `layout_id` = '" . (int)$layout_id . "'");
+     * Add Layout
+     *
+     * Create a new product layout record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     * @param int $store_id   primary key of the store record
+     * @param int $layout_id  primary key of the layout record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addLayout($product_id, $store_id, $layout_id);
+     */
+    public function addLayout(int $product_id, int $store_id, int $layout_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_layout` SET `product_id` = '" . $product_id . "', `store_id` = '" . $store_id . "', `layout_id` = '" . $layout_id . "'");
 	}
 
 	/**
-	 * Delete Layouts
-	 *
-	 * Delete product layout records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteLayouts($product_id);
-	 */
-	public function deleteLayouts(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Layouts
+     *
+     * Delete product layout records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteLayouts($product_id);
+     */
+    public function deleteLayouts(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Layouts By Layout ID
-	 *
-	 * Delete product layouts by layout records in the database.
-	 *
-	 * @param int $layout_id primary key of the layout record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteLayoutsByLayoutId($layout_id);
-	 */
-	public function deleteLayoutsByLayoutId(int $layout_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
+     * Delete Layouts By Layout ID
+     *
+     * Delete product layouts by layout records in the database.
+     *
+     * @param int $layout_id primary key of the layout record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteLayoutsByLayoutId($layout_id);
+     */
+    public function deleteLayoutsByLayoutId(int $layout_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
 	}
 
 	/**
-	 * Delete Layouts By Store ID
-	 *
-	 * Delete product layouts by store records in the database.
-	 *
-	 * @param int $store_id primary key of the store record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteLayoutsByStoreId($store_id);
-	 */
-	public function deleteLayoutsByStoreId(int $store_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `store_id` = '" . (int)$store_id . "'");
+     * Delete Layouts By Store ID
+     *
+     * Delete product layouts by store records in the database.
+     *
+     * @param int $store_id primary key of the store record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteLayoutsByStoreId($store_id);
+     */
+    public function deleteLayoutsByStoreId(int $store_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `store_id` = '" . $store_id . "'");
 	}
 
 	/**
@@ -2704,7 +2657,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getSeoUrls(int $product_id): array {
 		$product_seo_url_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'product_id' AND `value` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'product_id' AND `value` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_seo_url_data[$result['store_id']][$result['language_id']] = $result['keyword'];
@@ -2731,7 +2684,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getLayouts(int $product_id): array {
 		$product_layout_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_layout_data[$result['store_id']] = $result['layout_id'];
@@ -2756,53 +2709,51 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalLayoutsByLayoutId($layout_id);
 	 */
 	public function getTotalLayoutsByLayoutId(int $layout_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Related
-	 *
-	 * Create a new related record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $related_id primary key of the product related record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addRelated($product_id, $related_id);
-	 */
-	public function addRelated(int $product_id, int $related_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int)$product_id . "' AND `related_id` = '" . (int)$related_id . "'");
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_related` SET `product_id` = '" . (int)$product_id . "', `related_id` = '" . (int)$related_id . "'");
+     * Add Related
+     *
+     * Create a new related record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     * @param int $related_id primary key of the product related record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addRelated($product_id, $related_id);
+     */
+    public function addRelated(int $product_id, int $related_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . $product_id . "' AND `related_id` = '" . $related_id . "'");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_related` SET `product_id` = '" . $product_id . "', `related_id` = '" . $related_id . "'");
 
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int)$related_id . "' AND `related_id` = '" . (int)$product_id . "'");
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_related` SET `product_id` = '" . (int)$related_id . "', `related_id` = '" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . $related_id . "' AND `related_id` = '" . $product_id . "'");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_related` SET `product_id` = '" . $related_id . "', `related_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Delete Related
-	 *
-	 * Delete related record in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteRelated($product_id);
-	 */
-	public function deleteRelated(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int)$product_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `related_id` = '" . (int)$product_id . "'");
+     * Delete Related
+     *
+     * Delete related record in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteRelated($product_id);
+     */
+    public function deleteRelated(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . $product_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `related_id` = '" . $product_id . "'");
 	}
 
 	/**
@@ -2823,7 +2774,7 @@ class Product extends \Opencart\System\Engine\Model {
 	public function getRelated(int $product_id): array {
 		$product_related_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . $product_id . "'");
 
 		foreach ($query->rows as $result) {
 			$product_related_data[] = $result['related_id'];
@@ -2833,53 +2784,51 @@ class Product extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Subscription
-	 *
-	 * Create a new product subscription record in the database.
-	 *
-	 * @param int                  $product_id primary key of the product record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $product_data['product_subscription'] = [
-	 *     'customer_group_id'    => 1,
-	 *     'subscription_plan_id' => 1,
-	 *     'trial_price'          => 0.0000,
-	 *     'price'                => 10.0000
-	 * ];
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->addSubscription($product_id, $product_data);
-	 */
-	public function addSubscription(int $product_id, array $data): void {
-		$query = $this->db->query("SELECT `product_id` FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . (int)$product_id . "' AND `customer_group_id` = '" . (int)$data['customer_group_id'] . "' AND `subscription_plan_id` = '" . (int)$data['subscription_plan_id'] . "'");
+     * Add Subscription
+     *
+     * Create a new product subscription record in the database.
+     *
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $product_data['product_subscription'] = [
+     *     'customer_group_id'    => 1,
+     *     'subscription_plan_id' => 1,
+     *     'trial_price'          => 0.0000,
+     *     'price'                => 10.0000
+     * ];
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->addSubscription($product_id, $product_data);
+     */
+    public function addSubscription(int $product_id, array $data): void {
+		$query = $this->db->query("SELECT `product_id` FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . $product_id . "' AND `customer_group_id` = '" . (int)$data['customer_group_id'] . "' AND `subscription_plan_id` = '" . (int)$data['subscription_plan_id'] . "'");
 
 		if (!$query->num_rows) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "product_subscription` SET `product_id` = '" . (int)$product_id . "', `customer_group_id` = '" . (int)$data['customer_group_id'] . "', `subscription_plan_id` = '" . (int)$data['subscription_plan_id'] . "', `trial_price` = '" . (float)$data['trial_price'] . "', `price` = '" . (float)$data['price'] . "'");
+			$this->db->query("INSERT INTO `" . DB_PREFIX . "product_subscription` SET `product_id` = '" . $product_id . "', `customer_group_id` = '" . (int)$data['customer_group_id'] . "', `subscription_plan_id` = '" . (int)$data['subscription_plan_id'] . "', `trial_price` = '" . (float)$data['trial_price'] . "', `price` = '" . (float)$data['price'] . "'");
 		}
 	}
 
 	/**
-	 * Delete Subscriptions
-	 *
-	 * Delete product subscription records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteSubscriptions($product_id);
-	 */
-	public function deleteSubscriptions(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Subscriptions
+     *
+     * Delete product subscription records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteSubscriptions($product_id);
+     */
+    public function deleteSubscriptions(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
@@ -2900,7 +2849,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_subscription_info = $this->model_catalog_product->getSubscription($product_id, $subscription_plan_id);
 	 */
 	public function getSubscription(int $product_id, int $subscription_plan_id, int $customer_group_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . (int)$product_id . "' AND `subscription_plan_id` = '" . (int)$subscription_plan_id . "' AND `customer_group_id` = '" . (int)$customer_group_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . $product_id . "' AND `subscription_plan_id` = '" . $subscription_plan_id . "' AND `customer_group_id` = '" . $customer_group_id . "'");
 
 		return $query->row;
 	}
@@ -2921,28 +2870,27 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_subscriptions = $this->model_catalog_product->getSubscriptions($product_id);
 	 */
 	public function getSubscriptions(int $product_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_subscription` WHERE `product_id` = '" . $product_id . "'");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Delete Subscriptions By Subscription Plan ID
-	 *
-	 * Delete product subscriptions by subscription plan records in the database.
-	 *
-	 * @param int $subscription_plan_id primary key of the subscription plan record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteSubscriptionsBySubscriptionPlanId($subscription_plan_id);
-	 */
-	public function deleteSubscriptionsBySubscriptionPlanId(int $subscription_plan_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_subscription` WHERE `subscription_plan_id` = '" . (int)$subscription_plan_id . "'");
+     * Delete Subscriptions By Subscription Plan ID
+     *
+     * Delete product subscriptions by subscription plan records in the database.
+     *
+     * @param int $subscription_plan_id primary key of the subscription plan record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteSubscriptionsBySubscriptionPlanId($subscription_plan_id);
+     */
+    public function deleteSubscriptionsBySubscriptionPlanId(int $subscription_plan_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_subscription` WHERE `subscription_plan_id` = '" . $subscription_plan_id . "'");
 	}
 
 	/**
@@ -2961,48 +2909,45 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $product_total = $this->model_catalog_product->getTotalSubscriptionsBySubscriptionPlanId($subscription_plan_id);
 	 */
 	public function getTotalSubscriptionsBySubscriptionPlanId(int $subscription_plan_id): int {
-		$query = $this->db->query("SELECT COUNT(DISTINCT `product_id`) AS `total` FROM `" . DB_PREFIX . "product_subscription` WHERE `subscription_plan_id` = '" . (int)$subscription_plan_id . "'");
+		$query = $this->db->query("SELECT COUNT(DISTINCT `product_id`) AS `total` FROM `" . DB_PREFIX . "product_subscription` WHERE `subscription_plan_id` = '" . $subscription_plan_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Delete Reports
-	 *
-	 * Delete product report records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $this->model_catalog_product->deleteReports($product_id);
-	 */
-	public function deleteReports(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Reports
+     *
+     * Delete product report records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $this->model_catalog_product->deleteReports($product_id);
+     */
+    public function deleteReports(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . $product_id . "'");
 	}
 
 	/**
-	 * Get Reports
-	 *
-	 * Get the record of the product report records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $start
-	 * @param int $limit
-	 *
-	 * @return array<int, array<string, mixed>> report records that have product ID
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/product');
-	 *
-	 * $results = $this->model_catalog_product->getReports($product_id, $start, $limit);
-	 */
-	public function getReports(int $product_id, int $start = 0, int $limit = 10): array {
+     * Get Reports
+     *
+     * Get the record of the product report records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     * @return array<int, array<string, mixed>> report records that have product ID
+     *
+     * @example
+     *
+     * $this->load->model('catalog/product');
+     *
+     * $results = $this->model_catalog_product->getReports($product_id, $start, $limit);
+     */
+    public function getReports(int $product_id, int $start = 0, int $limit = 10): array {
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -3011,7 +2956,7 @@ class Product extends \Opencart\System\Engine\Model {
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT `ip`, `store_id`, `country`, `date_added` FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . (int)$product_id . "' ORDER BY `date_added` ASC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT `ip`, `store_id`, `country`, `date_added` FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . $product_id . "' ORDER BY `date_added` ASC LIMIT " . $start . "," . $limit);
 
 		return $query->rows;
 	}
@@ -3032,7 +2977,7 @@ class Product extends \Opencart\System\Engine\Model {
 	 * $report_total = $this->model_catalog_product->getTotalReports($product_id);
 	 */
 	public function getTotalReports(int $product_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . (int)$product_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . $product_id . "'");
 
 		return (int)$query->row['total'];
 	}

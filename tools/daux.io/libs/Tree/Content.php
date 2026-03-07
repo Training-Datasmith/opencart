@@ -35,7 +35,7 @@ class Content extends ContentAbstract
         }
 
         // Remove BOM if it's present
-        if (substr($content, 0, 3) == "\xef\xbb\xbf") {
+        if (str_starts_with($content, "\xef\xbb\xbf")) {
             $content = substr($content, 3);
         }
 
@@ -67,7 +67,7 @@ class Content extends ContentAbstract
         return $this->previous;
     }
 
-    public function setPrevious(Content $previous)
+    public function setPrevious(Content $previous): void
     {
         $this->previous = $previous;
     }
@@ -80,12 +80,12 @@ class Content extends ContentAbstract
         return $this->next;
     }
 
-    public function setNext(Content $next)
+    public function setNext(Content $next): void
     {
         $this->next = $next;
     }
 
-    public function isIndex()
+    public function isIndex(): bool
     {
         $indexKey = $this->parent->getConfig()->getIndexKey();
 
@@ -123,7 +123,7 @@ class Content extends ContentAbstract
         }
     }
 
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
     }

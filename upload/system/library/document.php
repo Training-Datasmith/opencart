@@ -13,17 +13,8 @@ namespace Opencart\System\Library;
  * Class Document
  */
 class Document {
-	/**
-	 * @var string
-	 */
 	private string $title = '';
-	/**
-	 * @var string
-	 */
 	private string $description = '';
-	/**
-	 * @var string
-	 */
 	private string $keywords = '';
 	/**
 	 * @var array<string, array<string, string>>
@@ -43,72 +34,57 @@ class Document {
 	private array $metas = [];
 
 	/**
-	 * Set Title
-	 *
-	 * @param string $title
-	 *
-	 * @return void
-	 */
-	public function setTitle(string $title): void {
+     * Set Title
+     *
+     *
+     */
+    public function setTitle(string $title): void {
 		$this->title = $title;
 	}
 
 	/**
-	 * Get Title
-	 *
-	 * @return string
-	 */
-	public function getTitle(): string {
+     * Get Title
+     */
+    public function getTitle(): string {
 		return $this->title;
 	}
 
 	/**
-	 * Set Description
-	 *
-	 * @param string $description
-	 *
-	 * @return void
-	 */
-	public function setDescription(string $description): void {
+     * Set Description
+     *
+     *
+     */
+    public function setDescription(string $description): void {
 		$this->description = $description;
 	}
 
 	/**
-	 * Get Description
-	 *
-	 * @return string
-	 */
-	public function getDescription(): string {
+     * Get Description
+     */
+    public function getDescription(): string {
 		return $this->description;
 	}
 
 	/**
-	 * Set Keywords
-	 *
-	 * @param string $keywords
-	 */
-	public function setKeywords(string $keywords): void {
+     * Set Keywords
+     */
+    public function setKeywords(string $keywords): void {
 		$this->keywords = $keywords;
 	}
 
 	/**
-	 * Get Keywords
-	 *
-	 * @return string
-	 */
-	public function getKeywords(): string {
+     * Get Keywords
+     */
+    public function getKeywords(): string {
 		return $this->keywords;
 	}
 
 	/**
-	 * Add Link
-	 *
-	 * @param string $href
-	 * @param string $rel
-	 *
-	 * @return void
-	 */
-	public function addLink(string $href, string $rel): void {
+     * Add Link
+     *
+     *
+     */
+    public function addLink(string $href, string $rel): void {
 		$this->links[$href] = [
 			'href' => $href,
 			'rel'  => $rel
@@ -125,15 +101,11 @@ class Document {
 	}
 
 	/**
-	 * Add Style
-	 *
-	 * @param string $href
-	 * @param string $rel
-	 * @param string $media
-	 *
-	 * @return void
-	 */
-	public function addStyle(string $href, string $rel = 'stylesheet', string $media = 'screen'): void {
+     * Add Style
+     *
+     *
+     */
+    public function addStyle(string $href, string $rel = 'stylesheet', string $media = 'screen'): void {
 		$this->styles[$href] = [
 			'href'  => $href,
 			'rel'   => $rel,
@@ -151,14 +123,12 @@ class Document {
 	}
 
 	/**
-	 * Add Script
-	 *
-	 * @param string $href
-	 * @param string $position
-	 *
-	 * @return void
-	 */
-	public function addScript(string $href): void {
+     * Add Script
+     *
+     * @param string $position
+     *
+     */
+    public function addScript(string $href): void {
 		$this->scripts[$href] = ['href'  => $href];
 	}
 
@@ -174,25 +144,24 @@ class Document {
 	}
 
 	/**
-	 * Add Meta
-	 *
-	 * Adds a meta tag with specified attributes to the document.
-	 *
-	 * @param array<string, string> $attributes Associative array of meta tag attributes
-	 *                                          Common attributes:
-	 *                                          - 'name' => 'description' (for standard meta tags)
-	 *                                          - 'property' => 'og:title' (for Open Graph)
-	 *                                          - 'content' => 'The content value'
-	 *                                          - 'media' => '(prefers-color-scheme: dark)' (for conditional meta tags)
-	 *
-	 * @return void
-	 *
-	 * @example
-	 * $this->document->addMeta(['name' => 'description', 'content' => 'Page description']);
-	 * $this->document->addMeta(['property' => 'og:title', 'content' => 'Page Title']);
-	 * $this->document->addMeta(['name' => 'theme-color', 'content' => '#000', 'media' => '(prefers-color-scheme: dark)']);
-	 */
-	public function addMeta(array $attributes): void {
+     * Add Meta
+     *
+     * Adds a meta tag with specified attributes to the document.
+     *
+     * @param array<string, string> $attributes Associative array of meta tag attributes
+     *                                          Common attributes:
+     *                                          - 'name' => 'description' (for standard meta tags)
+     *                                          - 'property' => 'og:title' (for Open Graph)
+     *                                          - 'content' => 'The content value'
+     *                                          - 'media' => '(prefers-color-scheme: dark)' (for conditional meta tags)
+     *
+     *
+     * @example
+     * $this->document->addMeta(['name' => 'description', 'content' => 'Page description']);
+     * $this->document->addMeta(['property' => 'og:title', 'content' => 'Page Title']);
+     * $this->document->addMeta(['name' => 'theme-color', 'content' => '#000', 'media' => '(prefers-color-scheme: dark)']);
+     */
+    public function addMeta(array $attributes): void {
 		$this->metas[] = $attributes;
 	}
 

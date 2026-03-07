@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Tool;
  */
 class Menu extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('tool/menu');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -46,22 +44,18 @@ class Menu extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('tool/menu');
 
 		$this->response->setOutput($this->load->controller('tool/menu.getList'));
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		$data['action'] = $this->url->link('tool/menu.list', 'user_token=' . $this->session->data['user_token']);
 
 		$paths = [
@@ -92,7 +86,7 @@ class Menu extends \Opencart\System\Engine\Controller {
 			if (!array_key_exists($code, $stack)) {
 				$stack[$code] = ['children' => []] + $result;
 			} else {
-				$stack[$code] = array_merge($result, isset($stack[$code]) ? $stack[$code] : []);
+				$stack[$code] = array_merge($result, $stack[$code] ?? []);
 			}
 
 			$stack[$result['parent']]['children'][$code] = &$stack[$code];
@@ -134,11 +128,9 @@ class Menu extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('tool/menu');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -279,11 +271,9 @@ class Menu extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('tool/menu');
 
 		if (isset($this->request->get['type'])) {
@@ -395,11 +385,9 @@ class Menu extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('tool/menu');
 
 		$json = [];

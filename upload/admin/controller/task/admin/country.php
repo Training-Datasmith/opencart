@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class Country extends \Opencart\System\Engine\Controller {
 	/**
-	 * List
-	 *
-	 * Generate country list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate country list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/admin/country');
 
 		$this->load->model('setting/task');
@@ -41,15 +39,13 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate country list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function _list(array $args = []): array {
+     * List
+     *
+     * Generate country list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function _list(array $args = []): array {
 		$this->load->language('task/admin/country');
 
 		// Language
@@ -100,15 +96,13 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate JSON country information file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate JSON country information file.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/admin/country');
 
 		if (!array_key_exists('country_id', $args)) {
@@ -205,15 +199,13 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON country files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function delete(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON country files.
+     *
+     * @param array<string, string> $args
+     */
+    public function delete(array $args = []): array {
 		$this->load->language('task/admin/country');
 
 		$directory = DIR_APPLICATION . 'view/data/localisation/';

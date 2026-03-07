@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Tool;
  */
 class Log extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('tool/log');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -99,15 +97,13 @@ class Log extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return void
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		$this->load->language('tool/log');
 
 		if (isset($this->request->get['filename'])) {
-			$filename = (string)basename(html_entity_decode($this->request->get['filename'], ENT_QUOTES, 'UTF-8'));
+			$filename = basename(html_entity_decode($this->request->get['filename'], ENT_QUOTES, 'UTF-8'));
 		} else {
 			$filename = '';
 		}
@@ -133,19 +129,17 @@ class Log extends \Opencart\System\Engine\Controller {
 		$this->response->addheader('Content-Disposition: attachment; filename="' . $filename . '_' . date('Y-m-d_H-i-s', time()) . '_error.log"');
 		$this->response->addheader('Content-Transfer-Encoding: binary');
 
-		$this->response->setOutput(file_get_contents($file, true, null));
+		$this->response->setOutput(file_get_contents($file, true));
 	}
 
 	/**
-	 * Clear
-	 *
-	 * @return void
-	 */
-	public function clear(): void {
+     * Clear
+     */
+    public function clear(): void {
 		$this->load->language('tool/log');
 
 		if (isset($this->request->get['filename'])) {
-			$filename = (string)basename(html_entity_decode($this->request->get['filename'], ENT_QUOTES, 'UTF-8'));
+			$filename = basename(html_entity_decode($this->request->get['filename'], ENT_QUOTES, 'UTF-8'));
 		} else {
 			$filename = '';
 		}

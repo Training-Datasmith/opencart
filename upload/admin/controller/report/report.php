@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Report;
  */
 class Report extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('report/report');
 
 		$this->document->setTitle($this->language->get('heading_title'));

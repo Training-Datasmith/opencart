@@ -56,7 +56,7 @@ class Weight extends \Opencart\System\Engine\Model {
 					}
 				}
 
-				if ((string)$cost != '') {
+				if ($cost != '') {
 					$quote_data['weight_' . $result['geo_zone_id']] = [
 						'code'         => 'weight.weight_' . $result['geo_zone_id'],
 						'name'         => $result['name'] . ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class_id')) . ')',
@@ -68,10 +68,8 @@ class Weight extends \Opencart\System\Engine\Model {
 			}
 		}
 
-		$method_data = [];
-
 		if ($quote_data) {
-			$method_data = [
+			return [
 				'code'       => 'weight',
 				'name'       => $this->language->get('heading_title'),
 				'quote'      => $quote_data,
@@ -80,6 +78,6 @@ class Weight extends \Opencart\System\Engine\Model {
 			];
 		}
 
-		return $method_data;
+		return [];
 	}
 }

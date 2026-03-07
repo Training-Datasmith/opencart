@@ -19,7 +19,7 @@ abstract class ContentPage extends SimplePage
         $this->initializePage($title, $content);
     }
 
-    public function setFile(Content $file)
+    public function setFile(Content $file): void
     {
         $this->file = $file;
     }
@@ -29,7 +29,7 @@ abstract class ContentPage extends SimplePage
         return $this->file;
     }
 
-    public function setConfig(Config $config)
+    public function setConfig(Config $config): void
     {
         $this->config = $config;
     }
@@ -37,15 +37,12 @@ abstract class ContentPage extends SimplePage
     /**
      * @deprecated use setConfig instead
      */
-    public function setParams(Config $config)
+    public function setParams(Config $config): void
     {
         $this->setConfig($config);
     }
 
-    /**
-     * @param ContentType $contentType
-     */
-    public function setContentType($contentType)
+    public function setContentType(\Todaymade\Daux\ContentTypes\ContentType $contentType): void
     {
         $this->contentType = $contentType;
     }
@@ -64,7 +61,7 @@ abstract class ContentPage extends SimplePage
         return $this->getPureContent();
     }
 
-    public static function fromFile(Content $file, $config, ContentType $contentType)
+    public static function fromFile(Content $file, \Todaymade\Daux\Config $config, ContentType $contentType)
     {
         $page = new static($file->getTitle(), $file->getContent());
         $page->setFile($file);

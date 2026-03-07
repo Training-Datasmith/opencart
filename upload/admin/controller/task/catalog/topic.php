@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Topic extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate all country data.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function addTopic(array $args = []): array {
+     * Index
+     *
+     * Generate all country data.
+     *
+     * @param array<string, string> $args
+     */
+    public function addTopic(array $args = []): array {
 		$this->load->language('task/catalog/topic');
 
 

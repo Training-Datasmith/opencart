@@ -34,7 +34,7 @@ $log = new \Opencart\System\Library\Log($config->get('error_filename'));
 $registry->set('log', $log);
 
 // Error Handler
-set_error_handler(function(int $code, string $message, string $file, int $line) {
+set_error_handler(function(int $code, string $message, string $file, int $line): bool {
 	// error suppressed with @
 	if (!(error_reporting() & $code)) {
 		return false;

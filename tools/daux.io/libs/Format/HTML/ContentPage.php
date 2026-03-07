@@ -26,7 +26,7 @@ class ContentPage extends \Todaymade\Daux\Format\Base\ContentPage
         return $this->config->getHTML()->hasLandingPage() && $this->homepage;
     }
 
-    private function initialize()
+    private function initialize(): void
     {
         $this->homepage = $this->isHomepage();
 
@@ -39,11 +39,9 @@ class ContentPage extends \Todaymade\Daux\Format\Base\ContentPage
 
     /**
      * @param \Todaymade\Daux\Tree\Directory[] $parents
-     * @param bool $multilanguage
      *
-     * @return array
      */
-    private function getBreadcrumbTrail($parents, $multilanguage)
+    private function getBreadcrumbTrail($parents, bool $multilanguage): array
     {
         if ($multilanguage && !empty($parents)) {
             $parents = array_splice($parents, 1);

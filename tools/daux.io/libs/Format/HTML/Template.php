@@ -12,15 +12,12 @@ class Template
 {
     protected $engine;
 
-    protected $config;
-
     /**
      * @param string $base
      * @param string $theme
      */
-    public function __construct(GlobalConfig $config)
+    public function __construct(protected \Todaymade\Daux\Config $config)
     {
-        $this->config = $config;
     }
 
     public function getEngine(GlobalConfig $config)
@@ -77,7 +74,7 @@ class Template
 
     protected function registerFunctions($engine)
     {
-        $engine->registerFunction('get_navigation', function ($tree, $path, $currentUrl, $basePage, $mode) {
+        $engine->registerFunction('get_navigation', function (\Todaymade\Daux\Tree\Directory $tree, $path, $currentUrl, $basePage, $mode) {
             $nav = $this->buildNavigation($tree, $path, $currentUrl, $basePage, $mode);
 
             return $this->renderNavigation($nav);
@@ -104,7 +101,7 @@ class Template
             return "Unknown key $key";
         });
 
-        $engine->registerFunction('get_breadcrumb_title', function ($page, $basePage) {
+        $engine->registerFunction('get_breadcrumb_title', function (array $page, string $basePage): string {
             $title = '';
             $breadcrumbTrail = $page['breadcrumb_trail'];
             $separator = $this->getSeparator($page['breadcrumb_separator']);
@@ -123,7 +120,7 @@ class Template
         });
     }
 
-    private function renderNavigation($entries)
+    private function renderNavigation($entries): string
     {
         $nav = '';
         foreach ($entries as $entry) {
@@ -147,7 +144,10 @@ class Template
         return "<ul class='Nav'>$nav</ul>";
     }
 
-    private function buildNavigation(Directory $tree, $path, $currentUrl, $basePage, $mode)
+    /**
+     * @return array{title: (string | null), class: ('' | ' has-children' | 'Nav__item--active' | 'Nav__item--open' | 'Nav__item--open has-children'), href?: string, children?: mixed}[]
+     */
+    private function buildNavigation(Directory $tree, $path, $currentUrl, string $basePage, $mode): array
     {
         $nav = [];
         foreach ($tree->getEntries() as $node) {

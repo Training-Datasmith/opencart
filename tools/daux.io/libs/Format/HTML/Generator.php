@@ -34,17 +34,14 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator, LiveGenerator
         $config->setTemplateRenderer($this->templateRenderer);
     }
 
-    /**
-     * @return array
-     */
-    public function getContentTypes()
+    public function getContentTypes(): array
     {
         return [
             'markdown' => new ContentType($this->daux->getConfig()),
         ];
     }
 
-    public function generateAll(InputInterface $input, OutputInterface $output, $width)
+    public function generateAll(InputInterface $input, OutputInterface $output, $width): void
     {
         $destination = $input->getOption('destination');
 
@@ -56,7 +53,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator, LiveGenerator
         $this->runAction(
             'Copying Static assets ...',
             $width,
-            function () use ($destination, $config) {
+            function () use ($destination, $config): void {
                 $this->ensureEmptyDestination($destination);
 
                 $this->copyThemes($destination, $config->getThemesPath());
@@ -95,7 +92,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator, LiveGenerator
      *
      * @return string
      */
-    private function sanitize($text)
+    private function sanitize($text): string|false
     {
         $space = ' ';
         $addNewline = "\n\$0";
@@ -139,15 +136,13 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator, LiveGenerator
     /**
      * Recursively generate the documentation.
      *
-     * @param string $outputDir
      * @param OutputInterface $output
      * @param int $width
      * @param bool $indexPages
-     * @param string $baseUrl
      *
      * @throws \Exception
      */
-    private function generateRecursive(Directory $tree, $outputDir, GlobalConfig $config, $output, $width, $indexPages, $baseUrl = '')
+    private function generateRecursive(Directory $tree, string $outputDir, GlobalConfig $config, $output, $width, $indexPages, string $baseUrl = ''): void
     {
         DauxHelper::rebaseConfiguration($config, $baseUrl);
 
@@ -167,7 +162,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator, LiveGenerator
                 $this->runAction(
                     '- ' . $node->getUrl(),
                     $width,
-                    function () use ($node, $outputDir, $key, $config, $indexPages) {
+                    function () use ($node, $outputDir, $key, $config, $indexPages): void {
                         if ($node instanceof Raw) {
                             copy($node->getPath(), $outputDir . DIRECTORY_SEPARATOR . $key);
 

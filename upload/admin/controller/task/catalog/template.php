@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Template extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate the template list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate the template list.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/translation');
 
 		$required = [
@@ -94,15 +92,13 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated template files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated template files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/translation');
 
 		$stores = [];

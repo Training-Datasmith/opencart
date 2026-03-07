@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Report;
  */
 class ProductViewed extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/report/product_viewed');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -47,11 +45,9 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/report/product_viewed');
 
 		$json = [];
@@ -74,11 +70,9 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Install
-	 *
-	 * @return void
-	 */
-	public function install(): void {
+     * Install
+     */
+    public function install(): void {
 		if ($this->user->hasPermission('modify', 'extension/report')) {
 			// Extension
 			$this->load->model('extension/opencart/report/product_viewed');
@@ -88,11 +82,9 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Uninstall
-	 *
-	 * @return void
-	 */
-	public function uninstall(): void {
+     * Uninstall
+     */
+    public function uninstall(): void {
 		if ($this->user->hasPermission('modify', 'extension/report')) {
 			// Extension
 			$this->load->model('extension/opencart/report/product_viewed');
@@ -102,11 +94,9 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Report
-	 *
-	 * @return void
-	 */
-	public function report(): void {
+     * Report
+     */
+    public function report(): void {
 		$this->load->language('extension/opencart/report/product_viewed');
 
 		$data['list'] = $this->getReport();
@@ -117,22 +107,18 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('extension/opencart/report/product_viewed');
 
 		$this->response->setOutput($this->getReport());
 	}
 
 	/**
-	 * Get Report
-	 *
-	 * @return string
-	 */
-	public function getReport(): string {
+     * Get Report
+     */
+    public function getReport(): string {
 		if (isset($this->request->get['page'])) {
 			$page = (int)$this->request->get['page'];
 		} else {
@@ -194,11 +180,9 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Generate
-	 *
-	 * @return void
-	 */
-	public function generate(): void {
+     * Generate
+     */
+    public function generate(): void {
 		$this->load->language('extension/opencart/report/product_viewed');
 
 		$json = [];
@@ -208,8 +192,6 @@ class ProductViewed extends \Opencart\System\Engine\Controller {
 		} else {
 			$page = 1;
 		}
-
-		$limit = 10;
 
 		if (!$this->user->hasPermission('modify', 'extension/opencart/report/product_viewed')) {
 			$json['error'] = $this->language->get('error_permission');

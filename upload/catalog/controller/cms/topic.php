@@ -211,7 +211,7 @@ class Topic extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['author'])) {
-			$url .= '&author=' . (string)$this->request->get['author'];
+			$url .= '&author=' . $this->request->get['author'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -255,7 +255,7 @@ class Topic extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['author'])) {
-			$url .= '&author=' . (string)$this->request->get['author'];
+			$url .= '&author=' . $this->request->get['author'];
 		}
 
 		$data['sorts'] = [];

@@ -551,7 +551,7 @@ class Customer extends \Opencart\System\Engine\Model {
 		}
 
 		if (!empty($data['filter_keyword'])) {
-			$implode[] = "`cs`.`keyword` LIKE '" . $this->db->escape((string)$data['filter_keyword'] . '%') . "'";
+			$implode[] = "`cs`.`keyword` LIKE '" . $this->db->escape($data['filter_keyword'] . '%') . "'";
 		}
 
 		if (!empty($data['filter_customer'])) {
@@ -610,7 +610,7 @@ class Customer extends \Opencart\System\Engine\Model {
 		}
 
 		if (!empty($data['filter_keyword'])) {
-			$implode[] = "`cs`.`keyword` LIKE '" . $this->db->escape((string)$data['filter_keyword'] . '%') . "'";
+			$implode[] = "`cs`.`keyword` LIKE '" . $this->db->escape($data['filter_keyword'] . '%') . "'";
 		}
 
 		if (!empty($data['filter_customer'])) {

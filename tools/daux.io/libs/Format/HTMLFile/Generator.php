@@ -27,10 +27,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
         $config->setTemplateRenderer($this->templateRenderer);
     }
 
-    /**
-     * @return array
-     */
-    public function getContentTypes()
+    public function getContentTypes(): array
     {
         return [
             'markdown' => new ContentType($this->daux->getConfig()),
@@ -40,7 +37,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
     /**
      * {@inheritdoc}
      */
-    public function generateAll(InputInterface $input, OutputInterface $output, $width)
+    public function generateAll(InputInterface $input, OutputInterface $output, $width): void
     {
         $destination = $input->getOption('destination');
 
@@ -52,7 +49,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
         $this->runAction(
             'Cleaning destination folder ...',
             $width,
-            function () use ($destination) {
+            function () use ($destination): void {
                 $this->ensureEmptyDestination($destination);
             }
         );
@@ -70,7 +67,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
             $this->runAction(
                 'Generating ' . $current->getTitle(),
                 $width,
-                function () use ($book, $current, $config) {
+                function () use ($book, $current, $config): void {
                     $contentType = $this->daux->getContentTypeHandler()->getType($current);
                     $content = ContentPage::fromFile($current, $config, $contentType);
                     $content->templateRenderer = $this->templateRenderer;

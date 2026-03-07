@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Template extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Template
-	 *
-	 * Adds task to generate new template data.
-	 *
-	 * model/design/template/addTemplate/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addTemplate(string &$route, array &$args, &$output): void {
+     * Add Template
+     *
+     * Adds task to generate new template data.
+     *
+     * model/design/template/addTemplate/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addTemplate(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'template.info.' . $output,
 			'action' => 'task/catalog/template.info',
@@ -32,19 +30,17 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Template
-	 *
-	 * Adds task to generate new template data
-	 *.
-	 * model/design/template/editTemplate/before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function editTemplate(string &$route, array &$args, &$output): void {
+     * Edit Template
+     *
+     * Adds task to generate new template data
+     *.
+     * model/design/template/editTemplate/before
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function editTemplate(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'template.info.' . $args[0],
 			'action' => 'task/catalog/template.info',
@@ -57,19 +53,17 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Template
-	 *
-	 * Adds task to generate new template data.
-	 *
-	 * model/design/template/deleteTemplate/before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function deleteTemplate(string &$route, array &$args, &$output): void {
+     * Delete Template
+     *
+     * Adds task to generate new template data.
+     *
+     * model/design/template/deleteTemplate/before
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function deleteTemplate(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'template.delete.' . $args[0],
 			'action' => 'task/catalog/template.delete',

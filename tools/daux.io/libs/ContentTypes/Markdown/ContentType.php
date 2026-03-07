@@ -8,21 +8,18 @@ use Todaymade\Daux\Tree\Content;
 
 class ContentType implements \Todaymade\Daux\ContentTypes\ContentType
 {
-    protected Config $config;
+    private ?CommonMarkConverter $converter = null;
 
-    private ?CommonMarkConverter $converter;
-
-    public function __construct(Config $config)
+    public function __construct(protected Config $config)
     {
-        $this->config = $config;
     }
 
-    protected function createConverter()
+    protected function createConverter(): \Todaymade\Daux\ContentTypes\Markdown\CommonMarkConverter
     {
         return new CommonMarkConverter(['daux' => $this->config]);
     }
 
-    protected function getConverter()
+    protected function getConverter(): ?\Todaymade\Daux\ContentTypes\Markdown\CommonMarkConverter
     {
         if (!isset($this->converter)) {
             $this->converter = $this->createConverter();
@@ -34,7 +31,7 @@ class ContentType implements \Todaymade\Daux\ContentTypes\ContentType
     /**
      * @return string[]
      */
-    public function getExtensions()
+    public function getExtensions(): array
     {
         return ['md', 'markdown'];
     }

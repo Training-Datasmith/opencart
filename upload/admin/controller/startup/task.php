@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Startup;
  */
 class Task extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Register shutdown function  to start any tasks in the queue.
-	 *
-	 * Called using model/setting/task.addTask/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     *
+     * Register shutdown function  to start any tasks in the queue.
+     *
+     * Called using model/setting/task.addTask/after
+     *
+     * @param string            $route
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     */
+    public function index(): void {
 		if (php_sapi_name() !== 'cli') {
 			register_shutdown_function([$this, 'start']);
 		}
@@ -30,7 +28,7 @@ class Task extends \Opencart\System\Engine\Controller {
 	 *
 	 * Starts task list by command line if queue not running.
 	 */
-	public function start() {
+	public function start(): void {
 		$this->load->model('setting/task');
 
 		$task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);

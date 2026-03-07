@@ -9,135 +9,128 @@ namespace Opencart\Admin\Model\Design;
  */
 class Translation extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Translation
-	 *
-	 * Create a new translation record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $translation_data = [
-	 *     'store_id'    => 1,
-	 *     'language_id' => 1,
-	 *     'route'       => '',
-	 *     'key'         => '',
-	 *     'value'       => ''
-	 * ];
-	 *
-	 * $this->load->model('design/translation');
-	 *
-	 * $this->model_design_translation->addTranslation($translation_data);
-	 */
-	public function addTranslation(array $data): void {
+     * Add Translation
+     *
+     * Create a new translation record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $translation_data = [
+     *     'store_id'    => 1,
+     *     'language_id' => 1,
+     *     'route'       => '',
+     *     'key'         => '',
+     *     'value'       => ''
+     * ];
+     *
+     * $this->load->model('design/translation');
+     *
+     * $this->model_design_translation->addTranslation($translation_data);
+     */
+    public function addTranslation(array $data): void {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "translation` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `route` = '" . $this->db->escape((string)$data['route']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW()");
 	}
 
 	/**
-	 * Edit Translation
-	 *
-	 * Edit translation record in the database.
-	 *
-	 * @param int                  $translation_id primary key of the translation record
-	 * @param array<string, mixed> $data           array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $translation_data = [
-	 *     'store_id'    => 1,
-	 *     'language_id' => 1,
-	 *     'route'       => '',
-	 *     'key'         => '',
-	 *     'value'       => ''
-	 * ];
-	 *
-	 * $this->load->model('design/translation');
-	 *
-	 * $this->model_design_translation->editTranslation($translation_id, $translation_data);
-	 */
-	public function editTranslation(int $translation_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "translation` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `route` = '" . $this->db->escape((string)$data['route']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `status` = '" . (bool)$data['status'] . "' WHERE `translation_id` = '" . (int)$translation_id . "'");
+     * Edit Translation
+     *
+     * Edit translation record in the database.
+     *
+     * @param int                  $translation_id primary key of the translation record
+     * @param array<string, mixed> $data           array of data
+     *
+     *
+     * @example
+     *
+     * $translation_data = [
+     *     'store_id'    => 1,
+     *     'language_id' => 1,
+     *     'route'       => '',
+     *     'key'         => '',
+     *     'value'       => ''
+     * ];
+     *
+     * $this->load->model('design/translation');
+     *
+     * $this->model_design_translation->editTranslation($translation_id, $translation_data);
+     */
+    public function editTranslation(int $translation_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "translation` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `route` = '" . $this->db->escape((string)$data['route']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `status` = '" . (bool)$data['status'] . "' WHERE `translation_id` = '" . $translation_id . "'");
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit category status record in the database.
-	 *
-	 * @param int  $category_id primary key of the category record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/category');
-	 *
-	 * $this->model_catalog_category->editStatus($category_id, $status);
-	 */
-	public function editStatus(int $translation_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "translation` SET `status` = '" . (bool)$status . "' WHERE `translation_id` = '" . (int)$translation_id . "'");
+     * Edit Status
+     *
+     * Edit category status record in the database.
+     *
+     * @param int  $category_id primary key of the category record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/category');
+     *
+     * $this->model_catalog_category->editStatus($category_id, $status);
+     */
+    public function editStatus(int $translation_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "translation` SET `status` = '" . $status . "' WHERE `translation_id` = '" . $translation_id . "'");
 	}
 
 	/**
-	 * Delete Translation
-	 *
-	 * Delete translation record in the database.
-	 *
-	 * @param int $translation_id primary key of the translation record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('design/translation');
-	 *
-	 * $this->model_design_translation->deleteTranslation($translation_id);
-	 */
-	public function deleteTranslation(int $translation_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "translation` WHERE `translation_id` = '" . (int)$translation_id . "'");
+     * Delete Translation
+     *
+     * Delete translation record in the database.
+     *
+     * @param int $translation_id primary key of the translation record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('design/translation');
+     *
+     * $this->model_design_translation->deleteTranslation($translation_id);
+     */
+    public function deleteTranslation(int $translation_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "translation` WHERE `translation_id` = '" . $translation_id . "'");
 	}
 
 	/**
-	 * Delete Translations By Store ID
-	 *
-	 * Delete translations by store record in the database.
-	 *
-	 * @param int $store_id primary key of the store record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('design/translation');
-	 *
-	 * $this->model_design_translation->deleteTranslationsByStoreId($store_id);
-	 */
-	public function deleteTranslationsByStoreId(int $store_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "translation` WHERE `store_id` = '" . (int)$store_id . "'");
+     * Delete Translations By Store ID
+     *
+     * Delete translations by store record in the database.
+     *
+     * @param int $store_id primary key of the store record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('design/translation');
+     *
+     * $this->model_design_translation->deleteTranslationsByStoreId($store_id);
+     */
+    public function deleteTranslationsByStoreId(int $store_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "translation` WHERE `store_id` = '" . $store_id . "'");
 	}
 
 	/**
-	 * Delete Translations By Language ID
-	 *
-	 * Delete translations by language record in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('design/translation');
-	 *
-	 * $this->model_design_translation->deleteTranslationsByLanguageId($language_id);
-	 */
-	public function deleteTranslationsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "translation` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Translations By Language ID
+     *
+     * Delete translations by language record in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('design/translation');
+     *
+     * $this->model_design_translation->deleteTranslationsByLanguageId($language_id);
+     */
+    public function deleteTranslationsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "translation` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -156,7 +149,7 @@ class Translation extends \Opencart\System\Engine\Model {
 	 * $translation_info = $this->model_design_translation->getTranslation($translation_id);
 	 */
 	public function getTranslation(int $translation_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "translation` WHERE `translation_id` = '" . (int)$translation_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "translation` WHERE `translation_id` = '" . $translation_id . "'");
 
 		return $query->row;
 	}

@@ -44,7 +44,7 @@ class Config extends BaseConfig
         return $this->getValue('space_id');
     }
 
-    public function setSpaceId($value)
+    public function setSpaceId($value): void
     {
         $this->setValue('space_id', $value);
     }

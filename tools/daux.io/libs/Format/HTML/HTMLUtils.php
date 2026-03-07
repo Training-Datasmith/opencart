@@ -4,7 +4,7 @@ use Todaymade\Daux\GeneratorHelper;
 
 trait HTMLUtils
 {
-    public function ensureEmptyDestination($destination)
+    public function ensureEmptyDestination($destination): void
     {
         if (is_dir($destination)) {
             GeneratorHelper::rmdir($destination);
@@ -16,10 +16,9 @@ trait HTMLUtils
     /**
      * Copy all files from $local to $destination.
      *
-     * @param string $destination
      * @param string $localBase
      */
-    public function copyThemes($destination, $localBase)
+    public function copyThemes(string $destination, $localBase): void
     {
         mkdir($destination . DIRECTORY_SEPARATOR . 'themes');
         GeneratorHelper::copyRecursive(

@@ -4,11 +4,8 @@ use Todaymade\Daux\Tree\ComputedRaw;
 
 abstract class ComputedRawPage implements Page
 {
-    protected $raw;
-
-    public function __construct(ComputedRaw $content)
+    public function __construct(protected \Todaymade\Daux\Tree\ComputedRaw $raw)
     {
-        $this->raw = $content;
     }
 
     public function getFilename()

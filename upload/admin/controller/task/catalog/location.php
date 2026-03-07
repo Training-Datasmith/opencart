@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Location extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate location list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate location list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/location');
 
 		// Stores
@@ -48,15 +46,13 @@ class Location extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate location list by store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate location list by store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/catalog/location');
 
 		// Store

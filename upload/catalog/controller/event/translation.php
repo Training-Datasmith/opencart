@@ -7,16 +7,13 @@ namespace Opencart\Catalog\Controller\Event;
  */
 class Translation extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Trigger
-	 *
-	 * @param string $route
-	 * @param string $prefix
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, string &$prefix): void {
+     * Index
+     *
+     * Trigger
+     *
+     *
+     */
+    public function index(string &$route, string &$prefix): void {
 		// Translations
 		$this->load->model('design/translation');
 

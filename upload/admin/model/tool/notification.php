@@ -9,69 +9,65 @@ namespace Opencart\Admin\Model\Tool;
  */
 class Notification extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Notification
-	 *
-	 * Create a new notification record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $notification_data = [
-	 *     'title'  => 'Notification Title',
-	 *     'text'   => 'Notification Text',
-	 *     'status' => 0
-	 * ];
-	 *
-	 * $this->load->model('tool/notification');
-	 *
-	 * $notification_id = $this->model_tool_notification->addNotification($notification_data);
-	 */
-	public function addNotification(array $data): int {
+     * Add Notification
+     *
+     * Create a new notification record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $notification_data = [
+     *     'title'  => 'Notification Title',
+     *     'text'   => 'Notification Text',
+     *     'status' => 0
+     * ];
+     *
+     * $this->load->model('tool/notification');
+     *
+     * $notification_id = $this->model_tool_notification->addNotification($notification_data);
+     */
+    public function addNotification(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "notification` SET `title` = '" . $this->db->escape((string)$data['title']) . "', `text` = '" . $this->db->escape((string)$data['text']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW()");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit notification status record in the database.
-	 *
-	 * @param int  $notification_id primary key of the notification record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('tool/notification');
-	 *
-	 * $this->model_tool_notification->editStatus($notification_id, $status);
-	 */
-	public function editStatus(int $notification_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "notification` SET `status` = '" . (bool)$status . "' WHERE `notification_id` = '" . (int)$notification_id . "'");
+     * Edit Status
+     *
+     * Edit notification status record in the database.
+     *
+     * @param int  $notification_id primary key of the notification record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('tool/notification');
+     *
+     * $this->model_tool_notification->editStatus($notification_id, $status);
+     */
+    public function editStatus(int $notification_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "notification` SET `status` = '" . $status . "' WHERE `notification_id` = '" . $notification_id . "'");
 	}
 
 	/**
-	 * Delete Notification
-	 *
-	 * Delete notification record in the database.
-	 *
-	 * @param int $notification_id primary key of the notification record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('tool/notification');
-	 *
-	 * $this->model_tool_notification->deleteNotification($notification_id);
-	 */
-	public function deleteNotification(int $notification_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "notification` WHERE `notification_id` = '" . (int)$notification_id . "'");
+     * Delete Notification
+     *
+     * Delete notification record in the database.
+     *
+     * @param int $notification_id primary key of the notification record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('tool/notification');
+     *
+     * $this->model_tool_notification->deleteNotification($notification_id);
+     */
+    public function deleteNotification(int $notification_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "notification` WHERE `notification_id` = '" . $notification_id . "'");
 	}
 
 	/**
@@ -90,7 +86,7 @@ class Notification extends \Opencart\System\Engine\Model {
 	 * $notification_info = $this->model_tool_notification->getNotification($notification_id);
 	 */
 	public function getNotification(int $notification_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "notification` WHERE `notification_id` = '" . (int)$notification_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "notification` WHERE `notification_id` = '" . $notification_id . "'");
 
 		return $query->row;
 	}

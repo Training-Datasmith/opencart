@@ -19,7 +19,7 @@ class Category extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function addCategory(string &$route, array &$args, &$output): void {
+	public function addCategory(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'category.list',
 			'action' => 'task/catalog/category.list',

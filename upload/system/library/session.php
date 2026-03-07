@@ -13,13 +13,7 @@ namespace Opencart\System\Library;
  * Class Session
  */
 class Session {
-	/**
-	 * @var object
-	 */
 	protected object $adaptor;
-	/**
-	 * @var string
-	 */
 	protected string $session_id;
 	/**
 	 * @var array<mixed>
@@ -27,12 +21,9 @@ class Session {
 	public array $data = [];
 
 	/**
-	 * Constructor
-	 *
-	 * @param string                           $adaptor
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(string $adaptor, \Opencart\System\Engine\Registry $registry) {
+     * Constructor
+     */
+    public function __construct(string $adaptor, \Opencart\System\Engine\Registry $registry) {
 		$class = 'Opencart\System\Library\Session\\' . $adaptor;
 
 		if (!class_exists($class)) {
@@ -46,24 +37,21 @@ class Session {
 	}
 
 	/**
-	 * Get Session ID
-	 *
-	 * @return string
-	 */
-	public function getId(): string {
+     * Get Session ID
+     */
+    public function getId(): string {
 		return $this->session_id;
 	}
 
 	/**
-	 * Start
-	 *
-	 * Starts a session.
-	 *
-	 * @param string $session_id
-	 *
-	 * @return string returns the current session ID
-	 */
-	public function start(string $session_id = ''): string {
+     * Start
+     *
+     * Starts a session.
+     *
+     *
+     * @return string returns the current session ID
+     */
+    public function start(string $session_id = ''): string {
 		if (!$session_id) {
 			$session_id = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
 		}
@@ -80,37 +68,31 @@ class Session {
 	}
 
 	/**
-	 * Close
-	 *
-	 * Writes the session data to storage
-	 *
-	 * @return void
-	 */
-	public function close(): void {
+     * Close
+     *
+     * Writes the session data to storage
+     */
+    public function close(): void {
 		$this->adaptor->write($this->session_id, $this->data);
 	}
 
 	/**
-	 * Destroy
-	 *
-	 * Deletes the current session from storage
-	 *
-	 * @return void
-	 */
-	public function destroy(): void {
+     * Destroy
+     *
+     * Deletes the current session from storage
+     */
+    public function destroy(): void {
 		$this->data = [];
 
 		$this->adaptor->destroy($this->session_id);
 	}
 
 	/**
-	 * GC
-	 *
-	 * Garbage Collection
-	 *
-	 * @return void
-	 */
-	public function gc(): void {
+     * GC
+     *
+     * Garbage Collection
+     */
+    public function gc(): void {
 		$this->adaptor->gc();
 	}
 }

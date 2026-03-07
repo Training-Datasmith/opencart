@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Startup;
  */
 class Tax extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->registry->set('tax', new \Opencart\System\Library\Cart\Tax($this->registry));
 
 		if (isset($this->session->data['shipping_address'])) {

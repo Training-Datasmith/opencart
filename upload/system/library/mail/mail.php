@@ -6,37 +6,13 @@ namespace Opencart\System\Library\Mail;
  * Basic PHP mail class
  */
 class Mail {
-	/**
-	 * @var string
-	 */
 	protected string|array $to = '';
-	/**
-	 * @var string
-	 */
 	protected string $from = '';
-	/**
-	 * @var string
-	 */
 	protected string $sender = '';
-	/**
-	 * @var string
-	 */
 	protected string $reply_to = '';
-	/**
-	 * @var string
-	 */
 	protected string $subject = '';
-	/**
-	 * @var string
-	 */
 	protected string $text = '';
-	/**
-	 * @var string
-	 */
 	protected string $html = '';
-	/**
-	 * @var string
-	 */
 	protected string $parameter = '';
 
 	/**
@@ -51,88 +27,72 @@ class Mail {
 	}
 
 	/**
-	 * Set To
-	 *
-	 * @param array<string>|string $to
-	 *
-	 * @return void
-	 */
-	public function setTo(string|array $to): void {
+     * Set To
+     *
+     * @param array<string>|string $to
+     */
+    public function setTo(string|array $to): void {
 		$this->to = $to;
 	}
 
 	/**
-	 * Set From
-	 *
-	 * @param string $from
-	 *
-	 * @return void
-	 */
-	public function setFrom(string $from): void {
+     * Set From
+     *
+     *
+     */
+    public function setFrom(string $from): void {
 		$this->from = $from;
 	}
 
 	/**
-	 * Set Sender
-	 *
-	 * @param string $sender
-	 *
-	 * @return void
-	 */
-	public function setSender(string $sender): void {
+     * Set Sender
+     *
+     *
+     */
+    public function setSender(string $sender): void {
 		$this->sender = $sender;
 	}
 
 	/**
-	 * Set Reply To
-	 *
-	 * @param string $reply_to
-	 *
-	 * @return void
-	 */
-	public function setReplyTo(string $reply_to): void {
+     * Set Reply To
+     *
+     *
+     */
+    public function setReplyTo(string $reply_to): void {
 		$this->reply_to = $reply_to;
 	}
 
 	/**
-	 * Set Subject
-	 *
-	 * @param string $subject
-	 *
-	 * @return void
-	 */
-	public function setSubject(string $subject): void {
+     * Set Subject
+     *
+     *
+     */
+    public function setSubject(string $subject): void {
 		$this->subject = $subject;
 	}
 
 	/**
-	 * Set Text
-	 *
-	 * @param string $text
-	 *
-	 * @return void
-	 */
-	public function setText(string $text): void {
+     * Set Text
+     *
+     *
+     */
+    public function setText(string $text): void {
 		$this->text = $text;
 	}
 
 	/**
-	 * Set Html
-	 *
-	 * @param string $html
-	 *
-	 * @return void
-	 */
-	public function setHtml(string $html): void {
+     * Set Html
+     *
+     *
+     */
+    public function setHtml(string $html): void {
 		$this->html = $html;
 	}
 
 	/**
-	 * Send
-	 *
-	 * @return bool
-	 */
-	public function send(): bool {
+     * Send
+     */
+    public function send(): bool {
 		if (empty($this->to)) {
 			throw new \Exception('Error: E-Mail to required!');
 		}
@@ -229,8 +189,7 @@ class Mail {
 
 		if (!empty($this->parameter)) {
 			return mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header, $this->parameter);
-		} else {
-			return mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header);
 		}
+        return mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header);
 	}
 }

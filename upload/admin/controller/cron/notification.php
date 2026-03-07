@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Cron;
  */
 class Notification extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$task_data = [
 			'code'   => 'currency',
 			'action' => 'task/system/notification',

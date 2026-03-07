@@ -9,88 +9,82 @@ namespace Opencart\Admin\Model\Setting;
  */
 class Startup extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Startup
-	 *
-	 * Create a new startup record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $startup_data = [
-	 *     'code'        => 'Startup Code',
-	 *     'description' => 'Startup Description',
-	 *     'action'      => 'Startup Action',
-	 *     'status'      => 0,
-	 *     'sort_order'  => 0
-	 * ];
-	 *
-	 * $this->load->model('setting/startup');
-	 *
-	 * $startup_id = $this->model_setting_startup->addStartup($startup_data);
-	 */
-	public function addStartup(array $data): int {
+     * Add Startup
+     *
+     * Create a new startup record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $startup_data = [
+     *     'code'        => 'Startup Code',
+     *     'description' => 'Startup Description',
+     *     'action'      => 'Startup Action',
+     *     'status'      => 0,
+     *     'sort_order'  => 0
+     * ];
+     *
+     * $this->load->model('setting/startup');
+     *
+     * $startup_id = $this->model_setting_startup->addStartup($startup_data);
+     */
+    public function addStartup(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "startup` SET `code` = '" . $this->db->escape($data['code']) . "', `description` = '" . $this->db->escape($data['description']) . "', `action` = '" . $this->db->escape($data['action']) . "', `status` = '" . (bool)$data['status'] . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Delete Startup
-	 *
-	 * Delete startup record in the database.
-	 *
-	 * @param int $startup_id primary key of the startup record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/startup');
-	 *
-	 * $this->model_setting_startup->deleteStartup($startup_id);
-	 */
-	public function deleteStartup(int $startup_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "startup` WHERE `startup_id` = '" . (int)$startup_id . "'");
+     * Delete Startup
+     *
+     * Delete startup record in the database.
+     *
+     * @param int $startup_id primary key of the startup record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/startup');
+     *
+     * $this->model_setting_startup->deleteStartup($startup_id);
+     */
+    public function deleteStartup(int $startup_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "startup` WHERE `startup_id` = '" . $startup_id . "'");
 	}
 
 	/**
-	 * Delete Startup By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/startup');
-	 *
-	 * $this->model_setting_startup->deleteStartupByCode($code);
-	 */
-	public function deleteStartupByCode(string $code): void {
+     * Delete Startup By Code
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/startup');
+     *
+     * $this->model_setting_startup->deleteStartupByCode($code);
+     */
+    public function deleteStartupByCode(string $code): void {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "startup` WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit startup status record in the database.
-	 *
-	 * @param int  $startup_id primary key of the startup record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/startup');
-	 *
-	 * $this->model_setting_startup->editStatus($startup_id, $status);
-	 */
-	public function editStatus(int $startup_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "startup` SET `status` = '" . (bool)$status . "' WHERE `startup_id` = '" . (int)$startup_id . "'");
+     * Edit Status
+     *
+     * Edit startup status record in the database.
+     *
+     * @param int  $startup_id primary key of the startup record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/startup');
+     *
+     * $this->model_setting_startup->editStatus($startup_id, $status);
+     */
+    public function editStatus(int $startup_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "startup` SET `status` = '" . $status . "' WHERE `startup_id` = '" . $startup_id . "'");
 	}
 
 	/**
@@ -109,25 +103,23 @@ class Startup extends \Opencart\System\Engine\Model {
 	 * $startup_info = $this->model_setting_startup->getStartup($startup_id);
 	 */
 	public function getStartup(int $startup_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "startup` WHERE `startup_id` = '" . (int)$startup_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "startup` WHERE `startup_id` = '" . $startup_id . "'");
 
 		return $query->row;
 	}
 
 	/**
-	 * Get Startup By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/startup');
-	 *
-	 * $startup_info = $this->model_setting_startup->getStartupByCode($code);
-	 */
-	public function getStartupByCode(string $code): array {
+     * Get Startup By Code
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('setting/startup');
+     *
+     * $startup_info = $this->model_setting_startup->getStartupByCode($code);
+     */
+    public function getStartupByCode(string $code): array {
 		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "startup` WHERE `code` = '" . $this->db->escape($code) . "' LIMIT 1");
 
 		return $query->row;

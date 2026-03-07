@@ -28,79 +28,67 @@ class Statistics extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Value
-	 *
-	 * @param string $code
-	 *
-	 * @return float
-	 *
-	 * @example
-	 *
-	 * $this->load->model('report/statistics');
-	 *
-	 * $value = (float)$this->model_report_statistics->getValue($code);
-	 */
-	public function getValue(string $code): float {
+     * Get Value
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('report/statistics');
+     *
+     * $value = (float)$this->model_report_statistics->getValue($code);
+     */
+    public function getValue(string $code): float {
 		$query = $this->db->query("SELECT `value` FROM `" . DB_PREFIX . "statistics` WHERE `code` = '" . $this->db->escape($code) . "'");
 
 		if ($query->num_rows) {
 			return $query->row['value'];
-		} else {
-			return 0;
 		}
+        return 0;
 	}
 
 	/**
-	 * Add Value
-	 *
-	 * @param string $code
-	 * @param float  $value
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('report/statistics');
-	 *
-	 * $this->model_report_statistics->addValue($code, $value);
-	 */
-	public function addValue(string $code, float $value): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "statistics` SET `value` = (`value` + '" . (float)$value . "') WHERE `code` = '" . $this->db->escape($code) . "'");
+     * Add Value
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('report/statistics');
+     *
+     * $this->model_report_statistics->addValue($code, $value);
+     */
+    public function addValue(string $code, float $value): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "statistics` SET `value` = (`value` + '" . $value . "') WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 
 	/**
-	 * Remove Value
-	 *
-	 * @param string $code
-	 * @param float  $value
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('report/statistics');
-	 *
-	 * $this->model_report_statistics->removeValue($code, $value);
-	 */
-	public function removeValue(string $code, float $value): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "statistics` SET `value` = (`value` - '" . (float)$value . "') WHERE `code` = '" . $this->db->escape($code) . "'");
+     * Remove Value
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('report/statistics');
+     *
+     * $this->model_report_statistics->removeValue($code, $value);
+     */
+    public function removeValue(string $code, float $value): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "statistics` SET `value` = (`value` - '" . $value . "') WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 
 	/**
-	 * Edit Value
-	 *
-	 * @param string $code
-	 * @param float  $value
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('report/statistics');
-	 *
-	 * $this->model_report_statistics->editValue($code, $value);
-	 */
-	public function editValue(string $code, float $value): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "statistics` SET `value` = '" . (float)$value . "' WHERE `code` = '" . $this->db->escape($code) . "'");
+     * Edit Value
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('report/statistics');
+     *
+     * $this->model_report_statistics->editValue($code, $value);
+     */
+    public function editValue(string $code, float $value): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "statistics` SET `value` = '" . $value . "' WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 }

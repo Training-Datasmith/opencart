@@ -24,7 +24,7 @@ class TextNormalization implements TextNormalizerInterface, ConfigurationAwareIn
 
         // Trim to requested length if given
         if ($length = $context['length'] ?? $this->defaultMaxLength) {
-            $slug = \mb_substr($slug, 0, $length);
+            return \mb_substr($slug, 0, $length);
         }
 
         return $slug;

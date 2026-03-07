@@ -139,7 +139,10 @@ class ConfigBuilder
         return $this->config;
     }
 
-    private function resolveThemeVariant()
+    /**
+     * @return mixed[]
+     */
+    private function resolveThemeVariant(): array
     {
         $theme = $this->config->getHTML()->getTheme();
         $themesPath = $this->config->getThemesPath() . DIRECTORY_SEPARATOR;
@@ -168,7 +171,7 @@ class ConfigBuilder
     /**
      * @throws Exception
      */
-    private function initializeConfiguration()
+    private function initializeConfiguration(): void
     {
         // Validate and set theme path
         $docsPath = $this->normalizeDocumentationPath($this->config->getDocumentationDirectory());
@@ -204,7 +207,7 @@ class ConfigBuilder
         }
     }
 
-    private function normalizeThemePath($path)
+    private function normalizeThemePath(string $path)
     {
         $validPath = $this->findLocation($path, $this->config->getLocalBase(), 'dir');
 
@@ -215,7 +218,7 @@ class ConfigBuilder
         return $validPath;
     }
 
-    private function normalizeDocumentationPath($path)
+    private function normalizeDocumentationPath(string $path)
     {
         $validPath = $this->findLocation($path, $this->config->getLocalBase(), 'dir');
 
@@ -231,7 +234,7 @@ class ConfigBuilder
      *
      * @throws Exception
      */
-    private function loadBaseConfiguration()
+    private function loadBaseConfiguration(): void
     {
         // Set the default configuration
         $this->config->merge([
@@ -249,12 +252,10 @@ class ConfigBuilder
     }
 
     /**
-     * @param string $configFile
-     * @param bool $optional
      *
      * @throws Exception
      */
-    private function loadConfiguration($configFile, $optional = true)
+    private function loadConfiguration(string $configFile, bool $optional = true): void
     {
         if (!file_exists($configFile)) {
             if ($optional) {
@@ -297,12 +298,10 @@ class ConfigBuilder
 
     /**
      * @param null|string $path
-     * @param string $basedir
-     * @param string $type
      *
      * @return null|false|string
      */
-    private function findLocation($path, $basedir, $type)
+    private function findLocation($path, string $basedir, string $type)
     {
         // If Path is explicitly null, it's useless to go further
         if ($path === null) {
@@ -310,7 +309,7 @@ class ConfigBuilder
         }
 
         // VFS, used only in tests
-        if (substr($path, 0, 6) == 'vfs://') {
+        if (str_starts_with($path, 'vfs://')) {
             return $path;
         }
 

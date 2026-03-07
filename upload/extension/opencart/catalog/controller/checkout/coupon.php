@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Checkout;
  */
 class Coupon extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		if ($this->config->get('total_coupon_status')) {
 			$this->load->language('extension/opencart/checkout/coupon');
 
@@ -32,11 +30,9 @@ class Coupon extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/checkout/coupon');
 
 		$json = [];
@@ -74,11 +70,9 @@ class Coupon extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Remove
-	 *
-	 * @return void
-	 */
-	public function remove(): void {
+     * Remove
+     */
+    public function remove(): void {
 		$this->load->language('extension/opencart/checkout/coupon');
 
 		$json = [];

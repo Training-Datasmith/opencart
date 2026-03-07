@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Article extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate article task by article ID for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Index
+     *
+     * Generate article task by article ID for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/catalog/article');
 
 		if (!array_key_exists('article_id', $args)) {
@@ -61,15 +59,13 @@ class Article extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate country information.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function _info(array $args = []): array {
+     * Info
+     *
+     * Generate country information.
+     *
+     * @param array<string, string> $args
+     */
+    public function _info(array $args = []): array {
 		$this->load->language('task/catalog/article');
 
 		// Validate
@@ -142,15 +138,13 @@ class Article extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * Delete generated JSON country files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function delete(array $args = []): array {
+     * Delete
+     *
+     * Delete generated JSON country files.
+     *
+     * @param array<string, string> $args
+     */
+    public function delete(array $args = []): array {
 		$this->load->language('task/catalog/article');
 
 		$stores = [];

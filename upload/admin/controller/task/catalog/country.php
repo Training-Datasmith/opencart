@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Country extends \Opencart\System\Engine\Controller {
 	/**
-	 * List
-	 *
-	 * Generate country list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate country list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/catalog/country');
 
 		// Stores
@@ -48,15 +46,13 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * _list
-	 *
-	 * Generate country list by store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function _list(array $args = []): array {
+     * _list
+     *
+     * Generate country list by store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function _list(array $args = []): array {
 		$this->load->language('task/catalog/country');
 
 		// Store
@@ -94,10 +90,12 @@ class Country extends \Opencart\System\Engine\Controller {
 
 		foreach ($country_ids as $country_id) {
 			$country_info = $this->model_localisation_country->getCountry($country_id);
-
-			if (!$country_info || !$country_info['status']) {
-				continue;
-			}
+            if (!$country_info) {
+                continue;
+            }
+            if (!$country_info['status']) {
+                continue;
+            }
 
 			$description_info = $this->model_localisation_country->getDescription($country_info['country_id'], $language_info['language_id']);
 
@@ -132,15 +130,13 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate country data by country ID.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate country data by country ID.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/catalog/country');
 
 		if (!array_key_exists('country_id', $args)) {

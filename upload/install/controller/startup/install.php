@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Startup;
  */
 class Install extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		// Document
 		$this->registry->set('document', new \Opencart\System\Library\Document());
 

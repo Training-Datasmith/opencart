@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Design;
  */
 class Template extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('design/template');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -82,22 +80,18 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('design/template');
 
 		$this->response->setOutput($this->load->controller('design/template.getList'));
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_store_id'])) {
 			$filter_store_id = (int)$this->request->get['filter_store_id'];
 		} else {
@@ -182,11 +176,9 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Get Form
+     */
+    public function form(): void {
 		$this->load->language('design/template');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -326,11 +318,9 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Template
-	 *
-	 * @return void
-	 */
-	public function template(): void {
+     * Template
+     */
+    public function template(): void {
 		$this->load->language('design/template');
 
 		$json = [];
@@ -342,7 +332,7 @@ class Template extends \Opencart\System\Engine\Controller {
 		}
 
 		// Default template load
-		if (substr($path, 0, 10) != 'extension/') {
+		if (!str_starts_with($path, 'extension/')) {
 			$directory = DIR_CATALOG . 'view/template';
 			$file = $directory . '/' . $path . '.twig';
 		} else {
@@ -357,7 +347,7 @@ class Template extends \Opencart\System\Engine\Controller {
 			$file = $directory . '/' . implode('/', $part) . '.twig';
 		}
 
-		if (!is_file($file) || (substr(str_replace('\\', '/', realpath($file)), 0, strlen($directory)) != $directory)) {
+		if (!is_file($file) || (!str_starts_with(str_replace('\\', '/', realpath($file)), $directory))) {
 			$json['code'] = '';
 		}
 
@@ -370,11 +360,9 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('design/template');
 
 		$json = [];
@@ -394,14 +382,14 @@ class Template extends \Opencart\System\Engine\Controller {
 		}
 
 		$directory = DIR_CATALOG . 'view/template';
-		$file = $directory . '/' . (string)$post_info['route'] . '.twig';
+		$file = $directory . '/' . $post_info['route'] . '.twig';
 
-		if (!is_file($file) || (substr(str_replace('\\', '/', realpath($file)), 0, strlen($directory)) != $directory)) {
+		if (!is_file($file) || (!str_starts_with(str_replace('\\', '/', realpath($file)), $directory))) {
 			$json['error'] = $this->language->get('error_file');
 		}
 
 		// Extension template load
-		if (substr($post_info['route'], 0, 10) == 'extension/') {
+		if (str_starts_with($post_info['route'], 'extension/')) {
 			$part = explode('/', $post_info['route']);
 
 			$directory = DIR_EXTENSION . $part[1] . '/catalog/view/template';
@@ -413,7 +401,7 @@ class Template extends \Opencart\System\Engine\Controller {
 
 			$file = $directory . '/' . $route . '.twig';
 
-			if (!is_file($file) || substr(str_replace('\\', '/', realpath($file)), 0, strlen($directory)) != $directory) {
+			if (!is_file($file) || !str_starts_with(str_replace('\\', '/', realpath($file)), $directory)) {
 				$json['error'] = $this->language->get('error_file');
 			}
 		}
@@ -436,11 +424,9 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('design/template');
 
 		$json = [];
@@ -470,11 +456,9 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('design/template');
 
 		$json = [];
@@ -504,11 +488,9 @@ class Template extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('design/template');
 
 		$json = [];

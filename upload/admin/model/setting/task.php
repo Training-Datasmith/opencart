@@ -9,21 +9,19 @@ namespace Opencart\Admin\Model\Setting;
  */
 class Task extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Task
-	 *
-	 * Create a new task record in the database.
-	 *
-	 * @param array $data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/task');
-	 *
-	 * $task_id = $this->model_setting_task->addTask($data);
-	 */
-	public function addTask(array $data): int {
+     * Add Task
+     *
+     * Create a new task record in the database.
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/task');
+     *
+     * $task_id = $this->model_setting_task->addTask($data);
+     */
+    public function addTask(array $data): int {
 		$this->deleteTaskByCode($data['code']);
 
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "task` SET `code` = '" . $this->db->escape($data['code']) . "', `action` = '" . $this->db->escape($data['action']) . "', `args` = '" . $this->db->escape(!empty($data['args']) ? json_encode($data['args']) : '') . "', `status` = 'pending', `date_added` = NOW(), `date_modified` = NOW()");
@@ -32,22 +30,20 @@ class Task extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit task status record in the database.
-	 *
-	 * @param int    $task_id primary key of the task record
-	 * @param string $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/task');
-	 *
-	 * $this->model_setting_task->editStatus($task_id, $status);
-	 */
-	public function editStatus(int $task_id, string $status, string $response = ''): void {
+     * Edit Status
+     *
+     * Edit task status record in the database.
+     *
+     * @param int    $task_id primary key of the task record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/task');
+     *
+     * $this->model_setting_task->editStatus($task_id, $status);
+     */
+    public function editStatus(int $task_id, string $status, string $response = ''): void {
 		$allowed = [
 			'pending',
 			'processing',
@@ -60,51 +56,46 @@ class Task extends \Opencart\System\Engine\Model {
 			$status = 'failed';
 		}
 
-		$this->db->query("UPDATE `" . DB_PREFIX . "task` SET `response` = '" . $this->db->escape($response) . "', `status` = '" . $this->db->escape($status) . "', `date_modified` = NOW() WHERE `task_id` = '" . (int)$task_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "task` SET `response` = '" . $this->db->escape($response) . "', `status` = '" . $this->db->escape($status) . "', `date_modified` = NOW() WHERE `task_id` = '" . $task_id . "'");
 	}
 
 	/**
-	 * Delete Task
-	 *
-	 * Delete task record in the database.
-	 *
-	 * @param int $task_id primary key of the task record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/task');
-	 *
-	 * $this->model_setting_task->deleteTask($task_id);
-	 */
-	public function deleteTask(int $task_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "task` WHERE `task_id` = '" . (int)$task_id . "'");
+     * Delete Task
+     *
+     * Delete task record in the database.
+     *
+     * @param int $task_id primary key of the task record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/task');
+     *
+     * $this->model_setting_task->deleteTask($task_id);
+     */
+    public function deleteTask(int $task_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "task` WHERE `task_id` = '" . $task_id . "'");
 	}
 
 	/**
-	 * Delete Task By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/task');
-	 *
-	 * $this->model_setting_task->deleteTaskByCode($code);
-	 */
-	public function deleteTaskByCode(string $code): void {
+     * Delete Task By Code
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/task');
+     *
+     * $this->model_setting_task->deleteTaskByCode($code);
+     */
+    public function deleteTaskByCode(string $code): void {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "task` WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 
 	/**
-	 * Clear Task
-	 *
-	 * @return void
-	 */
-	public function clear(): void {
+     * Clear Task
+     */
+    public function clear(): void {
 		$this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "task`");
 	}
 
@@ -124,7 +115,7 @@ class Task extends \Opencart\System\Engine\Model {
 	 * $task_info = $this->model_setting_task->getTask($task_id);
 	 */
 	public function getTask(int $task_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "task` WHERE `task_id` = '" . (int)$task_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "task` WHERE `task_id` = '" . $task_id . "'");
 
 		return $query->row;
 	}
@@ -238,23 +229,21 @@ class Task extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Logs
-	 *
-	 * Get the record of the return history records in the database.
-	 *
-	 * @param int $return_id primary key of the return record
-	 * @param int $start
-	 * @param int $limit
-	 *
-	 * @return array<int, array<string, mixed>> history records that have return ID
-	 *
-	 * @example
-	 *
-	 * $this->load->model('sale/subscription');
-	 *
-	 * $results = $this->model_sale_returns->getHistories($return_id, $start, $limit);
-	 */
-	public function getLogs(int $start = 0, int $limit = 10): array {
+     * Get Logs
+     *
+     * Get the record of the return history records in the database.
+     *
+     * @param int $return_id primary key of the return record
+     *
+     * @return array<int, array<string, mixed>> history records that have return ID
+     *
+     * @example
+     *
+     * $this->load->model('sale/subscription');
+     *
+     * $results = $this->model_sale_returns->getHistories($return_id, $start, $limit);
+     */
+    public function getLogs(int $start = 0, int $limit = 10): array {
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -263,7 +252,7 @@ class Task extends \Opencart\System\Engine\Model {
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "task_log` ORDER BY `date_added` DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "task_log` ORDER BY `date_added` DESC LIMIT " . $start . "," . $limit);
 
 		return $query->rows;
 	}

@@ -6,9 +6,6 @@ namespace Opencart\System\Library\DB;
  * @package Opencart\System\Library\DB
  */
 class MySQLi {
-	/**
-	 * @var ?\mysqli
-	 */
 	private ?\mysqli $db;
 
 	/**
@@ -85,7 +82,7 @@ class MySQLi {
 
 			$handle = fopen($temp_ssl_ca_file, 'w');
 
-			fwrite($handle, '-----BEGIN CERTIFICATE-----' . PHP_EOL . (string)$option['ssl_ca'] . PHP_EOL . '-----END CERTIFICATE-----');
+			fwrite($handle, '-----BEGIN CERTIFICATE-----' . PHP_EOL . $option['ssl_ca'] . PHP_EOL . '-----END CERTIFICATE-----');
 
 			fclose($handle);
 		}
@@ -127,7 +124,7 @@ class MySQLi {
 	 *
 	 * @throws \Exception If query execution fails
 	 */
-	public function query(string $sql) {
+	public function query(string $sql): \stdClass|bool {
 		try {
 			$query = $this->db->query($sql);
 
@@ -148,35 +145,9 @@ class MySQLi {
 				unset($data);
 
 				return $result;
-
-				return new class($query) {
-					private $query;
-					private $num_rows = 0;
-					private $row = [];
-					private $rows = [];
-
-					public function __construct(\mysqli_result $result) {
-						$this->query = $result;
-
-						$this->num_rows = mysqli_num_rows($result);
-					}
-
-					public function fetch() {
-						return $this->query->fetch_assoc();
-					}
-
-					public function fetchAll() {
-						return $this->query->fetch_all();
-					}
-
-					public function __destruct() {
-						$this->query->free();
-					}
-				};
-			} else {
-				return true;
 			}
-		} catch (\mysqli_sql_exception $e) {
+            return true;
+		} catch (\mysqli_sql_exception) {
 			throw new \Exception('Error: ' . $this->db->error . '<br/>Error No: ' . $this->db->errno . '<br/>' . $sql);
 		}
 	}
@@ -228,13 +199,11 @@ class MySQLi {
 	}
 
 	/**
-	 * Destructor
-	 *
-	 * Closes the database connection and cleans up SSL temporary files when object is destroyed
-	 *
-	 * @return void
-	 */
-	public function __destruct() {
+     * Destructor
+     *
+     * Closes the database connection and cleans up SSL temporary files when object is destroyed
+     */
+    public function __destruct() {
 		if ($this->db) {
 			$this->db->close();
 

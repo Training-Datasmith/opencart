@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Sale;
  */
 class Returns extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('sale/returns');
 
 		if (isset($this->request->get['filter_return_id'])) {
@@ -121,22 +119,18 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('sale/returns');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_return_id'])) {
 			$filter_return_id = (int)$this->request->get['filter_return_id'];
 		} else {
@@ -308,11 +302,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('sale/returns');
 
 		if (isset($this->request->get['return_id'])) {
@@ -464,11 +456,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('sale/returns');
 
 		$json = [];
@@ -596,11 +586,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('sale/returns');
 
 		$json = [];
@@ -631,22 +619,18 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('sale/returns');
 
 		$this->response->setOutput($this->getHistory());
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	public function getHistory(): string {
+     * Get History
+     */
+    public function getHistory(): string {
 		if (isset($this->request->get['return_id'])) {
 			$return_id = (int)$this->request->get['return_id'];
 		} else {
@@ -690,11 +674,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add History
-	 *
-	 * @return void
-	 */
-	public function addHistory(): void {
+     * Add History
+     */
+    public function addHistory(): void {
 		$this->load->language('sale/returns');
 
 		$json = [];

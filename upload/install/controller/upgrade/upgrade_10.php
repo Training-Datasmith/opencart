@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Upgrade;
  */
 class Upgrade10 extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('upgrade/upgrade');
 
 		$json = [];
@@ -211,16 +209,14 @@ class Upgrade10 extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Repair Categories
-	 *
-	 * Repair any erroneous categories that are not in the category path table.
-	 *
-	 * @param int $parent_id primary key of the parent category record
-	 *
-	 * @return void
-	 */
-	private function repairCategories(int $parent_id = 0): void {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category` WHERE `parent_id` = '" . (int)$parent_id . "'");
+     * Repair Categories
+     *
+     * Repair any erroneous categories that are not in the category path table.
+     *
+     * @param int $parent_id primary key of the parent category record
+     */
+    private function repairCategories(int $parent_id = 0): void {
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category` WHERE `parent_id` = '" . $parent_id . "'");
 
 		foreach ($query->rows as $category) {
 			// Delete the path below the current one
@@ -229,15 +225,15 @@ class Upgrade10 extends \Opencart\System\Engine\Controller {
 			// Fix for records with no paths
 			$level = 0;
 
-			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int)$parent_id . "' ORDER BY `level` ASC");
+			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . $parent_id . "' ORDER BY `level` ASC");
 
 			foreach ($query->rows as $result) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int)$category['category_id'] . "', `path_id` = '" . (int)$result['path_id'] . "', `level` = '" . (int)$level . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int)$category['category_id'] . "', `path_id` = '" . (int)$result['path_id'] . "', `level` = '" . $level . "'");
 
 				$level++;
 			}
 
-			$this->db->query("REPLACE INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int)$category['category_id'] . "', `path_id` = '" . (int)$category['category_id'] . "', `level` = '" . (int)$level . "'");
+			$this->db->query("REPLACE INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int)$category['category_id'] . "', `path_id` = '" . (int)$category['category_id'] . "', `level` = '" . $level . "'");
 
 			$this->repairCategories($category['category_id']);
 		}

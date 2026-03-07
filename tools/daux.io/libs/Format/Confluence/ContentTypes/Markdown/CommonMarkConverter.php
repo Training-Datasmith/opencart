@@ -13,7 +13,7 @@ use Todaymade\Daux\ContentTypes\Markdown\Admonition\AdmonitionBlock;
 
 class CommonMarkConverter extends \Todaymade\Daux\ContentTypes\Markdown\CommonMarkConverter
 {
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $config['table_of_contents'] = [
             'position' => 'placeholder',

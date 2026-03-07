@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Checkout;
  */
 class Confirm extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('checkout/confirm');
 
 		// Order Totals
@@ -348,11 +346,9 @@ class Confirm extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @return void
-	 */
-	public function confirm(): void {
+     * Confirm
+     */
+    public function confirm(): void {
 		$this->response->setOutput($this->index());
 	}
 }

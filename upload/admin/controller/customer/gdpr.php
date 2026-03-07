@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Customer;
  */
 class Gdpr extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('customer/gdpr');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -46,22 +44,18 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('customer/gdpr');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		$this->load->language('customer/gdpr');
 
 		if (isset($this->request->get['filter_email'])) {
@@ -177,34 +171,32 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 *  Action Statuses
-	 *
-	 *	EXPORT
-	 *
-	 *  unverified = 0
-	 *	pending    = 1
-	 *	complete   = 3
-	 *
-	 *	REMOVE
-	 *
-	 *  unverified = 0
-	 *	pending    = 1
-	 *	processing = 2
-	 *	delete     = 3
-	 *
-	 *	DENY
-	 *
-	 *  unverified = 0
-	 *	pending    = 1
-	 *	processing = 2
-	 *	denied     = -1
-	 */
-	/**
-	 * Approve
-	 *
-	 * @return void
-	 */
-	public function approve(): void {
+     *  Action Statuses
+     *
+     *	EXPORT
+     *
+     *  unverified = 0
+     *	pending    = 1
+     *	complete   = 3
+     *
+     *	REMOVE
+     *
+     *  unverified = 0
+     *	pending    = 1
+     *	processing = 2
+     *	delete     = 3
+     *
+     *	DENY
+     *
+     *  unverified = 0
+     *	pending    = 1
+     *	processing = 2
+     *	denied     = -1
+     */
+    /**
+     * Approve
+     */
+    public function approve(): void {
 		$this->load->language('customer/gdpr');
 
 		$json = [];
@@ -249,11 +241,9 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Deny
-	 *
-	 * @return void
-	 */
-	public function deny(): void {
+     * Deny
+     */
+    public function deny(): void {
 		$this->load->language('customer/gdpr');
 
 		$json = [];
@@ -288,11 +278,9 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('customer/gdpr');
 
 		$json = [];

@@ -6,29 +6,11 @@ namespace Opencart\System\Library\Cart;
  * @package Opencart\System\Library\Cart
  */
 class Cart {
-	/**
-	 * @var object
-	 */
 	private object $db;
-	/**
-	 * @var object
-	 */
 	private object $config;
-	/**
-	 * @var object
-	 */
 	private object $customer;
-	/**
-	 * @var object
-	 */
 	private object $session;
-	/**
-	 * @var object
-	 */
 	private object $tax;
-	/**
-	 * @var object
-	 */
 	private object $weight;
 	/**
 	 * @var array<int, array<string, mixed>>
@@ -36,11 +18,9 @@ class Cart {
 	private array $data = [];
 
 	/**
-	 * Constructor
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+     * Constructor
+     */
+    public function __construct(\Opencart\System\Engine\Registry $registry) {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 		$this->customer = $registry->get('customer');
@@ -304,92 +284,85 @@ class Cart {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @param int                  $product_id primary key of the product record
-	 * @param int                  $quantity
-	 * @param array<string, mixed> $option
-	 * @param int                  $subscription_plan_id primary key of the subscription plan record
-	 * @param array<string, mixed> $override
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->cart->add($product_id, $quantity, $option, $subscription_plan_id, $override);
-	 */
-	public function add(int $product_id, int $quantity = 1, array $option = [], int $subscription_plan_id = 0, array $override = []): void {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "cart` WHERE `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "' AND `product_id` = '" . (int)$product_id . "' AND `subscription_plan_id` = '" . (int)$subscription_plan_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
+     * Add
+     *
+     * @param int                  $product_id primary key of the product record
+     * @param array<string, mixed> $option
+     * @param int                  $subscription_plan_id primary key of the subscription plan record
+     * @param array<string, mixed> $override
+     *
+     *
+     * @example
+     *
+     * $this->cart->add($product_id, $quantity, $option, $subscription_plan_id, $override);
+     */
+    public function add(int $product_id, int $quantity = 1, array $option = [], int $subscription_plan_id = 0, array $override = []): void {
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "cart` WHERE `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "' AND `product_id` = '" . $product_id . "' AND `subscription_plan_id` = '" . $subscription_plan_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
 
 		if (!$query->row['total']) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "cart` SET `store_id` = '" . (int)$this->config->get('config_store_id') . "', `customer_id` = '" . (int)$this->customer->getId() . "', `session_id` = '" . $this->db->escape($this->session->getId()) . "', `product_id` = '" . (int)$product_id . "', `subscription_plan_id` = '" . (int)$subscription_plan_id . "', `option` = '" . $this->db->escape(json_encode($option)) . "', `quantity` = '" . (int)$quantity . "', `override` = '" . $this->db->escape(json_encode($override)) . "', `date_added` = NOW()");
+			$this->db->query("INSERT INTO `" . DB_PREFIX . "cart` SET `store_id` = '" . (int)$this->config->get('config_store_id') . "', `customer_id` = '" . (int)$this->customer->getId() . "', `session_id` = '" . $this->db->escape($this->session->getId()) . "', `product_id` = '" . $product_id . "', `subscription_plan_id` = '" . $subscription_plan_id . "', `option` = '" . $this->db->escape(json_encode($option)) . "', `quantity` = '" . $quantity . "', `override` = '" . $this->db->escape(json_encode($override)) . "', `date_added` = NOW()");
 		} else {
-			$this->db->query("UPDATE `" . DB_PREFIX . "cart` SET `quantity` = (`quantity` + " . (int)$quantity . ") WHERE `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "' AND `product_id` = '" . (int)$product_id . "' AND `subscription_plan_id` = '" . (int)$subscription_plan_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "cart` SET `quantity` = (`quantity` + " . $quantity . ") WHERE `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "' AND `product_id` = '" . $product_id . "' AND `subscription_plan_id` = '" . $subscription_plan_id . "' AND `option` = '" . $this->db->escape(json_encode($option)) . "'");
 		}
 
 		$this->data = [];
 	}
 
 	/**
-	 * Update
-	 *
-	 * @param int $cart_id  primary key of the cart record
-	 * @param int $quantity
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->cart->update($cart_id, $quantity);
-	 */
-	public function update(int $cart_id, int $quantity): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "cart` SET `quantity` = '" . (int)$quantity . "' WHERE `cart_id` = '" . (int)$cart_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "'");
+     * Update
+     *
+     * @param int $cart_id  primary key of the cart record
+     *
+     *
+     * @example
+     *
+     * $this->cart->update($cart_id, $quantity);
+     */
+    public function update(int $cart_id, int $quantity): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "cart` SET `quantity` = '" . $quantity . "' WHERE `cart_id` = '" . $cart_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "'");
 
 		$this->data = [];
 	}
 
 	/**
-	 * Has
-	 *
-	 * @param int $cart_id primary key of the cart record
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->has($cart_id);
-	 */
-	public function has(int $cart_id): bool {
+     * Has
+     *
+     * @param int $cart_id primary key of the cart record
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->has($cart_id);
+     */
+    public function has(int $cart_id): bool {
 		return isset($this->data[$cart_id]);
 	}
 
 	/**
-	 * Remove
-	 *
-	 * @param int $cart_id primary key of the cart record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->remove($cart_id);
-	 */
-	public function remove(int $cart_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "cart` WHERE `cart_id` = '" . (int)$cart_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "'");
+     * Remove
+     *
+     * @param int $cart_id primary key of the cart record
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->remove($cart_id);
+     */
+    public function remove(int $cart_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "cart` WHERE `cart_id` = '" . $cart_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "'");
 
 		unset($this->data[$cart_id]);
 	}
 
 	/**
-	 * Clear
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->cart->clear();
-	 */
-	public function clear(): void {
+     * Clear
+     *
+     *
+     * @example
+     *
+     * $this->cart->clear();
+     */
+    public function clear(): void {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "cart` WHERE `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `customer_id` = '" . (int)$this->customer->getId() . "' AND `session_id` = '" . $this->db->escape($this->session->getId()) . "'");
 
 		$this->data = [];
@@ -417,15 +390,14 @@ class Cart {
 	}
 
 	/**
-	 * Get Weight
-	 *
-	 * @return float
-	 *
-	 * @example
-	 *
-	 * $weight = $this->cart->getWeight();
-	 */
-	public function getWeight(): float {
+     * Get Weight
+     *
+     *
+     * @example
+     *
+     * $weight = $this->cart->getWeight();
+     */
+    public function getWeight(): float {
 		$weight = 0;
 
 		foreach ($this->getProducts() as $product) {
@@ -438,15 +410,14 @@ class Cart {
 	}
 
 	/**
-	 * Get Sub Total
-	 *
-	 * @return float
-	 *
-	 * @example
-	 *
-	 * $sub_total = $this->cart->getSubTotal();
-	 */
-	public function getSubTotal(): float {
+     * Get Sub Total
+     *
+     *
+     * @example
+     *
+     * $sub_total = $this->cart->getSubTotal();
+     */
+    public function getSubTotal(): float {
 		$total = 0;
 
 		foreach ($this->getProducts() as $product) {
@@ -492,15 +463,14 @@ class Cart {
 	}
 
 	/**
-	 * Get Total
-	 *
-	 * @return float
-	 *
-	 * @example
-	 *
-	 * $total = $this->cart->getTotal();
-	 */
-	public function getTotal(): float {
+     * Get Total
+     *
+     *
+     * @example
+     *
+     * $total = $this->cart->getTotal();
+     */
+    public function getTotal(): float {
 		$total = 0;
 
 		foreach ($this->getProducts() as $product) {
@@ -511,15 +481,14 @@ class Cart {
 	}
 
 	/**
-	 * Count Products
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $count_products = $this->cart->countProducts();
-	 */
-	public function countProducts(): int {
+     * Count Products
+     *
+     *
+     * @example
+     *
+     * $count_products = $this->cart->countProducts();
+     */
+    public function countProducts(): int {
 		$product_total = 0;
 
 		$products = $this->getProducts();
@@ -532,41 +501,38 @@ class Cart {
 	}
 
 	/**
-	 * Has Products
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->hasProducts();
-	 */
-	public function hasProducts(): bool {
+     * Has Products
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->hasProducts();
+     */
+    public function hasProducts(): bool {
 		return (bool)count($this->getProducts());
 	}
 
 	/**
-	 * Has Subscription
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->hasSubscription();
-	 */
-	public function hasSubscription(): bool {
+     * Has Subscription
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->hasSubscription();
+     */
+    public function hasSubscription(): bool {
 		return (bool)count($this->getSubscriptions());
 	}
 
 	/**
-	 * Has Stock
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->hasStock();
-	 */
-	public function hasStock(): bool {
+     * Has Stock
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->hasStock();
+     */
+    public function hasStock(): bool {
 		foreach ($this->getProducts() as $product) {
 			if (!$product['stock_status']) {
 				return false;
@@ -577,17 +543,16 @@ class Cart {
 	}
 
 	/**
-	 * Has Minimum
-	 *
-	 * Check if any products have a minimum order quantity amount and do not meet the requirement
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->hasMinimum();
-	 */
-	public function hasMinimum() {
+     * Has Minimum
+     *
+     * Check if any products have a minimum order quantity amount and do not meet the requirement
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->hasMinimum();
+     */
+    public function hasMinimum(): bool {
 		foreach ($this->getProducts() as $product) {
 			if (!$product['minimum_status']) {
 				return false;
@@ -598,15 +563,14 @@ class Cart {
 	}
 
 	/**
-	 * Has Shipping
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->hasShipping();
-	 */
-	public function hasShipping(): bool {
+     * Has Shipping
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->hasShipping();
+     */
+    public function hasShipping(): bool {
 		foreach ($this->getProducts() as $product) {
 			if ($product['shipping']) {
 				return true;
@@ -617,15 +581,14 @@ class Cart {
 	}
 
 	/**
-	 * Has Download
-	 *
-	 * @return bool
-	 *
-	 * @example
-	 *
-	 * $cart = $this->cart->hasDownload();
-	 */
-	public function hasDownload(): bool {
+     * Has Download
+     *
+     *
+     * @example
+     *
+     * $cart = $this->cart->hasDownload();
+     */
+    public function hasDownload(): bool {
 		foreach ($this->getProducts() as $product) {
 			if ($product['download']) {
 				return true;

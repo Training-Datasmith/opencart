@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Cms;
  */
 class Comment extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('cms/comment');
 
 		if (isset($this->request->get['article_id'])) {
@@ -101,22 +99,18 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('cms/comment');
 
 		$this->response->setOutput($this->load->controller('cms/comment.getList'));
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['article_id'])) {
 			$article_id = (int)$this->request->get['article_id'];
 		} else {
@@ -192,22 +186,18 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reply
-	 *
-	 * @return void
-	 */
-	public function reply(): void {
+     * Reply
+     */
+    public function reply(): void {
 		$this->load->language('cms/comment');
 
 		$this->response->setOutput($this->load->controller('cms/comment.getReplies'));
 	}
 
 	/**
-	 * Get Replies
-	 *
-	 * @return string
-	 */
-	public function getReplies(): string {
+     * Get Replies
+     */
+    public function getReplies(): string {
 		if (isset($this->request->get['article_id'])) {
 			$article_id = (int)$this->request->get['article_id'];
 		} else {
@@ -268,11 +258,9 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @return void
-	 */
-	public function add(): void {
+     * Add
+     */
+    public function add(): void {
 		$this->load->language('cms/comment');
 
 		$json = [];
@@ -393,11 +381,9 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Rating
-	 *
-	 * @return void
-	 */
-	public function rate(): void {
+     * Rating
+     */
+    public function rate(): void {
 		$this->load->language('cms/comment');
 
 		$json = [];

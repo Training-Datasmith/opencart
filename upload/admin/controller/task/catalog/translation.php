@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Translation extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate translation task list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate translation task list.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/translation');
 
 
@@ -58,10 +56,12 @@ class Translation extends \Opencart\System\Engine\Controller {
 					$route = substr(substr($file, strlen($directory)), 0, -4);
 
 					$pos = strpos($route, '/');
-
-					if ($pos == false || in_array(substr($route, 0, $pos), $ignore)) {
-						continue;
-					}
+                    if ($pos == false) {
+                        continue;
+                    }
+                    if (in_array(substr($route, 0, $pos), $ignore)) {
+                        continue;
+                    }
 
 					$routes[] = $route;
 				}
@@ -100,15 +100,13 @@ class Translation extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Write
-	 *
-	 * Write JSON translation file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function write(array $args = []): array {
+     * Write
+     *
+     * Write JSON translation file.
+     *
+     * @param array<string, string> $args
+     */
+    public function write(array $args = []): array {
 		$this->load->language('task/catalog/translation');
 
 		$required = [
@@ -187,15 +185,13 @@ class Translation extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON translation files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON translation files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/translation');
 
 		$stores = [];

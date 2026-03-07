@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Api;
  */
 class Subscription extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('api/subscription');
 
 		if (isset($this->request->get['call'])) {
@@ -23,32 +21,16 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		}
 
 		// Allowed calls
-		switch ($call) {
-			case 'cart':
-				$output = $this->getCart();
-				break;
-			case 'product_add':
-				$output = $this->addProduct();
-				break;
-			case 'shipping_methods':
-				$output = $this->getShippingMethods();
-				break;
-			case 'payment_methods':
-				$output = $this->getPaymentMethods();
-				break;
-			case 'payment_methods':
-				$output = $this->getPaymentMethods();
-				break;
-			case 'confirm':
-				$output = $this->confirm();
-				break;
-			case 'history_add':
-				$output = $this->addHistory();
-				break;
-			default:
-				$output = ['error' => $this->language->get('error_call')]; // JSON error message if call not found
-				break;
-		}
+		$output = match ($call) {
+            'cart' => $this->getCart(),
+            'product_add' => $this->addProduct(),
+            'shipping_methods' => $this->getShippingMethods(),
+            'payment_methods' => $this->getPaymentMethods(),
+            'payment_methods' => $this->getPaymentMethods(),
+            'confirm' => $this->confirm(),
+            'history_add' => $this->addHistory(),
+            default => ['error' => $this->language->get('error_call')],
+        };
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($output));

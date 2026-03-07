@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Information extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Information
-	 *
-	 * Adds task to generate new information data.
-	 *
-	 * Called using model/catalog/information/addInformation/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addInformation(string &$route, array &$args, &$output): void {
+     * Add Information
+     *
+     * Adds task to generate new information data.
+     *
+     * Called using model/catalog/information/addInformation/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addInformation(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'information.list',
 			'action' => 'task/catalog/information.list',
@@ -40,19 +38,17 @@ class Information extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Information
-	 *
-	 * Adds task to generate new information data.
-	 *
-	 * Called using model/catalog/information/addInformation/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function editInformation(string &$route, array &$args, &$output): void {
+     * Edit Information
+     *
+     * Adds task to generate new information data.
+     *
+     * Called using model/catalog/information/addInformation/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function editInformation(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'information.list',
 			'action' => 'task/catalog/information.list',
@@ -73,19 +69,17 @@ class Information extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Information
-	 *
-	 * Adds task to generate new information data.
-	 *
-	 * Called using model/catalog/information/deleteInformation/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function deleteInformation(string &$route, array &$args, &$output): void {
+     * Delete Information
+     *
+     * Adds task to generate new information data.
+     *
+     * Called using model/catalog/information/deleteInformation/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function deleteInformation(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'information.list',
 			'action' => 'task/catalog/information.list',

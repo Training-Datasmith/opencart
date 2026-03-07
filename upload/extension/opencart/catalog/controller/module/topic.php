@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Module;
  */
 class Topic extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('extension/opencart/module/topic');
 
 		if (isset($this->request->get['topic_id'])) {

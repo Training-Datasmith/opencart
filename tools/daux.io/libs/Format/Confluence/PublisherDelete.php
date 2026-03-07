@@ -4,30 +4,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PublisherDelete
 {
-    public OutputInterface $output;
-
     /**
      * @var array files that can be deleted
      */
     protected array $deletable;
 
-    /**
+    public function __construct(public OutputInterface $output, /**
      * @var bool should delete ?
      */
-    protected bool $delete;
-
-    protected Api $client;
-
-    public function __construct($output, bool $delete, $client)
+    protected bool $delete, protected Api $client)
     {
-        $this->output = $output;
-        $this->delete = $delete;
-        $this->client = $client;
-
         $this->deletable = [];
     }
 
-    protected function listDeletable($published, $prefix = '')
+    protected function listDeletable(array $published, string $prefix = '')
     {
         foreach ($published['children'] as $child) {
             if (array_key_exists('children', $child) && count($child['children'])) {
@@ -40,7 +30,7 @@ class PublisherDelete
         }
     }
 
-    public function handle($published)
+    public function handle($published): void
     {
         $this->listDeletable($published);
 

@@ -5,30 +5,21 @@ use GuzzleHttp\Exception\BadResponseException;
 
 class Api
 {
-    protected $baseUrl;
-    protected $user;
-    protected $pass;
-
     protected $space;
 
-    public function __construct($baseUrl, $user, $pass)
+    public function __construct(protected $baseUrl, protected $user, protected $pass)
     {
-        $this->baseUrl = $baseUrl;
-        $this->user = $user;
-        $this->pass = $pass;
     }
 
-    public function setSpace($spaceId)
+    public function setSpace($spaceId): void
     {
         $this->space = $spaceId;
     }
 
     /**
      * This method is public due to test purposes.
-     *
-     * @return Client
      */
-    public function getClient()
+    public function getClient(): \GuzzleHttp\Client
     {
         $options = [
             'base_uri' => $this->baseUrl . 'rest/api/',
@@ -44,7 +35,7 @@ class Api
      *
      * @return \Exception
      */
-    protected function handleError(BadResponseException $e)
+    protected function handleError(BadResponseException $e): \Todaymade\Daux\Format\Confluence\DuplicateTitleException|\GuzzleHttp\Exception\BadResponseException
     {
         $request = $e->getRequest();
         $response = $e->getResponse();
@@ -69,14 +60,14 @@ class Api
         $hasMessage = $json != null && array_key_exists('message', $json) && !empty($json['message']);
         $message .= $hasMessage ? $json['message'] : $body;
 
-        if ($level == '4' && strpos($message, 'page with this title already exists') !== false) {
+        if ($level == '4' && str_contains($message, 'page with this title already exists')) {
             return new DuplicateTitleException($message, 0, $e->getPrevious());
         }
 
         return new BadResponseException($message, $request, $response, $e->getPrevious());
     }
 
-    public function getPage($id)
+    public function getPage($id): array
     {
         $url = "content/$id?expand=space,ancestors,version,body.storage";
 
@@ -107,10 +98,8 @@ class Api
      *
      * @param int $rootPage
      * @param bool $recursive
-     *
-     * @return array
      */
-    public function getList($rootPage, $recursive = false)
+    public function getList($rootPage, $recursive = false): array
     {
         $increment = 15;
 
@@ -190,7 +179,7 @@ class Api
      * @param string $title
      * @param string $content
      */
-    public function updatePage($parentId, $pageId, $newVersion, $title, $content)
+    public function updatePage($parentId, $pageId, $newVersion, $title, $content): void
     {
         $body = [
             'type' => 'page',
@@ -256,10 +245,8 @@ class Api
      * Delete a page.
      *
      * @param int $pageId
-     *
-     * @return mixed
      */
-    public function deletePage($pageId)
+    public function deletePage($pageId): mixed
     {
         try {
             return json_decode($this->getClient()->delete('content/' . $pageId)->getBody(), true);
@@ -268,7 +255,7 @@ class Api
         }
     }
 
-    private function getAttachment($id, $attachment)
+    private function getAttachment($id, array $attachment): mixed
     {
         // Check if an attachment with
         // this name is uploaded
@@ -281,7 +268,7 @@ class Api
         }
     }
 
-    private function putAttachment($url, $attachment)
+    private function putAttachment(string $url, array $attachment): void
     {
         $contents = array_key_exists('file', $attachment)
             ? fopen($attachment['file']->getPath(), 'r')
@@ -300,7 +287,7 @@ class Api
         }
     }
 
-    private function getFileSize($attachment)
+    private function getFileSize(array $attachment): int|false
     {
         if (array_key_exists('file', $attachment)) {
             return filesize($attachment['file']->getPath());
@@ -318,7 +305,7 @@ class Api
      * @param array $attachment
      * @param callable $write Write output to the console
      */
-    public function uploadAttachment($id, $attachment, $write)
+    public function uploadAttachment($id, $attachment, $write): void
     {
         $result = $this->getAttachment($id, $attachment);
 

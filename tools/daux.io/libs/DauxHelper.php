@@ -11,10 +11,10 @@ class DauxHelper
      *
      * @param string $baseUrl
      */
-    public static function rebaseConfiguration(Config $config, $baseUrl)
+    public static function rebaseConfiguration(Config $config, $baseUrl): void
     {
         // Avoid changing the url if it is already correct
-        if ($config->getBaseUrl() == $baseUrl && !empty($config->getTheme())) {
+        if ($config->getBaseUrl() == $baseUrl && $config->getTheme() instanceof \Todaymade\Daux\Format\HTML\Theme) {
             return;
         }
 
@@ -117,10 +117,8 @@ class DauxHelper
      * Remove all '/./' and '/../' in a path, without actually checking the path.
      *
      * @param string $path
-     *
-     * @return string
      */
-    public static function getCleanPath($path)
+    public static function getCleanPath($path): string
     {
         $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
         $parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
@@ -146,7 +144,7 @@ class DauxHelper
      *
      * @return string[]
      */
-    public static function getFilenames(Config $config, $part)
+    public static function getFilenames(Config $config, $part): array
     {
         $extensions = implode('|', array_map('preg_quote', $config->getValidContentExtensions())) . '|html';
 
@@ -235,7 +233,7 @@ class DauxHelper
         return false;
     }
 
-    private static function slugBase($slug)
+    private static function slugBase($slug): string|array|null
     {
         // Convert to ASCII
         if (function_exists('transliterator_transliterate')) {
@@ -257,10 +255,8 @@ class DauxHelper
      *
      * @param  string $title
      * @param mixed $slug
-     *
-     * @return string
      */
-    public static function urlSlug($slug)
+    public static function urlSlug($slug): string
     {
         $slug = static::slugBase($slug);
 
@@ -278,7 +274,7 @@ class DauxHelper
         return trim($slug, $separator);
     }
 
-    public static function linkSlug($slug)
+    public static function linkSlug($slug): string
     {
         $slug = static::slugBase($slug);
 
@@ -299,10 +295,8 @@ class DauxHelper
     /**
      * @param string $from
      * @param string $to
-     *
-     * @return string
      */
-    public static function getRelativePath($from, $to)
+    public static function getRelativePath($from, $to): string
     {
         // some compatibility fixes for Windows paths
         $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
@@ -335,7 +329,7 @@ class DauxHelper
         return implode('/', $relPath);
     }
 
-    public static function isAbsolutePath($path)
+    public static function isAbsolutePath($path): bool
     {
         if (!is_string($path)) {
             $mess = sprintf('String expected but was given %s', gettype($path));
@@ -368,7 +362,7 @@ class DauxHelper
         return '' !== $parts['root'];
     }
 
-    public static function getAbsolutePath($path)
+    public static function getAbsolutePath(string $path): string
     {
         if (DauxHelper::isAbsolutePath($path)) {
             return $path;
@@ -377,7 +371,7 @@ class DauxHelper
         return getcwd() . '/' . $path;
     }
 
-    public static function is($path, $type)
+    public static function is($path, $type): bool
     {
         return ($type == 'dir') ? is_dir($path) : file_exists($path);
     }
@@ -422,17 +416,17 @@ class DauxHelper
         throw new LinkNotFoundException("Could not locate file '$url'");
     }
 
-    public static function isValidUrl($url)
+    public static function isValidUrl($url): bool
     {
         return !empty($url) && $url[0] != '#';
     }
 
-    public static function isExternalUrl($url)
+    public static function isExternalUrl($url): int|false
     {
         return preg_match('#^(?:[a-z]+:)?//|^mailto:#', $url);
     }
 
-    public static function isDataUrl($url)
+    public static function isDataUrl($url): int|false
     {
         return preg_match('#^data:image/#', $url);
     }

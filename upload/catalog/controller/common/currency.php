@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Common;
  */
 class Currency extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/currency');
 
 		$data['action'] = $this->url->link('common/currency.save', 'language=' . $this->config->get('config_language'));
@@ -62,11 +60,9 @@ class Currency extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('common/currency');
 
 		$json = [];

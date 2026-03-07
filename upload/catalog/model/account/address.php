@@ -39,74 +39,72 @@ class Address extends \Opencart\System\Engine\Model {
 	 * $this->model_account_address->addAddress($customer_id, $address_data);
 	 */
 	public function addAddress(int $customer_id, array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "address` SET `customer_id` = '" . (int)$customer_id . "', `firstname` = '" . $this->db->escape($data['firstname']) . "', `lastname` = '" . $this->db->escape($data['lastname']) . "', `company` = '" . $this->db->escape($data['company']) . "', `address_1` = '" . $this->db->escape($data['address_1']) . "', `address_2` = '" . $this->db->escape($data['address_2']) . "', `postcode` = '" . $this->db->escape($data['postcode']) . "', `city` = '" . $this->db->escape($data['city']) . "', `zone_id` = '" . (int)$data['zone_id'] . "', `country_id` = '" . (int)$data['country_id'] . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', `default` = '" . (isset($data['default']) ? (int)$data['default'] : 0) . "'");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "address` SET `customer_id` = '" . $customer_id . "', `firstname` = '" . $this->db->escape($data['firstname']) . "', `lastname` = '" . $this->db->escape($data['lastname']) . "', `company` = '" . $this->db->escape($data['company']) . "', `address_1` = '" . $this->db->escape($data['address_1']) . "', `address_2` = '" . $this->db->escape($data['address_2']) . "', `postcode` = '" . $this->db->escape($data['postcode']) . "', `city` = '" . $this->db->escape($data['city']) . "', `zone_id` = '" . (int)$data['zone_id'] . "', `country_id` = '" . (int)$data['country_id'] . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', `default` = '" . (isset($data['default']) ? (int)$data['default'] : 0) . "'");
 
 		$address_id = $this->db->getLastId();
 
 		if (!empty($data['default'])) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "address` SET `default` = '0' WHERE `address_id` != '" . (int)$address_id . "' AND `customer_id` = '" . (int)$customer_id . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "address` SET `default` = '0' WHERE `address_id` != '" . (int)$address_id . "' AND `customer_id` = '" . $customer_id . "'");
 		}
 
 		return $address_id;
 	}
 
 	/**
-	 * Edit Address
-	 *
-	 * Edit address record in the database.
-	 *
-	 * @param int                  $customer_id primary key of the customer record
-	 * @param int                  $address_id  primary key of the address record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $address_data = [
-	 *     'firstname'    => 'John',
-	 *     'lastname'     => 'Doe',
-	 *     'company'      => '',
-	 *     'address_1'    => 'Address 1',
-	 *     'address_2'    => 'Address 2',
-	 *     'postcode'     => '',
-	 *     'city'         => '',
-	 *     'zone_id'      => 1,
-	 *     'country_id'   => 1,
-	 *     'custom_field' => [],
-	 *     'default'      => 0
-	 * ];
-	 *
-	 * $this->load->model('account/address');
-	 *
-	 * $this->model_account_address->addAddress($customer_id, $address_id, $address_data);
-	 */
-	public function editAddress(int $customer_id, int $address_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "address` SET `firstname` = '" . $this->db->escape($data['firstname']) . "', `lastname` = '" . $this->db->escape($data['lastname']) . "', `company` = '" . $this->db->escape($data['company']) . "', `address_1` = '" . $this->db->escape($data['address_1']) . "', `address_2` = '" . $this->db->escape($data['address_2']) . "', `postcode` = '" . $this->db->escape($data['postcode']) . "', `city` = '" . $this->db->escape($data['city']) . "', `zone_id` = '" . (int)$data['zone_id'] . "', `country_id` = '" . (int)$data['country_id'] . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', `default` = '" . (isset($data['default']) ? (int)$data['default'] : 0) . "' WHERE `address_id` = '" . (int)$address_id . "' AND `customer_id` = '" . (int)$customer_id . "'");
+     * Edit Address
+     *
+     * Edit address record in the database.
+     *
+     * @param int                  $customer_id primary key of the customer record
+     * @param int                  $address_id  primary key of the address record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $address_data = [
+     *     'firstname'    => 'John',
+     *     'lastname'     => 'Doe',
+     *     'company'      => '',
+     *     'address_1'    => 'Address 1',
+     *     'address_2'    => 'Address 2',
+     *     'postcode'     => '',
+     *     'city'         => '',
+     *     'zone_id'      => 1,
+     *     'country_id'   => 1,
+     *     'custom_field' => [],
+     *     'default'      => 0
+     * ];
+     *
+     * $this->load->model('account/address');
+     *
+     * $this->model_account_address->addAddress($customer_id, $address_id, $address_data);
+     */
+    public function editAddress(int $customer_id, int $address_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "address` SET `firstname` = '" . $this->db->escape($data['firstname']) . "', `lastname` = '" . $this->db->escape($data['lastname']) . "', `company` = '" . $this->db->escape($data['company']) . "', `address_1` = '" . $this->db->escape($data['address_1']) . "', `address_2` = '" . $this->db->escape($data['address_2']) . "', `postcode` = '" . $this->db->escape($data['postcode']) . "', `city` = '" . $this->db->escape($data['city']) . "', `zone_id` = '" . (int)$data['zone_id'] . "', `country_id` = '" . (int)$data['country_id'] . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', `default` = '" . (isset($data['default']) ? (int)$data['default'] : 0) . "' WHERE `address_id` = '" . $address_id . "' AND `customer_id` = '" . $customer_id . "'");
 
 		if (!empty($data['default'])) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "address` SET `default` = '0' WHERE `address_id` != '" . (int)$address_id . "' AND `customer_id` = '" . (int)$customer_id . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "address` SET `default` = '0' WHERE `address_id` != '" . $address_id . "' AND `customer_id` = '" . $customer_id . "'");
 		}
 	}
 
 	/**
-	 * Delete Addresses
-	 *
-	 * Delete address records in the database.
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 * @param int $address_id  primary key of the address record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/address');
-	 *
-	 * $this->model_account_address->deleteAddresses($customer_id, $address_id);
-	 */
-	public function deleteAddresses(int $customer_id, int $address_id = 0): void {
-		$sql = "DELETE FROM `" . DB_PREFIX . "address` WHERE `customer_id` = '" . (int)$customer_id . "'";
+     * Delete Addresses
+     *
+     * Delete address records in the database.
+     *
+     * @param int $customer_id primary key of the customer record
+     * @param int $address_id  primary key of the address record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/address');
+     *
+     * $this->model_account_address->deleteAddresses($customer_id, $address_id);
+     */
+    public function deleteAddresses(int $customer_id, int $address_id = 0): void {
+		$sql = "DELETE FROM `" . DB_PREFIX . "address` WHERE `customer_id` = '" . $customer_id . "'";
 
 		if ($address_id) {
 			$sql .= " AND `address_id` = '" . (int)$address_id . "'";
@@ -132,7 +130,7 @@ class Address extends \Opencart\System\Engine\Model {
 	 * $address_info = $this->model_account_address->getAddress($customer_id, $address_id);
 	 */
 	public function getAddress(int $customer_id, int $address_id): array {
-		$address_query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "address` WHERE `address_id` = '" . (int)$address_id . "' AND `customer_id` = '" . (int)$customer_id . "'");
+		$address_query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "address` WHERE `address_id` = '" . $address_id . "' AND `customer_id` = '" . $customer_id . "'");
 
 		if ($address_query->num_rows) {
 			// Country
@@ -185,9 +183,8 @@ class Address extends \Opencart\System\Engine\Model {
 				'address_format' => $address_format,
 				'custom_field'   => $address_query->row['custom_field'] ? json_decode($address_query->row['custom_field'], true) : []
 			] + $address_query->row;
-		} else {
-			return [];
 		}
+        return [];
 	}
 
 	/**
@@ -217,7 +214,7 @@ class Address extends \Opencart\System\Engine\Model {
 		// Zone
 		$this->load->model('localisation/zone');
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "address` WHERE `customer_id` = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "address` WHERE `customer_id` = '" . $customer_id . "'");
 
 		foreach ($query->rows as $result) {
 			$country_info = $this->model_localisation_country->getCountry($result['country_id']);
@@ -282,7 +279,7 @@ class Address extends \Opencart\System\Engine\Model {
 	 * $address_total = $this->model_account_address->getTotalAddresses($customer_id);
 	 */
 	public function getTotalAddresses(int $customer_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "address` WHERE `customer_id` = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "address` WHERE `customer_id` = '" . $customer_id . "'");
 
 		return (int)$query->row['total'];
 	}

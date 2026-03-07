@@ -9,45 +9,41 @@ namespace Opencart\Catalog\Model\Account;
  */
 class Reward extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Reward
-	 *
-	 * Create a new customer reward record in the database.
-	 *
-	 * @param int    $customer_id primary key of the customer record
-	 * @param int    $order_id    primary key of the order record
-	 * @param string $description
-	 * @param int    $points
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/reward');
-	 *
-	 * $this->model_account_reward->addReward($customer_id, $order_id, $description, $points);
-	 */
-	public function addReward(int $customer_id, int $order_id, string $description, int $points): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_reward` SET `customer_id` = '" . (int)$customer_id . "', `order_id` = '" . (int)$order_id . "', `description` = '" . $this->db->escape($description) . "', `points` = '" . (int)$points . "', `date_added` = NOW()");
+     * Add Reward
+     *
+     * Create a new customer reward record in the database.
+     *
+     * @param int    $customer_id primary key of the customer record
+     * @param int    $order_id    primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/reward');
+     *
+     * $this->model_account_reward->addReward($customer_id, $order_id, $description, $points);
+     */
+    public function addReward(int $customer_id, int $order_id, string $description, int $points): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_reward` SET `customer_id` = '" . $customer_id . "', `order_id` = '" . $order_id . "', `description` = '" . $this->db->escape($description) . "', `points` = '" . $points . "', `date_added` = NOW()");
 	}
 
 	/**
-	 * Delete Rewards
-	 *
-	 * Delete customer reward records in the database.
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 * @param int $order_id    primary key of the order record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/reward');
-	 *
-	 * $this->model_account_reward->deleteRewards($customer_id, $order_id);
-	 */
-	public function deleteRewards(int $customer_id, int $order_id = 0): void {
-		$sql = "DELETE FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . (int)$customer_id . "'";
+     * Delete Rewards
+     *
+     * Delete customer reward records in the database.
+     *
+     * @param int $customer_id primary key of the customer record
+     * @param int $order_id    primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/reward');
+     *
+     * $this->model_account_reward->deleteRewards($customer_id, $order_id);
+     */
+    public function deleteRewards(int $customer_id, int $order_id = 0): void {
+		$sql = "DELETE FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . $customer_id . "'";
 
 		if ($order_id) {
 			$sql .= " AND `order_id` = '" . (int)$order_id . "'";
@@ -57,22 +53,21 @@ class Reward extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Rewards By Order ID
-	 *
-	 * Delete customer rewards by order record in the database.
-	 *
-	 * @param int $order_id primary key of the order record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/reward');
-	 *
-	 * $this->model_account_reward->deleteRewardsByOrderId($order_id);
-	 */
-	public function deleteRewardsByOrderId(int $order_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_reward` WHERE `order_id` = '" . (int)$order_id . "' AND `points` < 0");
+     * Delete Rewards By Order ID
+     *
+     * Delete customer rewards by order record in the database.
+     *
+     * @param int $order_id primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/reward');
+     *
+     * $this->model_account_reward->deleteRewardsByOrderId($order_id);
+     */
+    public function deleteRewardsByOrderId(int $order_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_reward` WHERE `order_id` = '" . $order_id . "' AND `points` < 0");
 	}
 
 	/**
@@ -99,7 +94,7 @@ class Reward extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_account_reward->getRewards($customer_id, $filter_data);
 	 */
 	public function getRewards(int $customer_id, array $data = []): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . (int)$customer_id . "'";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . $customer_id . "'";
 
 		$sort_data = [
 			'points',
@@ -152,31 +147,29 @@ class Reward extends \Opencart\System\Engine\Model {
 	 * $reward_total = $this->model_account_reward->getTotalRewards($customer_id);
 	 */
 	public function getTotalRewards(int $customer_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . $customer_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Get Reward Total
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/reward');
-	 *
-	 * $reward_total = $this->model_account_reward->getTotalReward($customer_id);
-	 */
-	public function getRewardTotal(int $customer_id): int {
-		$query = $this->db->query("SELECT SUM(`points`) AS `total` FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . (int)$customer_id . "' GROUP BY `customer_id`");
+     * Get Reward Total
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/reward');
+     *
+     * $reward_total = $this->model_account_reward->getTotalReward($customer_id);
+     */
+    public function getRewardTotal(int $customer_id): int {
+		$query = $this->db->query("SELECT SUM(`points`) AS `total` FROM `" . DB_PREFIX . "customer_reward` WHERE `customer_id` = '" . $customer_id . "' GROUP BY `customer_id`");
 
 		if ($query->num_rows) {
 			return (int)$query->row['total'];
-		} else {
-			return 0;
 		}
+        return 0;
 	}
 }

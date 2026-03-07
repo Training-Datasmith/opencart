@@ -9,7 +9,7 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
 
     protected Content $firstPage;
 
-    public function sort()
+    public function sort(): void
     {
         // Separate the values into buckets to sort them separately
         $buckets = [
@@ -73,7 +73,7 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
 
         $final = [];
         foreach ($buckets as $name => $bucket) {
-            if (substr($name, -7) == 'numeric') {
+            if (str_ends_with($name, 'numeric')) {
                 ksort($bucket);
                 foreach ($bucket as $subBucket) {
                     $final = $this->sortBucket($subBucket, $final);
@@ -86,11 +86,9 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
         $this->children = $final;
     }
 
-    private function sortBucket($bucket, $final)
+    private function sortBucket($bucket, array $final): array
     {
-        uasort($bucket, function (Entry $a, Entry $b) {
-            return strcasecmp($a->getNameForSort(), $b->getNameForSort());
-        });
+        uasort($bucket, fn(Entry $a, Entry $b) => strcasecmp($a->getNameForSort(), $b->getNameForSort()));
 
         foreach ($bucket as $key => $value) {
             $final[$key] = $value;
@@ -133,11 +131,7 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
     {
         $indexKey = $this->getConfig()->getIndexKey();
 
-        if (isset($this->children[$indexKey])) {
-            return $this->children[$indexKey];
-        }
-
-        return false;
+        return $this->children[$indexKey] ?? false;
     }
 
     public function getIndexPage(): ?Content
@@ -160,23 +154,20 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
      */
     public function seekFirstPage(): ?Content
     {
-        if ($this instanceof self) {
-            $indexKey = $this->getConfig()->getIndexKey();
-            if (isset($this->children[$indexKey]) && $this->children[$indexKey] instanceof Content) {
-                return $this->children[$indexKey];
+        $indexKey = $this->getConfig()->getIndexKey();
+        if (isset($this->children[$indexKey]) && $this->children[$indexKey] instanceof Content) {
+            return $this->children[$indexKey];
+        }
+        foreach ($this->children as $node) {
+            if ($node instanceof Content) {
+                return $node;
             }
-            foreach ($this->children as $node) {
-                if ($node instanceof Content) {
-                    return $node;
-                }
-                if ($node instanceof self
-                && strpos($node->getUri(), '.') !== 0
-                && $childNode = $node->seekFirstPage()) {
-                    return $childNode;
-                }
+            if ($node instanceof self
+            && !str_starts_with($node->getUri(), '.')
+            && $childNode = $node->seekFirstPage()) {
+                return $childNode;
             }
         }
-
         return null;
     }
 
@@ -212,7 +203,7 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
         return null;
     }
 
-    public function setFirstPage(Content $firstPage)
+    public function setFirstPage(Content $firstPage): void
     {
         $this->firstPage = $firstPage;
     }

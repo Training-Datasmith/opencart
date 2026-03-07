@@ -13,11 +13,9 @@ class SeoUrl extends \Opencart\System\Engine\Controller {
 	private array $data = [];
 
 	/**
-	 * Index
-	 *
-	 * @return null
-	 */
-	public function index() {
+     * Index
+     */
+    public function index() {
 		// Add rewrite to URL class
 		if ($this->config->get('config_seo_url')) {
 			$this->load->model('design/seo_url');
@@ -76,13 +74,11 @@ class SeoUrl extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Rewrite
-	 *
-	 * @param string $link
-	 *
-	 * @return string
-	 */
-	public function rewrite(string $link): string {
+     * Rewrite
+     *
+     *
+     */
+    public function rewrite(string $link): string {
 		$url_info = parse_url(str_replace('&amp;', '&', $link));
 
 		// Build the url

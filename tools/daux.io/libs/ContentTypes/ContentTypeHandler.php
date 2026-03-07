@@ -8,7 +8,7 @@ class ContentTypeHandler
     /**
      * @var ContentType[]
      */
-    protected $types;
+    protected array $types;
 
     /**
      * @param ContentType[] $types
@@ -23,7 +23,7 @@ class ContentTypeHandler
      *
      * @return string[]
      */
-    public function getContentExtensions()
+    public function getContentExtensions(): array
     {
         $extensions = [];
         foreach ($this->types as $type) {

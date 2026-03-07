@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class Subscription extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate subscription task list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate subscription task list.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/admin/subscription');
 
 		// Check if there is an order, the order status is complete and subscription status is active
@@ -167,10 +165,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		$store->session->data['currency'] = $currency_info['code'];
 
 		// Customer
-		$store->session->data['customer'] = $customer_info;
-
-		// Products
-		$product_data = [];/**/
+		$store->session->data['customer'] = $customer_info;/**/
 
 		$store->load->model('checkout/subscription');
 

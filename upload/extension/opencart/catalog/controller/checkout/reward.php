@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Checkout;
  */
 class Reward extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		if ($this->config->get('total_reward_status')) {
 			$available = $this->customer->getRewardPoints();
 
@@ -47,11 +45,9 @@ class Reward extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/checkout/reward');
 
 		$json = [];

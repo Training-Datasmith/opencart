@@ -9,15 +9,13 @@ namespace Opencart\Catalog\Model\Extension\Opencart\Total;
  */
 class Credit extends \Opencart\System\Engine\Model {
 	/**
-	 * Get Total
-	 *
-	 * @param array<int, array<string, mixed>> $totals
-	 * @param  array<int, float>               &$taxes
-	 * @param  float                           &$total
-	 *
-	 * @return void
-	 */
-	public function getTotal(array &$totals, array &$taxes, float &$total): void {
+     * Get Total
+     *
+     * @param array<int, array<string, mixed>> $totals
+     * @param  array<int, float>               &$taxes
+     *
+     */
+    public function getTotal(array &$totals, array &$taxes, float &$total): void {
 		$this->load->language('extension/opencart/total/credit');
 
 		$balance = $this->customer->getBalance();
@@ -40,14 +38,12 @@ class Credit extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @param array<string, mixed> $order_info
-	 * @param array<string, mixed> $order_total
-	 *
-	 * @return void
-	 */
-	public function confirm(array $order_info, array $order_total): void {
+     * Confirm
+     *
+     * @param array<string, mixed> $order_info
+     * @param array<string, mixed> $order_total
+     */
+    public function confirm(array $order_info, array $order_total): void {
 		$this->load->language('extension/opencart/total/credit');
 
 		if ($order_info['customer_id']) {
@@ -59,13 +55,11 @@ class Credit extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Unconfirm
-	 *
-	 * @param array<string, mixed> $order_info
-	 *
-	 * @return void
-	 */
-	public function unconfirm(array $order_info): void {
+     * Unconfirm
+     *
+     * @param array<string, mixed> $order_info
+     */
+    public function unconfirm(array $order_info): void {
 		// Transaction
 		$this->load->model('account/transaction');
 

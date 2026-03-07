@@ -24,12 +24,11 @@ class Module extends \Opencart\System\Engine\Model {
 	 * $module_info = $this->model_setting_module->getModule($module_id);
 	 */
 	public function getModule(int $module_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `module_id` = '" . (int)$module_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `module_id` = '" . $module_id . "'");
 
 		if ($query->row) {
 			return $query->row['setting'] ? json_decode($query->row['setting'], true) : [];
-		} else {
-			return [];
 		}
+        return [];
 	}
 }

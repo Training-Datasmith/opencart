@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Common;
  */
 class Cart extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/cart');
 
 		$totals = [];
@@ -95,20 +93,16 @@ class Cart extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @return void
-	 */
-	public function info(): void {
+     * Info
+     */
+    public function info(): void {
 		$this->response->setOutput($this->index());
 	}
 
 	/**
-	 * Remove Product
-	 *
-	 * @return void
-	 */
-	public function remove(): void {
+     * Remove Product
+     */
+    public function remove(): void {
 		$this->load->language('checkout/cart');
 
 		$json = [];

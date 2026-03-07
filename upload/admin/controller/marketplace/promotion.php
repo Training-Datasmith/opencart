@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Promotion extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('marketplace/promotion');
 
 		if (isset($this->request->get['type'])) {

@@ -11,15 +11,13 @@ namespace Opencart\Install\Model\Install;
  */
 class Install extends \Opencart\System\Engine\Model {
 	/**
-	 * Database
-	 *
-	 * @param array<string, mixed> $data
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function database(array $data): void {
+     * Database
+     *
+     * @param array<string, mixed> $data
+     *
+     * @throws \Exception
+     */
+    public function database(array $data): void {
 		// Structure
 		$this->load->helper('db_schema');
 
@@ -97,7 +95,7 @@ class Install extends \Opencart\System\Engine\Model {
 			$start = false;
 
 			foreach ($lines as $line) {
-				if (substr($line, 0, 12) == 'INSERT INTO ') {
+				if (str_starts_with($line, 'INSERT INTO ')) {
 					$sql = '';
 
 					$start = true;
@@ -107,7 +105,7 @@ class Install extends \Opencart\System\Engine\Model {
 					$sql .= $line;
 				}
 
-				if (substr($line, -2) == ');') {
+				if (str_ends_with($line, ');')) {
 					$this->db->query(str_replace("INSERT INTO `oc_", "INSERT INTO `" . $data['db_prefix'], $sql));
 
 					$start = false;

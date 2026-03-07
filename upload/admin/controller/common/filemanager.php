@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class FileManager extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('common/filemanager');
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
@@ -48,22 +46,18 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('common/filemanager');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		$base = DIR_IMAGE . 'catalog/';
 
 		// Make sure we have the correct directory
@@ -119,11 +113,11 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		$paths = oc_directory_read($directory);
 
 		foreach (array_slice($paths, $start, $limit) as $path) {
-			if (substr($path, 0, strlen($base)) !== $base) {
+			if (!str_starts_with($path, $base)) {
 				continue;
 			}
 
-			if (substr($path, -1) == '/') {
+			if (str_ends_with($path, '/')) {
 				$directories[] = $path;
 
 				continue;
@@ -265,11 +259,9 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Upload
-	 *
-	 * @return void
-	 */
-	public function upload(): void {
+     * Upload
+     */
+    public function upload(): void {
 		$this->load->language('common/filemanager');
 
 		$json = [];
@@ -289,7 +281,7 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		}
 
 		// Check it's a directory
-		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)) . '/', 0, strlen($base)) != $base) {
+		if (!is_dir($directory) || !str_starts_with(str_replace('\\', '/', realpath($directory)) . '/', $base)) {
 			$json['error'] = $this->language->get('error_directory');
 		}
 
@@ -372,11 +364,9 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Folder
-	 *
-	 * @return void
-	 */
-	public function folder(): void {
+     * Folder
+     */
+    public function folder(): void {
 		$this->load->language('common/filemanager');
 
 		$json = [];
@@ -403,7 +393,7 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		}
 
 		// Check it's a directory
-		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)) . '/', 0, strlen($base)) != $base) {
+		if (!is_dir($directory) || !str_starts_with(str_replace('\\', '/', realpath($directory)) . '/', $base)) {
 			$json['error'] = $this->language->get('error_directory');
 		}
 
@@ -429,11 +419,9 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('common/filemanager');
 
 		$json = [];
@@ -457,7 +445,7 @@ class FileManager extends \Opencart\System\Engine\Controller {
 			$path = html_entity_decode($path, ENT_QUOTES, 'UTF-8');
 
 			// Check path exists
-			if (($path == $base) || (substr(str_replace('\\', '/', realpath($base . $path)) . '/', 0, strlen($base)) != $base)) {
+			if (($path == $base) || (!str_starts_with(str_replace('\\', '/', realpath($base . $path)) . '/', $base))) {
 				$json['error'] = $this->language->get('error_delete');
 
 				break;

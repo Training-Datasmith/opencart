@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Checkout;
  */
 class Register extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('checkout/register');
 
 		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language') . '&redirect=' . urlencode($this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'), true))));
@@ -43,7 +41,7 @@ class Register extends \Opencart\System\Engine\Controller {
 			$customer_groups = $this->model_account_customer_group->getCustomerGroups();
 
 			foreach ($customer_groups as $customer_group) {
-				if (in_array($customer_group['customer_group_id'], (array)$this->config->get('config_customer_group_list'))) {
+				if (in_array($customer_group['customer_group_id'], $this->config->get('config_customer_group_list'))) {
 					$data['customer_groups'][] = $customer_group;
 				}
 			}
@@ -169,11 +167,9 @@ class Register extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('checkout/register');
 
 		$json = [];

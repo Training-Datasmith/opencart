@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Currency;
  */
 class Fixer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/currency/fixer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -47,11 +45,9 @@ class Fixer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/currency/fixer');
 
 		$json = [];
@@ -78,13 +74,11 @@ class Fixer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Currency
-	 *
-	 * @param string $default
-	 *
-	 * @return void
-	 */
-	public function currency(string $default = ''): void {
+     * Currency
+     *
+     *
+     */
+    public function currency(string $default = ''): void {
 		if ($this->config->get('currency_fixer_status')) {
 			$curl = curl_init();
 

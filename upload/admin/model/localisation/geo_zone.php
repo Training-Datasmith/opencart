@@ -45,28 +45,27 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Geo Zone
-	 *
-	 * Edit geo zone record in the database.
-	 *
-	 * @param int                  $geo_zone_id primary key of the geo zone record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $geo_zone_data = [
-	 *     'name'        => 'Geo Zone Name',
-	 *     'description' => 'Geo Zone Description'
-	 * ];
-	 *
-	 * $this->load->model('localisation/geo_zone');
-	 *
-	 * $this->model_localisation_geo_zone->editGeoZone($geo_zone_id, $geo_zone_data);
-	 */
-	public function editGeoZone(int $geo_zone_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "geo_zone` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `description` = '" . $this->db->escape((string)$data['description']) . "' WHERE `geo_zone_id` = '" . (int)$geo_zone_id . "'");
+     * Edit Geo Zone
+     *
+     * Edit geo zone record in the database.
+     *
+     * @param int                  $geo_zone_id primary key of the geo zone record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $geo_zone_data = [
+     *     'name'        => 'Geo Zone Name',
+     *     'description' => 'Geo Zone Description'
+     * ];
+     *
+     * $this->load->model('localisation/geo_zone');
+     *
+     * $this->model_localisation_geo_zone->editGeoZone($geo_zone_id, $geo_zone_data);
+     */
+    public function editGeoZone(int $geo_zone_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "geo_zone` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `description` = '" . $this->db->escape((string)$data['description']) . "' WHERE `geo_zone_id` = '" . $geo_zone_id . "'");
 
 		$this->deleteZones($geo_zone_id);
 
@@ -80,22 +79,21 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Geo Zone
-	 *
-	 * Delete geo zone record in the database.
-	 *
-	 * @param int $geo_zone_id primary key of the geo zone record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/geo_zone');
-	 *
-	 * $this->model_localisation_geo_zone->deleteGeoZone($geo_zone_id);
-	 */
-	public function deleteGeoZone(int $geo_zone_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "geo_zone` WHERE `geo_zone_id` = '" . (int)$geo_zone_id . "'");
+     * Delete Geo Zone
+     *
+     * Delete geo zone record in the database.
+     *
+     * @param int $geo_zone_id primary key of the geo zone record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/geo_zone');
+     *
+     * $this->model_localisation_geo_zone->deleteGeoZone($geo_zone_id);
+     */
+    public function deleteGeoZone(int $geo_zone_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "geo_zone` WHERE `geo_zone_id` = '" . $geo_zone_id . "'");
 
 		$this->deleteZones($geo_zone_id);
 
@@ -118,7 +116,7 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	 * $geo_zone_info = $this->model_localisation_geo_zone->getGeoZone($geo_zone_id);
 	 */
 	public function getGeoZone(int $geo_zone_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "geo_zone` WHERE `geo_zone_id` = '" . (int)$geo_zone_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "geo_zone` WHERE `geo_zone_id` = '" . $geo_zone_id . "'");
 
 		return $query->row;
 	}
@@ -219,48 +217,46 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Zone
-	 *
-	 * Create a new zone to geo zone record in the database.
-	 *
-	 * @param int                  $geo_zone_id primary key of the geo zone record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $zone_to_geo_zone_data = [
-	 *     'geo_zone_id' => 1,
-	 *     'country_id'  => 1,
-	 *     'zone_id'     => 1
-	 * ];
-	 *
-	 * $this->load->model('localisation/geo_zone');
-	 *
-	 * $this->model_geo_zone->addZone($geo_zone_id, $zone_to_geo_zone_data);
-	 */
-	public function addZone(int $geo_zone_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "zone_to_geo_zone` SET `geo_zone_id` = '" . (int)$geo_zone_id . "', `country_id` = '" . (int)$data['country_id'] . "', `zone_id` = '" . (int)$data['zone_id'] . "'");
+     * Add Zone
+     *
+     * Create a new zone to geo zone record in the database.
+     *
+     * @param int                  $geo_zone_id primary key of the geo zone record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $zone_to_geo_zone_data = [
+     *     'geo_zone_id' => 1,
+     *     'country_id'  => 1,
+     *     'zone_id'     => 1
+     * ];
+     *
+     * $this->load->model('localisation/geo_zone');
+     *
+     * $this->model_geo_zone->addZone($geo_zone_id, $zone_to_geo_zone_data);
+     */
+    public function addZone(int $geo_zone_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "zone_to_geo_zone` SET `geo_zone_id` = '" . $geo_zone_id . "', `country_id` = '" . (int)$data['country_id'] . "', `zone_id` = '" . (int)$data['zone_id'] . "'");
 	}
 
 	/**
-	 * Delete Zones
-	 *
-	 * Delete zone to geo zone record in the database.
-	 *
-	 * @param int $geo_zone_id primary key of the geo zone record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/geo_zone');
-	 *
-	 * $this->model_geo_zone->deleteZones($geo_zone_id);
-	 */
-	public function deleteZones(int $geo_zone_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `geo_zone_id` = '" . (int)$geo_zone_id . "'");
+     * Delete Zones
+     *
+     * Delete zone to geo zone record in the database.
+     *
+     * @param int $geo_zone_id primary key of the geo zone record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/geo_zone');
+     *
+     * $this->model_geo_zone->deleteZones($geo_zone_id);
+     */
+    public function deleteZones(int $geo_zone_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `geo_zone_id` = '" . $geo_zone_id . "'");
 	}
 
 	/*
@@ -323,7 +319,7 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_localisation_geo_zone->getGeoZones($geo_zone_id);
 	 */
 	public function getZonesByCountryId(int $country_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `country_id` = '" . (int)$country_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `country_id` = '" . $country_id . "'");
 
 		return $query->rows;
 	}
@@ -371,7 +367,7 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	 * $geo_zone_total = $this->model_localisation_geo_zone->getTotalZoneToGeoZoneByCountryId($country_id);
 	 */
 	public function getTotalZoneToGeoZoneByCountryId(int $country_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `country_id` = '" . (int)$country_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `country_id` = '" . $country_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -392,7 +388,7 @@ class GeoZone extends \Opencart\System\Engine\Model {
 	 * $geo_zone_total = $this->model_localisation_geo_zone->getTotalZoneToGeoZoneByZoneId($zone_id);
 	 */
 	public function getTotalZoneToGeoZoneByZoneId(int $zone_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `zone_id` = '" . (int)$zone_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `zone_id` = '" . $zone_id . "'");
 
 		return (int)$query->row['total'];
 	}

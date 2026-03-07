@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Api extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketplace/api');
 
 		$data['user_token'] = $this->session->data['user_token'];
@@ -20,11 +18,9 @@ class Api extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('marketplace/api');
 
 		$json = [];

@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Developer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('common/developer');
 
 		$data['user_token'] = $this->session->data['user_token'];
@@ -22,11 +20,9 @@ class Developer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * HTML
-	 *
-	 * @return void
-	 */
-	public function html(): void {
+     * HTML
+     */
+    public function html(): void {
 		$this->load->language('common/developer');
 
 		$json = [];
@@ -50,11 +46,9 @@ class Developer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Cache
-	 *
-	 * @return void
-	 */
-	public function cache(): void {
+     * Cache
+     */
+    public function cache(): void {
 		$this->load->language('common/developer');
 
 		$json = [];
@@ -80,11 +74,9 @@ class Developer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Theme
-	 *
-	 * @return void
-	 */
-	public function theme(): void {
+     * Theme
+     */
+    public function theme(): void {
 		$this->load->language('common/developer');
 
 		$json = [];
@@ -96,13 +88,11 @@ class Developer extends \Opencart\System\Engine\Controller {
 		if (!$json) {
 			$directories = oc_directory_read(DIR_CACHE . 'template/');
 
-			if ($directories) {
-				foreach ($directories as $directory) {
+			foreach ($directories as $directory) {
 					if (is_dir($directory)) {
 						oc_directory_delete($directory);
 					}
 				}
-			}
 
 			$json['success'] = $this->language->get('text_theme_success');
 		}
@@ -112,13 +102,11 @@ class Developer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * SASS Catalog
-	 *
-	 * Generate catalog SASS file.
-	 *
-	 * @return void
-	 */
-	public function sass_catalog(): void {
+     * SASS Catalog
+     *
+     * Generate catalog SASS file.
+     */
+    public function sass_catalog(): void {
 		$this->load->language('common/developer');
 
 		$json = [];
@@ -152,13 +140,11 @@ class Developer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * SASS Admin
-	 *
-	 * Generate admin SASS file.
-	 *
-	 * @return void
-	 */
-	public function sass_admin(): void {
+     * SASS Admin
+     *
+     * Generate admin SASS file.
+     */
+    public function sass_admin(): void {
 		$this->load->language('common/developer');
 
 		$json = [];
@@ -193,13 +179,11 @@ class Developer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Vendor
-	 *
-	 * Generate new autoloader file
-	 *
-	 * @return void
-	 */
-	public function vendor(): void {
+     * Vendor
+     *
+     * Generate new autoloader file
+     */
+    public function vendor(): void {
 		$this->load->language('common/developer');
 
 		$json = [];

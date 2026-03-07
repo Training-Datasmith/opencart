@@ -13,9 +13,6 @@ namespace Opencart\System\Library;
  * Class Cache
  */
 class Cache {
-	/**
-	 * @var object
-	 */
 	private object $adaptor;
 
 	/**
@@ -48,30 +45,26 @@ class Cache {
 	}
 
 	/**
-	 * Set
-	 *
-	 * Sets a cache by key value.
-	 *
-	 * @param string $key    The cache key
-	 * @param mixed  $value  The cache value
-	 * @param int    $expire The cache expiry
-	 *
-	 * @return void
-	 */
-	public function set(string $key, $value, int $expire = 0): void {
+     * Set
+     *
+     * Sets a cache by key value.
+     *
+     * @param string $key    The cache key
+     * @param mixed  $value  The cache value
+     * @param int    $expire The cache expiry
+     */
+    public function set(string $key, $value, int $expire = 0): void {
 		$this->adaptor->set($key, $value, $expire);
 	}
 
 	/**
-	 * Delete
-	 *
-	 * Deletes a cache by key name.
-	 *
-	 * @param string $key The cache key
-	 *
-	 * @return void
-	 */
-	public function delete(string $key): void {
+     * Delete
+     *
+     * Deletes a cache by key name.
+     *
+     * @param string $key The cache key
+     */
+    public function delete(string $key): void {
 		$this->adaptor->delete($key);
 	}
 }

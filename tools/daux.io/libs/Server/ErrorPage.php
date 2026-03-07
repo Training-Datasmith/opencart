@@ -10,17 +10,13 @@ class ErrorPage extends SimplePage
     public const MISSING_PAGE_ERROR_TYPE = 'MISSING_PAGE_ERROR';
     public const FATAL_ERROR_TYPE = 'FATAL_ERROR';
 
-    private Config $config;
-
     /**
      * @param string $title
      * @param string $content
-     * @param \Todaymade\Daux\Config $config
      */
-    public function __construct($title, $content, $config)
+    public function __construct($title, $content, private Config $config)
     {
         parent::__construct($title, $content);
-        $this->config = $config;
     }
 
     /**

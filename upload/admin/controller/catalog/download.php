@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Catalog;
  */
 class Download extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('catalog/download');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -53,22 +51,18 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('catalog/download');
 
 		$this->response->setOutput($this->load->controller('catalog/download.getList'));
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['sort'])) {
 			$sort = (string)$this->request->get['sort'];
 		} else {
@@ -155,11 +149,9 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('catalog/download');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -243,11 +235,9 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('catalog/download');
 
 		$json = [];
@@ -275,7 +265,7 @@ class Download extends \Opencart\System\Engine\Controller {
 			$json['error']['filename'] = $this->language->get('error_filename');
 		}
 
-		if (substr(str_replace('\\', '/', realpath(DIR_DOWNLOAD . $post_info['filename'])), 0, strlen(DIR_DOWNLOAD)) != DIR_DOWNLOAD) {
+		if (!str_starts_with(str_replace('\\', '/', realpath(DIR_DOWNLOAD . $post_info['filename'])), DIR_DOWNLOAD)) {
 			$json['error']['filename'] = $this->language->get('error_directory');
 		}
 
@@ -317,11 +307,9 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('catalog/download');
 
 		$json = [];
@@ -364,22 +352,18 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Report
-	 *
-	 * @return void
-	 */
-	public function report(): void {
+     * Report
+     */
+    public function report(): void {
 		$this->load->language('catalog/download');
 
 		$this->response->setOutput($this->getReport());
 	}
 
 	/**
-	 * Get Report
-	 *
-	 * @return string
-	 */
-	private function getReport(): string {
+     * Get Report
+     */
+    private function getReport(): string {
 		if (isset($this->request->get['download_id'])) {
 			$download_id = (int)$this->request->get['download_id'];
 		} else {
@@ -444,11 +428,9 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Upload
-	 *
-	 * @return void
-	 */
-	public function upload(): void {
+     * Upload
+     */
+    public function upload(): void {
 		$this->load->language('catalog/download');
 
 		$json = [];
@@ -503,11 +485,9 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return void
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		$this->load->language('catalog/download');
 
 		if (isset($this->request->get['filename'])) {
@@ -531,40 +511,30 @@ class Download extends \Opencart\System\Engine\Controller {
 
 				readfile($file);
 				exit();
-			} else {
-				exit($this->language->get('error_headers_sent'));
 			}
-		} else {
-			$this->load->language('error/not_found');
-
-			$this->document->setTitle($this->language->get('heading_title'));
-
-			$data['breadcrumbs'] = [];
-
-			$data['breadcrumbs'][] = [
+            exit($this->language->get('error_headers_sent'));
+		}
+        $this->load->language('error/not_found');
+        $this->document->setTitle($this->language->get('heading_title'));
+        $data['breadcrumbs'] = [];
+        $data['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
 				'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
 			];
-
-			$data['breadcrumbs'][] = [
+        $data['breadcrumbs'][] = [
 				'text' => $this->language->get('heading_title'),
 				'href' => $this->url->link('error/not_found', 'user_token=' . $this->session->data['user_token'])
 			];
-
-			$data['header'] = $this->load->controller('common/header');
-			$data['column_left'] = $this->load->controller('common/column_left');
-			$data['footer'] = $this->load->controller('common/footer');
-
-			$this->response->setOutput($this->load->view('error/not_found', $data));
-		}
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+        $this->response->setOutput($this->load->view('error/not_found', $data));
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {

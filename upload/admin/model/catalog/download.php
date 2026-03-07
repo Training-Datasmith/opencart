@@ -42,29 +42,28 @@ class Download extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Download
-	 *
-	 * Edit download record in the database.
-	 *
-	 * @param int                  $download_id primary key of the download record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $download_data = [
-	 *     'download_description' => [],
-	 *     'filename'             => 'download_filename',
-	 *     'mask'                 => 'mask string',
-	 * ];
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $this->model_catalog_download->editDownload($download_id, $download_data);
-	 */
-	public function editDownload(int $download_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string)$data['filename']) . "', `mask` = '" . $this->db->escape((string)$data['mask']) . "' WHERE `download_id` = '" . (int)$download_id . "'");
+     * Edit Download
+     *
+     * Edit download record in the database.
+     *
+     * @param int                  $download_id primary key of the download record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $download_data = [
+     *     'download_description' => [],
+     *     'filename'             => 'download_filename',
+     *     'mask'                 => 'mask string',
+     * ];
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $this->model_catalog_download->editDownload($download_id, $download_data);
+     */
+    public function editDownload(int $download_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string)$data['filename']) . "', `mask` = '" . $this->db->escape((string)$data['mask']) . "' WHERE `download_id` = '" . $download_id . "'");
 
 		$this->model_catalog_download->deleteDescriptions($download_id);
 
@@ -74,22 +73,21 @@ class Download extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Download
-	 *
-	 * Delete download record in the database.
-	 *
-	 * @param int $download_id primary key of the download record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $this->model_catalog_download->deleteDownload($download_id);
-	 */
-	public function deleteDownload(int $download_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "download` WHERE `download_id` = '" . (int)$download_id . "'");
+     * Delete Download
+     *
+     * Delete download record in the database.
+     *
+     * @param int $download_id primary key of the download record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $this->model_catalog_download->deleteDownload($download_id);
+     */
+    public function deleteDownload(int $download_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "download` WHERE `download_id` = '" . $download_id . "'");
 
 		$this->model_catalog_download->deleteDescriptions($download_id);
 		$this->model_catalog_download->deleteReports($download_id);
@@ -116,7 +114,7 @@ class Download extends \Opencart\System\Engine\Model {
 	 * $download_info = $this->model_catalog_download->getDownload($download_id);
 	 */
 	public function getDownload(int $download_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "download` `d` LEFT JOIN `" . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `d`.`download_id` = '" . (int)$download_id . "' AND `dd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "download` `d` LEFT JOIN `" . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `d`.`download_id` = '" . $download_id . "' AND `dd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
@@ -222,66 +220,63 @@ class Download extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Description
-	 *
-	 * Create a new download description record in the database.
-	 *
-	 * @param int                  $download_id primary key of the download record
-	 * @param int                  $language_id primary key of the language record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $download_data['download_description'] = [
-	 *     'name' => 'Download Name'
-	 * ];
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $this->model_catalog_download->addDescription($download_id, $language_id, $download_data);
-	 */
-	public function addDescription(int $download_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "download_description` SET `download_id` = '" . (int)$download_id . "', `language_id` = '" . (int)$language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
+     * Add Description
+     *
+     * Create a new download description record in the database.
+     *
+     * @param int                  $download_id primary key of the download record
+     * @param int                  $language_id primary key of the language record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $download_data['download_description'] = [
+     *     'name' => 'Download Name'
+     * ];
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $this->model_catalog_download->addDescription($download_id, $language_id, $download_data);
+     */
+    public function addDescription(int $download_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "download_description` SET `download_id` = '" . $download_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
 	}
 
 	/**
-	 * Delete Descriptions
-	 *
-	 * Delete download description records in the database.
-	 *
-	 * @param int $download_id primary key of the download record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $this->model_catalog_download->deleteDescriptions($download_id);
-	 */
-	public function deleteDescriptions(int $download_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "download_description` WHERE `download_id` = '" . (int)$download_id . "'");
+     * Delete Descriptions
+     *
+     * Delete download description records in the database.
+     *
+     * @param int $download_id primary key of the download record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $this->model_catalog_download->deleteDescriptions($download_id);
+     */
+    public function deleteDescriptions(int $download_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "download_description` WHERE `download_id` = '" . $download_id . "'");
 	}
 
 	/**
-	 * Delete Descriptions By Language ID
-	 *
-	 * Delete download descriptions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $this->model_catalog_download->deleteDescriptionsByLanguageId($language_id);
-	 */
-	public function deleteDescriptionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "download_description` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Descriptions By Language ID
+     *
+     * Delete download descriptions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $this->model_catalog_download->deleteDescriptionsByLanguageId($language_id);
+     */
+    public function deleteDescriptionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "download_description` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -302,7 +297,7 @@ class Download extends \Opencart\System\Engine\Model {
 	public function getDescriptions(int $download_id): array {
 		$download_description_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "download_description` WHERE `download_id` = '" . (int)$download_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "download_description` WHERE `download_id` = '" . $download_id . "'");
 
 		foreach ($query->rows as $result) {
 			$download_description_data[$result['language_id']] = $result;
@@ -327,29 +322,27 @@ class Download extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_catalog_download->getDescriptionsByLanguageId($language_id);
 	 */
 	public function getDescriptionsByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "download_description` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "download_description` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Get Reports
-	 *
-	 * Get the record of the download report records in the database.
-	 *
-	 * @param int $download_id primary key of the download record
-	 * @param int $start
-	 * @param int $limit
-	 *
-	 * @return array<int, array<string, mixed>> report records that have download ID
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $results = $this->model_catalog_download->getReports($download_id, $start, $limit);
-	 */
-	public function getReports(int $download_id, int $start = 0, int $limit = 10): array {
+     * Get Reports
+     *
+     * Get the record of the download report records in the database.
+     *
+     * @param int $download_id primary key of the download record
+     *
+     * @return array<int, array<string, mixed>> report records that have download ID
+     *
+     * @example
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $results = $this->model_catalog_download->getReports($download_id, $start, $limit);
+     */
+    public function getReports(int $download_id, int $start = 0, int $limit = 10): array {
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -358,28 +351,27 @@ class Download extends \Opencart\System\Engine\Model {
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT `ip`, `store_id`, `country`, `date_added` FROM `" . DB_PREFIX . "download_report` WHERE `download_id` = '" . (int)$download_id . "' ORDER BY `date_added` ASC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT `ip`, `store_id`, `country`, `date_added` FROM `" . DB_PREFIX . "download_report` WHERE `download_id` = '" . $download_id . "' ORDER BY `date_added` ASC LIMIT " . $start . "," . $limit);
 
 		return $query->rows;
 	}
 
 	/**
-	 * Delete Reports
-	 *
-	 * Delete download report records in the database.
-	 *
-	 * @param int $download_id primary key of the download record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/download');
-	 *
-	 * $this->model_catalog_download->deleteReports($download_id);
-	 */
-	public function deleteReports(int $download_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "download_report` WHERE `download_id` = '" . (int)$download_id . "'");
+     * Delete Reports
+     *
+     * Delete download report records in the database.
+     *
+     * @param int $download_id primary key of the download record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/download');
+     *
+     * $this->model_catalog_download->deleteReports($download_id);
+     */
+    public function deleteReports(int $download_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "download_report` WHERE `download_id` = '" . $download_id . "'");
 	}
 
 	/**
@@ -398,7 +390,7 @@ class Download extends \Opencart\System\Engine\Model {
 	 * $report_total = $this->model_catalog_download->getTotalReports($download_id);
 	 */
 	public function getTotalReports(int $download_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "download_report` WHERE `download_id` = '" . (int)$download_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "download_report` WHERE `download_id` = '" . $download_id . "'");
 
 		return (int)$query->row['total'];
 	}

@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Currency extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate currency list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate currency list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/currency');
 
 		// Stores
@@ -25,7 +23,7 @@ class Currency extends \Opencart\System\Engine\Controller {
 		$this->load->model('setting/setting');
 		$this->load->model('setting/task');
 
-		$store_ids = [0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
+		[0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
 
 		/*
 		foreach ($store_ids as $store_id) {
@@ -64,15 +62,13 @@ class Currency extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate currency list by store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate currency list by store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/catalog/currency');
 
 		// Store
@@ -136,15 +132,13 @@ class Currency extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * Delete files based on country ID
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function delete(array $args = []): array {
+     * Delete
+     *
+     * Delete files based on country ID
+     *
+     * @param array<string, string> $args
+     */
+    public function delete(array $args = []): array {
 		$this->load->language('task/catalog/currency');
 
 		$stores = [];

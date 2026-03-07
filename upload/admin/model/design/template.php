@@ -9,114 +9,108 @@ namespace Opencart\Admin\Model\Design;
  */
 class Template extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Template
-	 *
-	 * Create a new template record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $template_data = [
-	 *     'route'  => '',
-	 *     'code'   => '',
-	 *     'status' => 0
-	 * ];
-	 *
-	 * $this->load->model('design/template');
-	 *
-	 * $template_id = $this->model_design_template->addTemplate($template_data);
-	 */
-	public function addTemplate(array $data): int {
+     * Add Template
+     *
+     * Create a new template record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $template_data = [
+     *     'route'  => '',
+     *     'code'   => '',
+     *     'status' => 0
+     * ];
+     *
+     * $this->load->model('design/template');
+     *
+     * $template_id = $this->model_design_template->addTemplate($template_data);
+     */
+    public function addTemplate(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "template` SET `store_id` = '" . (int)$data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW()");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Edit Template
-	 *
-	 * Edit template record in the database.
-	 *
-	 * @param int                  $template_id primary key of the template record
-	 * @param array<string, mixed> $data     array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $template_data = [
-	 *     'route'  => '',
-	 *     'code'   => '',
-	 *     'status' => 1
-	 * ];
-	 *
-	 * $this->load->model('design/template');
-	 *
-	 * $this->model_design_template->editTemplate($template_id, $template_data);
-	 */
-	public function editTemplate(int $template_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "template` SET `store_id` = '" . (int)$data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW() WHERE `template_id` = '" . (int)$template_id . "'");
+     * Edit Template
+     *
+     * Edit template record in the database.
+     *
+     * @param int                  $template_id primary key of the template record
+     * @param array<string, mixed> $data     array of data
+     *
+     *
+     * @example
+     *
+     * $template_data = [
+     *     'route'  => '',
+     *     'code'   => '',
+     *     'status' => 1
+     * ];
+     *
+     * $this->load->model('design/template');
+     *
+     * $this->model_design_template->editTemplate($template_id, $template_data);
+     */
+    public function editTemplate(int $template_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "template` SET `store_id` = '" . (int)$data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW() WHERE `template_id` = '" . $template_id . "'");
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit category status record in the database.
-	 *
-	 * @param int  $category_id primary key of the category record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/category');
-	 *
-	 * $this->model_catalog_category->editStatus($category_id, $status);
-	 */
-	public function editStatus(int $template_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "template` SET `status` = '" . (bool)$status . "' WHERE `template_id` = '" . (int)$template_id . "'");
+     * Edit Status
+     *
+     * Edit category status record in the database.
+     *
+     * @param int  $category_id primary key of the category record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/category');
+     *
+     * $this->model_catalog_category->editStatus($category_id, $status);
+     */
+    public function editStatus(int $template_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "template` SET `status` = '" . $status . "' WHERE `template_id` = '" . $template_id . "'");
 	}
 
 	/**
-	 * Delete Template
-	 *
-	 * Delete template record in the database.
-	 *
-	 * @param int $template_id primary key of the template record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('design/template');
-	 *
-	 * $this->model_design_template->deleteTemplate($template_id);
-	 */
-	public function deleteTemplate(int $template_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "template` WHERE `template_id` = '" . (int)$template_id . "'");
+     * Delete Template
+     *
+     * Delete template record in the database.
+     *
+     * @param int $template_id primary key of the template record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('design/template');
+     *
+     * $this->model_design_template->deleteTemplate($template_id);
+     */
+    public function deleteTemplate(int $template_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "template` WHERE `template_id` = '" . $template_id . "'");
 	}
 
 	/**
-	 * Delete Templates By Store ID
-	 *
-	 * Delete templates by store record in the database.
-	 *
-	 * @param int $store_id primary key of the store record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('design/template');
-	 *
-	 * $this->model_design_template->deleteTemplatesByStoreId($store_id);
-	 */
-	public function deleteTemplatesByStoreId(int $store_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "template` WHERE `store_id` = '" . (int)$store_id . "'");
+     * Delete Templates By Store ID
+     *
+     * Delete templates by store record in the database.
+     *
+     * @param int $store_id primary key of the store record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('design/template');
+     *
+     * $this->model_design_template->deleteTemplatesByStoreId($store_id);
+     */
+    public function deleteTemplatesByStoreId(int $store_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "template` WHERE `store_id` = '" . $store_id . "'");
 	}
 
 	/**
@@ -135,7 +129,7 @@ class Template extends \Opencart\System\Engine\Model {
 	 * $template_info = $this->model_design_template->getTemplate($template_id);
 	 */
 	public function getTemplate(int $template_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "template` WHERE `template_id` = '" . (int)$template_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "template` WHERE `template_id` = '" . $template_id . "'");
 
 		return $query->row;
 	}

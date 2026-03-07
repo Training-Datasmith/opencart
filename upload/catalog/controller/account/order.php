@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Order extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/order');
 
 		if (isset($this->request->get['page'])) {
@@ -109,11 +107,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function info() {
+     * Info
+     */
+    public function info(): ?\Opencart\System\Engine\Action {
 		$this->load->language('account/order');
 
 		if (isset($this->request->get['order_id'])) {
@@ -389,17 +385,14 @@ class Order extends \Opencart\System\Engine\Controller {
 			$this->response->setOutput($this->load->view('account/order_info', $data));
 
 			return null;
-		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
 		}
+        return new \Opencart\System\Engine\Action('error/not_found');
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('account/order');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -412,11 +405,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	protected function getHistory(): string {
+     * Get History
+     */
+    protected function getHistory(): string {
 		if (isset($this->request->get['order_id'])) {
 			$order_id = (int)$this->request->get['order_id'];
 		} else {

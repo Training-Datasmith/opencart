@@ -9,13 +9,10 @@ use Todaymade\Daux\Config;
 
 class TableOfContentsRenderer implements NodeRendererInterface
 {
-    private Config $dauxConfig;
-
     private ListBlockRenderer $parent;
 
-    public function __construct(Config $config)
+    public function __construct(private Config $dauxConfig)
     {
-        $this->dauxConfig = $config;
         $this->parent = new ListBlockRenderer();
     }
 

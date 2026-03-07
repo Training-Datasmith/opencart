@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Cms;
  */
 class Article extends \Opencart\System\Engine\Controller {
 	/**
-	 * Info
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function index() {
+     * Info
+     */
+    public function index(): ?\Opencart\System\Engine\Action {
 		$this->load->language('cms/article');
 
 		if (isset($this->request->get['article_id'])) {

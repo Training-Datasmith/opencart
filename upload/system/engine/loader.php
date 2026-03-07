@@ -16,57 +16,43 @@ namespace Opencart\System\Engine;
  */
 class Loader {
 	/**
-	 * @var \Opencart\System\Engine\Registry
-	 */
-	protected \Opencart\System\Engine\Registry $registry;
+     * Constructor
+     */
+    public function __construct(protected \Opencart\System\Engine\Registry $registry)
+    {
+    }
 
 	/**
-	 * Constructor
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
-		$this->registry = $registry;
-	}
-
-	/**
-	 * __get
-	 *
-	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
-	 *
-	 * @param string $key
-	 *
-	 * @return object
-	 */
-	public function __get(string $key): object {
+     * __get
+     *
+     * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
+     *
+     *
+     */
+    public function __get(string $key): object {
 		return $this->registry->get($key);
 	}
 
 	/**
-	 * __set
-	 *
-	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
-	 *
-	 * @param string $key
-	 * @param object $value
-	 *
-	 * @return void
-	 */
-	public function __set(string $key, object $value): void {
+     * __set
+     *
+     * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
+     *
+     *
+     */
+    public function __set(string $key, object $value): void {
 		$this->registry->set($key, $value);
 	}
 
 	/**
-	 * Controller
-	 *
-	 * https://wiki.php.net/rfc/variadics
-	 *
-	 * @param string $route
-	 * @param mixed  $args
-	 *
-	 * @return mixed
-	 */
-	public function controller(string $route, ...$args) {
+     * Controller
+     *
+     * https://wiki.php.net/rfc/variadics
+     *
+     * @param mixed  $args
+     * @return mixed
+     */
+    public function controller(string $route, ...$args) {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', str_replace('|', '.', $route));
 
@@ -83,7 +69,7 @@ class Loader {
 		}
 
 		// Stop any magical methods being called
-		if (substr($method, 0, 2) == '__') {
+		if (str_starts_with($method, '__')) {
 			return new \Exception('Error: Calls to magic methods are not allowed!');
 		}
 
@@ -122,13 +108,11 @@ class Loader {
 	}
 
 	/**
-	 * Model
-	 *
-	 * @param string $route
-	 *
-	 * @return void
-	 */
-	public function model(string $route): void {
+     * Model
+     *
+     *
+     */
+    public function model(string $route): void {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -151,7 +135,7 @@ class Loader {
 		$proxy = new \Opencart\System\Engine\Proxy();
 
 		foreach (get_class_methods($object) as $method) {
-			if (substr($method, 0, 2) != '__') {
+			if (!str_starts_with($method, '__')) {
 				$proxy->{$method} = $this->callback($route . '.' . $method);
 			}
 		}
@@ -161,17 +145,14 @@ class Loader {
 	}
 
 	/**
-	 * View
-	 *
-	 * Loads the template file and generates the html code.
-	 *
-	 * @param string               $route
-	 * @param array<string, mixed> $data
-	 * @param string               $code
-	 *
-	 * @return string
-	 */
-	public function view(string $route, array $data = [], string $code = ''): string {
+     * View
+     *
+     * Loads the template file and generates the html code.
+     *
+     * @param array<string, mixed> $data
+     *
+     */
+    public function view(string $route, array $data = [], string $code = ''): string {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -182,10 +163,8 @@ class Loader {
 		// Trigger the pre events
 		$this->event->trigger('view/' . $trigger . '/before', [&$route, &$data, &$code, &$output]);
 
-		if (!$output) {
-			// Make sure it's only the last event that returns an output, if required.
-			$output = $this->template->render($route, $data, $code);
-		}
+		// Make sure it's only the last event that returns an output, if required.
+        $output = $this->template->render($route, $data, $code);
 
 		// Trigger the post events
 		$this->event->trigger('view/' . $trigger . '/after', [&$route, &$data, &$output]);
@@ -194,15 +173,12 @@ class Loader {
 	}
 
 	/**
-	 * Language
-	 *
-	 * @param string $route
-	 * @param string $prefix
-	 * @param string $code
-	 *
-	 * @return array<string, string>
-	 */
-	public function language(string $route, string $prefix = '', string $code = ''): array {
+     * Language
+     *
+     *
+     * @return array<string, string>
+     */
+    public function language(string $route, string $prefix = '', string $code = ''): array {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
 
@@ -220,14 +196,12 @@ class Loader {
 	}
 
 	/**
-	 * Library
-	 *
-	 * @param string       $route
-	 * @param array<mixed> $args
-	 *
-	 * @return object
-	 */
-	public function library(string $route, &...$args): object {
+     * Library
+     *
+     * @param array<mixed> $args
+     *
+     */
+    public function library(string $route, &...$args): object {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -251,13 +225,12 @@ class Loader {
 	}
 
 	/**
-	 * Config
-	 *
-	 * @param string $route
-	 *
-	 * @return array<string, string>
-	 */
-	public function config(string $route): array {
+     * Config
+     *
+     *
+     * @return array<string, string>
+     */
+    public function config(string $route): array {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
 
@@ -275,13 +248,11 @@ class Loader {
 	}
 
 	/**
-	 * Helper
-	 *
-	 * @param string $route
-	 *
-	 * @return void
-	 */
-	public function helper(string $route): void {
+     * Helper
+     *
+     *
+     */
+    public function helper(string $route): void {
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
 		if (!str_starts_with($route, 'extension/')) {
@@ -302,13 +273,11 @@ class Loader {
 	}
 
 	/**
-	 * Callback
-	 *
-	 * @param string $route
-	 *
-	 * @return callable
-	 */
-	public function callback($route): callable {
+     * Callback
+     *
+     * @param string $route
+     */
+    public function callback($route): callable {
 		return function(&...$args) use ($route) {
 			$trigger = $route;
 

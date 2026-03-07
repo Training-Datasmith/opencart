@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Password extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/password');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -53,11 +51,9 @@ class Password extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('account/password');
 
 		$json = [];

@@ -35,23 +35,16 @@ class FreeCheckout extends \Opencart\System\Engine\Model {
 		} else {
 			$status = false;
 		}
-
-		$method_data = [];
-
-		if ($status) {
-			$option_data['free_checkout'] = [
+        $option_data['free_checkout'] = [
 				'code' => 'free_checkout.free_checkout',
 				'name' => $this->language->get('heading_title')
 			];
 
-			$method_data = [
+		return [
 				'code'       => 'free_checkout',
 				'name'       => $this->language->get('heading_title'),
 				'option'     => $option_data,
 				'sort_order' => $this->config->get('payment_free_checkout_sort_order')
 			];
-		}
-
-		return $method_data;
 	}
 }

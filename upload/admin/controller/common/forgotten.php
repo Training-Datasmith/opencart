@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Forgotten extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('common/forgotten');
 
 		if ($this->user->isLogged() || !$this->config->get('config_mail_engine')) {
@@ -44,11 +42,9 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @return void
-	 */
-	public function confirm(): void {
+     * Confirm
+     */
+    public function confirm(): void {
 		$this->load->language('common/forgotten');
 
 		$json = [];
@@ -84,11 +80,9 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reset
-	 *
-	 * @return void
-	 */
-	public function reset(): void {
+     * Reset
+     */
+    public function reset(): void {
 		$this->load->language('common/forgotten');
 
 		if (isset($this->request->get['email'])) {
@@ -146,11 +140,9 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Password
-	 *
-	 * @return void
-	 */
-	public function password(): void {
+     * Password
+     */
+    public function password(): void {
 		$this->load->language('common/forgotten');
 
 		$json = [];

@@ -9,25 +9,24 @@ namespace Opencart\Admin\Model\Localisation;
  */
 class ReturnAction extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Return Action
-	 *
-	 * Create a new return action record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return ?int
-	 *
-	 * @example
-	 *
-	 * $return_action_data['return_action'][1] = [
-	 *     'name' => 'Return Action Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/return_action');
-	 *
-	 * $return_action_id = $this->model_localisation_return_action->addReturnAction($return_action_data);
-	 */
-	public function addReturnAction(array $data): ?int {
+     * Add Return Action
+     *
+     * Create a new return action record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $return_action_data['return_action'][1] = [
+     *     'name' => 'Return Action Name'
+     * ];
+     *
+     * $this->load->model('localisation/return_action');
+     *
+     * $return_action_id = $this->model_localisation_return_action->addReturnAction($return_action_data);
+     */
+    public function addReturnAction(array $data): ?int {
 		$return_action_id = 0;
 
 		foreach ($data['return_action'] as $language_id => $return_action) {
@@ -46,26 +45,25 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Return Action
-	 *
-	 * Edit return action record in the database.
-	 *
-	 * @param int                  $return_action_id primary key of the return action record
-	 * @param array<string, mixed> $data             array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $return_action_data['return_action'][1] = [
-	 *     'name' => 'Return Action Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/return_action');
-	 *
-	 * $this->model_localisation_return_action->editReturnAction($return_action_id, $return_action_data);
-	 */
-	public function editReturnAction(int $return_action_id, array $data): void {
+     * Edit Return Action
+     *
+     * Edit return action record in the database.
+     *
+     * @param int                  $return_action_id primary key of the return action record
+     * @param array<string, mixed> $data             array of data
+     *
+     *
+     * @example
+     *
+     * $return_action_data['return_action'][1] = [
+     *     'name' => 'Return Action Name'
+     * ];
+     *
+     * $this->load->model('localisation/return_action');
+     *
+     * $this->model_localisation_return_action->editReturnAction($return_action_id, $return_action_data);
+     */
+    public function editReturnAction(int $return_action_id, array $data): void {
 		$this->deleteReturnAction($return_action_id);
 
 		foreach ($data['return_action'] as $language_id => $return_action) {
@@ -76,43 +74,41 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Return Action
-	 *
-	 * Delete return action record in the database.
-	 *
-	 * @param int $return_action_id primary key of the return action record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/return_action');
-	 *
-	 * $this->model_localisation_return_action->deleteReturnAction($return_action_id);
-	 */
-	public function deleteReturnAction(int $return_action_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . (int)$return_action_id . "'");
+     * Delete Return Action
+     *
+     * Delete return action record in the database.
+     *
+     * @param int $return_action_id primary key of the return action record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/return_action');
+     *
+     * $this->model_localisation_return_action->deleteReturnAction($return_action_id);
+     */
+    public function deleteReturnAction(int $return_action_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . $return_action_id . "'");
 
 		$this->cache->delete('return_action');
 	}
 
 	/**
-	 * Delete Return Actions By Language ID
-	 *
-	 * Delete return actions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/return_action');
-	 *
-	 * $this->model_localisation_return_action->deleteReturnActionsByLanguageId($language_id);
-	 */
-	public function deleteReturnActionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "return_action` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Return Actions By Language ID
+     *
+     * Delete return actions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/return_action');
+     *
+     * $this->model_localisation_return_action->deleteReturnActionsByLanguageId($language_id);
+     */
+    public function deleteReturnActionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "return_action` WHERE `language_id` = '" . $language_id . "'");
 
 		$this->cache->delete('return_action');
 	}
@@ -133,7 +129,7 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	 * $return_action_info = $this->model_localisation_return_action->getReturnAction($return_action_id);
 	 */
 	public function getReturnAction(int $return_action_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . (int)$return_action_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . $return_action_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
@@ -228,49 +224,47 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Description
-	 *
-	 * Create a new return action description record in the database.
-	 *
-	 * @param int                  $return_action_id primary key of the return action record
-	 * @param int                  $language_id      primary key of the language record
-	 * @param array<string, mixed> $data             array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $return_action_data = [
-	 *     'return_action_id' => 1,
-	 *     'language_id'      => 1,
-	 *     'name'             => 'Return Action Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/return_action');
-	 *
-	 * $this->model_localisation_return_action->addDescription($return_action_id, $language_id, $return_action_data);
-	 */
-	public function addDescription(int $return_action_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "return_action` SET `return_action_id` = '" . (int)$return_action_id . "', `language_id` = '" . (int)$language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
+     * Add Description
+     *
+     * Create a new return action description record in the database.
+     *
+     * @param int                  $return_action_id primary key of the return action record
+     * @param int                  $language_id      primary key of the language record
+     * @param array<string, mixed> $data             array of data
+     *
+     *
+     * @example
+     *
+     * $return_action_data = [
+     *     'return_action_id' => 1,
+     *     'language_id'      => 1,
+     *     'name'             => 'Return Action Name'
+     * ];
+     *
+     * $this->load->model('localisation/return_action');
+     *
+     * $this->model_localisation_return_action->addDescription($return_action_id, $language_id, $return_action_data);
+     */
+    public function addDescription(int $return_action_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "return_action` SET `return_action_id` = '" . $return_action_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
 	}
 
 	/**
-	 * Delete Descriptions By Language ID
-	 *
-	 * Delete country descriptions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->deleteDescriptionsByLanguageId($language_id);
-	 */
-	public function deleteDescriptionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "return_action` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Descriptions By Language ID
+     *
+     * Delete country descriptions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->deleteDescriptionsByLanguageId($language_id);
+     */
+    public function deleteDescriptionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "return_action` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -290,7 +284,7 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	 * $description = $this->model_localisation_country->getDescription($country_id, $language_id);
 	 */
 	public function getDescription(int $return_action_id, int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . (int)$return_action_id . "' AND `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . $return_action_id . "' AND `language_id` = '" . $language_id . "'");
 
 		return $query->row;
 	}
@@ -313,7 +307,7 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	public function getDescriptions(int $return_action_id): array {
 		$return_action_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . (int)$return_action_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `return_action_id` = '" . $return_action_id . "'");
 
 		foreach ($query->rows as $result) {
 			$return_action_data[$result['language_id']] = $result;
@@ -338,7 +332,7 @@ class ReturnAction extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_localisation_return_action->getDescriptionsByLanguageId($language_id);
 	 */
 	public function getDescriptionsByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "return_action` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}

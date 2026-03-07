@@ -7,19 +7,17 @@ namespace Opencart\Catalog\Controller\Event;
  */
 class Statistics extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Review
-	 *
-	 * Trigger
-	 *
-	 * catalog/model/catalog/review.addReview/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addReview(string &$route, array &$args, &$output): void {
+     * Add Review
+     *
+     * Trigger
+     *
+     * catalog/model/catalog/review.addReview/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addReview(string &$route, array &$args, &$output): void {
 		// Stats
 		$this->load->model('report/statistics');
 
@@ -27,19 +25,17 @@ class Statistics extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add Return
-	 *
-	 * Trigger
-	 *
-	 * catalog/model/account/returns.addReturn/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addReturn(string &$route, array &$args, &$output): void {
+     * Add Return
+     *
+     * Trigger
+     *
+     * catalog/model/account/returns.addReturn/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addReturn(string &$route, array &$args, &$output): void {
 		// Stats
 		$this->load->model('report/statistics');
 
@@ -47,18 +43,16 @@ class Statistics extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add History
-	 *
-	 * Trigger
-	 * 
-	 * catalog/model/checkout/order.addHistory/before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 *
-	 * @return void
-	 */
-	public function addHistory(string &$route, array &$args): void {
+     * Add History
+     *
+     * Trigger
+     *
+     * catalog/model/checkout/order.addHistory/before
+     *
+     * @param array<int, mixed> $args
+     *
+     */
+    public function addHistory(string &$route, array &$args): void {
 		// Order
 		$this->load->model('checkout/order');
 

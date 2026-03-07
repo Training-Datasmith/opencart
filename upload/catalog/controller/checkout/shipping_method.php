@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Checkout;
  */
 class ShippingMethod extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('checkout/shipping_method');
 
 		if (isset($this->session->data['shipping_method'])) {
@@ -29,11 +27,9 @@ class ShippingMethod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Quote
-	 *
-	 * @return void
-	 */
-	public function quote(): void {
+     * Quote
+     */
+    public function quote(): void {
 		$this->load->language('checkout/shipping_method');
 
 		$json = [];
@@ -78,11 +74,9 @@ class ShippingMethod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('checkout/shipping_method');
 
 		$json = [];

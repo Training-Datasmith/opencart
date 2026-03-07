@@ -9,22 +9,18 @@ namespace Opencart\Admin\Controller\Customer;
  */
 class Address extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getAddress());
 	}
 
 	/**
-	 * Get Address
-	 *
-	 * @return string
-	 */
-	public function getAddress(): string {
+     * Get Address
+     */
+    public function getAddress(): string {
 		$this->load->language('customer/customer');
 
 		if (isset($this->request->get['customer_id'])) {
@@ -55,11 +51,9 @@ class Address extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('customer/customer');
 
 		if (isset($this->request->get['customer_id'])) {
@@ -185,11 +179,9 @@ class Address extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -308,11 +300,9 @@ class Address extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -347,11 +337,9 @@ class Address extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Address
-	 *
-	 * @return void
-	 */
-	public function address(): void {
+     * Address
+     */
+    public function address(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];

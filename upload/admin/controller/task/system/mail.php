@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Task\System;
  */
 class Mail extends \Opencart\System\Engine\Controller {
 	/**
-	 * Generate
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Generate
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/system/mail');
 
 		if (!$this->config->get('config_mail_engine')) {

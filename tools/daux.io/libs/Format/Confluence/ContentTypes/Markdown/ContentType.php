@@ -2,12 +2,12 @@
 
 class ContentType extends \Todaymade\Daux\ContentTypes\Markdown\ContentType
 {
-    protected function createConverter()
+    protected function createConverter(): \Todaymade\Daux\Format\Confluence\ContentTypes\Markdown\CommonMarkConverter
     {
         return new CommonMarkConverter(['daux' => $this->config]);
     }
 
-    protected function addJS()
+    protected function addJS(): string
     {
         return <<<'EOD'
             <ac:structured-macro ac:name="html">

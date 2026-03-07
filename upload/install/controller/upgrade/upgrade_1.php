@@ -9,11 +9,9 @@ namespace Opencart\Install\Controller\Upgrade;
  */
 class Upgrade1 extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('upgrade/upgrade');
 
 		$json = [];
@@ -40,7 +38,7 @@ class Upgrade1 extends \Opencart\System\Engine\Controller {
 			$lines = file($file);
 
 			// Capture values
-			foreach ($lines as $number => $line) {
+			foreach ($lines as $line) {
 				if (preg_match('/define\(\'(.*)\',\s+\'(.*)\'\)/', $line, $match, PREG_OFFSET_CAPTURE)) {
 					$config[$match[1][0]] = $match[2][0];
 				}
@@ -173,7 +171,7 @@ class Upgrade1 extends \Opencart\System\Engine\Controller {
 			$lines = file($file);
 
 			// Capture values
-			foreach ($lines as $number => $line) {
+			foreach ($lines as $line) {
 				if (preg_match('/define\(\'(.*)\',\s+\'(.*)\'\)/', $line, $match, PREG_OFFSET_CAPTURE)) {
 					$config[$match[1][0]] = $match[2][0];
 				}
@@ -349,22 +347,15 @@ class Upgrade1 extends \Opencart\System\Engine\Controller {
 
 			// Save file
 			file_put_contents($file, $output);
-		}
-
-		if (!$json) {
-			$json['text'] = sprintf($this->language->get('text_patch'), 1, count(glob(DIR_APPLICATION . 'controller/upgrade/upgrade_*.php')));
-
-			$url = '';
-
-			if (isset($this->request->get['version'])) {
+            $json['text'] = sprintf($this->language->get('text_patch'), 1, count(glob(DIR_APPLICATION . 'controller/upgrade/upgrade_*.php')));
+            $url = '';
+            if (isset($this->request->get['version'])) {
 				$url .= '&version=' . $this->request->get['version'];
 			}
-
-			if (isset($this->request->get['admin'])) {
+            if (isset($this->request->get['admin'])) {
 				$url .= '&admin=' . $this->request->get['admin'];
 			}
-
-			$json['next'] = $this->url->link('upgrade/upgrade_2', $url, true);
+            $json['next'] = $this->url->link('upgrade/upgrade_2', $url, true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

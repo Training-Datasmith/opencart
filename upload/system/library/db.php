@@ -15,9 +15,6 @@ namespace Opencart\System\Library;
  * @package Opencart\System\Library
  */
 class DB {
-	/**
-	 * @var object
-	 */
 	private object $adaptor;
 
 	/**
@@ -120,13 +117,11 @@ class DB {
 	}
 
 	/**
-	 * Is Connected
-	 *
-	 * Checks if a DB connection is active.
-	 *
-	 * @return bool
-	 */
-	public function isConnected(): bool {
+     * Is Connected
+     *
+     * Checks if a DB connection is active.
+     */
+    public function isConnected(): bool {
 		return $this->adaptor->isConnected();
 	}
 }

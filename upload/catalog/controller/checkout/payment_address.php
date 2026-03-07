@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Checkout;
  */
 class PaymentAddress extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('checkout/payment_address');
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
@@ -54,11 +52,9 @@ class PaymentAddress extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('checkout/payment_address');
 
 		$json = [];
@@ -182,11 +178,9 @@ class PaymentAddress extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Address
-	 *
-	 * @return void
-	 */
-	public function address(): void {
+     * Address
+     */
+    public function address(): void {
 		$this->load->language('checkout/payment_address');
 
 		$json = [];

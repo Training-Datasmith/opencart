@@ -16,33 +16,23 @@ namespace Opencart\System\Engine;
  */
 class Event {
 	/**
-	 * @var \Opencart\System\Engine\Registry
-	 */
-	protected \Opencart\System\Engine\Registry $registry;
-	/**
 	 * @var array<int, array<string, mixed>>
 	 */
 	protected array $data = [];
 
 	/**
-	 * Constructor
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
-		$this->registry = $registry;
-	}
+     * Constructor
+     */
+    public function __construct(protected \Opencart\System\Engine\Registry $registry)
+    {
+    }
 
 	/**
-	 * Register
-	 *
-	 * @param string                         $trigger
-	 * @param \Opencart\System\Engine\Action $action
-	 * @param int                            $priority
-	 *
-	 * @return void
-	 */
-	public function register(string $trigger, \Opencart\System\Engine\Action $action, int $priority = 0): void {
+     * Register
+     *
+     *
+     */
+    public function register(string $trigger, \Opencart\System\Engine\Action $action, int $priority = 0): void {
 		$this->data[] = [
 			'trigger'  => $trigger,
 			'action'   => $action,
@@ -59,14 +49,12 @@ class Event {
 	}
 
 	/**
-	 * Trigger
-	 *
-	 * @param string       $event
-	 * @param array<mixed> $args
-	 *
-	 * @return mixed
-	 */
-	public function trigger(string $event, array $args = []) {
+     * Trigger
+     *
+     * @param array<mixed> $args
+     *
+     */
+    public function trigger(string $event, array $args = []): string {
 		foreach ($this->data as $value) {
 			if (preg_match('/^' . str_replace(['\*', '\?'], ['.*', '.'], preg_quote($value['trigger'], '/')) . '/', $event)) {
 				$value['action']->execute($this->registry, $args);
@@ -77,14 +65,11 @@ class Event {
 	}
 
 	/**
-	 * Unregister
-	 *
-	 * @param string $trigger
-	 * @param string $route
-	 *
-	 * @return void
-	 */
-	public function unregister(string $trigger, string $route): void {
+     * Unregister
+     *
+     *
+     */
+    public function unregister(string $trigger, string $route): void {
 		foreach ($this->data as $key => $value) {
 			if ($trigger == $value['trigger'] && $value['action']->getId() == $route) {
 				unset($this->data[$key]);
@@ -93,13 +78,11 @@ class Event {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * @param string $trigger
-	 *
-	 * @return void
-	 */
-	public function clear(string $trigger): void {
+     * Clear
+     *
+     *
+     */
+    public function clear(string $trigger): void {
 		foreach ($this->data as $key => $value) {
 			if ($trigger == $value['trigger']) {
 				unset($this->data[$key]);

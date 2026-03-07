@@ -9,21 +9,18 @@ namespace Opencart\Catalog\Model\Localisation;
  */
 class Currency extends \Opencart\System\Engine\Model {
 	/**
-	 * Edit Value By Code
-	 *
-	 * @param string $code
-	 * @param float  $value
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/currency');
-	 *
-	 * $this->model_localisation_currency->editValueByCode($code, $value);
-	 */
-	public function editValueByCode(string $code, float $value): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `value` = '" . (float)$value . "', `date_modified` = NOW() WHERE `code` = '" . $this->db->escape($code) . "'");
+     * Edit Value By Code
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/currency');
+     *
+     * $this->model_localisation_currency->editValueByCode($code, $value);
+     */
+    public function editValueByCode(string $code, float $value): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `value` = '" . $value . "', `date_modified` = NOW() WHERE `code` = '" . $this->db->escape($code) . "'");
 
 		$this->cache->delete('currency');
 	}
@@ -44,7 +41,7 @@ class Currency extends \Opencart\System\Engine\Model {
 	 * $currency_info = $this->model_localisation_currency->getCurrency($currency_id);
 	 */
 	public function getCurrency(int $currency_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "currency` WHERE `currency_id` = '" . (int)$currency_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "currency` WHERE `currency_id` = '" . $currency_id . "'");
 
 		return $query->row;
 	}

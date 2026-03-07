@@ -52,20 +52,14 @@ class Request {
 			$value = null;
 		}
 
-		switch ($type) {
-			case 'string':
-				return (string)$value;
-			case 'int':
-				return (int)$value;
-			case 'float':
-				return (float)$value;
-			case 'bool':
-				return (bool)$value;
-			case 'array':
-				return (array)$value;
-			default:
-				return $value;
-		}
+		return match ($type) {
+            'string' => (string)$value,
+            'int' => (int)$value,
+            'float' => (float)$value,
+            'bool' => (bool)$value,
+            'array' => (array)$value,
+            default => $value,
+        };
 	}
 
 	public function post(string $key, string $type = ''): mixed {
@@ -75,30 +69,22 @@ class Request {
 			$value = null;
 		}
 
-		switch ($type) {
-			case 'string':
-				return (string)$value;
-			case 'int':
-				return (int)$value;
-			case 'float':
-				return (float)$value;
-			case 'bool':
-				return (bool)$value;
-			case 'array':
-				return (array)$value;
-			default:
-				return $value;
-		}
+		return match ($type) {
+            'string' => (string)$value,
+            'int' => (int)$value,
+            'float' => (float)$value,
+            'bool' => (bool)$value,
+            'array' => (array)$value,
+            default => $value,
+        };
 	}
 
 	/**
-	 * Clean
-	 *
-	 * @param mixed $data
-	 *
-	 * @return mixed
-	 */
-	public function clean($data) {
+     * Clean
+     *
+     * @param mixed $data
+     */
+    public function clean($data): string|array {
 		if (is_array($data)) {
 			foreach ($data as $key => $value) {
 				unset($data[$key]);

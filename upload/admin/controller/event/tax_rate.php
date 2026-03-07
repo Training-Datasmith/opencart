@@ -7,18 +7,16 @@ namespace Opencart\Admin\Controller\Event;
  */
 class TaxRate extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Tax Rate
-	 *
-	 * Generate new tax rate data with geo zone ID.
-	 *
-	 * Called using admin/model/localisation/geo_zone/addTaxRate/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function addTaxRate(string &$route, array &$args, &$output): void {
+     * Add Tax Rate
+     *
+     * Generate new tax rate data with geo zone ID.
+     *
+     * Called using admin/model/localisation/geo_zone/addTaxRate/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function addTaxRate(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'tax_rate.info.' . $args[1]['geo_zone_id'],
 			'action' => 'task/catalog/tax_rate.info',
@@ -31,18 +29,16 @@ class TaxRate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Tax Rate
-	 *
-	 * Generate new tax rate data with updated geo zone ID.
-	 *
-	 * Called using admin/model/localisation/zone/editZone/before/before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function editTaxRate(string &$route, array &$args, &$output): void {
+     * Edit Tax Rate
+     *
+     * Generate new tax rate data with updated geo zone ID.
+     *
+     * Called using admin/model/localisation/zone/editZone/before/before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function editTaxRate(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'tax_rate.info.' . $args[1]['geo_zone_id'],
 			'action' => 'task/catalog/tax_rate.info',
@@ -69,18 +65,16 @@ class TaxRate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Tax Rate
-	 *
-	 * Generate new country info page with deleted zone.
-	 *
-	 * Called using admin/model/localisation/zone/deleteZone/before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function deleteTaxRate(string &$route, array &$args, &$output): void {
+     * Delete Tax Rate
+     *
+     * Generate new country info page with deleted zone.
+     *
+     * Called using admin/model/localisation/zone/deleteZone/before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function deleteTaxRate(string &$route, array &$args, &$output): void {
 		$this->load->model('localisation/tax_rate');
 
 		$tax_rate_info = $this->model_localisation_tax_rate->getTaxRate($args[0]);

@@ -7,19 +7,17 @@ namespace Opencart\Catalog\Controller\Mail;
  */
 class Gdpr extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * catalog/model/account/gdpr/addGdpr
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * catalog/model/account/gdpr/addGdpr
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		// $args[0] $code
 		// $args[1] $email
 		// $args[2] $action
@@ -75,19 +73,17 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Remove
-	 *
-	 * catalog/model/account/gdpr/editStatus/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function remove(string &$route, array &$args, &$output): void {
+     * Remove
+     *
+     * catalog/model/account/gdpr/editStatus/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function remove(string &$route, array &$args, &$output): void {
 		if (!isset($args[0])) {
 			return;
 		}

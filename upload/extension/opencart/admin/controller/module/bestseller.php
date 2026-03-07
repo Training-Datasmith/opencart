@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Module;
  */
 class BestSeller extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -97,11 +95,9 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$json = [];
@@ -141,11 +137,9 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Install
-	 *
-	 * @return void
-	 */
-	public function install(): void {
+     * Install
+     */
+    public function install(): void {
 		if ($this->user->hasPermission('modify', 'extension/opencart/module/bestseller')) {
 			// Extension
 			$this->load->model('extension/opencart/module/bestseller');
@@ -155,11 +149,9 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Uninstall
-	 *
-	 * @return void
-	 */
-	public function uninstall(): void {
+     * Uninstall
+     */
+    public function uninstall(): void {
 		if ($this->user->hasPermission('modify', 'extension/opencart/module/bestseller')) {
 			// Extension
 			$this->load->model('extension/opencart/module/bestseller');
@@ -169,11 +161,9 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @return void
-	 */
-	public function add(): void {
+     * Add
+     */
+    public function add(): void {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$json = [];
@@ -196,11 +186,9 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$json = [];
@@ -229,22 +217,18 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Report
-	 *
-	 * @return void
-	 */
-	public function report(): void {
+     * Report
+     */
+    public function report(): void {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$this->response->setOutput($this->getReport());
 	}
 
 	/**
-	 * Get Report
-	 *
-	 * @return string
-	 */
-	public function getReport(): string {
+     * Get Report
+     */
+    public function getReport(): string {
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'extension/opencart/module/bestseller.report') {
 			$page = (int)$this->request->get['page'];
 		} else {
@@ -295,11 +279,9 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Sync
-	 *
-	 * @return void
-	 */
-	public function sync(): void {
+     * Sync
+     */
+    public function sync(): void {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$json = [];

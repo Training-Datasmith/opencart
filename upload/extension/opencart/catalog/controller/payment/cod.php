@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Payment;
  */
 class Cod extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('extension/opencart/payment/cod');
 
 		$data['language'] = $this->config->get('config_language');
@@ -20,11 +18,9 @@ class Cod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @return void
-	 */
-	public function confirm(): void {
+     * Confirm
+     */
+    public function confirm(): void {
 		$this->load->language('extension/opencart/payment/cod');
 
 		$json = [];

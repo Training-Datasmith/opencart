@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Product;
  */
 class Product extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return ?\Opencart\System\Engine\Action
-	 */
-	public function index() {
+     * Index
+     */
+    public function index(): ?\Opencart\System\Engine\Action {
 		$this->load->language('product/product');
 
 		// Product
@@ -371,7 +369,7 @@ class Product extends \Opencart\System\Engine\Controller {
 		if ($product_info['master_id']) {
 			$master_id = (int)$product_info['master_id'];
 		} else {
-			$master_id = (int)$product_id;
+			$master_id = $product_id;
 		}
 
 		$product_options = $this->model_catalog_product->getOptions($master_id);

@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Login extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/login');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -101,11 +99,9 @@ class Login extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Login
-	 *
-	 * @return void
-	 */
-	public function login(): void {
+     * Login
+     */
+    public function login(): void {
 		$this->load->language('account/login');
 
 		$json = [];
@@ -211,11 +207,9 @@ class Login extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Token
-	 *
-	 * @return void
-	 */
-	public function token(): void {
+     * Token
+     */
+    public function token(): void {
 		$this->load->language('account/login');
 
 		if (isset($this->request->get['email'])) {
@@ -284,11 +278,9 @@ class Login extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Validate
-	 *
-	 * @return bool
-	 */
-	public function validate(): bool {
+     * Validate
+     */
+    public function validate(): bool {
 		return !(!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token'])));
 	}
 }

@@ -32,7 +32,7 @@ class ImageRenderer implements NodeRendererInterface, ConfigurationAwareInterfac
         Image::assertInstanceOf($node);
 
         // External Images need special handling
-        if (strpos($node->getUrl(), 'http') === 0) {
+        if (str_starts_with($node->getUrl(), 'http')) {
             return new HtmlElement(
                 'ac:image',
                 [],

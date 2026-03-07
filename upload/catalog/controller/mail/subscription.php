@@ -7,17 +7,15 @@ namespace Opencart\Catalog\Controller\Mail;
  */
 class Subscription extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * catalog/model/checkout/subscription.addSubscription/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param array<mixed>      $output
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * catalog/model/checkout/subscription.addSubscription/after
+     *
+     * @param array<int, mixed> $args
+     * @param array<mixed>      $output
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		if (isset($args[0])) {
 			$subscription_id = $args[0];
 		} else {
@@ -377,18 +375,16 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Alert
-	 *
-	 * catalog/model/checkout/order.addHistory/before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function alert(string &$route, array &$args): void {
+     * Alert
+     *
+     * catalog/model/checkout/order.addHistory/before
+     *
+     * @param array<int, mixed> $args
+     *
+     * @throws \Exception
+     *
+     */
+    public function alert(string &$route, array &$args): void {
 		if (isset($args[0])) {
 			$order_id = $args[0];
 		} else {
@@ -512,7 +508,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 				'code'   => 'mail_alert',
 				'action' => 'task/system/mail',
 				'args'   => [
-					'to'      => $this->config->get('config_email') .', ' . (string)$this->config->get('config_mail_alert_email'),
+					'to'      => $this->config->get('config_email') .', ' . $this->config->get('config_mail_alert_email'),
 					'from'    => $this->config->get('config_email'),
 					'sender'  => html_entity_decode($order_info['store_name'], ENT_QUOTES, 'UTF-8'),
 					'subject' => $subject,

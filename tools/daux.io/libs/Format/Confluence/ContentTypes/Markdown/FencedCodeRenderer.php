@@ -40,11 +40,8 @@ class FencedCodeRenderer extends CodeRenderer
     ];
     protected $knownConversions = ['html' => 'html/xml', 'xml' => 'html/xml', 'js' => 'javascript'];
 
-    protected Config $dauxConfig;
-
-    public function __construct(Config $dauxConfig)
+    public function __construct(protected Config $dauxConfig)
     {
-        $this->dauxConfig = $dauxConfig;
     }
 
     /**

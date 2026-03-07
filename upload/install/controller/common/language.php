@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Common;
  */
 class Language extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/language');
 
 		$data['text_language'] = $this->language->get('text_language');

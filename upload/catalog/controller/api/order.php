@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Api;
  */
 class Order extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('api/order');
 
 		if (isset($this->request->get['call'])) {
@@ -23,50 +21,22 @@ class Order extends \Opencart\System\Engine\Controller {
 		}
 
 		// Allowed calls
-		switch ($call) {
-			case 'customer':
-				$output = $this->setCustomer();
-				break;
-			case 'cart':
-				$output = $this->getCart();
-				break;
-			case 'product_add':
-				$output = $this->addProduct();
-				break;
-			case 'payment_address':
-				$output = $this->setPaymentAddress();
-				break;
-			case 'shipping_address':
-				$output = $this->setShippingAddress();
-				break;
-			case 'shipping_method':
-				$output = $this->setShippingMethod();
-				break;
-			case 'shipping_methods':
-				$output = $this->getShippingMethods();
-				break;
-			case 'payment_method':
-				$output = $this->setPaymentMethod();
-				break;
-			case 'payment_methods':
-				$output = $this->getPaymentMethods();
-				break;
-			case 'extension':
-				$output = $this->extension();
-				break;
-			case 'affiliate':
-				$output = $this->setAffiliate();
-				break;
-			case 'confirm':
-				$output = $this->confirm();
-				break;
-			case 'history_add':
-				$output = $this->addHistory();
-				break;
-			default:
-				$output = ['error' => $this->language->get('error_call')]; // JSON error message if call not found
-				break;
-		}
+		$output = match ($call) {
+            'customer' => $this->setCustomer(),
+            'cart' => $this->getCart(),
+            'product_add' => $this->addProduct(),
+            'payment_address' => $this->setPaymentAddress(),
+            'shipping_address' => $this->setShippingAddress(),
+            'shipping_method' => $this->setShippingMethod(),
+            'shipping_methods' => $this->getShippingMethods(),
+            'payment_method' => $this->setPaymentMethod(),
+            'payment_methods' => $this->getPaymentMethods(),
+            'extension' => $this->extension(),
+            'affiliate' => $this->setAffiliate(),
+            'confirm' => $this->confirm(),
+            'history_add' => $this->addHistory(),
+            default => ['error' => $this->language->get('error_call')],
+        };
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($output));

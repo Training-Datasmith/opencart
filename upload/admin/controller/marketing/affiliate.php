@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketing;
  */
 class Affiliate extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketing/affiliate');
 
 		if (isset($this->request->get['filter_customer'])) {
@@ -163,22 +161,18 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('marketing/affiliate');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_customer'])) {
 			$filter_customer = (string)$this->request->get['filter_customer'];
 		} else {
@@ -307,11 +301,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('marketing/affiliate');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -500,11 +492,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -625,11 +615,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -659,11 +647,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -693,11 +679,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -727,11 +711,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Calculate
-	 *
-	 * @return void
-	 */
-	public function calculate(): void {
+     * Calculate
+     */
+    public function calculate(): void {
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -819,11 +801,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Complete
-	 *
-	 * @return void
-	 */
-	public function complete(): void {
+     * Complete
+     */
+    public function complete(): void {
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -863,22 +843,18 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Report
-	 *
-	 * @return void
-	 */
-	public function report(): void {
+     * Report
+     */
+    public function report(): void {
 		$this->load->language('marketing/affiliate');
 
 		$this->response->setOutput($this->getReport());
 	}
 
 	/**
-	 * Get Report
-	 *
-	 * @return string
-	 */
-	private function getReport(): string {
+     * Get Report
+     */
+    private function getReport(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -942,11 +918,9 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {

@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Customer;
  */
 class Customer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('customer/customer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -119,22 +117,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -325,11 +319,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('customer/customer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -534,11 +526,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -663,11 +653,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Unlock
-	 *
-	 * @return void
-	 */
-	public function unlock(): void {
+     * Unlock
+     */
+    public function unlock(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -694,11 +682,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -728,11 +714,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -762,11 +746,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -797,11 +779,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Login
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function login() {
+     * Login
+     */
+    public function login(): ?\Opencart\System\Engine\Action {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -853,22 +833,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Payment
-	 *
-	 * @return void
-	 */
-	public function payment(): void {
+     * Payment
+     */
+    public function payment(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getPayment());
 	}
 
 	/**
-	 * Get Payment
-	 *
-	 * @return string
-	 */
-	private function getPayment(): string {
+     * Get Payment
+     */
+    private function getPayment(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -920,11 +896,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Payment
-	 *
-	 * @return void
-	 */
-	public function deletePayment(): void {
+     * Delete Payment
+     */
+    public function deletePayment(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -953,22 +927,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getHistory());
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	public function getHistory(): string {
+     * Get History
+     */
+    public function getHistory(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -1012,11 +982,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add History
-	 *
-	 * @return void
-	 */
-	public function addHistory(): void {
+     * Add History
+     */
+    public function addHistory(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -1051,22 +1019,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Transaction
-	 *
-	 * @return void
-	 */
-	public function transaction(): void {
+     * Transaction
+     */
+    public function transaction(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getTransaction());
 	}
 
 	/**
-	 * Get Transaction
-	 *
-	 * @return string
-	 */
-	public function getTransaction(): string {
+     * Get Transaction
+     */
+    public function getTransaction(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -1111,11 +1075,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add Transaction
-	 *
-	 * @return void
-	 */
-	public function addTransaction(): void {
+     * Add Transaction
+     */
+    public function addTransaction(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -1160,22 +1122,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reward
-	 *
-	 * @return void
-	 */
-	public function reward(): void {
+     * Reward
+     */
+    public function reward(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getReward());
 	}
 
 	/**
-	 * Get Reward
-	 *
-	 * @return string
-	 */
-	public function getReward(): string {
+     * Get Reward
+     */
+    public function getReward(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -1218,11 +1176,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add Reward
-	 *
-	 * @return void
-	 */
-	public function addReward(): void {
+     * Add Reward
+     */
+    public function addReward(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -1267,22 +1223,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Ip
-	 *
-	 * @return void
-	 */
-	public function ip(): void {
+     * Ip
+     */
+    public function ip(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getIp());
 	}
 
 	/**
-	 * Get Ip
-	 *
-	 * @return string
-	 */
-	public function getIp(): string {
+     * Get Ip
+     */
+    public function getIp(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -1341,22 +1293,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Authorize
-	 *
-	 * @return void
-	 */
-	public function authorize(): void {
+     * Authorize
+     */
+    public function authorize(): void {
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getAuthorize());
 	}
 
 	/**
-	 * Get Authorize
-	 *
-	 * @return string
-	 */
-	public function getAuthorize(): string {
+     * Get Authorize
+     */
+    public function getAuthorize(): string {
 		if (isset($this->request->get['customer_id'])) {
 			$customer_id = (int)$this->request->get['customer_id'];
 		} else {
@@ -1401,11 +1349,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Authorize
-	 *
-	 * @return void
-	 */
-	public function deleteAuthorize(): void {
+     * Delete Authorize
+     */
+    public function deleteAuthorize(): void {
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -1446,11 +1392,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$json = [];
 
 		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_email'])) {
@@ -1493,11 +1437,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Customfield
-	 *
-	 * @return void
-	 */
-	public function customfield(): void {
+     * Customfield
+     */
+    public function customfield(): void {
 		$json = [];
 
 		// Customer Group

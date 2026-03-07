@@ -9,22 +9,21 @@ namespace Opencart\Admin\Model\Customer;
  */
 class CustomerApproval extends \Opencart\System\Engine\Model {
 	/**
-	 * Delete Approvals By Customer ID
-	 *
-	 * Delete customer approvals by customer records in the database.
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('customer/customer_approval');
-	 *
-	 * $this->model_customer_customer_approval->deleteApprovalsByCustomerId($customer_id);
-	 */
-	public function deleteApprovalsByCustomerId(int $customer_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . (int)$customer_id . "'");
+     * Delete Approvals By Customer ID
+     *
+     * Delete customer approvals by customer records in the database.
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('customer/customer_approval');
+     *
+     * $this->model_customer_customer_approval->deleteApprovalsByCustomerId($customer_id);
+     */
+    public function deleteApprovalsByCustomerId(int $customer_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "'");
 	}
 
 	/**
@@ -115,7 +114,7 @@ class CustomerApproval extends \Opencart\System\Engine\Model {
 	 * $customer_approval_info = $this->model_customer_customer_approval->getCustomerApproval($customer_approval_id);
 	 */
 	public function getCustomerApproval(int $customer_approval_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_approval_id` = '" . (int)$customer_approval_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_approval_id` = '" . $customer_approval_id . "'");
 
 		return $query->row;
 	}
@@ -185,74 +184,70 @@ class CustomerApproval extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Approve Customer
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('customer/customer_approval');
-	 *
-	 * $this->model_customer_customer_approval->approveCustomer($customer_id);
-	 */
-	public function approveCustomer(int $customer_id): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "customer` SET `status` = '1' WHERE `customer_id` = '" . (int)$customer_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . (int)$customer_id . "' AND `type` = 'customer'");
+     * Approve Customer
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('customer/customer_approval');
+     *
+     * $this->model_customer_customer_approval->approveCustomer($customer_id);
+     */
+    public function approveCustomer(int $customer_id): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer` SET `status` = '1' WHERE `customer_id` = '" . $customer_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "' AND `type` = 'customer'");
 	}
 
 	/**
-	 * Deny Customer
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('customer/customer_approval');
-	 *
-	 * $this->model_customer_customer_approval->denyCustomer($customer_id);
-	 */
-	public function denyCustomer(int $customer_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . (int)$customer_id . "' AND `type` = 'customer'");
+     * Deny Customer
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('customer/customer_approval');
+     *
+     * $this->model_customer_customer_approval->denyCustomer($customer_id);
+     */
+    public function denyCustomer(int $customer_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "' AND `type` = 'customer'");
 	}
 
 	/**
-	 * Approve Affiliate
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('customer/customer_approval');
-	 *
-	 * $this->model_customer_customer_approval->approveAffiliate($customer_id);
-	 */
-	public function approveAffiliate(int $customer_id): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "customer_affiliate` SET `status` = '1' WHERE `customer_id` = '" . (int)$customer_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . (int)$customer_id . "' AND `type` = 'affiliate'");
+     * Approve Affiliate
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('customer/customer_approval');
+     *
+     * $this->model_customer_customer_approval->approveAffiliate($customer_id);
+     */
+    public function approveAffiliate(int $customer_id): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer_affiliate` SET `status` = '1' WHERE `customer_id` = '" . $customer_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "' AND `type` = 'affiliate'");
 	}
 
 	/**
-	 * Deny Affiliate
-	 *
-	 * Delete customer approval record in the database.
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('customer/customer_approval');
-	 *
-	 * $this->model_customer_customer_approval->denyAffiliate($customer_id);
-	 */
-	public function denyAffiliate(int $customer_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . (int)$customer_id . "' AND `type` = 'affiliate'");
+     * Deny Affiliate
+     *
+     * Delete customer approval record in the database.
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('customer/customer_approval');
+     *
+     * $this->model_customer_customer_approval->denyAffiliate($customer_id);
+     */
+    public function denyAffiliate(int $customer_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "' AND `type` = 'affiliate'");
 	}
 }

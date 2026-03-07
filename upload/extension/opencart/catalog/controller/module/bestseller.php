@@ -7,13 +7,11 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Module;
  */
 class BestSeller extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param array<string, mixed> $setting array of filters
-	 *
-	 * @return string
-	 */
-	public function index(array $setting): string {
+     * Index
+     *
+     * @param array<string, mixed> $setting array of filters
+     */
+    public function index(array $setting): string {
 		$this->load->language('extension/opencart/module/bestseller');
 
 		$data['axis'] = $setting['axis'];
@@ -73,8 +71,7 @@ class BestSeller extends \Opencart\System\Engine\Controller {
 			}
 
 			return $this->load->view('extension/opencart/module/bestseller', $data);
-		} else {
-			return '';
 		}
+        return '';
 	}
 }

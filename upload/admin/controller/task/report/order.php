@@ -7,13 +7,11 @@ namespace Opencart\Admin\Controller\Task\Report;
  */
 class Order extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/report/order');
 
 		// Sale
@@ -58,13 +56,11 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Order Sale
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function sale(array $args = []): array {
+     * Order Sale
+     *
+     * @param array<string, string> $args
+     */
+    public function sale(array $args = []): array {
 		$this->load->language('task/report/order');
 
 		$this->load->model('sale/order');
@@ -77,13 +73,11 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Order Processing
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function processing(array $args = []): array {
+     * Order Processing
+     *
+     * @param array<string, string> $args
+     */
+    public function processing(array $args = []): array {
 		$this->load->language('task/report/order');
 
 		$this->load->model('sale/order');
@@ -96,13 +90,11 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Order Complete
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function complete(array $args = []): array {
+     * Order Complete
+     *
+     * @param array<string, string> $args
+     */
+    public function complete(array $args = []): array {
 		$this->load->language('task/report/order');
 
 		$this->load->model('sale/order');
@@ -115,13 +107,11 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Order Other
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function other(array $args = []): array {
+     * Order Other
+     *
+     * @param array<string, string> $args
+     */
+    public function other(array $args = []): array {
 		$this->load->language('task/report/order');
 
 		$order_status_data = [];

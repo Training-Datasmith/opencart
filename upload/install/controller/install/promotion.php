@@ -9,11 +9,9 @@ namespace Opencart\Install\Controller\Install;
  */
 class Promotion extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$curl = curl_init();
 
 		curl_setopt($curl, CURLOPT_URL, 'https://www.opencart.com/index.php?route=api/install');
@@ -27,11 +25,9 @@ class Promotion extends \Opencart\System\Engine\Controller {
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 		if ($status == 200) {
-			$response = $output;
-		} else {
-			$response = '';
+			return $output;
 		}
 
-		return $response;
+		return '';
 	}
 }

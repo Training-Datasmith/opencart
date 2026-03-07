@@ -13,9 +13,6 @@ namespace Opencart\System\Engine;
  * Class Config
  */
 class Config {
-	/**
-	 * @var string
-	 */
 	protected string $directory;
 	/**
 	 * @var array<string, string>
@@ -27,12 +24,9 @@ class Config {
 	private array $data = [];
 
 	/**
-	 * Add Path
-	 *
-	 * @param string $namespace
-	 * @param string $directory
-	 */
-	public function addPath(string $namespace, string $directory = ''): void {
+     * Add Path
+     */
+    public function addPath(string $namespace, string $directory = ''): void {
 		if (!$directory) {
 			$this->directory = $namespace;
 		} else {
@@ -41,45 +35,40 @@ class Config {
 	}
 
 	/**
-	 * Get
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function get(string $key) {
+     * Get
+     *
+     *
+     * @return mixed
+     */
+    public function get(string $key) {
 		return $this->data[$key] ?? '';
 	}
 
 	/**
-	 * Set
-	 *
-	 * @param string $key
-	 * @param mixed  $value
-	 */
-	public function set(string $key, $value): void {
+     * Set
+     *
+     * @param mixed  $value
+     */
+    public function set(string $key, $value): void {
 		$this->data[$key] = $value;
 	}
 
 	/**
-	 * Has
-	 *
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	public function has(string $key): bool {
+     * Has
+     *
+     *
+     */
+    public function has(string $key): bool {
 		return isset($this->data[$key]);
 	}
 
 	/**
-	 * Load
-	 *
-	 * @param string $filename
-	 *
-	 * @return array<string, string>
-	 */
-	public function load(string $filename): array {
+     * Load
+     *
+     *
+     * @return array<string, string>
+     */
+    public function load(string $filename): array {
 		$file = $this->directory . $filename . '.php';
 
 		$namespace = '';
@@ -106,8 +95,7 @@ class Config {
 			$this->data = array_merge($this->data, $_);
 
 			return $this->data;
-		} else {
-			return [];
 		}
+        return [];
 	}
 }

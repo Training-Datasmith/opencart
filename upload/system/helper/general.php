@@ -2,15 +2,12 @@
 /**
  * Other
  *
- * @param int $length
  *
- * @return string
  */
 function oc_token(int $length = 32): string {
 	return substr(bin2hex(random_bytes($length)), 0, $length);
 }
 
-/** @return string */
 function oc_get_ip(): string {
 	$headers = [
 		'HTTP_CF_CONNECTING_IP', // CloudFlare
@@ -36,20 +33,11 @@ function oc_get_ip(): string {
 }
 
 // Sting functions
-
-/**
- * @param string $string
- *
- * @return int
- */
 function oc_strlen(string $string): int {
 	return mb_strlen($string);
 }
 
 /**
- * @param string $string
- * @param string $needle
- * @param int    $offset
  *
  * @return int|false
  */
@@ -58,9 +46,6 @@ function oc_strpos(string $string, string $needle, int $offset = 0): int|false {
 }
 
 /**
- * @param string $string
- * @param string $needle
- * @param int    $offset
  *
  * @return int|false
  */
@@ -68,31 +53,14 @@ function oc_strrpos(string $string, string $needle, int $offset = 0): int|false 
 	return mb_strrpos($string, $needle, $offset);
 }
 
-/**
- * @param string $string
- * @param int    $offset
- * @param ?int   $length
- *
- * @return string
- */
 function oc_substr(string $string, int $offset, ?int $length = null): string {
 	return mb_substr($string, $offset, $length);
 }
 
-/**
- * @param string $string
- *
- * @return string
- */
 function oc_strtoupper(string $string): string {
 	return mb_strtoupper($string);
 }
 
-/**
- * @param string $string
- *
- * @return string
- */
 function oc_strtolower(string $string): string {
 	return mb_strtolower($string);
 }
@@ -110,9 +78,8 @@ if (!function_exists('str_starts_with')) {
 
 		if ($substring === $find) {
 			return true;
-		} else {
-			return false;
 		}
+        return false;
 	}
 }
 
@@ -124,7 +91,7 @@ if (!function_exists('str_starts_with')) {
  */
 if (!function_exists('str_ends_with')) {
 	function str_ends_with(string $string, string $find): bool {
-		return substr($string, -strlen($find)) === $find;
+		return str_ends_with($string, $find);
 	}
 }
 
@@ -136,7 +103,7 @@ if (!function_exists('str_ends_with')) {
  */
 if (!function_exists('str_contains')) {
 	function str_contains(string $string, string $find): bool {
-		return $find === '' || strpos($string, $find) !== false;
+		return $find === '' || str_contains($string, $find);
 	}
 }
 
@@ -155,9 +122,8 @@ function oc_file_read(string $file): string|false {
 function oc_file_write(string $file, string $content, bool $append = false): bool {
 	if ($append) {
 		return file_put_contents($file, $content, FILE_APPEND) !== false;
-	} else {
-		return file_put_contents($file, $content) !== false;
 	}
+    return file_put_contents($file, $content) !== false;
 }
 
 // 3. Deleting a file
@@ -189,11 +155,13 @@ function oc_directory_read(string $directory, bool $recursive = false, string $r
 			$results = scandir($next);
 
 			foreach ($results as $result) {
-				if ($result == '.' || $result == '..') {
-					continue;
-				}
-
-				$file = $next . '/' . $result;
+				if ($result == '.') {
+                    continue;
+                }
+                if ($result == '..') {
+                    continue;
+                }
+                $file = $next . '/' . $result;
 
 				if (is_dir($file)) {
 					if ($recursive) {
@@ -268,11 +236,7 @@ function oc_directory_delete(string $directory): bool {
 /**
  * Validate Length
  *
- * @param string $string
- * @param int    $minimum
- * @param int    $maximum
  *
- * @return bool
  */
 function oc_validate_length(string $string, int $minimum, int $maximum): bool {
 	return oc_strlen(trim($string)) >= $minimum && oc_strlen(trim($string)) <= $maximum;
@@ -282,8 +246,6 @@ function oc_validate_length(string $string, int $minimum, int $maximum): bool {
  * Validate Email
  *
  * @param string $email The email to validate
- *
- * @return bool
  */
 function oc_validate_email(string $email): bool {
 	if (oc_strlen($email) > 96) {
@@ -310,8 +272,6 @@ function oc_validate_email(string $email): bool {
  *
  * @param string $string  The string to validate
  * @param string $pattern The regular expression pattern
- *
- * @return bool
  */
 function oc_validate_regex(string $string, string $pattern): bool {
 	$option = ['regexp' => html_entity_decode($pattern, ENT_QUOTES, 'UTF-8')];
@@ -322,9 +282,7 @@ function oc_validate_regex(string $string, string $pattern): bool {
 /**
  * Validate IP
  *
- * @param string $ip
  *
- * @return bool
  */
 function oc_validate_ip(string $ip): bool {
 	return filter_var($ip, FILTER_VALIDATE_IP);
@@ -333,9 +291,7 @@ function oc_validate_ip(string $ip): bool {
 /**
  * Validate Filename
  *
- * @param string $filename
  *
- * @return bool
  */
 function oc_validate_filename(string $filename): bool {
 	return !preg_match('/[^a-zA-Z\p{Cyrillic}0-9\.\-\_]+/u', $filename);
@@ -344,9 +300,7 @@ function oc_validate_filename(string $filename): bool {
 /**
  * Validate URL
  *
- * @param string $url
  *
- * @return bool
  */
 function oc_validate_url(string $url): bool {
 	return filter_var($url, FILTER_VALIDATE_URL);
@@ -355,9 +309,7 @@ function oc_validate_url(string $url): bool {
 /**
  * Validate SEO URL
  *
- * @param string $keyword
  *
- * @return bool
  */
 function oc_validate_path(string $keyword): bool {
 	return !preg_match('/[^\p{Latin}\p{Cyrillic}\p{Greek}0-9\/\-\_]+/u', $keyword);

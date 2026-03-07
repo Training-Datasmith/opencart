@@ -10,7 +10,7 @@ class ContentPage extends \Todaymade\Daux\Format\Base\ContentPage
 {
     public $attachments = [];
 
-    protected function generatePage()
+    protected function generatePage(): string
     {
         $content = parent::generatePage();
 
@@ -53,11 +53,9 @@ class ContentPage extends \Todaymade\Daux\Format\Base\ContentPage
      * Create an image tag for the specified filename.
      *
      * @param string $filename
-     * @param array $attributes
      *
-     * @return string
      */
-    private function createImageTag($filename, $attributes)
+    private function createImageTag(?string $filename, array $attributes): string
     {
         $img = '';
 

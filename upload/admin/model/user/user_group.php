@@ -9,73 +9,70 @@ namespace Opencart\Admin\Model\User;
  */
 class UserGroup extends \Opencart\System\Engine\Model {
 	/**
-	 * Add User Group
-	 *
-	 * Create a new user group record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $user_group_data = [
-	 *     'name'       => 'User Group Name',
-	 *     'permission' => ''
-	 * ];
-	 *
-	 * $this->load->model('user/user_group');
-	 *
-	 * $user_group_id = $this->model_user_user_group->addUserGroup($user_group_data);
-	 */
-	public function addUserGroup(array $data): int {
+     * Add User Group
+     *
+     * Create a new user group record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $user_group_data = [
+     *     'name'       => 'User Group Name',
+     *     'permission' => ''
+     * ];
+     *
+     * $this->load->model('user/user_group');
+     *
+     * $user_group_id = $this->model_user_user_group->addUserGroup($user_group_data);
+     */
+    public function addUserGroup(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "'");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Edit User Group
-	 *
-	 * Edit user group record in the database.
-	 *
-	 * @param int                  $user_group_id primary key of the user group record
-	 * @param array<string, mixed> $data          array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $user_group_data = [
-	 *     'name'       => 'User Group Name',
-	 *     'permission' => ''
-	 * ];
-	 *
-	 * $this->load->model('user/user_group');
-	 *
-	 * $this->model_user_user_group->editUserGroup($user_group_id, $user_group_data);
-	 */
-	public function editUserGroup(int $user_group_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "' WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+     * Edit User Group
+     *
+     * Edit user group record in the database.
+     *
+     * @param int                  $user_group_id primary key of the user group record
+     * @param array<string, mixed> $data          array of data
+     *
+     *
+     * @example
+     *
+     * $user_group_data = [
+     *     'name'       => 'User Group Name',
+     *     'permission' => ''
+     * ];
+     *
+     * $this->load->model('user/user_group');
+     *
+     * $this->model_user_user_group->editUserGroup($user_group_id, $user_group_data);
+     */
+    public function editUserGroup(int $user_group_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "' WHERE `user_group_id` = '" . $user_group_id . "'");
 	}
 
 	/**
-	 * Delete User Group
-	 *
-	 * Delete user group record in the database.
-	 *
-	 * @param int $user_group_id primary key of the user group record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/user_group');
-	 *
-	 * $this->model_user_user_group->deleteUserGroup($user_group_id);
-	 */
-	public function deleteUserGroup(int $user_group_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+     * Delete User Group
+     *
+     * Delete user group record in the database.
+     *
+     * @param int $user_group_id primary key of the user group record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('user/user_group');
+     *
+     * $this->model_user_user_group->deleteUserGroup($user_group_id);
+     */
+    public function deleteUserGroup(int $user_group_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
 	}
 
 	/**
@@ -94,7 +91,7 @@ class UserGroup extends \Opencart\System\Engine\Model {
 	 * $user_group_info = $this->model_user_user_group->getUserGroup($user_group_id);
 	 */
 	public function getUserGroup(int $user_group_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
 
 		return ['permission' => $query->row['permission'] ? json_decode($query->row['permission'], true) : []] + $query->row;
 	}
@@ -167,53 +164,47 @@ class UserGroup extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Permission
-	 *
-	 * Create and edit new user permission record in the database.
-	 *
-	 * @param int    $user_group_id primary key of the user group record
-	 * @param string $type
-	 * @param string $route
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/user_group');
-	 *
-	 * $this->model_user_user_group->addPermission($user_group_id, $type, $route);
-	 */
-	public function addPermission(int $user_group_id, string $type, string $route): void {
-		$user_group_query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+     * Add Permission
+     *
+     * Create and edit new user permission record in the database.
+     *
+     * @param int    $user_group_id primary key of the user group record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('user/user_group');
+     *
+     * $this->model_user_user_group->addPermission($user_group_id, $type, $route);
+     */
+    public function addPermission(int $user_group_id, string $type, string $route): void {
+		$user_group_query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
 
 		if ($user_group_query->num_rows) {
 			$data = $user_group_query->row['permission'] ? json_decode($user_group_query->row['permission'], true) : [];
 
 			$data[$type][] = $route;
 
-			$this->db->query("UPDATE `" . DB_PREFIX . "user_group` SET `permission` = '" . $this->db->escape(json_encode($data)) . "' WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "user_group` SET `permission` = '" . $this->db->escape(json_encode($data)) . "' WHERE `user_group_id` = '" . $user_group_id . "'");
 		}
 	}
 
 	/**
-	 * Remove Permission
-	 *
-	 * Delete user permission record in the database.
-	 *
-	 * @param int    $user_group_id primary key of the user group record
-	 * @param string $type
-	 * @param string $route
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/user_group');
-	 *
-	 * $this->model_user_user_group->removePermission($user_group_id, $type, $route);
-	 */
-	public function removePermission(int $user_group_id, string $type, string $route): void {
-		$user_group_query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+     * Remove Permission
+     *
+     * Delete user permission record in the database.
+     *
+     * @param int    $user_group_id primary key of the user group record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('user/user_group');
+     *
+     * $this->model_user_user_group->removePermission($user_group_id, $type, $route);
+     */
+    public function removePermission(int $user_group_id, string $type, string $route): void {
+		$user_group_query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
 
 		if ($user_group_query->num_rows) {
 			$data = $user_group_query->row['permission'] ? json_decode($user_group_query->row['permission'], true) : [];
@@ -222,7 +213,7 @@ class UserGroup extends \Opencart\System\Engine\Model {
 				$data[$type] = array_diff($data[$type], [$route]);
 			}
 
-			$this->db->query("UPDATE `" . DB_PREFIX . "user_group` SET `permission` = '" . $this->db->escape(json_encode($data)) . "' WHERE `user_group_id` = '" . (int)$user_group_id . "'");
+			$this->db->query("UPDATE `" . DB_PREFIX . "user_group` SET `permission` = '" . $this->db->escape(json_encode($data)) . "' WHERE `user_group_id` = '" . $user_group_id . "'");
 		}
 	}
 }

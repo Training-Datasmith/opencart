@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class Currency extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate currency task list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate currency task list.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/admin/currency');
 
 		$this->load->model('setting/task');
@@ -38,15 +36,13 @@ class Currency extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate JSON currency list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate JSON currency list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/admin/currency');
 
 		// Language
@@ -111,15 +107,13 @@ class Currency extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON currency files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON currency files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/admin/currency');
 
 		$this->load->model('localisation/language');

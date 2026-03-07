@@ -9,13 +9,11 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class Sass extends \Opencart\System\Engine\Controller {
 	/**
-	 * SASS Admin
-	 *
-	 * Generate admin SASS file.
-	 *
-	 * @return void
-	 */
-	public function index(array $args = []): array {
+     * SASS Admin
+     *
+     * Generate admin SASS file.
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/admin/sass');
 
 		// Before we delete we need to make sure there is a sass file to regenerate the css

@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Product;
  */
 class Compare extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('product/compare');
 
 		if (!isset($this->session->data['compare'])) {
@@ -182,11 +180,9 @@ class Compare extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @return void
-	 */
-	public function add(): void {
+     * Add
+     */
+    public function add(): void {
 		$this->load->language('product/compare');
 
 		$json = [];

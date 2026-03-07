@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class WishList extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/wishlist');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -68,11 +66,9 @@ class WishList extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('account/wishlist');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -85,11 +81,9 @@ class WishList extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	protected function getList(): string {
+     * Get List
+     */
+    protected function getList(): string {
 		$data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
 		$data['cart_add'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
 
@@ -167,11 +161,9 @@ class WishList extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @return void
-	 */
-	public function add(): void {
+     * Add
+     */
+    public function add(): void {
 		$this->load->language('account/wishlist');
 
 		$json = [];
@@ -222,11 +214,9 @@ class WishList extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Remove
-	 *
-	 * @return void
-	 */
-	public function remove(): void {
+     * Remove
+     */
+    public function remove(): void {
 		$this->load->language('account/wishlist');
 
 		$json = [];
@@ -238,7 +228,7 @@ class WishList extends \Opencart\System\Engine\Controller {
 		}
 
 		if (!$this->customer->isLogged()) {
-			$json['error'] = sprintf($this->language->get('error_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . (int)$product_id), $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language')));
+			$json['error'] = sprintf($this->language->get('error_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id), $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language')));
 		}
 
 		if (!$json) {

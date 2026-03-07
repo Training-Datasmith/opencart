@@ -4,7 +4,7 @@ use Todaymade\Daux\Tree\Root;
 
 class Processor extends \Todaymade\Daux\Processor
 {
-    public function manipulateTree(Root $root)
+    public function manipulateTree(Root $root): void
     {
         print_r($root->dump());
     }

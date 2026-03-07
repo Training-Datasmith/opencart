@@ -7,20 +7,18 @@ namespace Opencart\Catalog\Controller\Event;
  */
 class Language extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Dump all the language vars into the template.
-	 *
-	 * Trigger
-	 *
-	 * view/ * /before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function template(string &$route, array &$args): void {
+     * Index
+     *
+     * Dump all the language vars into the template.
+     *
+     * Trigger
+     *
+     * view/ * /before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function template(string &$route, array &$args): void {
 		foreach ($this->language->all() as $key => $value) {
 			if (!isset($args[$key])) {
 				$args[$key] = $value;
@@ -29,20 +27,18 @@ class Language extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Before
-	 *
-	 * 1. Before controller load store all current loaded language data
-	 *
-	 * Trigger
-	 *
-	 * controller/ * /before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 *
-	 * @return void
-	 */
-	public function before(string &$route, array &$args): void {
+     * Before
+     *
+     * 1. Before controller load store all current loaded language data
+     *
+     * Trigger
+     *
+     * controller/ * /before
+     *
+     * @param array<int, mixed> $args
+     *
+     */
+    public function before(string &$route, array &$args): void {
 		$data = $this->language->all();
 
 		if ($data) {
@@ -51,21 +47,19 @@ class Language extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * After
-	 *
-	 * 2. After controller load restore old language data
-	 *
-	 * Trigger
-	 *
-	 * controller/ * /after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function after(string &$route, array &$args, &$output): void {
+     * After
+     *
+     * 2. After controller load restore old language data
+     *
+     * Trigger
+     *
+     * controller/ * /after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function after(string &$route, array &$args, &$output): void {
 		$data = json_decode($this->language->get('backup'), true);
 
 		if (is_array($data)) {

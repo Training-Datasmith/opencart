@@ -18,11 +18,9 @@ namespace Opencart\Admin\Controller\Tool;
  */
 class Upgrade extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('tool/upgrade');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -86,11 +84,9 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return array
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		$this->load->language('tool/upgrade');
 
 		$json = [];
@@ -147,13 +143,11 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Install
-	 *
-	 * Copy the installer directory from the upgrade zip
-	 *
-	 * @return void
-	 */
-	public function install(): void {
+     * Install
+     *
+     * Copy the installer directory from the upgrade zip
+     */
+    public function install(): void {
 		$this->load->language('tool/upgrade');
 
 		$json = [];
@@ -189,11 +183,11 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 				for ($i = 0; $i < $zip->numFiles; $i++) {
 					$source = $zip->getNameIndex($i);
 
-					if (substr($source, 0, strlen($remove)) == $remove) {
+					if (str_starts_with($source, $remove)) {
 						// Only extract the contents of the upload folder
 						$destination = str_replace('\\', '/', substr($source, strlen($remove)));
 
-						if (substr($destination, 0, 8) == 'install/') {
+						if (str_starts_with($destination, 'install/')) {
 							// Default copy location
 							$path = '';
 
@@ -213,7 +207,7 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 							}
 
 							// Check if the path is not directory and check there is no existing file
-							if (substr($destination, -1) != '/') {
+							if (!str_ends_with($destination, '/')) {
 								if (is_file(DIR_OPENCART . $destination)) {
 									unlink(DIR_OPENCART . $destination);
 								}

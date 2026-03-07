@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Startup;
  */
 class Marketing extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$tracking = '';
 
 		if (isset($this->request->get['tracking'])) {

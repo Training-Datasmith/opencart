@@ -9,18 +9,7 @@ use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
 
 class LoadedProperty implements PropertyReflection {
-	/**
-	 * @var ClassReflection
-	 */
-	private $declaringClass;
-	/**
-	 * @var Type
-	 */
-	private $type;
-
-	public function __construct(ClassReflection $declaringClass, Type $readableType, bool $isWritable = false) {
-		$this->declaringClass = $declaringClass;
-		$this->type = $readableType;
+	public function __construct(private ClassReflection $declaringClass, private Type $type, bool $isWritable = false) {
 		$this->isWritable = $isWritable;
 	}
 

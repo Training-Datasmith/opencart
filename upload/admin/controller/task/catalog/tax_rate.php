@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class TaxRate extends \Opencart\System\Engine\Controller {
 	/**
-	 * Info
-	 *
-	 * Generate tax rate information.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Info
+     *
+     * Generate tax rate information.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/tax_rate');
 
 		if (!array_key_exists('geo_zone_id', $args)) {
@@ -59,15 +57,13 @@ class TaxRate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON tax rate files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON tax rate files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/tax_rate');
 
 		$files = oc_directory_read( DIR_CATALOG . 'view/data/localisation/', false, '/tax_rate\-.+\.json$/');

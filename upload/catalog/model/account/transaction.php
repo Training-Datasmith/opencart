@@ -9,45 +9,41 @@ namespace Opencart\Catalog\Model\Account;
  */
 class Transaction extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Transaction
-	 *
-	 * Create a new transaction record in the database.
-	 *
-	 * @param int    $customer_id primary key of the customer record
-	 * @param int    $order_id    primary key of the order record
-	 * @param string $description
-	 * @param float  $amount
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/transaction');
-	 *
-	 * $this->model_account_transaction->addTransaction($customer_id, $order_id, $description, $amount);
-	 */
-	public function addTransaction(int $customer_id, int $order_id, string $description, float $amount): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_transaction` SET `customer_id` = '" . (int)$customer_id . "', `order_id` = '" . (int)$order_id . "', `description` = '" . $this->db->escape($description) . "', `amount` = '" . (float)$amount . "', `date_added` = NOW()");
+     * Add Transaction
+     *
+     * Create a new transaction record in the database.
+     *
+     * @param int    $customer_id primary key of the customer record
+     * @param int    $order_id    primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/transaction');
+     *
+     * $this->model_account_transaction->addTransaction($customer_id, $order_id, $description, $amount);
+     */
+    public function addTransaction(int $customer_id, int $order_id, string $description, float $amount): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_transaction` SET `customer_id` = '" . $customer_id . "', `order_id` = '" . $order_id . "', `description` = '" . $this->db->escape($description) . "', `amount` = '" . $amount . "', `date_added` = NOW()");
 	}
 
 	/**
-	 * Delete Transactions
-	 *
-	 * Delete customer transaction records in the database.
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 * @param int $order_id    primary key of the order record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/transaction');
-	 *
-	 * $this->model_account_transaction->deleteTransactions($customer_id, $order_id);
-	 */
-	public function deleteTransactions(int $customer_id, int $order_id = 0): void {
-		$sql = "DELETE FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . (int)$customer_id . "'";
+     * Delete Transactions
+     *
+     * Delete customer transaction records in the database.
+     *
+     * @param int $customer_id primary key of the customer record
+     * @param int $order_id    primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/transaction');
+     *
+     * $this->model_account_transaction->deleteTransactions($customer_id, $order_id);
+     */
+    public function deleteTransactions(int $customer_id, int $order_id = 0): void {
+		$sql = "DELETE FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . $customer_id . "'";
 
 		if ($order_id) {
 			$sql .= " AND `order_id` = '" . (int)$order_id . "'";
@@ -57,22 +53,21 @@ class Transaction extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Transactions By Order ID
-	 *
-	 * Delete customer transactions by order record in the database.
-	 *
-	 * @param int $order_id primary key of the order record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/transaction');
-	 *
-	 * $this->model_account_transaction->deleteTransactionsByOrderId($order_id);
-	 */
-	public function deleteTransactionsByOrderId(int $order_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_transaction` WHERE `order_id` = '" . (int)$order_id . "' AND `amount` < 0");
+     * Delete Transactions By Order ID
+     *
+     * Delete customer transactions by order record in the database.
+     *
+     * @param int $order_id primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/transaction');
+     *
+     * $this->model_account_transaction->deleteTransactionsByOrderId($order_id);
+     */
+    public function deleteTransactionsByOrderId(int $order_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_transaction` WHERE `order_id` = '" . $order_id . "' AND `amount` < 0");
 	}
 
 	/**
@@ -99,7 +94,7 @@ class Transaction extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_account_transaction->getTransactions($customer_id, $filter_data);
 	 */
 	public function getTransactions(int $customer_id, array $data = []): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . (int)$customer_id . "'";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . $customer_id . "'";
 
 		$sort_data = [
 			'amount',
@@ -152,7 +147,7 @@ class Transaction extends \Opencart\System\Engine\Model {
 	 * $transaction_total = $this->model_account_transaction->getTotalTransactions($customer_id);
 	 */
 	public function getTotalTransactions(int $customer_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . $customer_id . "'");
 
 		return (int)$query->row['total'];
 	}
@@ -173,31 +168,29 @@ class Transaction extends \Opencart\System\Engine\Model {
 	 * $transaction_total = $this->model_account_transaction->getTotalTransactionsByOrderId($order_id);
 	 */
 	public function getTotalTransactionsByOrderId(int $order_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer_transaction` WHERE `order_id` = '" . (int)$order_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer_transaction` WHERE `order_id` = '" . $order_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Get Transaction Total
-	 *
-	 * @param int $customer_id primary key of the customer record
-	 *
-	 * @return float
-	 *
-	 * @example
-	 *
-	 * $this->load->model('account/transaction');
-	 *
-	 * $transaction_total = $this->model_account_transaction->getTransactionTotal($customer_id);
-	 */
-	public function getTransactionTotal(int $customer_id): float {
-		$query = $this->db->query("SELECT SUM(`amount`) AS `total` FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . (int)$customer_id . "' GROUP BY `customer_id`");
+     * Get Transaction Total
+     *
+     * @param int $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('account/transaction');
+     *
+     * $transaction_total = $this->model_account_transaction->getTransactionTotal($customer_id);
+     */
+    public function getTransactionTotal(int $customer_id): float {
+		$query = $this->db->query("SELECT SUM(`amount`) AS `total` FROM `" . DB_PREFIX . "customer_transaction` WHERE `customer_id` = '" . $customer_id . "' GROUP BY `customer_id`");
 
 		if ($query->num_rows) {
 			return (int)$query->row['total'];
-		} else {
-			return 0;
 		}
+        return 0;
 	}
 }

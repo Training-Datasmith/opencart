@@ -13,13 +13,10 @@ use Todaymade\Daux\LinkNotFoundException;
 
 class LinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
-    protected Config $dauxConfig;
-
     protected OriginalLinkRenderer $parent;
 
-    public function __construct(Config $dauxConfig)
+    public function __construct(protected Config $dauxConfig)
     {
-        $this->dauxConfig = $dauxConfig;
         $this->parent = new OriginalLinkRenderer();
     }
 
@@ -70,7 +67,7 @@ class LinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
                     $url = DauxHelper::getRelativePath($this->dauxConfig->getCurrentPage()->getUrl(), $file->getUrl());
                     $foundWithHash = true;
                 }
-            } catch (LinkNotFoundException $e2) {
+            } catch (LinkNotFoundException) {
                 // If it's still not found here, we'll only
                 // report on the first error as the second
                 // one will tell the same.

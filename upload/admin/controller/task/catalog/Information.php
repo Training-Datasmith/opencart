@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Information extends \Opencart\System\Engine\Controller {
 	/**
-	 * List
-	 *
-	 * Generate information list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate information list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/catalog/information');
 
 		// Stores
@@ -48,15 +46,13 @@ class Information extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * _list
-	 *
-	 * Generate country list by store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function _list(array $args = []): array {
+     * _list
+     *
+     * Generate country list by store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function _list(array $args = []): array {
 		$this->load->language('task/catalog/information');
 
 		// Store
@@ -93,10 +89,12 @@ class Information extends \Opencart\System\Engine\Controller {
 
 		foreach ($information_ids as $information_id) {
 			$information_info = $this->model_catalog_information->getInformation($information_id);
-
-			if (!$information_info || !$information_info['status']) {
-				continue;
-			}
+            if (!$information_info) {
+                continue;
+            }
+            if (!$information_info['status']) {
+                continue;
+            }
 
 			$description_info = $this->model_localisation_country->getDesciptions($information_id, $language_info['language_id']);
 
@@ -131,15 +129,13 @@ class Information extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate information data by information ID.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate information data by information ID.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/catalog/information');
 
 		if (!array_key_exists('information_id', $args)) {
@@ -244,15 +240,13 @@ class Information extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * Delete generated JSON information files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function delete(array $args = []): array {
+     * Delete
+     *
+     * Delete generated JSON information files.
+     *
+     * @param array<string, string> $args
+     */
+    public function delete(array $args = []): array {
 		$this->load->language('task/admin/information');
 
 		$file = HTTP_SERVER . 'view/data/admin/information.json';

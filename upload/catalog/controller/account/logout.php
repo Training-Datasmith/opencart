@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Logout extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		if ($this->customer->isLogged()) {
 			$this->customer->logout();
 

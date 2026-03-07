@@ -11,7 +11,7 @@ class DetailsToExpand
         $strtr = [];
         $content = preg_replace_callback(
             '/<!\[CDATA\[(.*?)]]>/ms',
-            function ($matches) use (&$strtr) {
+            function ($matches) use (&$strtr): string {
                 $key = '%' . md5($matches[0]) . '%';
                 $strtr[$key] = $matches[0];
 
@@ -63,7 +63,7 @@ class DetailsToExpand
         return null;
     }
 
-    protected function isWithinCodeBlock(\DOMElement $element)
+    protected function isWithinCodeBlock(\DOMElement $element): bool
     {
         $current = $element->parentNode;
         while ($current != null) {

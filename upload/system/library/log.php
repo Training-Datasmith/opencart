@@ -13,17 +13,12 @@ namespace Opencart\System\Library;
  * Class Log
  */
 class Log {
-	/**
-	 * @var string
-	 */
 	private string $file;
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $filename
-	 */
-	public function __construct(string $filename) {
+     * Constructor
+     */
+    public function __construct(string $filename) {
 		$this->file = DIR_LOGS . $filename;
 
 		if (!is_file($this->file)) {
@@ -34,13 +29,11 @@ class Log {
 	}
 
 	/**
-	 * Write
-	 *
-	 * @param mixed $message
-	 *
-	 * @return void
-	 */
-	public function write($message): void {
+     * Write
+     *
+     * @param mixed $message
+     */
+    public function write($message): void {
 		file_put_contents($this->file, date('Y-m-d H:i:s') . ' - ' . print_r($message, true) . "\n", FILE_APPEND);
 	}
 }

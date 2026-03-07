@@ -7,17 +7,15 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Setting extends \Opencart\System\Engine\Controller {
 	/**
-	 * Update data related to settings.
-	 *
-	 * Called using model/setting/setting/editSetting/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Update data related to settings.
+     *
+     * Called using model/setting/setting/editSetting/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		if ($route != 'setting/setting.editSetting') {
 			// Location
 			$task_data = [

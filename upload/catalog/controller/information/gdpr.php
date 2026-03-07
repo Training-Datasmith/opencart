@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Information;
  */
 class Gdpr extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function index() {
+     * Index
+     */
+    public function index(): ?\Opencart\System\Engine\Action {
 		// Information
 		$this->load->model('catalog/information');
 
@@ -58,40 +56,37 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 			$this->response->setOutput($this->load->view('information/gdpr', $data));
 
 			return null;
-		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
 		}
+        return new \Opencart\System\Engine\Action('error/not_found');
 	}
 
 	/**
-	 *  Action Statuses
-	 *
-	 *	EXPORT
-	 *
-	 *  unverified = 0
-	 *	pending    = 1
-	 *	complete   = 3
-	 *
-	 *	REMOVE
-	 *
-	 *  unverified = 0
-	 *	pending    = 1
-	 *	processing = 2
-	 *	delete     = 3
-	 *
-	 *	DENY
-	 *
-	 *  unverified = 0
-	 *	pending    = 1
-	 *	processing = 2
-	 *	denied     = -1
-	 */
-	/**
-	 * Action
-	 *
-	 * @return void
-	 */
-	public function action(): void {
+     *  Action Statuses
+     *
+     *	EXPORT
+     *
+     *  unverified = 0
+     *	pending    = 1
+     *	complete   = 3
+     *
+     *	REMOVE
+     *
+     *  unverified = 0
+     *	pending    = 1
+     *	processing = 2
+     *	delete     = 3
+     *
+     *	DENY
+     *
+     *  unverified = 0
+     *	pending    = 1
+     *	processing = 2
+     *	denied     = -1
+     */
+    /**
+     * Action
+     */
+    public function action(): void {
 		$this->load->language('information/gdpr');
 
 		$json = [];
@@ -148,11 +143,9 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Success
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function success() {
+     * Success
+     */
+    public function success(): ?\Opencart\System\Engine\Action {
 		if (isset($this->request->get['code'])) {
 			$code = (string)$this->request->get['code'];
 		} else {
@@ -206,8 +199,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 			$this->response->setOutput($this->load->view('common/success', $data));
 
 			return null;
-		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
 		}
+        return new \Opencart\System\Engine\Action('error/not_found');
 	}
 }

@@ -24,7 +24,7 @@ class AddressFormat extends \Opencart\System\Engine\Model {
 	 * $address_format_info = $this->model_localisation_address_format->getAddressFormat($address_format_id);
 	 */
 	public function getAddressFormat(int $address_format_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . (int)$address_format_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . $address_format_id . "'");
 
 		return $query->row;
 	}

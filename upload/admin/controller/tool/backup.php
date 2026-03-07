@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Tool;
  */
 class Backup extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('tool/backup');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -68,22 +66,18 @@ class Backup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('tool/backup');
 
 		$this->response->setOutput($this->getHistory());
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	public function getHistory(): string {
+     * Get History
+     */
+    public function getHistory(): string {
 		$this->load->language('tool/backup');
 
 		$data['histories'] = [];
@@ -125,11 +119,9 @@ class Backup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Backup
-	 *
-	 * @return void
-	 */
-	public function backup(): void {
+     * Backup
+     */
+    public function backup(): void {
 		$this->load->language('tool/backup');
 
 		$json = [];
@@ -191,11 +183,9 @@ class Backup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Restore
-	 *
-	 * @return void
-	 */
-	public function restore(): void {
+     * Restore
+     */
+    public function restore(): void {
 		$this->load->language('tool/backup');
 
 		$json = [];
@@ -235,11 +225,9 @@ class Backup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Upload
-	 *
-	 * @return void
-	 */
-	public function upload(): void {
+     * Upload
+     */
+    public function upload(): void {
 		$this->load->language('tool/backup');
 
 		$json = [];
@@ -278,11 +266,9 @@ class Backup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return void
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		$this->load->language('tool/backup');
 
 		if (isset($this->request->get['filename'])) {
@@ -317,17 +303,14 @@ class Backup extends \Opencart\System\Engine\Controller {
 			readfile($file);
 
 			exit();
-		} else {
-			exit($this->language->get('error_headers_sent'));
 		}
+        exit($this->language->get('error_headers_sent'));
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('tool/backup');
 
 		$json = [];

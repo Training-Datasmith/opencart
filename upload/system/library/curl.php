@@ -7,10 +7,6 @@ namespace Opencart\System\Library\Cart;
  */
 class Curl {
 	/**
-	 * @var string
-	 */
-	private string $url = '';
-	/**
 	 * @var array<int, mixed>
 	 */
 	private array $option = [
@@ -22,25 +18,13 @@ class Curl {
 	];
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $url
-	 */
-	public function __construct(string $url) {
-		$this->url = $url;
-	}
-
-	/**
-	 * Set Option
-	 *
-	 * @see https://www.php.net/manual/en/curl.constants.php
-	 *
-	 * @param int   $key
-	 * @param mixed $value
-	 *
-	 * @return void
-	 */
-	public function setOption(int $key, mixed $value): void {
+     * Set Option
+     *
+     * @see https://www.php.net/manual/en/curl.constants.php
+     *
+     *
+     */
+    public function setOption(int $key, mixed $value): void {
 		$this->option[$key] = $value;
 	}
 
@@ -68,11 +52,9 @@ class Curl {
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 		if ($status == 200) {
-			$response_info = json_decode($response, true);
-		} else {
-			$response_info = [];
+			return json_decode($response, true);
 		}
 
-		return $response_info;
+		return [];
 	}
 }

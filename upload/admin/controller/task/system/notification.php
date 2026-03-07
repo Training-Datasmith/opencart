@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\System;
  */
 class Notification extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		if (empty($this->request->cookie['notification'])) {
 			$curl = curl_init();
 

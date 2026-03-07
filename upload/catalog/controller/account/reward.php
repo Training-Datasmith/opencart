@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Reward extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/reward');
 
 		if (isset($this->request->get['page'])) {

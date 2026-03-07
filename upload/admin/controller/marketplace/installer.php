@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Installer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketplace/installer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -53,22 +51,18 @@ class Installer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('marketplace/installer');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		$this->load->language('marketplace/installer');
 
 		if (isset($this->request->get['filter_extension_download_id'])) {
@@ -182,11 +176,9 @@ class Installer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Upload
-	 *
-	 * @return void
-	 */
-	public function upload(): void {
+     * Upload
+     */
+    public function upload(): void {
 		$this->load->language('marketplace/installer');
 
 		$json = [];
@@ -238,7 +230,7 @@ class Installer extends \Opencart\System\Engine\Controller {
 			}
 
 			// 3. Validate is ocmod file.
-			if (substr($filename, -10) != '.ocmod.zip') {
+			if (!str_ends_with($filename, '.ocmod.zip')) {
 				$json['error'] = $this->language->get('error_file_type');
 			}
 
@@ -329,11 +321,9 @@ class Installer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Install
-	 *
-	 * @return void
-	 */
-	public function install(): void {
+     * Install
+     */
+    public function install(): void {
 		$this->load->language('marketplace/installer');
 
 		$json = [];
@@ -400,18 +390,18 @@ class Installer extends \Opencart\System\Engine\Controller {
 					$prefix = '';
 
 					// OCMOD files should not be copied across
-					if (substr($destination, 0, 6) == 'ocmod/') {
+					if (str_starts_with($destination, 'ocmod/')) {
 						continue;
 					}
 
 					// image > image
-					if (substr($destination, 0, 6) == 'image/') {
+					if (str_starts_with($destination, 'image/')) {
 						$path = $destination;
 						$base = substr(DIR_IMAGE, 0, -6);
 					}
 
 					// We need to store the path differently for vendor folders.
-					if (substr($destination, 0, 15) == 'system/storage/') {
+					if (str_starts_with($destination, 'system/storage/')) {
 						$path = substr($destination, 15);
 						$base = DIR_STORAGE;
 						$prefix = 'system/storage/';
@@ -436,7 +426,7 @@ class Installer extends \Opencart\System\Engine\Controller {
 					}
 
 					// If check if the path is not directory and check there is no existing file
-					if (substr($source, -1) != '/') {
+					if (!str_ends_with($source, '/')) {
 						if (!is_file($base . $path) && file_put_contents($base . $path, $zip->getFromIndex($i)) !== false) {
 							$this->model_setting_extension->addPath($extension_install_id, $prefix . $path);
 						}
@@ -472,13 +462,11 @@ class Installer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Vendor
-	 *
-	 * Generate new autoloader file
-	 *
-	 * @return void
-	 */
-	public function vendor(): void {
+     * Vendor
+     *
+     * Generate new autoloader file
+     */
+    public function vendor(): void {
 		$this->load->language('marketplace/installer');
 
 		$json = [];
@@ -500,11 +488,9 @@ class Installer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Uninstall
-	 *
-	 * @return void
-	 */
-	public function uninstall(): void {
+     * Uninstall
+     */
+    public function uninstall(): void {
 		$this->load->language('marketplace/installer');
 
 		$json = [];
@@ -551,12 +537,12 @@ class Installer extends \Opencart\System\Engine\Controller {
 				$path = '';
 
 				// Remove images
-				if (substr($result['path'], 0, 6) == 'image/') {
+				if (str_starts_with($result['path'], 'image/')) {
 					$path = DIR_IMAGE . substr($result['path'], 6);
 				}
 
 				// Remove vendor files or any connected extensions that was also installed.
-				if (substr($result['path'], 0, 15) == 'system/storage/') {
+				if (str_starts_with($result['path'], 'system/storage/')) {
 					$path = DIR_STORAGE . substr($result['path'], 15);
 				}
 
@@ -597,11 +583,9 @@ class Installer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('marketplace/installer');
 
 		$json = [];

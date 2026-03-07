@@ -48,31 +48,30 @@ class Review extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Review
-	 *
-	 * Edit review record in the database.
-	 *
-	 * @param int                  $review_id primary key of the review record
-	 * @param array<string, mixed> $data      array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $review_data = [
-	 *     'author'     => 'Author Name',
-	 *     'product_id' => 1,
-	 *     'text'       => 'Review Text',
-	 *     'rating'     => 4,
-	 *     'status'     => 1,
-	 * ];
-	 *
-	 * $this->load->model('catalog/review');
-	 *
-	 * $this->model_catalog_review->editReview($review_id, $review_data);
-	 */
-	public function editReview(int $review_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "review` SET `author` = '" . $this->db->escape((string)$data['author']) . "', `product_id` = '" . (int)$data['product_id'] . "', `text` = '" . $this->db->escape(strip_tags((string)$data['text'])) . "', `rating` = '" . (int)$data['rating'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_added` = '" . $this->db->escape((string)$data['date_added']) . "', `date_modified` = NOW() WHERE `review_id` = '" . (int)$review_id . "'");
+     * Edit Review
+     *
+     * Edit review record in the database.
+     *
+     * @param int                  $review_id primary key of the review record
+     * @param array<string, mixed> $data      array of data
+     *
+     *
+     * @example
+     *
+     * $review_data = [
+     *     'author'     => 'Author Name',
+     *     'product_id' => 1,
+     *     'text'       => 'Review Text',
+     *     'rating'     => 4,
+     *     'status'     => 1,
+     * ];
+     *
+     * $this->load->model('catalog/review');
+     *
+     * $this->model_catalog_review->editReview($review_id, $review_data);
+     */
+    public function editReview(int $review_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "review` SET `author` = '" . $this->db->escape((string)$data['author']) . "', `product_id` = '" . (int)$data['product_id'] . "', `text` = '" . $this->db->escape(strip_tags((string)$data['text'])) . "', `rating` = '" . (int)$data['rating'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_added` = '" . $this->db->escape((string)$data['date_added']) . "', `date_modified` = NOW() WHERE `review_id` = '" . $review_id . "'");
 
 		// Update product rating
 		$this->load->model('catalog/product');
@@ -83,41 +82,38 @@ class Review extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit review status record in the database.
-	 *
-	 * @param int  $review_id primary key of the product record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/review');
-	 *
-	 * $this->model_catalog_review->editStatus($review_id, $status);
-	 */
-	public function editStatus(int $review_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "review` SET `status` = '" . (bool)$status . "' WHERE `review_id` = '" . (int)$review_id . "'");
+     * Edit Status
+     *
+     * Edit review status record in the database.
+     *
+     * @param int  $review_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/review');
+     *
+     * $this->model_catalog_review->editStatus($review_id, $status);
+     */
+    public function editStatus(int $review_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "review` SET `status` = '" . $status . "' WHERE `review_id` = '" . $review_id . "'");
 	}
 
 	/**
-	 * Delete Review
-	 *
-	 * Delete review record in the database.
-	 *
-	 * @param int $review_id primary key of the review record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/review');
-	 *
-	 * $this->model_catalog_review->deleteReview($review_id);
-	 */
-	public function deleteReview(int $review_id): void {
+     * Delete Review
+     *
+     * Delete review record in the database.
+     *
+     * @param int $review_id primary key of the review record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/review');
+     *
+     * $this->model_catalog_review->deleteReview($review_id);
+     */
+    public function deleteReview(int $review_id): void {
 		$review_info = $this->getReview($review_id);
 
 		if ($review_info) {
@@ -133,22 +129,21 @@ class Review extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Reviews By Product ID
-	 *
-	 * Delete reviews by product records in the database.
-	 *
-	 * @param int $product_id primary key of the product record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/review');
-	 *
-	 * $this->model_catalog_review->deleteReviewsByProductId($product_id);
-	 */
-	public function deleteReviewsByProductId(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "review` WHERE `product_id` = '" . (int)$product_id . "'");
+     * Delete Reviews By Product ID
+     *
+     * Delete reviews by product records in the database.
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/review');
+     *
+     * $this->model_catalog_review->deleteReviewsByProductId($product_id);
+     */
+    public function deleteReviewsByProductId(int $product_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "review` WHERE `product_id` = '" . $product_id . "'");
 
 		$this->cache->delete('product');
 	}
@@ -169,7 +164,7 @@ class Review extends \Opencart\System\Engine\Model {
 	 * $review_info = $this->model_catalog_review->getReview($review_id);
 	 */
 	public function getReview(int $review_id): array {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT `pd`.`name` FROM `" . DB_PREFIX . "product_description` `pd` WHERE `pd`.`product_id` = `r`.`product_id` AND `pd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "') AS `product` FROM `" . DB_PREFIX . "review` `r` WHERE `r`.`review_id` = '" . (int)$review_id . "'");
+		$query = $this->db->query("SELECT DISTINCT *, (SELECT `pd`.`name` FROM `" . DB_PREFIX . "product_description` `pd` WHERE `pd`.`product_id` = `r`.`product_id` AND `pd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "') AS `product` FROM `" . DB_PREFIX . "review` `r` WHERE `r`.`review_id` = '" . $review_id . "'");
 
 		return $query->row;
 	}
@@ -190,13 +185,12 @@ class Review extends \Opencart\System\Engine\Model {
 	 * $rating_info = $this->model_catalog_review->getRating($product_id);
 	 */
 	public function getRating(int $product_id): int {
-		$query = $this->db->query("SELECT AVG(`rating`) AS `total` FROM `" . DB_PREFIX . "review` WHERE `product_id` = '" . (int)$product_id . "' AND `status` = '1'");
+		$query = $this->db->query("SELECT AVG(`rating`) AS `total` FROM `" . DB_PREFIX . "review` WHERE `product_id` = '" . $product_id . "' AND `status` = '1'");
 
 		if ($query->num_rows) {
 			return (int)$query->row['total'];
-		} else {
-			return 0;
 		}
+        return 0;
 	}
 
 	/**

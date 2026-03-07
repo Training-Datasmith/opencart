@@ -42,74 +42,69 @@ class Currency extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Currency
-	 *
-	 * Edit currency record in the database.
-	 *
-	 * @param int                  $currency_id primary key of the currency record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $currency_data = [
-	 *     'title'         => 'Currency Title',
-	 *     'code'          => 'Currency Code',
-	 *     'symbol_left'   => '$',
-	 *     'symbol_right'  => '',
-	 *     'decimal_place' => 2,
-	 *     'value'         => 0.00000000,
-	 *     'status'        => 1
-	 * ];
-	 *
-	 * $this->load->model('localisation/currency');
-	 *
-	 * $this->model_localisation_currency->editCurrency($currency_id, $currency_data);
-	 */
-	public function editCurrency(int $currency_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `title` = '" . $this->db->escape((string)$data['title']) . "', `code` = '" . $this->db->escape((string)$data['code']) . "', `symbol_left` = '" . $this->db->escape((string)$data['symbol_left']) . "', `symbol_right` = '" . $this->db->escape((string)$data['symbol_right']) . "', `decimal_place` = '" . (int)$data['decimal_place'] . "', `value` = '" . (float)$data['value'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_modified` = NOW() WHERE `currency_id` = '" . (int)$currency_id . "'");
+     * Edit Currency
+     *
+     * Edit currency record in the database.
+     *
+     * @param int                  $currency_id primary key of the currency record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $currency_data = [
+     *     'title'         => 'Currency Title',
+     *     'code'          => 'Currency Code',
+     *     'symbol_left'   => '$',
+     *     'symbol_right'  => '',
+     *     'decimal_place' => 2,
+     *     'value'         => 0.00000000,
+     *     'status'        => 1
+     * ];
+     *
+     * $this->load->model('localisation/currency');
+     *
+     * $this->model_localisation_currency->editCurrency($currency_id, $currency_data);
+     */
+    public function editCurrency(int $currency_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `title` = '" . $this->db->escape((string)$data['title']) . "', `code` = '" . $this->db->escape((string)$data['code']) . "', `symbol_left` = '" . $this->db->escape((string)$data['symbol_left']) . "', `symbol_right` = '" . $this->db->escape((string)$data['symbol_right']) . "', `decimal_place` = '" . (int)$data['decimal_place'] . "', `value` = '" . (float)$data['value'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_modified` = NOW() WHERE `currency_id` = '" . $currency_id . "'");
 
 		$this->cache->delete('currency');
 	}
 
 	/**
-	 * Edit Value By Code
-	 *
-	 * @param string $code
-	 * @param float  $value
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/currency');
-	 *
-	 * $this->model_localisation_currency->editValueByCode($code, $value);
-	 */
-	public function editValueByCode(string $code, float $value): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `value` = '" . (float)$value . "', `date_modified` = NOW() WHERE `code` = '" . $this->db->escape($code) . "'");
+     * Edit Value By Code
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/currency');
+     *
+     * $this->model_localisation_currency->editValueByCode($code, $value);
+     */
+    public function editValueByCode(string $code, float $value): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `value` = '" . $value . "', `date_modified` = NOW() WHERE `code` = '" . $this->db->escape($code) . "'");
 
 		$this->cache->delete('currency');
 	}
 
 	/**
-	 * Delete Currency
-	 *
-	 * Delete currency record in the database.
-	 *
-	 * @param int $currency_id primary key of the currency record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/currency');
-	 *
-	 * $this->model_localisation_currency->deleteCurrency($currency_id);
-	 */
-	public function deleteCurrency(int $currency_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "currency` WHERE `currency_id` = '" . (int)$currency_id . "'");
+     * Delete Currency
+     *
+     * Delete currency record in the database.
+     *
+     * @param int $currency_id primary key of the currency record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/currency');
+     *
+     * $this->model_localisation_currency->deleteCurrency($currency_id);
+     */
+    public function deleteCurrency(int $currency_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "currency` WHERE `currency_id` = '" . $currency_id . "'");
 
 		$this->cache->delete('currency');
 	}
@@ -130,7 +125,7 @@ class Currency extends \Opencart\System\Engine\Model {
 	 * $currency_info = $this->model_localisation_currency->getCurrency($currency_id);
 	 */
 	public function getCurrency(int $currency_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "currency` WHERE `currency_id` = '" . (int)$currency_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "currency` WHERE `currency_id` = '" . $currency_id . "'");
 
 		return $query->row;
 	}

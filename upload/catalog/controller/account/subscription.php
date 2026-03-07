@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Subscription extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/subscription');
 
 		if (isset($this->request->get['page'])) {
@@ -132,11 +130,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function info() {
+     * Info
+     */
+    public function info(): ?\Opencart\System\Engine\Action {
 		$this->load->language('account/subscription');
 
 		if (isset($this->request->get['subscription_id'])) {
@@ -421,11 +417,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Cancel Subscription
-	 *
-	 * @return void
-	 */
-	public function cancel(): void {
+     * Cancel Subscription
+     */
+    public function cancel(): void {
 		$this->load->language('account/subscription');
 
 		$json = [];
@@ -477,11 +471,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('account/subscription');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -494,11 +486,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	protected function getHistory(): string {
+     * Get History
+     */
+    protected function getHistory(): string {
 		if (isset($this->request->get['subscription_id'])) {
 			$subscription_id = (int)$this->request->get['subscription_id'];
 		} else {
@@ -554,11 +544,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Order
-	 *
-	 * @return void
-	 */
-	public function order(): void {
+     * Order
+     */
+    public function order(): void {
 		$this->load->language('account/subscription');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -571,11 +559,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get Orders
-	 *
-	 * @return string
-	 */
-	protected function getOrders(): string {
+     * Get Orders
+     */
+    protected function getOrders(): string {
 		if (isset($this->request->get['subscription_id'])) {
 			$subscription_id = (int)$this->request->get['subscription_id'];
 		} else {

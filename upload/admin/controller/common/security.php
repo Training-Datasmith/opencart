@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Security extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/security');
 
 		$data['list'] = $this->load->controller('common/security.getList');
@@ -24,22 +22,18 @@ class Security extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('common/security');
 
 		$this->response->setOutput($this->load->controller('common/security.getList'));
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		// Install directory exists
 		$path = DIR_OPENCART . 'install/';
 
@@ -105,17 +99,14 @@ class Security extends \Opencart\System\Engine\Controller {
 
 		if ($data['install'] || $data['storage'] || $data['storage_delete'] || $data['admin'] || $data['admin_delete']) {
 			return $this->load->view('common/security_list', $data);
-		} else {
-			return '';
 		}
+        return '';
 	}
 
 	/**
-	 * Install
-	 *
-	 * @return void
-	 */
-	public function install(): void {
+     * Install
+     */
+    public function install(): void {
 		$this->load->language('common/security');
 
 		$json = [];
@@ -144,11 +135,9 @@ class Security extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Storage
-	 *
-	 * @return void
-	 */
-	public function storage(): void {
+     * Storage
+     */
+    public function storage(): void {
 		$this->load->language('common/security');
 
 		$json = [];
@@ -236,7 +225,7 @@ class Security extends \Opencart\System\Engine\Controller {
 
 					$lines = file($file);
 
-					foreach ($lines as $line_id => $line) {
+					foreach ($lines as $line) {
 						if (str_contains($line, 'define(\'DIR_STORAGE')) {
 							$output .= 'define(\'DIR_STORAGE\', \'' . $base_new . '\');' . "\n";
 						} else {
@@ -264,7 +253,7 @@ class Security extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function storage_delete() {
+	public function storage_delete(): void {
 		$this->load->language('common/security');
 
 		$json = [];
@@ -294,11 +283,9 @@ class Security extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Admin
-	 *
-	 * @return void
-	 */
-	public function admin(): void {
+     * Admin
+     */
+    public function admin(): void {
 		$this->load->language('common/security');
 
 		$json = [];
@@ -381,10 +368,10 @@ class Security extends \Opencart\System\Engine\Controller {
 
 				$lines = file($file);
 
-				foreach ($lines as $line_id => $line) {
-					if (strpos($line, 'define(\'HTTP_SERVER') !== false) {
+				foreach ($lines as $line) {
+					if (str_contains($line, 'define(\'HTTP_SERVER')) {
 						$output .= 'define(\'HTTP_SERVER\', \'' . substr(HTTP_SERVER, 0, strrpos(HTTP_SERVER, '/admin/')) . '/' . $name . '/\');' . "\n";
-					} elseif (strpos($line, 'define(\'DIR_APPLICATION') !== false) {
+					} elseif (str_contains($line, 'define(\'DIR_APPLICATION')) {
 						$output .= 'define(\'DIR_APPLICATION\', DIR_OPENCART . \'' . $name . '/\');' . "\n";
 					} else {
 						$output .= $line;
@@ -409,11 +396,9 @@ class Security extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function admin_delete(): void {
+     * Delete
+     */
+    public function admin_delete(): void {
 		$this->load->language('common/security');
 
 		$json = [];

@@ -6,17 +6,8 @@ namespace Opencart\System\Library\Template;
  * @package Opencart\System\Library\Template
  */
 class Twig {
-	/**
-	 * @var string
-	 */
 	protected string $root;
-	/**
-	 * @var \Twig\Loader\FilesystemLoader
-	 */
 	protected \Twig\Loader\FilesystemLoader $loader;
-	/**
-	 * @var string
-	 */
 	protected string $directory;
 	/**
 	 * @var array<string, string>
@@ -37,14 +28,11 @@ class Twig {
 	}
 
 	/**
-	 * Add Path
-	 *
-	 * @param string $namespace
-	 * @param string $directory
-	 *
-	 * @return void
-	 */
-	public function addPath(string $namespace, string $directory = ''): void {
+     * Add Path
+     *
+     *
+     */
+    public function addPath(string $namespace, string $directory = ''): void {
 		if (!$directory) {
 			$this->directory = $namespace;
 		} else {
@@ -53,15 +41,12 @@ class Twig {
 	}
 
 	/**
-	 * Render
-	 *
-	 * @param string               $filename
-	 * @param array<string, mixed> $data
-	 * @param string               $code
-	 *
-	 * @return string
-	 */
-	public function render(string $filename, array $data = [], string $code = ''): string {
+     * Render
+     *
+     * @param array<string, mixed> $data
+     *
+     */
+    public function render(string $filename, array $data = [], string $code = ''): string {
 		$file = $this->directory . $filename . '.html';
 
 		/*
@@ -117,7 +102,7 @@ class Twig {
 			}
 
 			return $twig->render($file, $data);
-		} catch (\Twig\Error\SyntaxError $e) {
+		} catch (\Twig\Error\SyntaxError) {
 			throw new \Exception('Error: Could not load template ' . $filename . '!');
 		}
 	}

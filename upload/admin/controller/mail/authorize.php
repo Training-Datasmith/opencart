@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Mail;
  */
 class Authorize extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * admin/controller/common/authorize.send/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param array<mixed>      $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, mixed &$output): void {
+     * Index
+     *
+     * admin/controller/common/authorize.send/after
+     *
+     * @param array<int, mixed> $args
+     * @param array<mixed>      $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, mixed &$output): void {
 		if (isset($this->session->data['code'])) {
 			$code = (string)$this->session->data['code'];
 		} else {
@@ -62,19 +60,17 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reset
-	 *
-	 * admin/model/user/user.addToken/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param array<mixed>      $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function reset(&$route, &$args, &$output): void {
+     * Reset
+     *
+     * admin/model/user/user.addToken/after
+     *
+     * @param string            $route
+     * @param array<int, mixed> $args
+     * @param array<mixed>      $output
+     *
+     * @throws \Exception
+     */
+    public function reset(&$route, array &$args, &$output): void {
 		if (isset($args[0])) {
 			$user_id = (int)$args[0];
 		} else {

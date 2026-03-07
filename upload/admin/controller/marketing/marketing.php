@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketing;
  */
 class Marketing extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketing/marketing');
 
 		if (isset($this->request->get['filter_name'])) {
@@ -83,22 +81,18 @@ class Marketing extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('marketing/marketing');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -170,8 +164,6 @@ class Marketing extends \Opencart\System\Engine\Controller {
 			'filter_date_to'
 		];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
-
 		$marketing_total = $this->model_marketing_marketing->getTotalMarketings($filter_data);
 
 		// Pagination
@@ -186,11 +178,9 @@ class Marketing extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('marketing/marketing');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -267,11 +257,9 @@ class Marketing extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('marketing/marketing');
 
 		$json = [];
@@ -321,11 +309,9 @@ class Marketing extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('marketing/marketing');
 
 		$json = [];
@@ -355,22 +341,18 @@ class Marketing extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Report
-	 *
-	 * @return void
-	 */
-	public function report(): void {
+     * Report
+     */
+    public function report(): void {
 		$this->load->language('marketing/marketing');
 
 		$this->response->setOutput($this->getReport());
 	}
 
 	/**
-	 * Get Report
-	 *
-	 * @return string
-	 */
-	public function getReport(): string {
+     * Get Report
+     */
+    public function getReport(): string {
 		if (isset($this->request->get['marketing_id'])) {
 			$marketing_id = (int)$this->request->get['marketing_id'];
 		} else {
@@ -434,11 +416,9 @@ class Marketing extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {

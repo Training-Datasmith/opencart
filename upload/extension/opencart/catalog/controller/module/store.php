@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Module;
  */
 class Store extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$status = true;
 
 		if ($this->config->get('module_store_admin')) {
@@ -47,8 +45,7 @@ class Store extends \Opencart\System\Engine\Controller {
 			}
 
 			return $this->load->view('extension/opencart/module/store', $data);
-		} else {
-			return '';
 		}
+        return '';
 	}
 }

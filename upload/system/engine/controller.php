@@ -16,27 +16,18 @@ namespace Opencart\System\Engine;
  */
 class Controller {
 	/**
-	 * @var \Opencart\System\Engine\Registry
-	 */
-	protected \Opencart\System\Engine\Registry $registry;
+     * Constructor
+     */
+    public function __construct(protected \Opencart\System\Engine\Registry $registry)
+    {
+    }
 
 	/**
-	 * Constructor
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
-		$this->registry = $registry;
-	}
-
-	/**
-	 * __get
-	 *
-	 * @param string $key
-	 *
-	 * @return object
-	 */
-	public function __get(string $key): object {
+     * __get
+     *
+     *
+     */
+    public function __get(string $key): object {
 		if (!$this->registry->has($key)) {
 			throw new \Exception('Error: Could not call registry key ' . $key . '!');
 		}
@@ -45,14 +36,11 @@ class Controller {
 	}
 
 	/**
-	 * __set
-	 *
-	 * @param string $key
-	 * @param object $value
-	 *
-	 * @return void
-	 */
-	public function __set(string $key, object $value): void {
+     * __set
+     *
+     *
+     */
+    public function __set(string $key, object $value): void {
 		$this->registry->set($key, $value);
 	}
 }

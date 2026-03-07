@@ -30,17 +30,13 @@ class Autoloader {
 	}
 
 	/**
-	 * Register
-	 *
-	 * @param string $namespace
-	 * @param string $directory
-	 * @param bool   $psr4
-	 *
-	 * @return void
-	 *
-	 * @psr-4 filename standard is stupid composer has lower case file structure than its packages have camelcase file names!
-	 */
-	public function register(string $namespace, string $directory, $psr4 = false): void {
+     * Register
+     *
+     * @param bool   $psr4
+     *
+     * @psr-4 filename standard is stupid composer has lower case file structure than its packages have camelcase file names!
+     */
+    public function register(string $namespace, string $directory, $psr4 = false): void {
 		if (isset($this->path[$namespace])) {
 			$this->path[$namespace]['directories'][] = $directory;
 		} else {
@@ -52,13 +48,11 @@ class Autoloader {
 	}
 
 	/**
-	 * Load
-	 *
-	 * @param string $class
-	 *
-	 * @return bool
-	 */
-	public function load(string $class): bool {
+     * Load
+     *
+     *
+     */
+    public function load(string $class): bool {
 		$namespace = '';
 
 		$parts = explode('\\', $class);
@@ -87,7 +81,7 @@ class Autoloader {
 
 		if (isset($files)) {
 			foreach ($files as $file) {
-				if (isset($file) && is_file($file)) include_once($file);
+				if (is_file($file)) include_once($file);
 			}
 
 			return true;

@@ -9,22 +9,19 @@ namespace Opencart\Admin\Model\Tool;
  */
 class Upload extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Upload
-	 *
-	 * Create a new upload record in the database.
-	 *
-	 * @param string $name
-	 * @param string $filename
-	 *
-	 * @return string
-	 *
-	 * @example
-	 *
-	 * $this->load->model('tool/upload');
-	 *
-	 * $code = $this->model_tool_upload->addUpload($name, $filename);
-	 */
-	public function addUpload(string $name, string $filename): string {
+     * Add Upload
+     *
+     * Create a new upload record in the database.
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('tool/upload');
+     *
+     * $code = $this->model_tool_upload->addUpload($name, $filename);
+     */
+    public function addUpload(string $name, string $filename): string {
 		$code = oc_token(32);
 
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "upload` SET `name` = '" . $this->db->escape($name) . "', `filename` = '" . $this->db->escape($filename) . "', `code` = '" . $this->db->escape($code) . "', `date_added` = NOW()");
@@ -33,22 +30,21 @@ class Upload extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Upload
-	 *
-	 * Delete upload record in the database.
-	 *
-	 * @param int $upload_id primary key of the upload record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('tool/upload');
-	 *
-	 * $this->model_tool_upload->deleteUpload($upload_id);
-	 */
-	public function deleteUpload(int $upload_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "upload` WHERE `upload_id` = '" . (int)$upload_id . "'");
+     * Delete Upload
+     *
+     * Delete upload record in the database.
+     *
+     * @param int $upload_id primary key of the upload record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('tool/upload');
+     *
+     * $this->model_tool_upload->deleteUpload($upload_id);
+     */
+    public function deleteUpload(int $upload_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "upload` WHERE `upload_id` = '" . $upload_id . "'");
 	}
 
 	/**
@@ -67,25 +63,23 @@ class Upload extends \Opencart\System\Engine\Model {
 	 * $upload_info = $this->model_tool_upload->getUpload($upload_id);
 	 */
 	public function getUpload(int $upload_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "upload` WHERE `upload_id` = '" . (int)$upload_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "upload` WHERE `upload_id` = '" . $upload_id . "'");
 
 		return $query->row;
 	}
 
 	/**
-	 * Get Upload By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('tool/upload');
-	 *
-	 * $upload_info = $this->model_tool_upload->getUploadByCode($code);
-	 */
-	public function getUploadByCode(string $code): array {
+     * Get Upload By Code
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('tool/upload');
+     *
+     * $upload_info = $this->model_tool_upload->getUploadByCode($code);
+     */
+    public function getUploadByCode(string $code): array {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "upload` WHERE `code` = '" . $this->db->escape($code) . "'");
 
 		return $query->row;

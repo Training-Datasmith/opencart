@@ -42,52 +42,50 @@ class Identifier extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Identifier
-	 *
-	 * Edit identifier record in the database.
-	 *
-	 * @param int                  $identifier_id primary key of the identifier record
-	 * @param array<string, mixed> $data          array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $identifier_data = [
-	 *     'author'     => 'Author Name',
-	 *     'product_id' => 1,
-	 *     'text'       => 'Identifier Text',
-	 *     'rating'     => 4,
-	 *     'status'     => 1,
-	 * ];
-	 *
-	 * $this->load->model('localisation/identifier');
-	 *
-	 * $this->model_localisation_identifier->editIdentifier($identifier_id, $identifier_data);
-	 */
-	public function editIdentifier(int $identifier_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "identifier` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `code` = '" . $this->db->escape((string)$data['code']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `identifier_id` = '" . (int)$identifier_id . "'");
+     * Edit Identifier
+     *
+     * Edit identifier record in the database.
+     *
+     * @param int                  $identifier_id primary key of the identifier record
+     * @param array<string, mixed> $data          array of data
+     *
+     *
+     * @example
+     *
+     * $identifier_data = [
+     *     'author'     => 'Author Name',
+     *     'product_id' => 1,
+     *     'text'       => 'Identifier Text',
+     *     'rating'     => 4,
+     *     'status'     => 1,
+     * ];
+     *
+     * $this->load->model('localisation/identifier');
+     *
+     * $this->model_localisation_identifier->editIdentifier($identifier_id, $identifier_data);
+     */
+    public function editIdentifier(int $identifier_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "identifier` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `code` = '" . $this->db->escape((string)$data['code']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `identifier_id` = '" . $identifier_id . "'");
 
 		$this->cache->delete('identifier');
 	}
 
 	/**
-	 * Delete Identifier
-	 *
-	 * Delete identifier record in the database.
-	 *
-	 * @param int $identifier_id primary key of the identifier record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/identifier');
-	 *
-	 * $this->model_localisation_identifier->deleteIdentifier($identifier_id);
-	 */
-	public function deleteIdentifier(int $identifier_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "identifier` WHERE `identifier_id` = '" . (int)$identifier_id . "'");
+     * Delete Identifier
+     *
+     * Delete identifier record in the database.
+     *
+     * @param int $identifier_id primary key of the identifier record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/identifier');
+     *
+     * $this->model_localisation_identifier->deleteIdentifier($identifier_id);
+     */
+    public function deleteIdentifier(int $identifier_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "identifier` WHERE `identifier_id` = '" . $identifier_id . "'");
 
 		$this->cache->delete('identifier');
 	}
@@ -108,22 +106,21 @@ class Identifier extends \Opencart\System\Engine\Model {
 	 * $identifier_info = $this->model_localisation_identifier->getIdentifier($identifier_id);
 	 */
 	public function getIdentifier(int $identifier_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "identifier` WHERE `identifier_id` = '" . (int)$identifier_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "identifier` WHERE `identifier_id` = '" . $identifier_id . "'");
 
 		return $query->row;
 	}
 
 	/**
-	 * Get Identifier By Code
-	 *
-	 * Get the record of the identifier record in the database.
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function getIdentifierByCode(string $code): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "identifier` WHERE `code` = '" . $this->db->escape((string)$code) . "'");
+     * Get Identifier By Code
+     *
+     * Get the record of the identifier record in the database.
+     *
+     *
+     * @return array<string, mixed>
+     */
+    public function getIdentifierByCode(string $code): array {
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "identifier` WHERE `code` = '" . $this->db->escape($code) . "'");
 
 		return $query->row;
 	}

@@ -7,14 +7,14 @@ use Todaymade\Daux\Cache;
 
 class ClearCache extends SymfonyCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('clear-cache')
             ->setDescription('Clears the cache');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("Clearing cache at '" . Cache::getDirectory() . "'");
         Cache::clear();

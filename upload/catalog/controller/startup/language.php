@@ -12,11 +12,9 @@ class Language extends \Opencart\System\Engine\Controller {
 	private static array $languages = [];
 
 	/**
-	 * Index
-	 *
-	 * @return ?\Opencart\System\Engine\Action
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		// Languages
 		$this->load->model('localisation/language');
 
@@ -55,18 +53,16 @@ class Language extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * After
-	 *
-	 * Override the language default values
-	 *
-	 * @param string       $route
-	 * @param string       $prefix
-	 * @param string       $code
-	 * @param array<mixed> $output
-	 *
-	 * @return void
-	 */
-	public function after(&$route, &$prefix, &$code, &$output): void {
+     * After
+     *
+     * Override the language default values
+     *
+     * @param string       $prefix
+     * @param string       $code
+     * @param array<mixed> $output
+     *
+     */
+    public function after(string &$route, &$prefix, &$code, &$output): void {
 		if (!$code) {
 			$code = $this->config->get('config_language');
 		}

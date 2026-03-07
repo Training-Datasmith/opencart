@@ -17,27 +17,16 @@ namespace Opencart\System\Engine;
  * @package Opencart\System\Engine
  */
 class Action {
-	/**
-	 * @var string
-	 */
 	private string $route;
 
-	/**
-	 * @var string
-	 */
 	private string $controller;
 
-	/**
-	 * @var string
-	 */
 	private string $method;
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $route
-	 */
-	public function __construct(string $route) {
+     * Constructor
+     */
+    public function __construct(string $route) {
 		$this->route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', $route);
 
 		$pos = strrpos($route, '.');
@@ -52,25 +41,21 @@ class Action {
 	}
 
 	/**
-	 * Get Id
-	 *
-	 * @return string
-	 */
-	public function getId(): string {
+     * Get Id
+     */
+    public function getId(): string {
 		return $this->route;
 	}
 
 	/**
-	 * Execute
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 * @param array<mixed>                     $args
-	 *
-	 * @return mixed
-	 */
-	public function execute(\Opencart\System\Engine\Registry $registry, array &$args = []) {
+     * Execute
+     *
+     * @param array<mixed>                     $args
+     * @return mixed
+     */
+    public function execute(\Opencart\System\Engine\Registry $registry, array &$args = []) {
 		// Stop any magical methods being called
-		if (substr($this->method, 0, 2) == '__') {
+		if (str_starts_with($this->method, '__')) {
 			return new \Exception('Error: Calls to magic methods are not allowed!');
 		}
 
@@ -94,8 +79,7 @@ class Action {
 
 		if (is_callable($callable)) {
 			return $callable(...$args);
-		} else {
-			return new \Exception('Error: Could not call controller ' . $this->route . '!');
 		}
+        return new \Exception('Error: Could not call controller ' . $this->route . '!');
 	}
 }

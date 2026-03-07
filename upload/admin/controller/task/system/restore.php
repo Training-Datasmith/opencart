@@ -7,13 +7,11 @@ namespace Opencart\Admin\Controller\Task\System;
  */
 class Restore extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate restore task list.
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate restore task list.
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/system/restore');
 
 		if (!array_key_exists('filename', $args)) {
@@ -110,7 +108,7 @@ class Restore extends \Opencart\System\Engine\Controller {
 				}
 			}
 
-			if ((substr($line, 0, 14) == 'TRUNCATE TABLE' || substr($line, 0, 11) == 'INSERT INTO') && substr($line, -2) == ";\n") {
+			if ((str_starts_with($line, 'TRUNCATE TABLE') || str_starts_with($line, 'INSERT INTO')) && str_ends_with($line, ";\n")) {
 				$this->db->query(substr($line, 0, strlen($line) - 2));
 			}
 

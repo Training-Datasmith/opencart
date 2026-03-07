@@ -21,13 +21,11 @@ namespace Opencart\Catalog\Controller\Product;
  */
 class Thumb extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return string
-	 */
-	public function index(array $data): string {
+     * Index
+     *
+     * @param array<string, mixed> $data array of data
+     */
+    public function index(array $data): string {
 		$this->load->language('product/thumb');
 
 		$data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));

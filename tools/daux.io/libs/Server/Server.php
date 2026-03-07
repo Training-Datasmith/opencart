@@ -16,16 +16,13 @@ use Todaymade\Daux\Format\HTML\RawPage;
 
 class Server
 {
-    private Daux $daux;
     private $config;
     private string $baseUrl;
 
     private Request $request;
 
-    public function __construct(Daux $daux)
+    public function __construct(private Daux $daux)
     {
-        $this->daux = $daux;
-
         $this->request = Request::createFromGlobals();
         $this->baseUrl = str_replace('//', '/', '/' . $this->request->getBaseUrl() . '/');
     }
@@ -35,7 +32,7 @@ class Server
      *
      * @throws Exception
      */
-    public static function serve()
+    public static function serve(): void
     {
         $verbosity = getenv('DAUX_VERBOSITY');
         $output = new ConsoleOutput($verbosity);
@@ -71,11 +68,9 @@ class Server
     /**
      * Create a temporary file with the file suffix, for mime type detection.
      *
-     * @param string $postfix
      *
-     * @return string
      */
-    private function getTemporaryFile($postfix)
+    private function getTemporaryFile(string $postfix): string
     {
         $sysFileName = tempnam(sys_get_temp_dir(), 'daux');
         if ($sysFileName === false) {
@@ -97,7 +92,7 @@ class Server
     /**
      * @return Response
      */
-    public function createResponse(Page $page)
+    public function createResponse(Page $page): \Symfony\Component\HttpFoundation\BinaryFileResponse|\Symfony\Component\HttpFoundation\Response
     {
         // Add a custom MimeType guesser in case the default ones are not available
         // This makes sure that at least CSS and JS work fine.
@@ -144,7 +139,7 @@ class Server
 
         $request = substr($this->request->getRequestUri(), strlen($this->request->getBaseUrl()) + 1);
 
-        if (substr($request, 0, 7) == 'themes/') {
+        if (str_starts_with($request, 'themes/')) {
             return $this->serveTheme(substr($request, 6));
         }
 
@@ -158,13 +153,11 @@ class Server
     /**
      * Handle a request on custom themes.
      *
-     * @param string $request
      *
      * @return \Todaymade\Daux\Format\Base\Page
-     *
      * @throws NotFoundException
      */
-    public function serveTheme($request)
+    public function serveTheme(string $request): \Todaymade\Daux\Format\HTML\RawPage
     {
         $file = $this->getConfig()->getThemesPath() . $request;
 
@@ -182,7 +175,7 @@ class Server
      *
      * @throws NotFoundException
      */
-    private function getPage($request)
+    private function getPage(?string $request)
     {
         $file = DauxHelper::getFile($this->daux->tree, $request);
         if ($file === false) {
@@ -195,7 +188,7 @@ class Server
 
         if (!$generator instanceof LiveGenerator) {
             throw new Exception(
-                "The generator '" . get_class($generator) . "' does not implement the interface " .
+                "The generator '" . $generator::class . "' does not implement the interface " .
                 "'Todaymade\\Daux\\Format\\Base\\LiveGenerator' and thus doesn't support live rendering."
             );
         }

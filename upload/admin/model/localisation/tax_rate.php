@@ -45,30 +45,29 @@ class TaxRate extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Tax Rate
-	 *
-	 * Edit tax rate record in the database.
-	 *
-	 * @param int                  $tax_rate_id primary key of the tax rate record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $tax_rate_data = [
-	 *     'name'        => 'Tax Rate Name',
-	 *     'rate'        => 0.0000,
-	 *     'type'        => 'F',
-	 *     'geo_zone_id' => 1
-	 * ];
-	 *
-	 * $this->load->model('localisation/tax_rate');
-	 *
-	 * $this->model_localisation_tax_rate->editTaxRate($tax_rate_id, $tax_rate_data);
-	 */
-	public function editTaxRate(int $tax_rate_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "tax_rate` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `rate` = '" . (float)$data['rate'] . "', `type` = '" . $this->db->escape((string)$data['type']) . "', `geo_zone_id` = '" . (int)$data['geo_zone_id'] . "' WHERE `tax_rate_id` = '" . (int)$tax_rate_id . "'");
+     * Edit Tax Rate
+     *
+     * Edit tax rate record in the database.
+     *
+     * @param int                  $tax_rate_id primary key of the tax rate record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $tax_rate_data = [
+     *     'name'        => 'Tax Rate Name',
+     *     'rate'        => 0.0000,
+     *     'type'        => 'F',
+     *     'geo_zone_id' => 1
+     * ];
+     *
+     * $this->load->model('localisation/tax_rate');
+     *
+     * $this->model_localisation_tax_rate->editTaxRate($tax_rate_id, $tax_rate_data);
+     */
+    public function editTaxRate(int $tax_rate_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "tax_rate` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `rate` = '" . (float)$data['rate'] . "', `type` = '" . $this->db->escape((string)$data['type']) . "', `geo_zone_id` = '" . (int)$data['geo_zone_id'] . "' WHERE `tax_rate_id` = '" . $tax_rate_id . "'");
 
 		$this->deleteCustomerGroups($tax_rate_id);
 
@@ -80,22 +79,21 @@ class TaxRate extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Tax Rate
-	 *
-	 * Delete tax rate record in the database.
-	 *
-	 * @param int $tax_rate_id primary key of the tax rate record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/tax_rate');
-	 *
-	 * $this->model_localisation_tax_rate->deleteTaxRate($tax_rate_id);
-	 */
-	public function deleteTaxRate(int $tax_rate_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "tax_rate` WHERE `tax_rate_id` = '" . (int)$tax_rate_id . "'");
+     * Delete Tax Rate
+     *
+     * Delete tax rate record in the database.
+     *
+     * @param int $tax_rate_id primary key of the tax rate record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/tax_rate');
+     *
+     * $this->model_localisation_tax_rate->deleteTaxRate($tax_rate_id);
+     */
+    public function deleteTaxRate(int $tax_rate_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "tax_rate` WHERE `tax_rate_id` = '" . $tax_rate_id . "'");
 
 		$this->deleteCustomerGroups($tax_rate_id);
 	}
@@ -116,7 +114,7 @@ class TaxRate extends \Opencart\System\Engine\Model {
 	 * $tax_rate_info = $this->model_localisation_tax_rate->getTaxRate($tax_rate_id);
 	 */
 	public function getTaxRate(int $tax_rate_id): array {
-		$query = $this->db->query("SELECT `tr`.`tax_rate_id`, `tr`.`name` AS `name`, `tr`.`rate`, `tr`.`type`, `tr`.`geo_zone_id`, `gz`.`name` AS `geo_zone` FROM `" . DB_PREFIX . "tax_rate` `tr` LEFT JOIN `" . DB_PREFIX . "geo_zone` `gz` ON (`tr`.`geo_zone_id` = `gz`.`geo_zone_id`) WHERE `tr`.`tax_rate_id` = '" . (int)$tax_rate_id . "'");
+		$query = $this->db->query("SELECT `tr`.`tax_rate_id`, `tr`.`name` AS `name`, `tr`.`rate`, `tr`.`type`, `tr`.`geo_zone_id`, `gz`.`name` AS `geo_zone` FROM `" . DB_PREFIX . "tax_rate` `tr` LEFT JOIN `" . DB_PREFIX . "geo_zone` `gz` ON (`tr`.`geo_zone_id` = `gz`.`geo_zone_id`) WHERE `tr`.`tax_rate_id` = '" . $tax_rate_id . "'");
 
 		return $query->row;
 	}
@@ -186,7 +184,7 @@ class TaxRate extends \Opencart\System\Engine\Model {
 	 * Get Tax Rates By Geo Zone ID
 	 */
 	public function getTaxRatesByGeoZoneId(int $geo_zone_id): array {
-		$query = $this->db->query("SELECT `tr1`.`tax_rule_id`, `tr1`.`tax_rate_id`, `tr1`.`tax_class_id`, `tr2`.`name`, `tr2`.`rate`, `tr2`.`type`, `tr1`.`priority`, `gz`.`name` AS `geo_zone`  FROM `" . DB_PREFIX . "tax_rule` `tr1` LEFT JOIN `" . DB_PREFIX . "tax_rate` `tr2` ON (`tr1`.`tax_rate_id` = `tr2`.`tax_rate_id`) LEFT JOIN `" . DB_PREFIX . "geo_zone` `gz` ON (`tr2`.`geo_zone_id` = `gz`.`geo_zone_id`) WHERE `tr2`.`geo_zone_id` = '" . (int)$geo_zone_id . "'");
+		$query = $this->db->query("SELECT `tr1`.`tax_rule_id`, `tr1`.`tax_rate_id`, `tr1`.`tax_class_id`, `tr2`.`name`, `tr2`.`rate`, `tr2`.`type`, `tr1`.`priority`, `gz`.`name` AS `geo_zone`  FROM `" . DB_PREFIX . "tax_rule` `tr1` LEFT JOIN `" . DB_PREFIX . "tax_rate` `tr2` ON (`tr1`.`tax_rate_id` = `tr2`.`tax_rate_id`) LEFT JOIN `" . DB_PREFIX . "geo_zone` `gz` ON (`tr2`.`geo_zone_id` = `gz`.`geo_zone_id`) WHERE `tr2`.`geo_zone_id` = '" . $geo_zone_id . "'");
 
 		return $query->rows;
 	}
@@ -226,67 +224,64 @@ class TaxRate extends \Opencart\System\Engine\Model {
 	 * $tax_rate_total = $this->model_localisation_tax_rate->getTotalTaxRatesByGeoZoneId($geo_zone_id);
 	 */
 	public function getTotalTaxRatesByGeoZoneId(int $geo_zone_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "tax_rate` WHERE `geo_zone_id` = '" . (int)$geo_zone_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "tax_rate` WHERE `geo_zone_id` = '" . $geo_zone_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Customer Group
-	 *
-	 * Create a new tax rate to customer group record in the database.
-	 *
-	 * @param int $tax_rate_id       primary key of the tax rate record
-	 * @param int $customer_group_id primary key of the customer group record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/tax_rate');
-	 *
-	 * $this->model_localisation_tax_rate->addCustomerGroup($tax_rate_id, $customer_group_id);
-	 */
-	public function addCustomerGroup(int $tax_rate_id, int $customer_group_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "tax_rate_to_customer_group` SET `tax_rate_id` = '" . (int)$tax_rate_id . "', `customer_group_id` = '" . (int)$customer_group_id . "'");
+     * Add Customer Group
+     *
+     * Create a new tax rate to customer group record in the database.
+     *
+     * @param int $tax_rate_id       primary key of the tax rate record
+     * @param int $customer_group_id primary key of the customer group record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/tax_rate');
+     *
+     * $this->model_localisation_tax_rate->addCustomerGroup($tax_rate_id, $customer_group_id);
+     */
+    public function addCustomerGroup(int $tax_rate_id, int $customer_group_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "tax_rate_to_customer_group` SET `tax_rate_id` = '" . $tax_rate_id . "', `customer_group_id` = '" . $customer_group_id . "'");
 	}
 
 	/**
-	 * Delete Customer Groups
-	 *
-	 * Delete tax rate to customer group records in the database.
-	 *
-	 * @param int $tax_rate_id primary key of the tax rate record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/tax_rate');
-	 *
-	 * $this->model_localisation_tax_rate->deleteCustomerGroups($tax_rate_id);
-	 */
-	public function deleteCustomerGroups(int $tax_rate_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "tax_rate_to_customer_group` WHERE `tax_rate_id` = '" . (int)$tax_rate_id . "'");
+     * Delete Customer Groups
+     *
+     * Delete tax rate to customer group records in the database.
+     *
+     * @param int $tax_rate_id primary key of the tax rate record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/tax_rate');
+     *
+     * $this->model_localisation_tax_rate->deleteCustomerGroups($tax_rate_id);
+     */
+    public function deleteCustomerGroups(int $tax_rate_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "tax_rate_to_customer_group` WHERE `tax_rate_id` = '" . $tax_rate_id . "'");
 	}
 
 	/**
-	 * Delete Customer Groups By Customer Group ID
-	 *
-	 * Delete tax rate to customer groups by customer group records in the database.
-	 *
-	 * @param int $customer_group_id primary key of the customer group record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/tax_rate');
-	 *
-	 * $this->model_localisation_tax_rate->deleteCustomerGroupsByCustomerGroupId($customer_group_id);
-	 */
-	public function deleteCustomerGroupsByCustomerGroupId(int $customer_group_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "tax_rate_to_customer_group` WHERE `customer_group_id` = '" . (int)$customer_group_id . "'");
+     * Delete Customer Groups By Customer Group ID
+     *
+     * Delete tax rate to customer groups by customer group records in the database.
+     *
+     * @param int $customer_group_id primary key of the customer group record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/tax_rate');
+     *
+     * $this->model_localisation_tax_rate->deleteCustomerGroupsByCustomerGroupId($customer_group_id);
+     */
+    public function deleteCustomerGroupsByCustomerGroupId(int $customer_group_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "tax_rate_to_customer_group` WHERE `customer_group_id` = '" . $customer_group_id . "'");
 	}
 
 	/**
@@ -307,7 +302,7 @@ class TaxRate extends \Opencart\System\Engine\Model {
 	public function getCustomerGroups(int $tax_rate_id): array {
 		$tax_customer_group_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "tax_rate_to_customer_group` WHERE `tax_rate_id` = '" . (int)$tax_rate_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "tax_rate_to_customer_group` WHERE `tax_rate_id` = '" . $tax_rate_id . "'");
 
 		foreach ($query->rows as $result) {
 			$tax_customer_group_data[] = $result['customer_group_id'];

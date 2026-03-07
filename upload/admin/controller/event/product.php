@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Product extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Product
-	 *
-	 * Adds task to generate new product data.
-	 *
-	 * Called using model/catalog/product/addProduct/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addProduct(string &$route, array &$args, &$output): void {
+     * Add Product
+     *
+     * Adds task to generate new product data.
+     *
+     * Called using model/catalog/product/addProduct/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addProduct(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'product.info.' . $output,
 			'action' => 'task/catalog/product.info',
@@ -65,19 +63,17 @@ class Product extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Product
-	 *
-	 * Adds task to generate new product data.
-	 *
-	 * Called using model/catalog/product/editProduct/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function editProduct(string &$route, array &$args, &$output): void {
+     * Edit Product
+     *
+     * Adds task to generate new product data.
+     *
+     * Called using model/catalog/product/editProduct/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function editProduct(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'product.info.' . $args[0],
 			'action' => 'task/catalog/product.info',
@@ -90,19 +86,17 @@ class Product extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Product
-	 *
-	 * Adds task to generate new product data.
-	 *
-	 * Called using model/catalog/product/deleteProduct/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function deleteProduct(string &$route, array &$args, &$output): void {
+     * Delete Product
+     *
+     * Adds task to generate new product data.
+     *
+     * Called using model/catalog/product/deleteProduct/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function deleteProduct(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'product.delete.' . $args[0],
 			'action' => 'task/catalog/product.delete',

@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Event extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketplace/event');
 
 		if (isset($this->request->get['filter_code'])) {
@@ -67,22 +65,18 @@ class Event extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('marketplace/event');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_code'])) {
 			$filter_code = (string)$this->request->get['filter_code'];
 		} else {
@@ -144,11 +138,9 @@ class Event extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('marketplace/event');
 
 		$json = [];
@@ -178,11 +170,9 @@ class Event extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('marketplace/event');
 
 		$json = [];
@@ -212,11 +202,9 @@ class Event extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('marketplace/event');
 
 		$json = [];

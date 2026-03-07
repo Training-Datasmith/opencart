@@ -26,7 +26,7 @@ class Root extends Directory
         return $this->config;
     }
 
-    public function setConfig(Config $config)
+    public function setConfig(Config $config): void
     {
         $this->config = $config;
     }
@@ -54,7 +54,7 @@ class Root extends Directory
         return false;
     }
 
-    public function setActiveNode(Entry $node)
+    public function setActiveNode(Entry $node): void
     {
         $this->activeNode = $node;
     }

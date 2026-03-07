@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Tracking extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		if (!$this->load->controller('account/login.validate')) {
 			$this->session->data['redirect'] = $this->url->link('account/tracking', 'language=' . $this->config->get('config_language'));
 
@@ -75,11 +73,9 @@ class Tracking extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$json = [];
 
 		if (isset($this->request->get['search'])) {

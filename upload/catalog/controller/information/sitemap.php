@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Information;
  */
 class Sitemap extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('information/sitemap');
 
 		$this->document->setTitle($this->language->get('heading_title'));

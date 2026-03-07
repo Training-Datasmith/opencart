@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Startup;
  */
 class Setting extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		// Setting
 		$this->load->model('setting/setting');
 

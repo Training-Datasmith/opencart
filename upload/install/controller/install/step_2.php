@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Install;
  */
 class Step2 extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('install/step_2');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -135,18 +133,12 @@ class Step2 extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('install/step_2');
 
 		$json = [];
-
-		if (version_compare(PHP_VERSION, '8.0', '<')) {
-			$json['error'] = $this->language->get('error_version');
-		}
 
 		$open_basedir = str_replace('\\', '/', ini_get('open_basedir'));
 

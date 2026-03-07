@@ -7,12 +7,15 @@ class GeneratorHelper
      *
      * @param string $dir
      */
-    public static function rmdir($dir)
+    public static function rmdir($dir): void
     {
         $it = new \RecursiveDirectoryIterator($dir);
         $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($files as $file) {
-            if ($file->getFilename() === '.' || $file->getFilename() === '..') {
+            if ($file->getFilename() === '.') {
+                continue;
+            }
+            if ($file->getFilename() === '..') {
                 continue;
             }
             if ($file->isDir()) {
@@ -25,11 +28,8 @@ class GeneratorHelper
 
     /**
      * Copy files recursively.
-     *
-     * @param string $source
-     * @param string $destination
      */
-    public static function copyRecursive($source, $destination)
+    public static function copyRecursive(string $source, string $destination): void
     {
         if (!is_dir($destination)) {
             mkdir($destination);

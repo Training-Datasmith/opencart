@@ -9,73 +9,70 @@ namespace Opencart\Admin\Model\Localisation;
  */
 class AddressFormat extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Address Format
-	 *
-	 * Create a new address format record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $address_format_data = [
-	 *     'name'           => 'Address Format Name',
-	 *     'address_format' => ''
-	 * ];
-	 *
-	 * $this->load->model('localisation/address_format');
-	 *
-	 * $address_format_id = $this->model_localisation_address_format->addAddressFormat($address_format_data);
-	 */
-	public function addAddressFormat(array $data): int {
+     * Add Address Format
+     *
+     * Create a new address format record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $address_format_data = [
+     *     'name'           => 'Address Format Name',
+     *     'address_format' => ''
+     * ];
+     *
+     * $this->load->model('localisation/address_format');
+     *
+     * $address_format_id = $this->model_localisation_address_format->addAddressFormat($address_format_data);
+     */
+    public function addAddressFormat(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address_format` = '" . $this->db->escape((string)$data['address_format']) . "'");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Edit Address Format
-	 *
-	 * Edit address format record in the database.
-	 *
-	 * @param int                  $address_format_id primary key of the address format record
-	 * @param array<string, mixed> $data              array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $address_format_data = [
-	 *     'name'           => 'Address Format Name',
-	 *     'address_format' => ''
-	 * ];
-	 *
-	 * $this->load->model('localisation/address_format');
-	 *
-	 * $this->model_localisation_address_format->editAddressFormat($address_format_id, $address_format_data);
-	 */
-	public function editAddressFormat(int $address_format_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address_format` = '" . $this->db->escape((string)$data['address_format']) . "' WHERE `address_format_id` = '" . (int)$address_format_id . "'");
+     * Edit Address Format
+     *
+     * Edit address format record in the database.
+     *
+     * @param int                  $address_format_id primary key of the address format record
+     * @param array<string, mixed> $data              array of data
+     *
+     *
+     * @example
+     *
+     * $address_format_data = [
+     *     'name'           => 'Address Format Name',
+     *     'address_format' => ''
+     * ];
+     *
+     * $this->load->model('localisation/address_format');
+     *
+     * $this->model_localisation_address_format->editAddressFormat($address_format_id, $address_format_data);
+     */
+    public function editAddressFormat(int $address_format_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address_format` = '" . $this->db->escape((string)$data['address_format']) . "' WHERE `address_format_id` = '" . $address_format_id . "'");
 	}
 
 	/**
-	 * Delete Address Format
-	 *
-	 * Delete address format record in the database.
-	 *
-	 * @param int $address_format_id primary key of the address format record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/address_format');
-	 *
-	 * $this->model_localisation_address_format->deleteAddressFormat($address_format_id);
-	 */
-	public function deleteAddressFormat(int $address_format_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . (int)$address_format_id . "'");
+     * Delete Address Format
+     *
+     * Delete address format record in the database.
+     *
+     * @param int $address_format_id primary key of the address format record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/address_format');
+     *
+     * $this->model_localisation_address_format->deleteAddressFormat($address_format_id);
+     */
+    public function deleteAddressFormat(int $address_format_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . $address_format_id . "'");
 	}
 
 	/**
@@ -94,7 +91,7 @@ class AddressFormat extends \Opencart\System\Engine\Model {
 	 * $address_format_info = $this->model_localisation_address_format->getAddressFormat($address_format_id);
 	 */
 	public function getAddressFormat(int $address_format_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . (int)$address_format_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . $address_format_id . "'");
 
 		return $query->row;
 	}

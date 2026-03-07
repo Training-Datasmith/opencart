@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Forgotten extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/forgotten');
 
 		if ($this->customer->isLogged()) {
@@ -51,11 +49,9 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @return void
-	 */
-	public function confirm(): void {
+     * Confirm
+     */
+    public function confirm(): void {
 		$this->load->language('account/forgotten');
 
 		$json = [];
@@ -90,11 +86,9 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reset
-	 *
-	 * @return void
-	 */
-	public function reset(): void {
+     * Reset
+     */
+    public function reset(): void {
 		$this->load->language('account/forgotten');
 
 		if (isset($this->request->get['email'])) {
@@ -161,11 +155,9 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Password
-	 *
-	 * @return void
-	 */
-	public function password(): void {
+     * Password
+     */
+    public function password(): void {
 		$this->load->language('account/forgotten');
 
 		$json = [];

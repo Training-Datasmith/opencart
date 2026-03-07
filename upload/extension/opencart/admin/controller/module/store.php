@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Module;
  */
 class Store extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/module/store');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -47,11 +45,9 @@ class Store extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/module/store');
 
 		$json = [];

@@ -80,15 +80,13 @@ $response = new \Opencart\System\Library\Response();
 $response->addHeader('Content-Type: text/plain; charset=utf-8');
 $registry->set('response', $response);
 
-set_error_handler(function(int $code, string $message, string $file, int $line) {
+set_error_handler(function(int $code, string $message, string $file, int $line): bool {
 	// error was suppressed with the @-operator
 	if (error_reporting() === 0) {
 		return false;
 	}
 
 	throw new \ErrorException($message, 0, $code, $file, $line);
-
-	return true;
 });
 
 /**
@@ -98,11 +96,9 @@ set_error_handler(function(int $code, string $message, string $file, int $line) 
  */
 class CliInstall extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		if (isset($this->request->server['argv'])) {
 			$argv = $this->request->server['argv'];
 		} else {
@@ -110,32 +106,25 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 		}
 
 		// Just displays the path to the file
-		$script = array_shift($argv);
+		array_shift($argv);
 
 		// Get the arguments passed with the command
 		$command = array_shift($argv);
 
-		switch ($command) {
-			case 'install':
-				$output = $this->install($argv);
-				break;
-			case 'usage':
-			default:
-				$output = $this->usage();
-				break;
-		}
+		$output = match ($command) {
+            'install' => $this->install($argv),
+            default => $this->usage(),
+        };
 
 		$this->response->setOutput($output);
 	}
 
 	/**
-	 * Install
-	 *
-	 * @param array<int, string> $argv
-	 *
-	 * @return string
-	 */
-	public function install(array $argv): string {
+     * Install
+     *
+     * @param array<int, string> $argv
+     */
+    public function install(array $argv): string {
 		// Options
 		$option = [
 			'username'    => 'admin',
@@ -152,11 +141,11 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 
 		// Turn args into an array
 		for ($i = 0; $i < count($argv); $i++) {
-			if (substr($argv[$i], 0, 2) == '--') {
+			if (str_starts_with($argv[$i], '--')) {
 				$key = substr($argv[$i], 2);
 
 				// If the next line also starts with -- we need to fill in a null value for the current one
-				if (isset($argv[$i + 1]) && substr($argv[$i + 1], 0, 2) != '--') {
+				if (isset($argv[$i + 1]) && !str_starts_with($argv[$i + 1], '--')) {
 					$option[$key] = $argv[$i + 1];
 
 					// Skip the counter by 2
@@ -199,10 +188,6 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 
 		// Pre-installation check
 		$error = '';
-
-		if (version_compare(PHP_VERSION, '8.0', '<')) {
-			$error .= 'ERROR: You need to use PHP8.0+ or above for OpenCart to work!' . "\n";
-		}
 
 		if (!ini_get('file_uploads')) {
 			$error .= 'ERROR: file_uploads needs to be enabled!' . "\n";
@@ -369,7 +354,7 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 			$start = false;
 
 			foreach ($lines as $line) {
-				if (substr($line, 0, 12) == 'INSERT INTO ') {
+				if (str_starts_with($line, 'INSERT INTO ')) {
 					$sql = '';
 
 					$start = true;
@@ -379,7 +364,7 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 					$sql .= $line;
 				}
 
-				if (substr($line, -2) == ');') {
+				if (str_ends_with($line, ');')) {
 					$db->query(str_replace("INSERT INTO `oc_", "INSERT INTO `" . $db_prefix, $sql));
 
 					$start = false;
@@ -404,7 +389,7 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 			$last_id = $db->getLastId();
 
 			$db->query("DELETE FROM `" . $db_prefix . "setting` WHERE `key` = 'config_api_id'");
-			$db->query("INSERT INTO `" . $db_prefix . "setting` SET `code` = 'config', `key` = 'config_api_id', `value` = '" . (int)$last_id . "'");
+			$db->query("INSERT INTO `" . $db_prefix . "setting` SET `code` = 'config', `key` = 'config_api_id', `value` = '" . $last_id . "'");
 
 			// Set the current years prefix
 			$db->query("UPDATE `" . $db_prefix . "setting` SET `value` = 'INV-" . date('Y') . "-00' WHERE `key` = 'config_invoice_prefix'");
@@ -533,17 +518,14 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 		// Return success message
 		$output  = 'SUCCESS! OpenCart successfully installed on your server' . "\n";
 		$output .= 'Store link: ' . $option['http_server'] . "\n";
-		$output .= 'Admin link: ' . $option['http_server'] . 'admin/' . "\n\n";
 
-		return $output;
+		return $output . ('Admin link: ' . $option['http_server'] . 'admin/' . "\n\n");
 	}
 
 	/**
-	 * Usage
-	 *
-	 * @return string
-	 */
-	public function usage(): string {
+     * Usage
+     */
+    public function usage(): string {
 		$option = implode(' ', [
 			'--username',
 			'admin',
@@ -571,9 +553,8 @@ class CliInstall extends \Opencart\System\Engine\Controller {
 
 		$output  = 'Usage:' . "\n";
 		$output .= '======' . "\n\n";
-		$output .= 'php cli_install.php install ' . $option . "\n\n";
 
-		return $output;
+		return $output . ('php cli_install.php install ' . $option . "\n\n");
 	}
 }
 

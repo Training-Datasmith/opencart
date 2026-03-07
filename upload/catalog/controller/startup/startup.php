@@ -7,18 +7,16 @@ namespace Opencart\Catalog\Controller\Startup;
  */
 class Startup extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		// Load startup actions
 		$this->load->model('setting/startup');
 
 		$results = $this->model_setting_startup->getStartups();
 
 		foreach ($results as $result) {
-			if (substr($result['action'], 0, 8) == 'catalog/') {
+			if (str_starts_with($result['action'], 'catalog/')) {
 				$this->load->controller(substr($result['action'], 8));
 			}
 		}

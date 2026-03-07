@@ -7,13 +7,11 @@ namespace Opencart\Admin\Controller\Task\System;
  */
 class Backup extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate backup task list.
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate backup task list.
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/system/backup');
 
 		$required = [
@@ -85,11 +83,9 @@ class Backup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Write
-	 *
-	 * @return array
-	 */
-	public function write(array $args = []): array {
+     * Write
+     */
+    public function write(array $args = []): array {
 		$this->load->language('task/system/backup');
 
 		$required = [

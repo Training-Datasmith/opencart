@@ -6,16 +6,14 @@ use Todaymade\Daux\Tree\Directory;
 
 class Book
 {
-    protected $tree;
     protected $pages = [];
 
-    public function __construct(Directory $tree, Config $config)
+    public function __construct(protected \Todaymade\Daux\Tree\Directory $tree, Config $config)
     {
-        $this->tree = $tree;
         $this->config = $config;
     }
 
-    protected function getStyles()
+    protected function getStyles(): string
     {
         $styles = '';
         foreach ($this->config->getTheme()->getCSS() as $css) {
@@ -31,7 +29,10 @@ class Book
         return 'file_' . str_replace('/', '_', $page->getUrl());
     }
 
-    protected function buildNavigation(Directory $tree)
+    /**
+     * @return array{title: (string | null), href: non-falsy-string, children?: mixed}[]
+     */
+    protected function buildNavigation(Directory $tree): array
     {
         $nav = [];
         foreach ($tree->getEntries() as $node) {
@@ -62,7 +63,7 @@ class Book
         return $nav;
     }
 
-    private function renderNavigation($entries)
+    private function renderNavigation($entries): string
     {
         $nav = '';
         foreach ($entries as $entry) {
@@ -84,14 +85,14 @@ class Book
         return "<ul>$nav</ul>";
     }
 
-    protected function generateTOC()
+    protected function generateTOC(): string
     {
         return '<h1>Table of Contents</h1>' .
         $this->renderNavigation($this->buildNavigation($this->tree)) .
         '</div><div class="PageBreak">&nbsp;</div>';
     }
 
-    protected function generateCover()
+    protected function generateCover(): string
     {
         return '<div>' .
         "<h1 style='font-size:40pt; margin-bottom:0;'>{$this->config->getTitle()}</h1>" .
@@ -99,7 +100,7 @@ class Book
         '</div><div class="PageBreak">&nbsp;</div>';
     }
 
-    protected function generatePages()
+    protected function generatePages(): string
     {
         $content = '';
         foreach ($this->pages as $page) {
@@ -112,12 +113,12 @@ class Book
         return $content;
     }
 
-    public function addPage($page, $content)
+    public function addPage($page, $content): void
     {
         $this->pages[] = ['page' => $page, 'content' => $content];
     }
 
-    public function generateHead()
+    public function generateHead(): string
     {
         $head = [
             "<title>{$this->config->getTitle()}</title>",
@@ -130,12 +131,12 @@ class Book
         return '<head>' . implode('', $head) . '</head>';
     }
 
-    public function generateBody()
+    public function generateBody(): string
     {
         return '<body>' . $this->generateCover() . $this->generateTOC() . $this->generatePages() . '</body>';
     }
 
-    public function generate()
+    public function generate(): string
     {
         return '<!DOCTYPE html><html>' . $this->generateHead() . $this->generateBody() . '</html>';
     }

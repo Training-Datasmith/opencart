@@ -39,19 +39,17 @@ class Store extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Store By Hostname
-	 *
-	 * @param string $url
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/store');
-	 *
-	 * $store_info = $this->model_setting_store->getStoreByHostname($url);
-	 */
-	public function getStoreByHostname(string $url): array {
+     * Get Store By Hostname
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('setting/store');
+     *
+     * $store_info = $this->model_setting_store->getStoreByHostname($url);
+     */
+    public function getStoreByHostname(string $url): array {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "store` WHERE REPLACE(`url`, 'www.', '') = '" . $this->db->escape($url) . "'");
 
 		return $query->row;

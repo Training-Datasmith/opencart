@@ -9,15 +9,13 @@ namespace Opencart\Catalog\Model\Extension\Opencart\Total;
  */
 class Coupon extends \Opencart\System\Engine\Model {
 	/**
-	 * Get Total
-	 *
-	 * @param array<int, array<string, mixed>> $totals
-	 * @param  array<int, float>               &$taxes
-	 * @param  float                           &$total
-	 *
-	 * @return void
-	 */
-	public function getTotal(array &$totals, array &$taxes, float &$total): void {
+     * Get Total
+     *
+     * @param array<int, array<string, mixed>> $totals
+     * @param  array<int, float>               &$taxes
+     *
+     */
+    public function getTotal(array &$totals, array &$taxes, float &$total): void {
 		// Coupon
 		if (isset($this->session->data['coupon'])) {
 			$this->load->language('extension/opencart/total/coupon', 'coupon');
@@ -112,14 +110,12 @@ class Coupon extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @param array<string, mixed> $order_info
-	 * @param array<string, mixed> $order_total
-	 *
-	 * @return int
-	 */
-	public function confirm(array $order_info, array $order_total): int {
+     * Confirm
+     *
+     * @param array<string, mixed> $order_info
+     * @param array<string, mixed> $order_total
+     */
+    public function confirm(array $order_info, array $order_total): int {
 		$code = '';
 
 		$start = strpos($order_total['title'], '(');
@@ -168,13 +164,11 @@ class Coupon extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Unconfirm
-	 *
-	 * @param array<string, mixed> $order_info
-	 *
-	 * @return void
-	 */
-	public function unconfirm(array $order_info): void {
+     * Unconfirm
+     *
+     * @param array<string, mixed> $order_info
+     */
+    public function unconfirm(array $order_info): void {
 		// Histories
 		$this->load->model('marketing/coupon');
 

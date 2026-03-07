@@ -4,13 +4,13 @@ use Todaymade\Daux\BaseConfig;
 
 class Config extends BaseConfig
 {
-    private function prepareGithubUrl($url)
+    private function prepareGithubUrl($url): array
     {
         $url = str_replace('http://', 'https://', $url);
 
         return [
             'name' => 'GitHub',
-            'basepath' => (strpos($url, 'https://github.com/') === 0 ? '' : 'https://github.com/') . trim($url, '/'),
+            'basepath' => (str_starts_with($url, 'https://github.com/') ? '' : 'https://github.com/') . trim($url, '/'),
         ];
     }
 
@@ -33,12 +33,12 @@ class Config extends BaseConfig
         return null;
     }
 
-    public function hasSearch()
+    public function hasSearch(): bool
     {
         return $this->hasValue('search') && $this->getValue('search');
     }
 
-    public function showDateModified()
+    public function showDateModified(): bool
     {
         return $this->hasValue('date_modified') && $this->getValue('date_modified');
     }
@@ -58,7 +58,7 @@ class Config extends BaseConfig
         return $this->hasValue('auto_toc') && $this->getValue('auto_toc');
     }
 
-    public function hasGoogleAnalytics()
+    public function hasGoogleAnalytics(): bool
     {
         return $this->hasValue('google_analytics') && $this->getValue('google_analytics');
     }
@@ -68,7 +68,7 @@ class Config extends BaseConfig
         return $this->getValue('google_analytics');
     }
 
-    public function hasPlausibleAnalyticsDomain()
+    public function hasPlausibleAnalyticsDomain(): bool
     {
         return $this->hasValue('plausible_domain') && $this->getValue('plausible_domain');
     }
@@ -78,7 +78,7 @@ class Config extends BaseConfig
         return $this->getValue('plausible_domain');
     }
 
-    public function hasPiwikAnalytics()
+    public function hasPiwikAnalytics(): bool
     {
         return $this->getValue('piwik_analytics') && $this->hasValue('piwik_analytics_id');
     }
@@ -93,7 +93,7 @@ class Config extends BaseConfig
         return $this->getValue('piwik_analytics');
     }
 
-    public function hasPoweredBy()
+    public function hasPoweredBy(): bool
     {
         return $this->hasValue('powered_by') && !empty($this->getValue('powered_by'));
     }
@@ -103,7 +103,7 @@ class Config extends BaseConfig
         return $this->getValue('powered_by');
     }
 
-    public function hasTwitterHandles()
+    public function hasTwitterHandles(): bool
     {
         return $this->hasValue('twitter') && !empty($this->getValue('twitter'));
     }
@@ -113,7 +113,7 @@ class Config extends BaseConfig
         return $this->getValue('twitter');
     }
 
-    public function hasLinks()
+    public function hasLinks(): bool
     {
         return $this->hasValue('links') && !empty($this->getValue('links'));
     }
@@ -123,7 +123,7 @@ class Config extends BaseConfig
         return $this->getValue('links');
     }
 
-    public function hasRepository()
+    public function hasRepository(): bool
     {
         return $this->hasValue('repo') && !empty($this->getValue('repo'));
     }
@@ -133,7 +133,7 @@ class Config extends BaseConfig
         return $this->getValue('repo');
     }
 
-    public function hasButtons()
+    public function hasButtons(): bool
     {
         return $this->hasValue('buttons') && !empty($this->getValue('buttons'));
     }
@@ -163,7 +163,7 @@ class Config extends BaseConfig
         return $this->getValue('theme');
     }
 
-    public function hasThemeVariant()
+    public function hasThemeVariant(): bool
     {
         return $this->hasValue('theme-variant') && !empty($this->getValue('theme-variant'));
     }

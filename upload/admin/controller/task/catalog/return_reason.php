@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class ReturnReason extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate return reason list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate return reason list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/return_reason');
 
 		// Stores
@@ -48,15 +46,13 @@ class ReturnReason extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate JSON return reason list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate JSON return reason list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/catalog/return_reason');
 
 		// Store
@@ -114,15 +110,13 @@ class ReturnReason extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * Delete generated JSON language files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function delete(array $args = []): array {
+     * Delete
+     *
+     * Delete generated JSON language files.
+     *
+     * @param array<string, string> $args
+     */
+    public function delete(array $args = []): array {
 		$this->load->language('task/catalog/return_reason');
 
 		$stores = [];

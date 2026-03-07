@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Product;
  */
 class Related extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('product/related');
 
 		if (isset($this->request->get['product_id'])) {

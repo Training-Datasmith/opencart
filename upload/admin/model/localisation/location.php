@@ -9,81 +9,78 @@ namespace Opencart\Admin\Model\Localisation;
  */
 class Location extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Location
-	 *
-	 * Create a new location record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $location_data = [
-	 *     'name'      => 'Location Name',
-	 *     'address'   => '',
-	 *     'telephone' => '1234567890',
-	 *     'image'     => 'location_image',
-	 *     'open'      => '',
-	 *     'comment'   => ''
-	 * ];
-	 *
-	 * $this->load->model('localisation/location');
-	 *
-	 * $location_id = $this->model_localisation_location->addLocation($location_data);
-	 */
-	public function addLocation(array $data): int {
+     * Add Location
+     *
+     * Create a new location record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $location_data = [
+     *     'name'      => 'Location Name',
+     *     'address'   => '',
+     *     'telephone' => '1234567890',
+     *     'image'     => 'location_image',
+     *     'open'      => '',
+     *     'comment'   => ''
+     * ];
+     *
+     * $this->load->model('localisation/location');
+     *
+     * $location_id = $this->model_localisation_location->addLocation($location_data);
+     */
+    public function addLocation(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "location` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address` = '" . $this->db->escape((string)$data['address']) . "', `telephone` = '" . $this->db->escape((string)$data['telephone']) . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `open` = '" . $this->db->escape((string)$data['open']) . "', `comment` = '" . $this->db->escape((string)$data['comment']) . "'");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Edit Location
-	 *
-	 * Edit location record in the database.
-	 *
-	 * @param int                  $location_id primary key of the location record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $location_data = [
-	 *     'name'      => 'Location Name',
-	 *     'address'   => '',
-	 *     'telephone' => '1234567890',
-	 *     'image'     => 'location_image',
-	 *     'open'      => '',
-	 *     'comment'   => ''
-	 * ];
-	 *
-	 * $this->load->model('localisation/location');
-	 *
-	 * $this->model_localisation_location->editLocation($location_id, $location_data);
-	 */
-	public function editLocation(int $location_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "location` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address` = '" . $this->db->escape((string)$data['address']) . "', `telephone` = '" . $this->db->escape((string)$data['telephone']) . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `open` = '" . $this->db->escape((string)$data['open']) . "', `comment` = '" . $this->db->escape((string)$data['comment']) . "' WHERE `location_id` = '" . (int)$location_id . "'");
+     * Edit Location
+     *
+     * Edit location record in the database.
+     *
+     * @param int                  $location_id primary key of the location record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $location_data = [
+     *     'name'      => 'Location Name',
+     *     'address'   => '',
+     *     'telephone' => '1234567890',
+     *     'image'     => 'location_image',
+     *     'open'      => '',
+     *     'comment'   => ''
+     * ];
+     *
+     * $this->load->model('localisation/location');
+     *
+     * $this->model_localisation_location->editLocation($location_id, $location_data);
+     */
+    public function editLocation(int $location_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "location` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address` = '" . $this->db->escape((string)$data['address']) . "', `telephone` = '" . $this->db->escape((string)$data['telephone']) . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `open` = '" . $this->db->escape((string)$data['open']) . "', `comment` = '" . $this->db->escape((string)$data['comment']) . "' WHERE `location_id` = '" . $location_id . "'");
 	}
 
 	/**
-	 * Delete Location
-	 *
-	 * Delete location record in the database.
-	 *
-	 * @param int $location_id primary key of the location record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/location');
-	 *
-	 * $this->model_localisation_location->deleteLocation($location_id);
-	 */
-	public function deleteLocation(int $location_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "location` WHERE `location_id` = '" . (int)$location_id . "'");
+     * Delete Location
+     *
+     * Delete location record in the database.
+     *
+     * @param int $location_id primary key of the location record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/location');
+     *
+     * $this->model_localisation_location->deleteLocation($location_id);
+     */
+    public function deleteLocation(int $location_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "location` WHERE `location_id` = '" . $location_id . "'");
 	}
 
 	/**
@@ -102,7 +99,7 @@ class Location extends \Opencart\System\Engine\Model {
 	 * $location_info = $this->model_localisation_location->getLocation($location_id);
 	 */
 	public function getLocation(int $location_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "location` WHERE `location_id` = '" . (int)$location_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "location` WHERE `location_id` = '" . $location_id . "'");
 
 		return $query->row;
 	}

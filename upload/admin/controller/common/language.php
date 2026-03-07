@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Language extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		// Languages
 		$data['languages'] = [];
 
@@ -60,11 +58,9 @@ class Language extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('common/language');
 
 		$json = [];

@@ -7,18 +7,16 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Zone extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Zone
-	 *
-	 * Generate new country data with added zone.
-	 *
-	 * Called using admin/model/localisation/zone.addZone/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function addZone(string &$route, array &$args, &$output): void {
+     * Add Zone
+     *
+     * Generate new country data with added zone.
+     *
+     * Called using admin/model/localisation/zone.addZone/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function addZone(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'country.info.' . $args[1]['country_id'],
 			'action' => 'task/catalog/country.info',
@@ -42,18 +40,16 @@ class Zone extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Zone
-	 *
-	 * Generate new country data with updated zone.
-	 *
-	 * Called using admin/model/localisation/zone.editZone/before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function editZone(string &$route, array &$args, &$output): void {
+     * Edit Zone
+     *
+     * Generate new country data with updated zone.
+     *
+     * Called using admin/model/localisation/zone.editZone/before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function editZone(string &$route, array &$args, &$output): void {
 		$this->load->model('localisation/zone');
 
 		$zone_info = $this->model_localisation_zone->getZone($args[0]);
@@ -107,18 +103,16 @@ class Zone extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Zone
-	 *
-	 * Generate new country data with deleted zone.
-	 *
-	 * Called using admin/model/localisation/zone.deleteZone/before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function deleteZone(string &$route, array &$args, &$output): void {
+     * Delete Zone
+     *
+     * Generate new country data with deleted zone.
+     *
+     * Called using admin/model/localisation/zone.deleteZone/before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function deleteZone(string &$route, array &$args, &$output): void {
 		$this->load->model('localisation/zone');
 
 		$zone_info = $this->model_localisation_zone->getZone($args[0]);

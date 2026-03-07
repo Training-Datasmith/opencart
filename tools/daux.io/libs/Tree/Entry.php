@@ -16,7 +16,6 @@ abstract class Entry
 
     /**
      * @param string $uri
-     * @param \SplFileInfo $info
      */
     public function __construct(Directory $parent, $uri, \SplFileInfo $info = null)
     {
@@ -40,7 +39,7 @@ abstract class Entry
         return $this->name ?? null;
     }
 
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -50,7 +49,7 @@ abstract class Entry
         return $this->uri;
     }
 
-    public function setUri($uri): void
+    public function setUri(?string $uri): void
     {
         if (isset($this->parent)) {
             $this->parent->removeChild($this);
@@ -145,16 +144,14 @@ abstract class Entry
             $url = $this->getParent()->getUrl() . '/' . $url;
         }
 
-        $url .= $this->getUri();
-
-        return $url;
+        return $url . $this->getUri();
     }
 
     public function dump()
     {
         return [
             'title' => $this->getTitle(),
-            'type' => get_class($this),
+            'type' => static::class,
             'name' => $this->getName(),
             'uri' => $this->getUri(),
             'url' => $this->getUrl(),

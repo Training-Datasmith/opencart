@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Marketplace extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['filter_search'])) {
@@ -237,11 +235,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['filter_search'])) {
@@ -384,11 +380,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function info() {
+     * Info
+     */
+    public function info(): ?\Opencart\System\Engine\Action {
 		if (isset($this->request->get['extension_id'])) {
 			$extension_id = (int)$this->request->get['extension_id'];
 		} else {
@@ -538,17 +532,14 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$this->response->setOutput($this->load->view('marketplace/marketplace_info', $data));
 
 			return null;
-		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
 		}
+        return new \Opencart\System\Engine\Action('error/not_found');
 	}
 
 	/**
-	 * Extension
-	 *
-	 * @return void
-	 */
-	public function extension(): void {
+     * Extension
+     */
+    public function extension(): void {
 		$this->load->language('marketplace/marketplace');
 
 		// Extension
@@ -566,7 +557,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$results = $this->session->data['extension_download'][$extension_id];
 
 			foreach ($results as $result) {
-				if (substr($result['filename'], -10) == '.ocmod.zip') {
+				if (str_ends_with($result['filename'], '.ocmod.zip')) {
 					$code = basename($result['filename'], '.ocmod.zip');
 
 					$install_info = $this->model_setting_extension->getInstallByCode($code);
@@ -615,11 +606,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Purchase
-	 *
-	 * @return void
-	 */
-	public function purchase(): void {
+     * Purchase
+     */
+    public function purchase(): void {
 		$this->load->language('marketplace/marketplace');
 
 		$json = [];
@@ -703,11 +692,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return void
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		$this->load->language('marketplace/marketplace');
 
 		$json = [];
@@ -768,7 +755,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			}
 
 			if (isset($response_info['download'])) {
-				if (substr($response_info['filename'], -10) == '.ocmod.zip') {
+				if (str_ends_with($response_info['filename'], '.ocmod.zip')) {
 					$handle = fopen(DIR_STORAGE . 'marketplace/' . $response_info['filename'], 'w');
 
 					$download = file_get_contents($response_info['download']);
@@ -809,11 +796,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add Comment
-	 *
-	 * @return void
-	 */
-	public function addComment(): void {
+     * Add Comment
+     */
+    public function addComment(): void {
 		$this->load->language('marketplace/marketplace');
 
 		$json = [];
@@ -894,11 +879,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Comment
-	 *
-	 * @return void
-	 */
-	public function comment(): void {
+     * Comment
+     */
+    public function comment(): void {
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['extension_id'])) {
@@ -972,11 +955,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reply
-	 *
-	 * @return void
-	 */
-	public function reply(): void {
+     * Reply
+     */
+    public function reply(): void {
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['extension_id'])) {

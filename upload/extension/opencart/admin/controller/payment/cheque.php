@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Payment;
  */
 class Cheque extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/payment/cheque');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -63,11 +61,9 @@ class Cheque extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/payment/cheque');
 
 		$json = [];

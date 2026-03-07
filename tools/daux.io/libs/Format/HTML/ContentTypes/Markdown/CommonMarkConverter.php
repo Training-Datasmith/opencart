@@ -10,7 +10,7 @@ use Todaymade\Daux\Config;
 
 class CommonMarkConverter extends \Todaymade\Daux\ContentTypes\Markdown\CommonMarkConverter
 {
-    public function __construct($config)
+    public function __construct(array $config)
     {
         $config['heading_permalink'] = [
             'html_class' => 'Permalink',

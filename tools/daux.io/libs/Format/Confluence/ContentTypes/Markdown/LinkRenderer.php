@@ -52,7 +52,7 @@ class LinkRenderer extends \Todaymade\Daux\ContentTypes\Markdown\LinkRenderer
 
         $page = strval(new HtmlElement('ri:page', $pageProps, '', true));
         $children = $childRenderer->renderNodes($node->children());
-        if (strpos($children, '<') !== false) {
+        if (str_contains($children, '<')) {
             $children = '<ac:link-body>' . $children . '</ac:link-body>';
         } else {
             $children = '<ac:plain-text-link-body><![CDATA[' . $children . ']]></ac:plain-text-link-body>';

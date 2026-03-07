@@ -55,8 +55,6 @@ class Cache
 
     /**
      * Retrieve an item from the cache by key.
-     *
-     * @return mixed
      */
     public static function get(string $key): ?string
     {

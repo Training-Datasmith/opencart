@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Mail;
  */
 class Transaction extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * admin/model/customer/customer.addTransaction/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * admin/model/customer/customer.addTransaction/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		if (isset($args[0])) {
 			$customer_id = $args[0];
 		} else {

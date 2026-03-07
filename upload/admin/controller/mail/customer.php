@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Mail;
  */
 class Customer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Approve
-	 *
-	 * admin/model/customer/customer_approval.approveCustomer/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function approve(string &$route, array &$args, &$output): void {
+     * Approve
+     *
+     * admin/model/customer/customer_approval.approveCustomer/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function approve(string &$route, array &$args, &$output): void {
 		// Customer
 		if (isset($args[0])) {
 			$customer_id = (int)$args[0];
@@ -110,19 +108,17 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Deny
-	 *
-	 * admin/model/customer/customer_approval.denyCustomer/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function deny(string &$route, array &$args, &$output): void {
+     * Deny
+     *
+     * admin/model/customer/customer_approval.denyCustomer/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function deny(string &$route, array &$args, &$output): void {
 		if (isset($args[0])) {
 			$customer_id = (int)$args[0];
 		} else {

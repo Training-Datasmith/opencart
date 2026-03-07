@@ -7,16 +7,14 @@ namespace Opencart\Catalog\Controller\Mail;
  */
 class Order extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * catalog/model/checkout/order.addHistory/before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args): void {
+     * Index
+     *
+     * catalog/model/checkout/order.addHistory/before
+     *
+     * @param array<int, mixed> $args
+     *
+     */
+    public function index(string &$route, array &$args): void {
 		if (isset($args[0])) {
 			$order_id = $args[0];
 		} else {
@@ -58,18 +56,14 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @param array<string, mixed> $order_info
-	 * @param int                  $order_status_id
-	 * @param string               $comment
-	 * @param bool                 $notify
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function add(array $order_info, int $order_status_id, string $comment, bool $notify): void {
+     * Add
+     *
+     * @param array<string, mixed> $order_info
+     *
+     * @throws \Exception
+     *
+     */
+    public function add(array $order_info, int $order_status_id, string $comment, bool $notify): void {
 		// Check for any downloadable products
 		$download_status = false;
 
@@ -162,7 +156,7 @@ class Order extends \Opencart\System\Engine\Controller {
 		$data['telephone'] = $order_info['telephone'];
 		$data['ip'] = $order_info['ip'];
 
-		$order_status_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_status` WHERE `order_status_id` = '" . (int)$order_status_id . "' AND `language_id` = '" . (int)$order_info['language_id'] . "'");
+		$order_status_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_status` WHERE `order_status_id` = '" . $order_status_id . "' AND `language_id` = '" . (int)$order_info['language_id'] . "'");
 
 		if ($order_status_query->num_rows) {
 			$data['order_status'] = $order_status_query->row['name'];
@@ -354,20 +348,16 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * catalog/model/checkout/order.addHistory/before
-	 *
-	 * @param array<string, mixed> $order_info
-	 * @param int                  $order_status_id
-	 * @param string               $comment
-	 * @param bool                 $notify
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function history(array $order_info, int $order_status_id, string $comment, bool $notify): void {
+     * History
+     *
+     * catalog/model/checkout/order.addHistory/before
+     *
+     * @param array<string, mixed> $order_info
+     *
+     * @throws \Exception
+     *
+     */
+    public function history(array $order_info, int $order_status_id, string $comment, bool $notify): void {
 		$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
 
 		if (!defined('HTTP_CATALOG')) {
@@ -413,7 +403,7 @@ class Order extends \Opencart\System\Engine\Controller {
 		$data['order_id'] = $order_info['order_id'];
 		$data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
 
-		$order_status_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_status` WHERE `order_status_id` = '" . (int)$order_status_id . "' AND `language_id` = '" . (int)$order_info['language_id'] . "'");
+		$order_status_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_status` WHERE `order_status_id` = '" . $order_status_id . "' AND `language_id` = '" . (int)$order_info['language_id'] . "'");
 
 		if ($order_status_query->num_rows) {
 			$data['order_status'] = $order_status_query->row['name'];
@@ -459,18 +449,16 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Alert
-	 *
-	 * catalog/model/checkout/order.addHistory/before
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function alert(string &$route, array &$args): void {
+     * Alert
+     *
+     * catalog/model/checkout/order.addHistory/before
+     *
+     * @param array<int, mixed> $args
+     *
+     * @throws \Exception
+     *
+     */
+    public function alert(string &$route, array &$args): void {
 		if (isset($args[0])) {
 			$order_id = $args[0];
 		} else {

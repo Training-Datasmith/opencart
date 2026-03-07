@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class Language extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate language list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate language list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/admin/language');
 
 		$this->load->model('localisation/language');
@@ -40,15 +38,13 @@ class Language extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Clears generated language data.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Clears generated language data.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/admin/language');
 
 		$this->load->model('localisation/language');

@@ -6,18 +6,11 @@ namespace Opencart\System\Library\DB;
  * @package Opencart\System\Library\DB
  */
 class PDO {
-	/**
-	 * @var \PDO|null
-	 */
 	private ?\PDO $db;
 	/**
 	 * @var array<string, string>
 	 */
 	private array $data = [];
-	/**
-	 * @var int
-	 *
-	 */
 	private int $affected;
 
 	/**
@@ -62,7 +55,7 @@ class PDO {
 
 		try {
 			$pdo = new \PDO('mysql:host=' . $option['hostname'] . ';port=' . $port . ';dbname=' . $option['database'] . ';charset=utf8mb4', $option['username'], $option['password'], [\PDO::ATTR_PERSISTENT => false, \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci']);
-		} catch (\PDOException $e) {
+		} catch (\PDOException) {
 			throw new \Exception('Error: Could not connect to the database please make sure the database server, username and password is correct!');
 		}
 
@@ -86,7 +79,7 @@ class PDO {
 	 *
 	 * @throws \Exception If query execution fails
 	 */
-	public function query(string $sql) {
+	public function query(string $sql): \stdClass|bool {
 		$sql = preg_replace('/(?:\'\:)([a-z0-9]*.)(?:\')/', ':$1', $sql);
 
 		$statement = $this->db->prepare($sql);
@@ -106,16 +99,13 @@ class PDO {
 					$this->affected = 0;
 
 					return $result;
-				} else {
-					$this->affected = $statement->rowCount();
-					$statement->closeCursor();
-
-					return true;
 				}
-			} else {
-				$this->data = [];
-				return true;
+                $this->affected = $statement->rowCount();
+                $statement->closeCursor();
+                return true;
 			}
+            $this->data = [];
+            return true;
 		} catch (\PDOException $e) {
 			$this->data = [];
 			throw new \Exception('Error: ' . $e->getMessage() . ' <br/>Error Code : ' . $e->getCode() . ' <br/>' . $sql);
@@ -175,13 +165,11 @@ class PDO {
 	}
 
 	/**
-	 * Destructor
-	 *
-	 * Closes the database connection when object is destroyed
-	 *
-	 * @return void
-	 */
-	public function __destruct() {
+     * Destructor
+     *
+     * Closes the database connection when object is destroyed
+     */
+    public function __destruct() {
 		$this->db = null;
 	}
 }

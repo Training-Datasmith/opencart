@@ -24,7 +24,7 @@ class Article extends \Opencart\System\Engine\Model {
 	 * $article_info = $this->model_cms_article->getArticle($article_id);
 	 */
 	public function getArticle(int $article_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "article` `a` LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) LEFT JOIN `" . DB_PREFIX . "article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`) WHERE `a`.`article_id` = '" . (int)$article_id . "' AND `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `a2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `a`.`status` = '1'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "article` `a` LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) LEFT JOIN `" . DB_PREFIX . "article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`) WHERE `a`.`article_id` = '" . $article_id . "' AND `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `a2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `a`.`status` = '1'");
 
 		return $query->row;
 	}
@@ -63,7 +63,7 @@ class Article extends \Opencart\System\Engine\Model {
 				$sql .= " (" . implode(" OR ", $implode) . ")";
 			}
 
-			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . (string)$data['filter_search'] . '%') . "'";
+			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . $data['filter_search'] . '%') . "'";
 
 			$implode = [];
 
@@ -131,23 +131,21 @@ class Article extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Rating
-	 *
-	 * Edit article rating record in the database.
-	 *
-	 * @param int $article_id primary key of the article record
-	 * @param int $rating
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/article');
-	 *
-	 * $this->model_cms_article->editRating($article_id, $rating);
-	 */
-	public function editRating(int $article_id, int $rating): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "article` SET `rating` = '" . (int)$rating . "' WHERE `article_id` = '" . (int)$article_id . "'");
+     * Edit Rating
+     *
+     * Edit article rating record in the database.
+     *
+     * @param int $article_id primary key of the article record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/article');
+     *
+     * $this->model_cms_article->editRating($article_id, $rating);
+     */
+    public function editRating(int $article_id, int $rating): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "article` SET `rating` = '" . $rating . "' WHERE `article_id` = '" . $article_id . "'");
 	}
 
 	/**
@@ -184,7 +182,7 @@ class Article extends \Opencart\System\Engine\Model {
 				$sql .= " (" . implode(" OR ", $implode) . ")";
 			}
 
-			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . (string)$data['filter_search'] . '%') . "'";
+			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . $data['filter_search'] . '%') . "'";
 
 			$implode = [];
 
@@ -228,41 +226,39 @@ class Article extends \Opencart\System\Engine\Model {
 	 * $layout_id = $this->model_cms_article->getLayoutId($article_id);
 	 */
 	public function getLayoutId(int $article_id): int {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . (int)$article_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . $article_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
 
 		if ($query->num_rows) {
 			return (int)$query->row['layout_id'];
-		} else {
-			return 0;
 		}
+        return 0;
 	}
 
 	/**
-	 * Add Comment
-	 *
-	 * Create a new article comment record in the database.
-	 *
-	 * @param int                  $article_id primary key of the article record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $article_data = [
-	 *     'parent_id' => 0,
-	 *     'author'    => 'Author Name',
-	 *     'comment'   => '',
-	 *     'ip'        => '',
-	 *     'status'    => 0
-	 * ];
-	 *
-	 * $this->load->model('cms/article');
-	 *
-	 * $this->model_cms_article->addComment($article_id, $article_data);
-	 */
-	public function addComment(int $article_id, array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "article_comment` SET `article_id` = '" . (int)$article_id . "', `parent_id` = '" . (int)$data['parent_id'] . "', `customer_id` = '" . (int)$this->customer->getId() . "', `author` = '" . $this->db->escape($data['author']) . "', `comment` = '" . $this->db->escape($data['comment']) . "', `ip` = '" . $this->db->escape(oc_get_ip()) . "', `status` = '" . (bool)!empty($data['status']) . "', `date_added` = NOW()");
+     * Add Comment
+     *
+     * Create a new article comment record in the database.
+     *
+     * @param int                  $article_id primary key of the article record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $article_data = [
+     *     'parent_id' => 0,
+     *     'author'    => 'Author Name',
+     *     'comment'   => '',
+     *     'ip'        => '',
+     *     'status'    => 0
+     * ];
+     *
+     * $this->load->model('cms/article');
+     *
+     * $this->model_cms_article->addComment($article_id, $article_data);
+     */
+    public function addComment(int $article_id, array $data): int {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "article_comment` SET `article_id` = '" . $article_id . "', `parent_id` = '" . (int)$data['parent_id'] . "', `customer_id` = '" . (int)$this->customer->getId() . "', `author` = '" . $this->db->escape($data['author']) . "', `comment` = '" . $this->db->escape($data['comment']) . "', `ip` = '" . $this->db->escape(oc_get_ip()) . "', `status` = '" . !empty($data['status']) . "', `date_added` = NOW()");
 
 		$this->cache->delete('comment');
 
@@ -270,24 +266,22 @@ class Article extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Comment Rating
-	 *
-	 * Edit article comment rating record in the database.
-	 *
-	 * @param int $article_id         primary key of the article record
-	 * @param int $article_comment_id primary key of the article comment record
-	 * @param int $rating
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/article');
-	 *
-	 * $this->model_cms_article->editCommentRating($article_id, $article_comment_id, $rating);
-	 */
-	public function editCommentRating(int $article_id, int $article_comment_id, int $rating): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "article_comment` SET `rating` = '" . (int)$rating . "' WHERE `article_comment_id` = '" . (int)$article_comment_id . "' AND `article_id` = '" . (int)$article_id . "'");
+     * Edit Comment Rating
+     *
+     * Edit article comment rating record in the database.
+     *
+     * @param int $article_id         primary key of the article record
+     * @param int $article_comment_id primary key of the article comment record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/article');
+     *
+     * $this->model_cms_article->editCommentRating($article_id, $article_comment_id, $rating);
+     */
+    public function editCommentRating(int $article_id, int $article_comment_id, int $rating): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "article_comment` SET `rating` = '" . $rating . "' WHERE `article_comment_id` = '" . $article_comment_id . "' AND `article_id` = '" . $article_id . "'");
 	}
 
 	/**
@@ -306,7 +300,7 @@ class Article extends \Opencart\System\Engine\Model {
 	 * $comment_info = $this->model_cms_article->getComment($article_comment_id);
 	 */
 	public function getComment(int $article_comment_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_comment` WHERE `article_comment_id` = '" . (int)$article_comment_id . "' AND `status` = '1'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_comment` WHERE `article_comment_id` = '" . $article_comment_id . "' AND `status` = '1'");
 
 		return $query->row;
 	}
@@ -336,7 +330,7 @@ class Article extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_cms_article->getComments($article_id, $filter_data);
 	 */
 	public function getComments(int $article_id, array $data = []): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int)$article_id . "'";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . $article_id . "'";
 
 		if (!empty($data['customer_id'])) {
 			$sql .= " AND `customer_id` = '" . (int)$data['customer_id'] . "'";
@@ -417,7 +411,7 @@ class Article extends \Opencart\System\Engine\Model {
 	 * $comment_total = $this->model_cms_article->getTotalComments($article_id, $filter_data);
 	 */
 	public function getTotalComments(int $article_id, array $data = []): int {
-		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int)$article_id . "'";
+		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . $article_id . "'";
 
 		if (!empty($data['customer_id'])) {
 			$sql .= " AND `customer_id` = '" . (int)$data['customer_id'] . "'";
@@ -435,44 +429,41 @@ class Article extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Rating
-	 *
-	 * Create a new article rating record in the database.
-	 *
-	 * @param int  $article_id         primary key of the article record
-	 * @param int  $article_comment_id primary key of the article comment record
-	 * @param bool $rating
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/article');
-	 *
-	 * $this->model_cms_article->addRating($article_id, $article_comment_id, $rating);
-	 */
-	public function addRating(int $article_id, int $article_comment_id, bool $rating): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "article_rating` SET `article_comment_id` = '" . (int)$article_comment_id . "', `article_id` = '" . (int)$article_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `customer_id` = '" . (int)$this->customer->getId() . "', `rating` = '" . (bool)$rating . "', `ip` = '" . $this->db->escape(oc_get_ip()) . "', `date_added` = NOW()");
+     * Add Rating
+     *
+     * Create a new article rating record in the database.
+     *
+     * @param int  $article_id         primary key of the article record
+     * @param int  $article_comment_id primary key of the article comment record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/article');
+     *
+     * $this->model_cms_article->addRating($article_id, $article_comment_id, $rating);
+     */
+    public function addRating(int $article_id, int $article_comment_id, bool $rating): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "article_rating` SET `article_comment_id` = '" . $article_comment_id . "', `article_id` = '" . $article_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `customer_id` = '" . (int)$this->customer->getId() . "', `rating` = '" . $rating . "', `ip` = '" . $this->db->escape(oc_get_ip()) . "', `date_added` = NOW()");
 	}
 
 	/**
-	 * Delete Rating
-	 *
-	 * Delete article rating record in the database.
-	 *
-	 * @param int $article_id         primary key of the article record
-	 * @param int $article_comment_id primary key of the article comment record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/article');
-	 *
-	 * $this->model_cms_article->deleteRating($article_id, $article_comment_id);
-	 */
-	public function deleteRating(int $article_id, int $article_comment_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_rating` WHERE `article_comment_id` = '" . (int)$article_comment_id . "' AND `article_id` = '" . (int)$article_id . "' AND `customer_id` = '" . (int)$this->customer->getId() . "'");
+     * Delete Rating
+     *
+     * Delete article rating record in the database.
+     *
+     * @param int $article_id         primary key of the article record
+     * @param int $article_comment_id primary key of the article comment record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/article');
+     *
+     * $this->model_cms_article->deleteRating($article_id, $article_comment_id);
+     */
+    public function deleteRating(int $article_id, int $article_comment_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_rating` WHERE `article_comment_id` = '" . $article_comment_id . "' AND `article_id` = '" . $article_id . "' AND `customer_id` = '" . (int)$this->customer->getId() . "'");
 	}
 
 	/**
@@ -492,7 +483,7 @@ class Article extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_cms_article->getRatings($article_id, $article_comment_id);
 	 */
 	public function getRatings(int $article_id, int $article_comment_id = 0): array {
-		$sql = "SELECT `rating`, COUNT(*) AS `total` FROM `" . DB_PREFIX . "article_rating` WHERE `article_id` = '" . (int)$article_id . "'";
+		$sql = "SELECT `rating`, COUNT(*) AS `total` FROM `" . DB_PREFIX . "article_rating` WHERE `article_id` = '" . $article_id . "'";
 
 		if ($article_comment_id) {
 			$sql .= " AND `article_comment_id` = '" . (int)$article_comment_id . "'";

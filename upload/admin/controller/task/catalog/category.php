@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Category extends \Opencart\System\Engine\Controller {
 	/**
-	 * List
-	 *
-	 * Generate all country list data for all stores.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate all country list data for all stores.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		// Stores
 		$stores = [];
 
@@ -54,15 +52,13 @@ class Category extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate country lists.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function countries(array $args = []): array {
+     * List
+     *
+     * Generate country lists.
+     *
+     * @param array<string, string> $args
+     */
+    public function countries(array $args = []): array {
 		$this->load->language('task/catalog/country');
 
 		$this->load->model('setting/store');
@@ -92,10 +88,12 @@ class Category extends \Opencart\System\Engine\Controller {
 
 		foreach ($country_ids as $country_id) {
 			$country_info = $this->model_localisation_country->getCountry($country_id);
-
-			if (!$country_info || !$country_info['status']) {
-				continue;
-			}
+            if (!$country_info) {
+                continue;
+            }
+            if (!$country_info['status']) {
+                continue;
+            }
 
 			$description_info = $this->model_localisation_country->getDescription($country_info['country_id'], $language_info['language_id']);
 
@@ -130,15 +128,13 @@ class Category extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate country information.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate country information.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/catalog/country');
 
 		if (!array_key_exists('country_id', $args)) {
@@ -340,15 +336,13 @@ class Category extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON country files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON country files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/language');
 
 		$stores = [];

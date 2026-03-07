@@ -7,18 +7,16 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Translation extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Translation
-	 *
-	 * Adds task to generate new translation data
-	 *
-	 * Called using admin/model/design/translation.addTranslation/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function addTranslation(string &$route, array &$args, &$output): void {
+     * Add Translation
+     *
+     * Adds task to generate new translation data
+     *
+     * Called using admin/model/design/translation.addTranslation/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function addTranslation(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'translation.info.' . $output,
 			'action' => 'task/catalog/translation.info',
@@ -31,18 +29,16 @@ class Translation extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Translation
-	 *
-	 * Adds task to generate new translation data
-	 *
-	 * Called using admin/model/design/translation.editTranslation/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function editTranslation(string &$route, array &$args, &$output): void {
+     * Edit Translation
+     *
+     * Adds task to generate new translation data
+     *
+     * Called using admin/model/design/translation.editTranslation/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function editTranslation(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'translation.info.' . $args[0],
 			'action' => 'task/catalog/translation.info',
@@ -55,18 +51,16 @@ class Translation extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Translation
-	 *
-	 * Adds task to generate new translation data
-	 *
-	 * Called using admin/model/design/translation.deleteTranslation/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function deleteTranslation(string &$route, array &$args, &$output): void {
+     * Delete Translation
+     *
+     * Adds task to generate new translation data
+     *
+     * Called using admin/model/design/translation.deleteTranslation/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function deleteTranslation(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'translation.delete.' . $args[0],
 			'action' => 'task/catalog/translation.delete',

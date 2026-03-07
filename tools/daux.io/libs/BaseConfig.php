@@ -8,7 +8,7 @@ class BaseConfig extends \ArrayObject
      * @param array $newValues
      * @param bool $override
      */
-    public function merge($newValues, $override = true)
+    public function merge($newValues, $override = true): void
     {
         foreach ($newValues as $key => $value) {
             // If the key doesn't exist yet,
@@ -36,7 +36,7 @@ class BaseConfig extends \ArrayObject
         }
     }
 
-    public function hasValue($key)
+    public function hasValue($key): bool
     {
         return array_key_exists($key, (array) $this);
     }
@@ -50,12 +50,12 @@ class BaseConfig extends \ArrayObject
         return $default;
     }
 
-    public function isTruthy($key)
+    public function isTruthy($key): bool
     {
         return $this->hasValue($key) && (bool) $this->getValue($key);
     }
 
-    public function setValue($key, $value)
+    public function setValue($key, $value): void
     {
         $this[$key] = $value;
     }

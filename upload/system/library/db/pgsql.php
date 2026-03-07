@@ -6,10 +6,7 @@ namespace Opencart\System\Library\DB;
  * @package Opencart\System\Library\DB
  */
 class PgSQL {
-	/**
-	 * @var mixed
-	 */
-	private $db;
+	private ?\PgSql\Connection $db = null;
 
 	/**
 	 * Constructor
@@ -53,7 +50,7 @@ class PgSQL {
 
 		try {
 			$pg = @pg_connect('host=' . $option['hostname'] . ' port=' . $port . ' user=' . $option['username'] . ' password=' . $option['password'] . ' dbname=' . $option['database'] . ' options=\'--client_encoding=UTF8\' ');
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			throw new \Exception('Error: Could not connect to the database please make sure the database server, username and password is correct!');
 		}
 
@@ -151,13 +148,11 @@ class PgSQL {
 	}
 
 	/**
-	 * Destructor
-	 *
-	 * Closes the database connection when object is destroyed
-	 *
-	 * @return void
-	 */
-	public function __destruct() {
+     * Destructor
+     *
+     * Closes the database connection when object is destroyed
+     */
+    public function __destruct() {
 		if ($this->db) {
 			pg_close($this->db);
 

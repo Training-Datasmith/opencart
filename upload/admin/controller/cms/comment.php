@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Cms;
  */
 class Comment extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('cms/comment');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -44,22 +42,18 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('cms/comment');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_keyword'])) {
 			$filter_keyword = (string)$this->request->get['filter_keyword'];
 		} else {
@@ -187,11 +181,9 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Approve
-	 *
-	 * @return void
-	 */
-	public function approve(): void {
+     * Approve
+     */
+    public function approve(): void {
 		$this->load->language('cms/comment');
 
 		$json = [];
@@ -248,11 +240,9 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Spam
-	 *
-	 * @return void
-	 */
-	public function spam(): void {
+     * Spam
+     */
+    public function spam(): void {
 		$this->load->language('cms/comment');
 
 		$json = [];
@@ -306,11 +296,9 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('cms/comment');
 
 		$json = [];
@@ -345,11 +333,9 @@ class Comment extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Refresh
-	 *
-	 * @return void
-	 */
-	public function rating(): void {
+     * Refresh
+     */
+    public function rating(): void {
 		$this->load->language('cms/comment');
 
 		$json = [];

@@ -9,71 +9,68 @@ namespace Opencart\Admin\Model\Cms;
  */
 class Antispam extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Antispam
-	 *
-	 * Create a new antispam record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $antispam_data = [
-	 *     'keyword' => 'Keyword'
-	 * ];
-	 *
-	 * $this->load->model('cms/antispam');
-	 *
-	 * $antispam_id = $this->model_cms_antispam->addAntispam($antispam_data);
-	 */
-	public function addAntispam(array $data = []): int {
+     * Add Antispam
+     *
+     * Create a new antispam record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $antispam_data = [
+     *     'keyword' => 'Keyword'
+     * ];
+     *
+     * $this->load->model('cms/antispam');
+     *
+     * $antispam_id = $this->model_cms_antispam->addAntispam($antispam_data);
+     */
+    public function addAntispam(array $data = []): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string)$data['keyword']) . "'");
 
 		return $this->db->getLastId();
 	}
 
 	/**
-	 * Edit Antispam
-	 *
-	 * Edit antispam record in the database.
-	 *
-	 * @param int                  $antispam_id primary key of the antispam record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $antispam_data = [
-	 *     'keyword' => 'Keyword'
-	 * ];
-	 *
-	 * $this->load->model('cms/antispam');
-	 *
-	 * $this->model_cms_antispam->editAntispam($antispam_id, $antispam_data);
-	 */
-	public function editAntispam(int $antispam_id, array $data = []): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string)$data['keyword']) . "' WHERE `antispam_id` = '" . (int)$antispam_id . "'");
+     * Edit Antispam
+     *
+     * Edit antispam record in the database.
+     *
+     * @param int                  $antispam_id primary key of the antispam record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $antispam_data = [
+     *     'keyword' => 'Keyword'
+     * ];
+     *
+     * $this->load->model('cms/antispam');
+     *
+     * $this->model_cms_antispam->editAntispam($antispam_id, $antispam_data);
+     */
+    public function editAntispam(int $antispam_id, array $data = []): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string)$data['keyword']) . "' WHERE `antispam_id` = '" . $antispam_id . "'");
 	}
 
 	/**
-	 * Delete Antispam
-	 *
-	 * Delete antispam record in the database.
-	 *
-	 * @param int $antispam_id primary key of the antispam record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/antispam');
-	 *
-	 * $this->model_cms_antispam->deleteAntispam($antispam_id);
-	 */
-	public function deleteAntispam(int $antispam_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "antispam` WHERE `antispam_id` = '" . (int)$antispam_id . "'");
+     * Delete Antispam
+     *
+     * Delete antispam record in the database.
+     *
+     * @param int $antispam_id primary key of the antispam record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/antispam');
+     *
+     * $this->model_cms_antispam->deleteAntispam($antispam_id);
+     */
+    public function deleteAntispam(int $antispam_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "antispam` WHERE `antispam_id` = '" . $antispam_id . "'");
 	}
 
 	/**
@@ -92,7 +89,7 @@ class Antispam extends \Opencart\System\Engine\Model {
 	 * $antispam_info = $this->model_cms_antispam->getAntispam($antispam_id);
 	 */
 	public function getAntispam(int $antispam_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "antispam` WHERE `antispam_id` = '" . (int)$antispam_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "antispam` WHERE `antispam_id` = '" . $antispam_id . "'");
 
 		return $query->row;
 	}

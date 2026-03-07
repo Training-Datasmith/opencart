@@ -12,7 +12,7 @@ class Builder
         '.DS_Store', 'Thumbs.db',
     ];
 
-    protected static function isIgnored(\SplFileInfo $file, $ignore)
+    protected static function isIgnored(\SplFileInfo $file, array $ignore): bool
     {
         $filename = $file->getFilename();
 
@@ -35,10 +35,8 @@ class Builder
      * Get name for a file.
      *
      * @param string $path
-     *
-     * @return string
      */
-    protected static function getName($path)
+    protected static function getName($path): string
     {
         return pathinfo($path, PATHINFO_FILENAME);
     }
@@ -47,9 +45,8 @@ class Builder
      * Build the initial tree.
      *
      * @param Directory $node
-     * @param array $ignore
      */
-    public static function build($node, $ignore)
+    public static function build($node, array $ignore): void
     {
         $it = new \FilesystemIterator($node->getPath());
 
@@ -83,10 +80,7 @@ class Builder
         $node->sort();
     }
 
-    /**
-     * @return Content|Raw
-     */
-    public static function createContent(Directory $parent, \SplFileInfo $file)
+    public static function createContent(Directory $parent, \SplFileInfo $file): \Todaymade\Daux\Tree\Raw|\Todaymade\Daux\Tree\Content
     {
         $name = static::getName($file->getPathname());
 
@@ -127,10 +121,8 @@ class Builder
 
     /**
      * @param string $filename
-     *
-     * @return string
      */
-    public static function removeSortingInformations($filename)
+    public static function removeSortingInformations($filename): string
     {
         preg_match('/^[-+]?\d*_?(.*)/', $filename, $matches);
 
@@ -145,7 +137,7 @@ class Builder
      *
      * @return Directory
      */
-    public static function getOrCreateDir(Directory $parent, $title)
+    public static function getOrCreateDir(Directory $parent, $title): \Todaymade\Daux\Tree\Entry|\Todaymade\Daux\Tree\Directory
     {
         $slug = DauxHelper::urlSlug($title);
 
@@ -160,11 +152,9 @@ class Builder
     }
 
     /**
-     * @param string $path
-     *
      * @return ContentAbstract
      */
-    public static function getOrCreatePage(Directory $parent, $path)
+    public static function getOrCreatePage(Directory $parent, string $path): \Todaymade\Daux\Tree\Entry|\Todaymade\Daux\Tree\ComputedRaw|\Todaymade\Daux\Tree\Content
     {
         $extension = pathinfo($path, PATHINFO_EXTENSION);
         // If the file doesn't have an extension, set .md as a default
@@ -203,7 +193,7 @@ class Builder
     /**
      * Sort the tree recursively.
      */
-    public static function sortTree(Directory $current)
+    public static function sortTree(Directory $current): void
     {
         $current->sort();
         foreach ($current->getEntries() as $entry) {

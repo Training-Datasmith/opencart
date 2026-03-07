@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Startup;
  */
 class Application extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		// Url
 		$this->registry->set('url', new \Opencart\System\Library\Url($this->config->get('site_url')));
 

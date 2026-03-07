@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Api;
  */
 class Reward extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('extension/opencart/api/reward');
 
 		if (isset($this->request->get['order_id'])) {

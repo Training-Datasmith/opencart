@@ -9,30 +9,29 @@ namespace Opencart\Admin\Model\Localisation;
  */
 class Country extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Country
-	 *
-	 * Create a new country record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return int
-	 *
-	 * @example
-	 *
-	 * $country_data = [
-	 *     'country_description' => [],
-	 *     'iso_code_2'          => 'Country ISO Code 2',
-	 *     'iso_code_3'          => 'Country ISO Code 3',
-	 *     'address_format_id'   => 1,
-	 *     'postcode_required'   => 0,
-	 *     'status'              => 0
-	 * ];
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $country_id = $this->model_localisation_country->addCountry($country_data);
-	 */
-	public function addCountry(array $data): int {
+     * Add Country
+     *
+     * Create a new country record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $country_data = [
+     *     'country_description' => [],
+     *     'iso_code_2'          => 'Country ISO Code 2',
+     *     'iso_code_3'          => 'Country ISO Code 3',
+     *     'address_format_id'   => 1,
+     *     'postcode_required'   => 0,
+     *     'status'              => 0
+     * ];
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $country_id = $this->model_localisation_country->addCountry($country_data);
+     */
+    public function addCountry(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "country` SET `iso_code_2` = '" . $this->db->escape((string)$data['iso_code_2']) . "', `iso_code_3` = '" . $this->db->escape((string)$data['iso_code_3']) . "', `address_format_id` = '" . (int)$data['address_format_id'] . "', `postcode_required` = '" . (int)$data['postcode_required'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "'");
 
 		$country_id = $this->db->getLastId();
@@ -47,32 +46,31 @@ class Country extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Country
-	 *
-	 * Edit country record in the database.
-	 *
-	 * @param int                  $country_id primary key of the country record
-	 * @param array<string, mixed> $data       array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $country_data = [
-	 *     'country_description' => [],
-	 *     'iso_code_2'          => 'Country ISO Code 2',
-	 *     'iso_code_3'          => 'Country ISO Code 3',
-	 *     'address_format_id'   => 1,
-	 *     'postcode_required'   => 0,
-	 *     'status'              => 1
-	 * ];
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->editCountry($country_id, $country_data);
-	 */
-	public function editCountry(int $country_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "country` SET `iso_code_2` = '" . $this->db->escape((string)$data['iso_code_2']) . "', `iso_code_3` = '" . $this->db->escape((string)$data['iso_code_3']) . "', `address_format_id` = '" . (int)$data['address_format_id'] . "', `postcode_required` = '" . (int)$data['postcode_required'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `country_id` = '" . (int)$country_id . "'");
+     * Edit Country
+     *
+     * Edit country record in the database.
+     *
+     * @param int                  $country_id primary key of the country record
+     * @param array<string, mixed> $data       array of data
+     *
+     *
+     * @example
+     *
+     * $country_data = [
+     *     'country_description' => [],
+     *     'iso_code_2'          => 'Country ISO Code 2',
+     *     'iso_code_3'          => 'Country ISO Code 3',
+     *     'address_format_id'   => 1,
+     *     'postcode_required'   => 0,
+     *     'status'              => 1
+     * ];
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->editCountry($country_id, $country_data);
+     */
+    public function editCountry(int $country_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "country` SET `iso_code_2` = '" . $this->db->escape((string)$data['iso_code_2']) . "', `iso_code_3` = '" . $this->db->escape((string)$data['iso_code_3']) . "', `address_format_id` = '" . (int)$data['address_format_id'] . "', `postcode_required` = '" . (int)$data['postcode_required'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `country_id` = '" . $country_id . "'");
 
 		$this->model_localisation_country->deleteDescriptions($country_id);
 
@@ -84,44 +82,41 @@ class Country extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit information status record in the database.
-	 *
-	 * @param int  $information_id primary key of the information record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('catalog/information');
-	 *
-	 * $this->model_catalog_information->editStatus($information_id, $status);
-	 */
-	public function editStatus(int $country_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "country` SET `status` = '" . (bool)$status . "' WHERE `country_id` = '" . (int)$country_id . "'");
+     * Edit Status
+     *
+     * Edit information status record in the database.
+     *
+     * @param int  $information_id primary key of the information record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('catalog/information');
+     *
+     * $this->model_catalog_information->editStatus($information_id, $status);
+     */
+    public function editStatus(int $country_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "country` SET `status` = '" . $status . "' WHERE `country_id` = '" . $country_id . "'");
 
 		$this->cache->delete('country');
 	}
 
 	/**
-	 * Delete Country
-	 *
-	 * Delete country record in the database.
-	 *
-	 * @param int $country_id primary key of the country record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->deleteCountry($country_id);
-	 */
-	public function deleteCountry(int $country_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "country` WHERE `country_id` = '" . (int)$country_id . "'");
+     * Delete Country
+     *
+     * Delete country record in the database.
+     *
+     * @param int $country_id primary key of the country record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->deleteCountry($country_id);
+     */
+    public function deleteCountry(int $country_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "country` WHERE `country_id` = '" . $country_id . "'");
 
 		$this->model_localisation_country->deleteDescriptions($country_id);
 
@@ -144,48 +139,44 @@ class Country extends \Opencart\System\Engine\Model {
 	 * $country_info = $this->model_localisation_country->getCountry($country_id);
 	 */
 	public function getCountry(int $country_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "country` `c` LEFT JOIN `" . DB_PREFIX . "country_description` `cd` ON (`c`.`country_id` = `cd`.`country_id`) WHERE `c`.`country_id` = '" . (int)$country_id . "' AND `cd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "country` `c` LEFT JOIN `" . DB_PREFIX . "country_description` `cd` ON (`c`.`country_id` = `cd`.`country_id`) WHERE `c`.`country_id` = '" . $country_id . "' AND `cd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
 
 	/**
-	 * Get Country By Iso Code 2
-	 *
-	 * Get the record of the country iso code 2 record in the database.
-	 *
-	 * @param string $iso_code_2
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $country_info = $this->model_localisation_country->getCountryByIsoCode2($iso_code_2);
-	 */
-	public function getCountryByIsoCode2(string $iso_code_2): array {
+     * Get Country By Iso Code 2
+     *
+     * Get the record of the country iso code 2 record in the database.
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $country_info = $this->model_localisation_country->getCountryByIsoCode2($iso_code_2);
+     */
+    public function getCountryByIsoCode2(string $iso_code_2): array {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` `c` LEFT JOIN `" . DB_PREFIX . "country_description` `cd` ON (`c`.`country_id` = `cd`.`country_id`) WHERE `c`.`iso_code_3` = '" . $this->db->escape($iso_code_2) . "' AND `cd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
 
 	/**
-	 * Get Country By Iso Code 3
-	 *
-	 * Get the record of the country iso code 3 record in the database.
-	 *
-	 * @param string $iso_code_3
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $country_info = $this->model_localisation_country->getCountryByIsoCode3($iso_code_3);
-	 */
-	public function getCountryByIsoCode3(string $iso_code_3): array {
+     * Get Country By Iso Code 3
+     *
+     * Get the record of the country iso code 3 record in the database.
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $country_info = $this->model_localisation_country->getCountryByIsoCode3($iso_code_3);
+     */
+    public function getCountryByIsoCode3(string $iso_code_3): array {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE `iso_code_3` = '" . $this->db->escape($iso_code_3) . "'");
 
 		return $query->row;
@@ -348,72 +339,69 @@ class Country extends \Opencart\System\Engine\Model {
 	 * $country_total = $this->model_localisation_country->getTotalCountriesByAddressFormatId($address_format_id);
 	 */
 	public function getTotalCountriesByAddressFormatId(int $address_format_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "country` WHERE `address_format_id` = '" . (int)$address_format_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "country` WHERE `address_format_id` = '" . $address_format_id . "'");
 
 		return (int)$query->row['total'];
 	}
 
 	/**
-	 * Add Description
-	 *
-	 * Create a new country description record in the database.
-	 *
-	 * @param int                  $country_id  primary key of the country record
-	 * @param int                  $language_id primary key of the language record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $country_data['country_description'] = [
-	 *     'name'             => 'Country Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->addDescription($country_id, $language_id, $country_data);
-	 */
-	public function addDescription(int $country_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "country_description` SET `country_id` = '" . (int)$country_id . "', `language_id` = '" . (int)$language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
+     * Add Description
+     *
+     * Create a new country description record in the database.
+     *
+     * @param int                  $country_id  primary key of the country record
+     * @param int                  $language_id primary key of the language record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $country_data['country_description'] = [
+     *     'name'             => 'Country Name'
+     * ];
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->addDescription($country_id, $language_id, $country_data);
+     */
+    public function addDescription(int $country_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "country_description` SET `country_id` = '" . $country_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
 	}
 
 	/**
-	 * Delete Descriptions
-	 *
-	 * Delete country description records in the database.
-	 *
-	 * @param int $country_id primary key of the country record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->deleteDescriptions($country_id);
-	 */
-	public function deleteDescriptions(int $country_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "country_description` WHERE `country_id` = '" . (int)$country_id . "'");
+     * Delete Descriptions
+     *
+     * Delete country description records in the database.
+     *
+     * @param int $country_id primary key of the country record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->deleteDescriptions($country_id);
+     */
+    public function deleteDescriptions(int $country_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "country_description` WHERE `country_id` = '" . $country_id . "'");
 	}
 
 	/**
-	 * Delete Descriptions By Language ID
-	 *
-	 * Delete country descriptions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->deleteDescriptionsByLanguageId($language_id);
-	 */
-	public function deleteDescriptionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "country_description` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Descriptions By Language ID
+     *
+     * Delete country descriptions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->deleteDescriptionsByLanguageId($language_id);
+     */
+    public function deleteDescriptionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "country_description` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -433,7 +421,7 @@ class Country extends \Opencart\System\Engine\Model {
 	 * $description = $this->model_localisation_country->getDescription($country_id, $language_id);
 	 */
 	public function getDescription(int $country_id, int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country_description` WHERE `country_id` = '" . (int)$country_id . "' AND `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country_description` WHERE `country_id` = '" . $country_id . "' AND `language_id` = '" . $language_id . "'");
 
 		return $query->row;
 	}
@@ -456,7 +444,7 @@ class Country extends \Opencart\System\Engine\Model {
 	public function getDescriptions(int $country_id): array {
 		$country_description_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country_description` WHERE `country_id` = '" . (int)$country_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country_description` WHERE `country_id` = '" . $country_id . "'");
 
 		foreach ($query->rows as $result) {
 			$country_description_data[$result['language_id']] = $result;
@@ -481,7 +469,7 @@ class Country extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_localisation_country->getDescriptionsByLanguageId($language_id);
 	 */
 	public function getDescriptionsByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country_description` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country_description` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}

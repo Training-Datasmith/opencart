@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Store extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Store
-	 *
-	 * Adds task to generate new store list
-	 *
-	 * model/setting/store/addStore
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addStore(string &$route, array &$args, &$output): void {
+     * Add Store
+     *
+     * Adds task to generate new store list
+     *
+     * model/setting/store/addStore
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addStore(string &$route, array &$args, &$output): void {
 		// Language
 		$task_data = [
 			'code'   => 'language',
@@ -68,19 +66,17 @@ class Store extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Store
-	 *
-	 * Adds task to generate new store list
-	 *
-	 * model/setting/store/editStore
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function editStore(string &$route, array &$args, &$output): void {
+     * Edit Store
+     *
+     * Adds task to generate new store list
+     *
+     * model/setting/store/editStore
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function editStore(string &$route, array &$args, &$output): void {
 
 
 		// Language
@@ -130,19 +126,17 @@ class Store extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Store
-	 *
-	 * Adds task to generate new store list
-	 *
-	 * model/setting/store/deleteStore
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function deleteStore(string &$route, array &$args, &$output): void {
+     * Delete Store
+     *
+     * Adds task to generate new store list
+     *
+     * model/setting/store/deleteStore
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function deleteStore(string &$route, array &$args, &$output): void {
 		// Language
 		$task_data = [
 			'code'   => 'language',

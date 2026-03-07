@@ -9,15 +9,14 @@ namespace Opencart\Admin\Model\Extension\Opencart\Report;
  */
 class ProductViewed extends \Opencart\System\Engine\Model {
 	/**
-	 * Install
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->model_extension_opencart_report_product_viewed->install();
-	 */
-	public function install(): void {
+     * Install
+     *
+     *
+     * @example
+     *
+     * $this->model_extension_opencart_report_product_viewed->install();
+     */
+    public function install(): void {
 		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "product_viewed` (
 		  `product_id` INT(11) NOT NULL,
 		  `viewed` INT(11) NOT NULL,
@@ -26,47 +25,42 @@ class ProductViewed extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Uninstall
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->model_extension_opencart_report_product_viewed->uninstall();
-	 */
-	public function uninstall(): void {
+     * Uninstall
+     *
+     *
+     * @example
+     *
+     * $this->model_extension_opencart_report_product_viewed->uninstall();
+     */
+    public function uninstall(): void {
 		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "product_viewed`");
 	}
 
 	/**
-	 * Add Report
-	 *
-	 * @param int $product_id primary key of the product record
-	 * @param int $viewed
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->model_extension_opencart_report_product_viewed->addReport($product_id, $viewed);
-	 */
-	public function addReport(int $product_id, int $viewed): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_viewed` SET `product_id` = '" . (int)$product_id . "', `viewed` = '" . (int)$viewed . "'");
+     * Add Report
+     *
+     * @param int $product_id primary key of the product record
+     *
+     *
+     * @example
+     *
+     * $this->model_extension_opencart_report_product_viewed->addReport($product_id, $viewed);
+     */
+    public function addReport(int $product_id, int $viewed): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_viewed` SET `product_id` = '" . $product_id . "', `viewed` = '" . $viewed . "'");
 	}
 
 	/**
-	 * Get Viewed
-	 *
-	 * @param int $start
-	 * @param int $limit
-	 *
-	 * @return array<int, array<string, mixed>>
-	 *
-	 * @example
-	 *
-	 * $results = $this->model_extension_opencart_report_product_viewed->getViewed();
-	 */
-	public function getViewed(int $start = 0, int $limit = 10): array {
+     * Get Viewed
+     *
+     *
+     * @return array<int, array<string, mixed>>
+     *
+     * @example
+     *
+     * $results = $this->model_extension_opencart_report_product_viewed->getViewed();
+     */
+    public function getViewed(int $start = 0, int $limit = 10): array {
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -75,7 +69,7 @@ class ProductViewed extends \Opencart\System\Engine\Model {
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT `product_id`, `viewed` FROM `" . DB_PREFIX . "product_viewed` ORDER BY `viewed` DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT `product_id`, `viewed` FROM `" . DB_PREFIX . "product_viewed` ORDER BY `viewed` DESC LIMIT " . $start . "," . $limit);
 
 		return $query->rows;
 	}
@@ -111,15 +105,14 @@ class ProductViewed extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->model_extension_opencart_report_product_viewed->clear();
-	 */
-	public function clear(): void {
+     * Clear
+     *
+     *
+     * @example
+     *
+     * $this->model_extension_opencart_report_product_viewed->clear();
+     */
+    public function clear(): void {
 		$this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "product_viewed`");
 	}
 }

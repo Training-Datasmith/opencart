@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Startup;
  */
 class Api extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function index() {
+     * Index
+     */
+    public function index(): ?\Opencart\System\Engine\Action {
 		if (isset($this->request->get['route'])) {
 			$route = (string)$this->request->get['route'];
 		} else {
@@ -24,7 +22,7 @@ class Api extends \Opencart\System\Engine\Controller {
 		];
 
 		// Block direct access to other methods
-		if (substr($route, 0, 4) == 'api/' && !in_array($route, $allowed)) {
+		if (str_starts_with($route, 'api/') && !in_array($route, $allowed)) {
 			return new \Opencart\System\Engine\Action('startup/api.permission');
 		}
 
@@ -82,14 +80,14 @@ class Api extends \Opencart\System\Engine\Controller {
 			}
 
 			if ($status) {
-				$string  = (string)$this->request->get['route'] . "\n";
-				$string .= (string)$this->request->get['call'] . "\n";
+				$string  = $this->request->get['route'] . "\n";
+				$string .= $this->request->get['call'] . "\n";
 				$string .= $api_info['username'] . "\n";
-				$string .= (string)$this->request->server['HTTP_HOST'] . "\n";
+				$string .= $this->request->server['HTTP_HOST'] . "\n";
 				$string .= (!empty($this->request->server['PHP_SELF']) ? rtrim(dirname($this->request->server['PHP_SELF']), '/') . '/' : '/') . "\n";
 				$string .= (int)$this->request->get['store_id'] . "\n";
-				$string .= (string)$this->request->get['language'] . "\n";
-				$string .= (string)$this->request->get['currency'] . "\n";
+				$string .= $this->request->get['language'] . "\n";
+				$string .= $this->request->get['currency'] . "\n";
 				$string .= md5(http_build_query($this->request->post)) . "\n";
 				$string .= $time . "\n";
 
@@ -109,11 +107,9 @@ class Api extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Permission
-	 *
-	 * @return void
-	 */
-	public function permission(): void {
+     * Permission
+     */
+    public function permission(): void {
 		$this->language->load('error/permission');
 
 		$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 403 Forbidden');

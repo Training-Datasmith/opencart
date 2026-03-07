@@ -18,14 +18,11 @@ final class AdmonitionParser extends AbstractBlockContinueParser implements Bloc
     private AdmonitionBlock $block;
 
     /** @psalm-readonly */
-    private ?string $title;
-
-    /** @psalm-readonly */
     private Paragraph $titleBlock;
 
-    public function __construct(string $type, ?string $title)
+    public function __construct(string $type, /** @psalm-readonly */
+    private ?string $title)
     {
-        $this->title = $title;
         $this->titleBlock = new Paragraph();
         $this->block = new AdmonitionBlock($type, $this->titleBlock);
     }

@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Captcha;
  */
 class Basic extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('extension/opencart/captcha/basic');
 
 		$data['route'] = (string)$this->request->get['route'];
@@ -22,26 +20,21 @@ class Basic extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Validate
-	 *
-	 * @return string
-	 */
-	public function validate(): string {
+     * Validate
+     */
+    public function validate(): string {
 		$this->load->language('extension/opencart/captcha/basic');
 
 		if (!isset($this->session->data['captcha']) || !isset($this->request->post['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
 			return $this->language->get('error_captcha');
-		} else {
-			return '';
 		}
+        return '';
 	}
 
 	/**
-	 * Captcha
-	 *
-	 * @return void
-	 */
-	public function captcha(): void {
+     * Captcha
+     */
+    public function captcha(): void {
 		$image  = imagecreatetruecolor(150, 35);
 
 		$width  = imagesx($image);

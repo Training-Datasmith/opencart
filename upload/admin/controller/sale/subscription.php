@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Sale;
  */
 class Subscription extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('sale/subscription');
 
 		if (isset($this->request->get['filter_subscription_id'])) {
@@ -105,22 +103,18 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('sale/subscription');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_subscription_id'])) {
 			$filter_subscription_id = (int)$this->request->get['filter_subscription_id'];
 		} else {
@@ -274,11 +268,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @return void
-	 */
-	public function info(): void {
+     * Info
+     */
+    public function info(): void {
 		$this->load->language('sale/subscription');
 
 		if (isset($this->request->get['subscription_id'])) {
@@ -657,68 +649,66 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Call
-	 *
-	 * Method to call the storefront API and return a response.
-	 *
-	 * @Example
-	 *
-	 * We create a hash from the data in a similar method to how amazon does things.
-	 *
-	 * $call     = 'order';
-	 * $username = 'API username';
-	 * $key      = 'API Key';
-	 * $domain   = 'www.yourdomain.com';
-	 * $path     = '/';
-	 * $store_id = 0;
-	 * $language = 'en-gb';
-	 * $time     = time();
-	 *
-	 * // Build hash string
-	 * $string  = $call . "\n";
-	 * $string .= $username . "\n";
-	 * $string .= $domain . "\n";
-	 * $string .= $path . "\n";
-	 * $string .= $store_id . "\n";
-	 * $string .= $language . "\n";
-	 * $string .= $currency . "\n";
-	 * $string .= json_encode($_POST) . "\n";
-	 * $string .= $time . "\n";
-	 *
-	 * $signature = base64_encode(hash_hmac('sha1', $string, $key, true));
-	 *
-	 * // Make remote call
-	 * $url  = '&call=' . $call;
-	 * $url  = '&username=' . urlencode($username);
-	 * $url .= '&store_id=' . $store_id;
-	 * $url .= '&language=' . $language;
-	 * $url .= '&currency=' . $currency;
-	 * $url .= '&time=' . $time;
-	 * $url .= '&signature=' . rawurlencode($signature);
-	 *
-	 * $curl = curl_init();
-	 *
-	 * curl_setopt($curl, CURLOPT_URL, 'https://' . $domain . $path . 'index.php?route=api/api' . $url);
-	 * curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	 * curl_setopt($curl, CURLOPT_HEADER, false);
-	 * curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-	 * curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-	 * curl_setopt($curl, CURLOPT_POST, 1);
-	 * curl_setopt($curl, CURLOPT_POSTFIELDS, $_POST);
-	 *
-	 * $response = curl_exec($curl);
-	 *
-	 * $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-	 *
-	 * if ($status == 200) {
-	 *      $response_info = json_decode($response, true);
-	 * } else {
-	 *      $response_info = [];
-	 * }
-	 *
-	 * @return void
-	 */
-	public function call(): void {
+     * Call
+     *
+     * Method to call the storefront API and return a response.
+     *
+     * @Example
+     *
+     * We create a hash from the data in a similar method to how amazon does things.
+     *
+     * $call     = 'order';
+     * $username = 'API username';
+     * $key      = 'API Key';
+     * $domain   = 'www.yourdomain.com';
+     * $path     = '/';
+     * $store_id = 0;
+     * $language = 'en-gb';
+     * $time     = time();
+     *
+     * // Build hash string
+     * $string  = $call . "\n";
+     * $string .= $username . "\n";
+     * $string .= $domain . "\n";
+     * $string .= $path . "\n";
+     * $string .= $store_id . "\n";
+     * $string .= $language . "\n";
+     * $string .= $currency . "\n";
+     * $string .= json_encode($_POST) . "\n";
+     * $string .= $time . "\n";
+     *
+     * $signature = base64_encode(hash_hmac('sha1', $string, $key, true));
+     *
+     * // Make remote call
+     * $url  = '&call=' . $call;
+     * $url  = '&username=' . urlencode($username);
+     * $url .= '&store_id=' . $store_id;
+     * $url .= '&language=' . $language;
+     * $url .= '&currency=' . $currency;
+     * $url .= '&time=' . $time;
+     * $url .= '&signature=' . rawurlencode($signature);
+     *
+     * $curl = curl_init();
+     *
+     * curl_setopt($curl, CURLOPT_URL, 'https://' . $domain . $path . 'index.php?route=api/api' . $url);
+     * curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+     * curl_setopt($curl, CURLOPT_HEADER, false);
+     * curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+     * curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+     * curl_setopt($curl, CURLOPT_POST, 1);
+     * curl_setopt($curl, CURLOPT_POSTFIELDS, $_POST);
+     *
+     * $response = curl_exec($curl);
+     *
+     * $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+     *
+     * if ($status == 200) {
+     *      $response_info = json_decode($response, true);
+     * } else {
+     *      $response_info = [];
+     * }
+     */
+    public function call(): void {
 		$this->load->language('sale/subscription');
 
 		$json = [];
@@ -804,11 +794,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('sale/subscription');
 
 		$json = [];
@@ -839,22 +827,18 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('sale/subscription');
 
 		$this->response->setOutput($this->getHistory());
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	public function getHistory(): string {
+     * Get History
+     */
+    public function getHistory(): string {
 		if (isset($this->request->get['subscription_id'])) {
 			$subscription_id = (int)$this->request->get['subscription_id'];
 		} else {
@@ -898,11 +882,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add History
-	 *
-	 * @return void
-	 */
-	public function addHistory(): void {
+     * Add History
+     */
+    public function addHistory(): void {
 		$this->load->language('sale/subscription');
 
 		$json = [];
@@ -954,22 +936,18 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Order
-	 *
-	 * @return void
-	 */
-	public function order(): void {
+     * Order
+     */
+    public function order(): void {
 		$this->load->language('sale/subscription');
 
 		$this->response->setOutput($this->getOrder());
 	}
 
 	/**
-	 * Get Order
-	 *
-	 * @return string
-	 */
-	public function getOrder(): string {
+     * Get Order
+     */
+    public function getOrder(): string {
 		if (isset($this->request->get['subscription_id'])) {
 			$subscription_id = (int)$this->request->get['subscription_id'];
 		} else {
@@ -1014,22 +992,18 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Logs
-	 *
-	 * @return void
-	 */
-	public function log(): void {
+     * Logs
+     */
+    public function log(): void {
 		$this->load->language('sale/subscription');
 
 		$this->response->setOutput($this->getLog());
 	}
 
 	/**
-	 * Get Logs
-	 *
-	 * @return string
-	 */
-	public function getLog(): string {
+     * Get Logs
+     */
+    public function getLog(): string {
 		if (isset($this->request->get['subscription_id'])) {
 			$subscription_id = (int)$this->request->get['subscription_id'];
 		} else {

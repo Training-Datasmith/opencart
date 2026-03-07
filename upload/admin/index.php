@@ -3,7 +3,7 @@
 define('VERSION', '4.1.0.4');
 
 // Added dirname function so the system will work from command line.
-if (is_file(dirname(__FILE__)  . '/config.php')) {
+if (is_file(__DIR__  . '/config.php')) {
 	require_once('config.php');
 }
 

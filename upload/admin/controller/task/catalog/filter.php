@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Filter extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate country task list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate country task list.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/filter');
 
 
@@ -80,15 +78,13 @@ class Filter extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate JSON country list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate JSON country list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 
 
 
@@ -182,15 +178,13 @@ class Filter extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate country information.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate country information.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/catalog/country');
 
 		$required = [
@@ -291,15 +285,13 @@ class Filter extends \Opencart\System\Engine\Controller {
 
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON country files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON country files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/language');
 
 		$stores = [];

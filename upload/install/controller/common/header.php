@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Common;
  */
 class Header extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/header');
 
 		$data['title'] = $this->document->getTitle();

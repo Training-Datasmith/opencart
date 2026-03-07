@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Product extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate product task by product ID for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate product task by product ID for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/product');
 
 		// Product
@@ -56,15 +54,13 @@ class Product extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate country data by product ID.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate country data by product ID.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/catalog/product');
 
 		if (!array_key_exists('product_id', $args)) {
@@ -141,12 +137,12 @@ class Product extends \Opencart\System\Engine\Controller {
 		}
 
 		// Images
-		$images = $this->model_catalog_product->getImages($product_info['product_id']);
+		$this->model_catalog_product->getImages($product_info['product_id']);
 
 		// Attributes
-		$attribute_groups = $this->model_catalog_product->getAttributes($product_info['product_id']);
+		$this->model_catalog_product->getAttributes($product_info['product_id']);
 
-		$discounts = $this->model_catalog_product->getDiscounts($product_info['product_id']);
+		$this->model_catalog_product->getDiscounts($product_info['product_id']);
 
 		$directory = DIR_APPLICATION . 'view/data/catalog/';
 		$filename = 'product-' . $product_info['product_id'] . '.json';
@@ -163,15 +159,13 @@ class Product extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON information files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON information files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/admin/information');
 
 		$file = HTTP_SERVER . 'view/data/admin/information.json';

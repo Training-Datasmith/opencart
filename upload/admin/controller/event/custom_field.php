@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class CustomField extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Custom Field
-	 *
-	 * Adds task to generate new customer group data with the updated customer fields.
-	 *
-	 * Called using model/customer/custom_field/addCustomField/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addCustomField(string &$route, array &$args, &$output): void {
+     * Add Custom Field
+     *
+     * Adds task to generate new customer group data with the updated customer fields.
+     *
+     * Called using model/customer/custom_field/addCustomField/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addCustomField(string &$route, array &$args, &$output): void {
 		$this->load->model('setting/task');
 
 		$this->load->model('setting/custom_field');
@@ -38,19 +36,17 @@ class CustomField extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Custom Field
-	 *
-	 * Adds task to generate new customer group data with the updated customer fields.
-	 *
-	 * Called using model/customer/custom_field/editCustomField/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function editCustomField(string &$route, array &$args, &$output): void {
+     * Edit Custom Field
+     *
+     * Adds task to generate new customer group data with the updated customer fields.
+     *
+     * Called using model/customer/custom_field/editCustomField/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function editCustomField(string &$route, array &$args, &$output): void {
 		$this->load->model('setting/task');
 
 		$this->load->model('setting/custom_field');
@@ -69,19 +65,17 @@ class CustomField extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Custom Field
-	 *
-	 * Adds task to generate new customer group data with the updated customer fields.
-	 *
-	 * Called using model/customer/custom_field/deleteCustomField/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function deleteCustomField(string &$route, array &$args, &$output): void {
+     * Delete Custom Field
+     *
+     * Adds task to generate new customer group data with the updated customer fields.
+     *
+     * Called using model/customer/custom_field/deleteCustomField/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function deleteCustomField(string &$route, array &$args, &$output): void {
 		$this->load->model('setting/task');
 
 		$this->load->model('setting/custom_field');

@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Manufacturer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate country list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function addList(array $args = []): array {
+     * Index
+     *
+     * Generate country list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function addList(array $args = []): array {
 		$this->load->language('task/catalog/manufacturer');
 
 		// Stores
@@ -48,15 +46,13 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate country list by store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function renderList(array $args = []): array {
+     * List
+     *
+     * Generate country list by store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function renderList(array $args = []): array {
 		$this->load->language('task/catalog/manufacturer');
 
 		// Store
@@ -92,10 +88,12 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 
 		foreach ($manufacturer_ids as $manufacturer_id) {
 			$manufacturer_info = $this->model_localisation_country->getManufacturer($manufacturer_id);
-
-			if (!$manufacturer_info || !$manufacturer_info['status']) {
-				continue;
-			}
+            if (!$manufacturer_info) {
+                continue;
+            }
+            if (!$manufacturer_info['status']) {
+                continue;
+            }
 
 			$description_info = $this->model_catalog_manufacturer->getDescription($manufacturer_info['manufacturer_id'], $language_info['language_id']);
 
@@ -130,15 +128,13 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate manufacturer information.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function addManufacturer(array $args = []): array {
+     * Info
+     *
+     * Generate manufacturer information.
+     *
+     * @param array<string, string> $args
+     */
+    public function addManufacturer(array $args = []): array {
 		$this->load->language('task/catalog/manufacturer');
 
 		if (!array_key_exists('manufacturer_id', $args)) {
@@ -305,15 +301,13 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON country files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON country files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/language');
 
 		$stores = [];

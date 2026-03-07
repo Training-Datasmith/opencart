@@ -7,13 +7,11 @@ namespace Opencart\Admin\Controller\Task\Report;
  */
 class Rating extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate rating task list.
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate rating task list.
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/report/rating');
 
 		$this->load->model('setting/task');
@@ -45,13 +43,11 @@ class Rating extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Calculates product ratings.
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Calculates product ratings.
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/report/rating');
 
 		$this->load->model('catalog/review');

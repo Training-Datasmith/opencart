@@ -13,14 +13,11 @@ class Template {
 	protected array $path = [];
 
 	/**
-	 * Add Path
-	 *
-	 * @param string $namespace
-	 * @param string $directory
-	 *
-	 * @return void
-	 */
-	public function addPath(string $namespace, string $directory = ''): void {
+     * Add Path
+     *
+     *
+     */
+    public function addPath(string $namespace, string $directory = ''): void {
 		if (!$directory) {
 			$this->directory = $namespace;
 		} else {
@@ -29,15 +26,12 @@ class Template {
 	}
 
 	/**
-	 * Render
-	 *
-	 * @param string               $filename
-	 * @param array<string, mixed> $data
-	 * @param string               $code
-	 *
-	 * @return string
-	 */
-	public function render(string $filename, array $data = [], string $code = ''): string {
+     * Render
+     *
+     * @param array<string, mixed> $data
+     *
+     */
+    public function render(string $filename, array $data = [], string $code = ''): string {
 		if (!$code) {
 			$file = $this->directory . $filename . '.tpl';
 
@@ -72,20 +66,16 @@ class Template {
 			include($this->compile($filename, $code));
 
 			return ob_get_clean();
-		} else {
-			return '';
 		}
+        return '';
 	}
 
 	/**
-	 * Compile
-	 *
-	 * @param string $filename
-	 * @param string $code
-	 *
-	 * @return string
-	 */
-	protected function compile(string $filename, string $code): string {
+     * Compile
+     *
+     *
+     */
+    protected function compile(string $filename, string $code): string {
 		$file = DIR_CACHE . 'template/' . hash('md5', $filename . $code) . '.php';
 
 		if (!is_file($file)) {

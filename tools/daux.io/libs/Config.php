@@ -41,7 +41,7 @@ class Config extends BaseConfig
         return $this->getValue('current_page');
     }
 
-    public function setCurrentPage(Content $entry)
+    public function setCurrentPage(Content $entry): void
     {
         $this->setValue('current_page', $entry);
     }
@@ -81,7 +81,7 @@ class Config extends BaseConfig
         return $this->getValue('tree');
     }
 
-    public function setTree($tree)
+    public function setTree($tree): void
     {
         $this->setValue('tree', $tree);
     }
@@ -106,12 +106,12 @@ class Config extends BaseConfig
         return $this->getValue('mode');
     }
 
-    public function isLive()
+    public function isLive(): bool
     {
         return $this->getValue('mode') == Daux::LIVE_MODE;
     }
 
-    public function isStatic()
+    public function isStatic(): bool
     {
         return $this->getValue('mode') == Daux::STATIC_MODE;
     }
@@ -128,7 +128,7 @@ class Config extends BaseConfig
         return $this['html']['inherit_index'];
     }
 
-    public function getIndexKey()
+    public function getIndexKey(): string
     {
         return $this->getValue('mode') == Daux::STATIC_MODE ? 'index.html' : 'index';
     }
@@ -166,7 +166,7 @@ class Config extends BaseConfig
         return $this->getValue('valid_content_extensions');
     }
 
-    public function setValidContentExtensions(array $value)
+    public function setValidContentExtensions(array $value): void
     {
         $this->setValue('valid_content_extensions', $value);
     }
@@ -176,7 +176,7 @@ class Config extends BaseConfig
         return $this->getValue('cache', false);
     }
 
-    public function getCacheKey()
+    public function getCacheKey(): string
     {
         $cloned = [];
         foreach ($this as $key => $value) {
@@ -206,7 +206,7 @@ class Config extends BaseConfig
         return $this->getValue('image');
     }
 
-    public function setImage($value)
+    public function setImage($value): void
     {
         $this->setValue('image', $value);
     }
@@ -250,7 +250,7 @@ class Config extends BaseConfig
         return $this->getValue('entry_page');
     }
 
-    public function setEntryPage($value)
+    public function setEntryPage($value): void
     {
         $this->setValue('entry_page', $value);
     }
@@ -265,7 +265,7 @@ class Config extends BaseConfig
         return $this->getValue('request');
     }
 
-    public function setRequest($value)
+    public function setRequest($value): void
     {
         $this->setValue('request', $value);
     }
@@ -275,7 +275,7 @@ class Config extends BaseConfig
         return $this->getValue('index');
     }
 
-    public function setIndex($value)
+    public function setIndex($value): void
     {
         $this->setValue('index', $value);
     }
@@ -290,7 +290,7 @@ class Config extends BaseConfig
         return $this->getValue('processor_instance');
     }
 
-    public function setProcessorInstance($value)
+    public function setProcessorInstance($value): void
     {
         $this->setValue('processor_instance', $value);
     }
@@ -310,12 +310,12 @@ class Config extends BaseConfig
         return $this->getValue('host');
     }
 
-    public function getTemplateRenderer()
+    public function getTemplateRenderer(): \Todaymade\Daux\Format\HTML\Template
     {
         return $this->templateRenderer;
     }
 
-    public function setTemplateRenderer(Template $template)
+    public function setTemplateRenderer(Template $template): void
     {
         $this->templateRenderer = $template;
     }

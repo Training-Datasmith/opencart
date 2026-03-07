@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Register extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		if ($this->customer->isLogged()) {
 			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true));
 		}
@@ -63,7 +61,7 @@ class Register extends \Opencart\System\Engine\Controller {
 			$customer_groups = $this->model_account_customer_group->getCustomerGroups();
 
 			foreach ($customer_groups as $customer_group) {
-				if (in_array($customer_group['customer_group_id'], (array)$this->config->get('config_customer_group_list'))) {
+				if (in_array($customer_group['customer_group_id'], $this->config->get('config_customer_group_list'))) {
 					$data['customer_groups'][] = $customer_group;
 				}
 			}
@@ -119,11 +117,9 @@ class Register extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Register
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Register
+     */
+    public function save(): void {
 		$this->load->language('account/register');
 
 		$json = [];

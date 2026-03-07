@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Review extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate review list task for each store and language.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate review list task for each store and language.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/review');
 
 		// Review
@@ -61,15 +59,13 @@ class Review extends \Opencart\System\Engine\Controller {
 
 
 	/**
-	 * List
-	 *
-	 * Generate JSON review list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate JSON review list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$product_total = $this->model_catalog_product->getTotalProducts();
 
 		$page_total = ceil($product_total / $limit);
@@ -90,8 +86,6 @@ class Review extends \Opencart\System\Engine\Controller {
 
 			$this->model_setting_task->addTask($task_data);
 		}
-
-		$limit = 10;
 		$this->load->language('task/catalog/review');
 
 		$this->load->model('setting/store');
@@ -113,12 +107,7 @@ class Review extends \Opencart\System\Engine\Controller {
 		$return_reason_data = [];
 
 		$this->load->model('catalog/review');
-
-		$return_reasons = $this->model_catalog_review->getReviews();
-
-		foreach ($return_reasons as $return_reason) {
-
-		}
+        $this->model_catalog_review->getReviews();
 
 		$base = DIR_APPLICATION . 'view/data/';
 		$directory = parse_url($store_info['url'], PHP_URL_HOST) . '/' . $language_info['code'] . '/localisation/';
@@ -137,15 +126,13 @@ class Review extends \Opencart\System\Engine\Controller {
 
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON review files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON review files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/return_reason');
 
 		$stores = [];

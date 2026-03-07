@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Returns extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/returns');
 
 		if (isset($this->request->get['page'])) {
@@ -90,11 +88,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function info() {
+     * Info
+     */
+    public function info(): ?\Opencart\System\Engine\Action {
 		$this->load->language('account/returns');
 
 		if (isset($this->request->get['return_id'])) {
@@ -187,11 +183,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @return void
-	 */
-	public function add(): void {
+     * Add
+     */
+    public function add(): void {
 		$this->load->language('account/returns');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -330,11 +324,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('account/returns');
 
 		$json = [];
@@ -432,11 +424,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Success
-	 *
-	 * @return void
-	 */
-	public function success(): void {
+     * Success
+     */
+    public function success(): void {
 		$this->load->language('account/returns');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -466,11 +456,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('account/return');
 
 		if (!$this->load->controller('account/login.validate')) {
@@ -483,11 +471,9 @@ class Returns extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	protected function getHistory(): string {
+     * Get History
+     */
+    protected function getHistory(): string {
 		if (isset($this->request->get['return_id'])) {
 			$return_id = (int)$this->request->get['return_id'];
 		} else {

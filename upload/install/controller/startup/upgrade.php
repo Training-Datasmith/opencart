@@ -7,18 +7,16 @@ namespace Opencart\Install\Controller\Startup;
  */
 class Upgrade extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$upgrade = false;
 
 		if (is_file(DIR_OPENCART . 'config.php') && filesize(DIR_OPENCART . 'config.php') > 0) {
 			$upgrade = true;
 		}
 
-		if (isset($this->request->get['route']) && ((substr($this->request->get['route'], 0, 8) == 'upgrade/') || (substr($this->request->get['route'], 0, 14) == 'install/step_4'))) {
+		if (isset($this->request->get['route']) && ((str_starts_with($this->request->get['route'], 'upgrade/')) || (str_starts_with($this->request->get['route'], 'install/step_4')))) {
 			$upgrade = false;
 		}
 

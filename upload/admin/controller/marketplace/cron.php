@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Cron extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketplace/cron');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -53,22 +51,18 @@ class Cron extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('marketplace/cron');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['page'])) {
 			$page = (int)$this->request->get['page'];
 		} else {
@@ -115,11 +109,9 @@ class Cron extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Run
-	 *
-	 * @return void
-	 */
-	public function run(): void {
+     * Run
+     */
+    public function run(): void {
 		$this->load->language('marketplace/cron');
 
 		$json = [];
@@ -163,11 +155,9 @@ class Cron extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('marketplace/cron');
 
 		$json = [];
@@ -197,11 +187,9 @@ class Cron extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('marketplace/cron');
 
 		$json = [];
@@ -231,11 +219,9 @@ class Cron extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('marketplace/cron');
 
 		$json = [];

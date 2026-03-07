@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Sale;
  */
 class Order extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('sale/order');
 
 		if (isset($this->request->get['filter_order_id'])) {
@@ -159,22 +157,18 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('sale/order');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_order_id'])) {
 			$filter_order_id = (int)$this->request->get['filter_order_id'];
 		} else {
@@ -313,7 +307,7 @@ class Order extends \Opencart\System\Engine\Controller {
 			}
 
 			$data['orders'][] = [
-				'order_status'    => $result['order_status'] ? $result['order_status'] : $this->language->get('text_missing'),
+				'order_status'    => $result['order_status'] ?: $this->language->get('text_missing'),
 				'total'           => $result['total'],
 				'date_added'      => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'date_modified'   => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
@@ -389,13 +383,11 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function info(): void {
+     * Info
+     *
+     * @throws \Exception
+     */
+    public function info(): void {
 		$this->load->language('sale/order');
 
 		if (isset($this->request->get['order_id'])) {
@@ -931,68 +923,66 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Call
-	 *
-	 * Method to call the storefront API and return a response.
-	 *
-	 * @Example
-	 *
-	 * We create a hash from the data in a similar method to how amazon does things.
-	 *
-	 * $call     = 'order';
-	 * $username = 'API username';
-	 * $key      = 'API Key';
-	 * $domain   = 'www.yourdomain.com';
-	 * $path     = '/';
-	 * $store_id = 0;
-	 * $language = 'en-gb';
-	 * $time     = time();
-	 *
-	 * // Build hash string
-	 * $string  = $call . "\n";
-	 * $string .= $username . "\n";
-	 * $string .= $domain . "\n";
-	 * $string .= $path . "\n";
-	 * $string .= $store_id . "\n";
-	 * $string .= $language . "\n";
-	 * $string .= $currency . "\n";
-	 * $string .= json_encode($_POST) . "\n";
-	 * $string .= $time . "\n";
-	 *
-	 * $signature = base64_encode(hash_hmac('sha1', $string, $key, true));
-	 *
-	 * // Make remote call
-	 * $url  = '&call=' . $call;
-	 * $url  = '&username=' . urlencode($username);
-	 * $url .= '&store_id=' . $store_id;
-	 * $url .= '&language=' . $language;
-	 * $url .= '&currency=' . $currency;
-	 * $url .= '&time=' . $time;
-	 * $url .= '&signature=' . rawurlencode($signature);
-	 *
-	 * $curl = curl_init();
-	 *
-	 * curl_setopt($curl, CURLOPT_URL, 'https://' . $domain . $path . 'index.php?route=api/api' . $url);
-	 * curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	 * curl_setopt($curl, CURLOPT_HEADER, false);
-	 * curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-	 * curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-	 * curl_setopt($curl, CURLOPT_POST, 1);
-	 * curl_setopt($curl, CURLOPT_POSTFIELDS, $_POST);
-	 *
-	 * $response = curl_exec($curl);
-	 *
-	 * $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-	 *
-	 * if ($status == 200) {
-	 *      $response_info = json_decode($response, true);
-	 * } else {
-	 *      $response_info = [];
-	 * }
-	 *
-	 * @return void
-	 */
-	public function call(): void {
+     * Call
+     *
+     * Method to call the storefront API and return a response.
+     *
+     * @Example
+     *
+     * We create a hash from the data in a similar method to how amazon does things.
+     *
+     * $call     = 'order';
+     * $username = 'API username';
+     * $key      = 'API Key';
+     * $domain   = 'www.yourdomain.com';
+     * $path     = '/';
+     * $store_id = 0;
+     * $language = 'en-gb';
+     * $time     = time();
+     *
+     * // Build hash string
+     * $string  = $call . "\n";
+     * $string .= $username . "\n";
+     * $string .= $domain . "\n";
+     * $string .= $path . "\n";
+     * $string .= $store_id . "\n";
+     * $string .= $language . "\n";
+     * $string .= $currency . "\n";
+     * $string .= json_encode($_POST) . "\n";
+     * $string .= $time . "\n";
+     *
+     * $signature = base64_encode(hash_hmac('sha1', $string, $key, true));
+     *
+     * // Make remote call
+     * $url  = '&call=' . $call;
+     * $url  = '&username=' . urlencode($username);
+     * $url .= '&store_id=' . $store_id;
+     * $url .= '&language=' . $language;
+     * $url .= '&currency=' . $currency;
+     * $url .= '&time=' . $time;
+     * $url .= '&signature=' . rawurlencode($signature);
+     *
+     * $curl = curl_init();
+     *
+     * curl_setopt($curl, CURLOPT_URL, 'https://' . $domain . $path . 'index.php?route=api/api' . $url);
+     * curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+     * curl_setopt($curl, CURLOPT_HEADER, false);
+     * curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+     * curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+     * curl_setopt($curl, CURLOPT_POST, 1);
+     * curl_setopt($curl, CURLOPT_POSTFIELDS, $_POST);
+     *
+     * $response = curl_exec($curl);
+     *
+     * $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+     *
+     * if ($status == 200) {
+     *      $response_info = json_decode($response, true);
+     * } else {
+     *      $response_info = [];
+     * }
+     */
+    public function call(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1067,11 +1057,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1102,11 +1090,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Invoice
-	 *
-	 * @return void
-	 */
-	public function invoice(): void {
+     * Invoice
+     */
+    public function invoice(): void {
 		$this->load->language('sale/order');
 
 		$data['title'] = $this->language->get('text_invoice');
@@ -1332,11 +1318,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Shipping
-	 *
-	 * @return void
-	 */
-	public function shipping(): void {
+     * Shipping
+     */
+    public function shipping(): void {
 		$this->load->language('sale/order');
 
 		$data['title'] = $this->language->get('text_shipping');
@@ -1516,22 +1500,18 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function history(): void {
+     * History
+     */
+    public function history(): void {
 		$this->load->language('sale/order');
 
 		$this->response->setOutput($this->getHistory());
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	public function getHistory(): string {
+     * Get History
+     */
+    public function getHistory(): string {
 		if (isset($this->request->get['order_id'])) {
 			$order_id = (int)$this->request->get['order_id'];
 		} else {
@@ -1575,11 +1555,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Create Invoice No
-	 *
-	 * @return void
-	 */
-	public function createInvoiceNo(): void {
+     * Create Invoice No
+     */
+    public function createInvoiceNo(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1621,11 +1599,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add Reward
-	 *
-	 * @return void
-	 */
-	public function addReward(): void {
+     * Add Reward
+     */
+    public function addReward(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1674,11 +1650,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Remove Reward
-	 *
-	 * @return void
-	 */
-	public function removeReward(): void {
+     * Remove Reward
+     */
+    public function removeReward(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1716,11 +1690,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add Commission
-	 *
-	 * @return void
-	 */
-	public function addCommission(): void {
+     * Add Commission
+     */
+    public function addCommission(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1771,11 +1743,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Remove Commission
-	 *
-	 * @return void
-	 */
-	public function removeCommission(): void {
+     * Remove Commission
+     */
+    public function removeCommission(): void {
 		$this->load->language('sale/order');
 
 		$json = [];
@@ -1813,11 +1783,9 @@ class Order extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$this->load->language('sale/order');
 
 		$json = [];

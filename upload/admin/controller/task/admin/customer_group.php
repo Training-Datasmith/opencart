@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class CustomerGroup extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate customer group task list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
+     * Index
+     *
+     * Generate customer group task list.
+     *
+     * @param array<string, string> $args
      */
-	public function index(array $args = []): array {
+    public function index(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
 
 		// Clear old data
@@ -41,15 +39,13 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * Generate JSON customer group list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function list(array $args = []): array {
+     * List
+     *
+     * Generate JSON customer group list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function list(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
 
 		$this->load->model('setting/task');
@@ -87,15 +83,13 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Info
-	 *
-	 * Generate JSON customer group information file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function info(array $args = []): array {
+     * Info
+     *
+     * Generate JSON customer group information file.
+     *
+     * @param array<string, string> $args
+     */
+    public function info(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
 
 		if (!array_key_exists('customer_group_id', $args)) {
@@ -131,15 +125,13 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON customer group files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON customer group files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/admin/customer_group');
 
 		$directory = DIR_APPLICATION . 'view/data/customer/';

@@ -7,15 +7,13 @@ namespace Opencart\Admin\Controller\Task\Admin;
  */
 class Store extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate JSON store list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate JSON store list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/admin/store');
 
 		$stores = [];
@@ -51,15 +49,13 @@ class Store extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON store files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON store files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/admin/store');
 
 		$this->load->model('localisation/language');

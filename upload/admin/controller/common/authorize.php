@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Authorize extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('common/authorize');
 
 		if (isset($this->request->cookie['admin_authorize'])) {
@@ -45,7 +43,7 @@ class Authorize extends \Opencart\System\Engine\Controller {
 
 			$this->model_user_user->addAuthorize($this->user->getId(), $authorize_data);
 
-			setcookie('admin_authorize', $token, time() + 60 * 60 * 24 * 90);
+			setcookie('admin_authorize', $token, ['expires' => time() + 60 * 60 * 24 * 90]);
 		}
 
 		// Set the code to be emailed
@@ -79,11 +77,9 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Send
-	 *
-	 * @return void
-	 */
-	public function send(): void {
+     * Send
+     */
+    public function send(): void {
 		$this->load->language('common/authorize');
 
 		$json = [];
@@ -118,11 +114,9 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('common/authorize');
 
 		$json = [];
@@ -186,11 +180,9 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Unlock
-	 *
-	 * @return void
-	 */
-	public function reset(): void {
+     * Unlock
+     */
+    public function reset(): void {
 		$this->load->language('common/authorize');
 
 		if (isset($this->request->cookie['admin_authorize'])) {
@@ -220,11 +212,9 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Confirm
-	 *
-	 * @return void
-	 */
-	public function confirm(): void {
+     * Confirm
+     */
+    public function confirm(): void {
 		$this->load->language('common/authorize');
 
 		$json = [];
@@ -256,13 +246,11 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reset
-	 *
-	 * We have to keep the reset method from blocking requests because some email clients will block cross site requests.
-	 *
-	 * @return void
-	 */
-	public function unlock(): void {
+     * Reset
+     *
+     * We have to keep the reset method from blocking requests because some email clients will block cross site requests.
+     */
+    public function unlock(): void {
 		$this->load->language('common/authorize');
 
 		if (isset($this->request->get['email'])) {

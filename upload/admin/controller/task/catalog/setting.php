@@ -9,15 +9,13 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  */
 class Setting extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Generate setting task list.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     *
+     * Generate setting task list.
+     *
+     * @param array<string, string> $args
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/catalog/setting');
 
 		$stores = [];
@@ -30,7 +28,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$this->load->model('setting/store');
 		$this->load->model('setting/task');
 
-		$store_ids = [0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
+		[0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
 
 		$this->load->model('localisation/language');
 
@@ -58,15 +56,13 @@ class Setting extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Store
-	 *
-	 * Generate JSON currency list file.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function store(array $args = []): array {
+     * Store
+     *
+     * Generate JSON currency list file.
+     *
+     * @param array<string, string> $args
+     */
+    public function store(array $args = []): array {
 		$this->load->language('task/catalog/setting');
 
 		if (!array_key_exists('store_id', $args)) {
@@ -162,10 +158,12 @@ class Setting extends \Opencart\System\Engine\Controller {
 
 		foreach ($countries as $country_id) {
 			$country_info = $this->model_localisation_country->getCountry((int)$country_id);
-
-			if (!$country_info || !$country_info['status']) {
-				continue;
-			}
+            if (!$country_info) {
+                continue;
+            }
+            if (!$country_info['status']) {
+                continue;
+            }
 
 			$description_info = $this->model_localisation_country->getDescription((int)$country_id, $language_info['language_id']);
 
@@ -231,15 +229,13 @@ class Setting extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * Delete generated JSON currency files.
-	 *
-	 * @param array<string, string> $args
-	 *
-	 * @return array
-	 */
-	public function clear(array $args = []): array {
+     * Clear
+     *
+     * Delete generated JSON currency files.
+     *
+     * @param array<string, string> $args
+     */
+    public function clear(array $args = []): array {
 		$this->load->language('task/catalog/setting');
 
 		$file = DIR_CATALOG . 'view/data/' . parse_url($store['url'], PHP_URL_HOST) . '-' . $language['code'] . '.json';

@@ -13,18 +13,15 @@ use Todaymade\Daux\Tree\Root;
 
 class EmbedImages
 {
-    protected $tree;
-
-    public function __construct(Root $tree)
+    public function __construct(protected \Todaymade\Daux\Tree\Root $tree)
     {
-        $this->tree = $tree;
     }
 
-    public function embed($page, Content $file, $callback)
+    public function embed($page, Content $file, $callback): string|array|null
     {
         return preg_replace_callback(
             "/<img\\s+[^>]*src=['\"]([^\"]*)['\"][^>]*>/",
-            function ($matches) use ($file, $callback) {
+            function (array $matches) use ($file, $callback) {
                 if ($result = $this->findImage($matches[1], $matches[0], $file, $callback)) {
                     return $result;
                 }
@@ -35,7 +32,10 @@ class EmbedImages
         );
     }
 
-    private function getAttributes($tag)
+    /**
+     * @return mixed[]
+     */
+    private function getAttributes(string $tag): array
     {
         $dom = new \DOMDocument();
         $dom->loadHTML($tag);
@@ -53,10 +53,10 @@ class EmbedImages
         return $used;
     }
 
-    private function findImage($src, $tag, Content $file, $callback)
+    private function findImage(string $src, string $tag, Content $file, $callback)
     {
         // for protocol relative or http requests : keep the original one
-        if (substr($src, 0, strlen('http')) === 'http' || substr($src, 0, strlen('//')) === '//') {
+        if (str_starts_with($src, 'http') || str_starts_with($src, '//')) {
             return $src;
         }
 

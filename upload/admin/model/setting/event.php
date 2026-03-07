@@ -39,77 +39,69 @@ class Event extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Event
-	 *
-	 * Delete event record in the database.
-	 *
-	 * @param int $event_id primary key of the event record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/event');
-	 *
-	 * $this->model_setting_event->deleteEvent($event_id);
-	 */
-	public function deleteEvent(int $event_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "event` WHERE `event_id` = '" . (int)$event_id . "'");
+     * Delete Event
+     *
+     * Delete event record in the database.
+     *
+     * @param int $event_id primary key of the event record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/event');
+     *
+     * $this->model_setting_event->deleteEvent($event_id);
+     */
+    public function deleteEvent(int $event_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "event` WHERE `event_id` = '" . $event_id . "'");
 	}
 
 	/**
-	 * Delete Event By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/event');
-	 *
-	 * $this->model_setting_event->deleteEventByCode($code);
-	 */
-	public function deleteEventByCode(string $code): void {
+     * Delete Event By Code
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/event');
+     *
+     * $this->model_setting_event->deleteEventByCode($code);
+     */
+    public function deleteEventByCode(string $code): void {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "event` WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 
 	/**
-	 * Edit Status
-	 *
-	 * Edit event status record in the database.
-	 *
-	 * @param int  $event_id primary key of the event record
-	 * @param bool $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/event');
-	 *
-	 * $this->model_setting_event->editStatus($event_id, $status);
-	 */
-	public function editStatus(int $event_id, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "event` SET `status` = '" . (bool)$status . "' WHERE `event_id` = '" . (int)$event_id . "'");
+     * Edit Status
+     *
+     * Edit event status record in the database.
+     *
+     * @param int  $event_id primary key of the event record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/event');
+     *
+     * $this->model_setting_event->editStatus($event_id, $status);
+     */
+    public function editStatus(int $event_id, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "event` SET `status` = '" . $status . "' WHERE `event_id` = '" . $event_id . "'");
 	}
 
 	/**
-	 * Edit Status By Code
-	 *
-	 * @param string $code
-	 * @param bool   $status
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/event');
-	 *
-	 * $this->model_setting_event->editStatusByCode($code, $status);
-	 */
-	public function editStatusByCode(string $code, bool $status): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "event` SET `status` = '" . (bool)$status . "' WHERE `code` = '" . $this->db->escape($code) . "'");
+     * Edit Status By Code
+     *
+     *
+     *
+     * @example
+     *
+     * $this->load->model('setting/event');
+     *
+     * $this->model_setting_event->editStatusByCode($code, $status);
+     */
+    public function editStatusByCode(string $code, bool $status): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "event` SET `status` = '" . $status . "' WHERE `code` = '" . $this->db->escape($code) . "'");
 	}
 
 	/**
@@ -128,25 +120,23 @@ class Event extends \Opencart\System\Engine\Model {
 	 * $event_info = $this->model_setting_event->getEvent($event_id);
 	 */
 	public function getEvent(int $event_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "event` WHERE `event_id` = '" . (int)$event_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "event` WHERE `event_id` = '" . $event_id . "'");
 
 		return $query->row;
 	}
 
 	/**
-	 * Get Event By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('setting/event');
-	 *
-	 * $event_info = $this->model_setting_event->getEventByCode($code);
-	 */
-	public function getEventByCode(string $code): array {
+     * Get Event By Code
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('setting/event');
+     *
+     * $event_info = $this->model_setting_event->getEventByCode($code);
+     */
+    public function getEventByCode(string $code): array {
 		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "event` WHERE `code` = '" . $this->db->escape($code) . "' LIMIT 1");
 
 		return $query->row;

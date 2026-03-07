@@ -17,14 +17,12 @@ namespace Opencart\Install\Model\Upgrade;
  */
 class Upgrade extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Record
-	 *
-	 * @param $table
-	 * @param $data
-	 *
-	 * @return int
-	 */
-	public function addRecord($table, $data): int {
+     * Add Record
+     *
+     * @param $table
+     * @param $data
+     */
+    public function addRecord(string $table, $data): int {
 		$implode = [];
 
 		foreach ($data as $key => $value) {
@@ -32,20 +30,18 @@ class Upgrade extends \Opencart\System\Engine\Model {
 
 			switch (gettype($value)) {
 				case 'boolean':
-					$implode[] = "`" . $key . "` = '" . (bool)$value . "'";
+					$implode[] = "`" . $key . "` = '" . $value . "'";
 					break;
 				case 'integer':
-					$implode[] = "`" . $key . "` = '" . (int)$value . "'";
+					$implode[] = "`" . $key . "` = '" . $value . "'";
 					break;
 				case 'double':
-					$implode[] = "`" . $key . "` = '" . (float)$value . "'";
+					$implode[] = "`" . $key . "` = '" . $value . "'";
 					break;
 				case 'string':
-					$implode[] = "`" . $key . "` = '" . $this->db->escape((string)$value) . "'";
+					$implode[] = "`" . $key . "` = '" . $this->db->escape($value) . "'";
 					break;
 				case 'array':
-					$implode[] = "`" . $key . "` = '" . $this->db->escape((array)json_encode($value)) . "'";
-					break;
 				case 'object':
 					$implode[] = "`" . $key . "` = '" . $this->db->escape((array)json_encode($value)) . "'";
 					break;
@@ -58,67 +54,56 @@ class Upgrade extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Records
-	 *
-	 * @param string $table
-	 *
-	 * @return array<int, array<string, mixed>>
-	 */
-	public function getRecords(string $table): array {
+     * Get Records
+     *
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getRecords(string $table): array {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . $table . "`");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Has Table
-	 *
-	 * @param string $table
-	 *
-	 * @return int
-	 */
-	public function hasTable(string $table): int {
+     * Has Table
+     *
+     *
+     */
+    public function hasTable(string $table): int {
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . $table . "'");
 
 		return $query->num_rows;
 	}
 
 	/**
-	 * Has Field
-	 *
-	 * @param string $table
-	 * @param string $field
-	 *
-	 * @return int
-	 */
-	public function hasField(string $table, string $field): int {
+     * Has Field
+     *
+     *
+     */
+    public function hasField(string $table, string $field): int {
 		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . $table . "' AND COLUMN_NAME = '" . $field . "'");
 
 		return $query->num_rows;
 	}
 
 	/**
-	 * Drop Table
-	 *
-	 * @param string $table
-	 *
-	 * @return void
-	 */
-	public function dropTable(string $table): void {
+     * Drop Table
+     *
+     *
+     */
+    public function dropTable(string $table): void {
 		if ($this->hasTable($table)) {
 			$this->db->query("DROP TABLE `" . DB_PREFIX . $table . "`");
 		}
 	}
 
 	/**
-	 * Drop Field
-	 *
-	 * @param string $table
-	 * @param string $field
-	 *
-	 * @return void
-	 */
-	public function dropField(string $table, string $field): void {
+     * Drop Field
+     *
+     *
+     */
+    public function dropField(string $table, string $field): void {
 		if ($this->hasField($table, $field)) {
 			$this->db->query("ALTER TABLE `" . DB_PREFIX . $table . "` DROP `" . $field . "`");
 		}

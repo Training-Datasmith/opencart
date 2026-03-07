@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Common;
  */
 class Footer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/footer');
 
 		$data['text_project'] = $this->language->get('text_project');

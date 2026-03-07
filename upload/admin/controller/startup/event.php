@@ -7,13 +7,11 @@ namespace Opencart\Admin\Controller\Startup;
  */
 class Event extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Adds events from the DB to the event object.
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     *
+     * Adds events from the DB to the event object.
+     */
+    public function index(): void {
 		// Add events from the DB
 		$this->load->model('setting/event');
 

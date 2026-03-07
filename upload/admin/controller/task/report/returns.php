@@ -7,13 +7,11 @@ namespace Opencart\Admin\Controller\Task\Report;
  */
 class Returns extends \Opencart\System\Engine\Controller {
 	/**
-	 * Returns
-	 *
-	 * Calculates the total number of returns and stores the information in the statics table.
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Returns
+     *
+     * Calculates the total number of returns and stores the information in the statics table.
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/report/returns');
 
 		$this->load->model('sale/returns');

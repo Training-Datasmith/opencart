@@ -14,14 +14,10 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
 
     protected string $prefix;
 
-    protected Daux $daux;
-
     protected Api $api;
 
-    public function __construct(Daux $daux, Api $api = null)
+    public function __construct(protected Daux $daux, Api $api = null)
     {
-        $this->daux = $daux;
-
         $confluence = $this->checkConfiguration();
 
         if (!$api) {
@@ -59,10 +55,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
         return $confluence;
     }
 
-    /**
-     * @return array
-     */
-    public function getContentTypes()
+    public function getContentTypes(): array
     {
         return [
             new ContentTypes\Markdown\ContentType($this->daux->getConfig()),
@@ -72,7 +65,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
     /**
      * {@inheritdoc}
      */
-    public function generateAll(InputInterface $input, OutputInterface $output, $width)
+    public function generateAll(InputInterface $input, OutputInterface $output, $width): void
     {
         $config = $this->daux->getConfig();
 
@@ -99,7 +92,7 @@ class Generator implements \Todaymade\Daux\Format\Base\Generator
         $publisher->publish($tree);
     }
 
-    private function generateRecursive(Directory $tree, GlobalConfig $config, $baseUrl = '')
+    private function generateRecursive(Directory $tree, GlobalConfig $config, string $baseUrl = ''): array
     {
         $final = ['title' => $this->prefix . $tree->getTitle()];
         $config['base_url'] = $baseUrl;

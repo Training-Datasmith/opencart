@@ -344,7 +344,7 @@ foreach ($user_agent as $agent) {
 
 //$sort_order = [];
 
-foreach ($matches as $key => $value) {
+foreach ($matches as $value) {
 	//$sort_order[$key] = $value['agent'];
 }
 

@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Tool;
  */
 class Upload extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('tool/upload');
 
 		$json = [];

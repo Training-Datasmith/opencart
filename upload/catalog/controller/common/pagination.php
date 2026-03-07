@@ -18,13 +18,11 @@ namespace Opencart\Catalog\Controller\Common;
  */
 class Pagination extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param array<string, mixed> $setting array of filters
-	 *
-	 * @return string
-	 */
-	public function index(array $setting): string {
+     * Index
+     *
+     * @param array<string, mixed> $setting array of filters
+     */
+    public function index(array $setting): string {
 		if (isset($setting['total'])) {
 			$total = (int)$setting['total'];
 		} else {
@@ -112,8 +110,7 @@ class Pagination extends \Opencart\System\Engine\Controller {
 
 		if ($num_pages > 1 || $back) {
 			return $this->load->view('common/pagination', $data);
-		} else {
-			return '';
 		}
+        return '';
 	}
 }

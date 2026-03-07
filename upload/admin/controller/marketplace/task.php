@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketplace;
  */
 class Task extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketplace/task');
 
 		if (isset($this->request->get['filter_code'])) {
@@ -88,22 +86,18 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('marketplace/task');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_code'])) {
 			$filter_code = (string)$this->request->get['filter_code'];
 		} else {
@@ -171,11 +165,9 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Start
-	 *
-	 * @return void
-	 */
-	public function start() {
+     * Start
+     */
+    public function start(): void {
 		$this->load->language('marketplace/task');
 
 		$json = [];
@@ -186,7 +178,7 @@ class Task extends \Opencart\System\Engine\Controller {
 
 		$this->load->model('setting/task');
 
-		$task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
+		$this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
 
 		//if (!$task_total) {
 		//}
@@ -206,13 +198,11 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Command Line
-	 *
-	 * Called from
-	 *
-	 * @return void
-	 */
-	public function cli() {
+     * Command Line
+     *
+     * Called from
+     */
+    public function cli(): void {
 		$this->load->model('setting/task');
 
 		$task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
@@ -282,11 +272,9 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Pause
-	 *
-	 * @return void
-	 */
-	public function pause() {
+     * Pause
+     */
+    public function pause(): void {
 		$this->load->language('marketplace/task');
 
 		$json = [];
@@ -312,11 +300,9 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Clear
-	 *
-	 * @return void
-	 */
-	public function clear() {
+     * Clear
+     */
+    public function clear(): void {
 		$this->load->language('marketplace/task');
 
 		$json = [];
@@ -338,11 +324,9 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('marketplace/task');
 
 		$json = [];
@@ -372,11 +356,9 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Status
-	 *
-	 * @return void
-	 */
-	public function status(): void {
+     * Status
+     */
+    public function status(): void {
 		$this->load->language('marketplace/task');
 
 		$json = [];
@@ -424,22 +406,18 @@ class Task extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * History
-	 *
-	 * @return void
-	 */
-	public function log(): void {
+     * History
+     */
+    public function log(): void {
 		$this->load->language('marketplace/task');
 
 		$this->response->setOutput($this->getLog());
 	}
 
 	/**
-	 * Get History
-	 *
-	 * @return string
-	 */
-	public function getLog(): string {
+     * Get History
+     */
+    public function getLog(): string {
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'marketplace/task.log') {
 			$page = (int)$this->request->get['page'];
 		} else {

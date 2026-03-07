@@ -76,7 +76,7 @@ class RegistryPropertyReflectionExtension implements PropertiesClassReflectionEx
 				if ($this->reflectionProvider->hasClass($className)) {
 					$found = new ObjectType($className);
 					if ($classType === 'Model') {
-						$found = new GenericObjectType('\Opencart\System\Engine\Proxy', [$found]);
+						$found = new GenericObjectType(\Opencart\System\Engine\Proxy::class, [$found]);
 					}
 					$type = $type ? TypeCombinator::union($type, $found) : $found;
 				}

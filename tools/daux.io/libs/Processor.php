@@ -6,17 +6,8 @@ use Todaymade\Daux\Tree\Root;
 
 class Processor
 {
-    protected Daux $daux;
-
-    protected OutputInterface $output;
-
-    protected int $width;
-
-    public function __construct(Daux $daux, OutputInterface $output, int $width)
+    public function __construct(protected Daux $daux, protected OutputInterface $output, protected int $width)
     {
-        $this->daux = $daux;
-        $this->output = $output;
-        $this->width = $width;
     }
 
     /**
@@ -46,7 +37,7 @@ class Processor
      *
      * @return string[]
      */
-    public function addGenerators()
+    public function addGenerators(): array
     {
         return [];
     }
@@ -58,7 +49,7 @@ class Processor
      *
      * @return \Todaymade\Daux\ContentTypes\ContentType[]
      */
-    public function addContentType()
+    public function addContentType(): array
     {
         return [];
     }

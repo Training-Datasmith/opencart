@@ -7,21 +7,19 @@ namespace Opencart\Admin\Controller\Event;
  */
 class ReturnReason extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * Adds task to generate new return reason list
-	 *
-	 * Triggered using model/localisation/return_reason/addReturnReason/after
-	 * Triggered using model/localisation/return_reason/editReturnReason/after
-	 * Triggered using model/localisation/return_reason/deleteReturnReason/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * Adds task to generate new return reason list
+     *
+     * Triggered using model/localisation/return_reason/addReturnReason/after
+     * Triggered using model/localisation/return_reason/editReturnReason/after
+     * Triggered using model/localisation/return_reason/deleteReturnReason/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'return_reason',
 			'action' => 'task/catalog/return_reason',

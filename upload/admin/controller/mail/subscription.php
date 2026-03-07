@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Mail;
  */
 class Subscription extends \Opencart\System\Engine\Controller {
 	/**
-	 * History
-	 *
-	 * admin/controller/sale/subscription.addHistory/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function history(string &$route, array &$args, &$output): void {
+     * History
+     *
+     * admin/controller/sale/subscription.addHistory/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function history(string &$route, array &$args, &$output): void {
 		if (isset($args[0])) {
 			$subscription_id = $args[0];
 		} else {
@@ -161,19 +159,17 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Transaction
-	 *
-	 * admin/controller/sale/subscription.addTransaction/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function transaction(string &$route, array &$args, &$output): void {
+     * Transaction
+     *
+     * admin/controller/sale/subscription.addTransaction/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function transaction(string &$route, array &$args, &$output): void {
 		if (isset($args[0])) {
 			$subscription_id = $args[0];
 		} else {

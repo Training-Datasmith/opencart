@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\User;
  */
 class User extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('user/user');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -107,22 +105,18 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('user/user');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_username'])) {
 			$filter_username = $this->request->get['filter_username'];
 		} else {
@@ -216,11 +210,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('user/user');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -340,11 +332,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('user/user');
 
 		$json = [];
@@ -444,11 +434,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('user/user');
 
 		$json = [];
@@ -478,11 +466,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('user/user');
 
 		$json = [];
@@ -512,11 +498,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('user/user');
 
 		$json = [];
@@ -553,22 +537,18 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Authorize
-	 *
-	 * @return void
-	 */
-	public function authorize(): void {
+     * Authorize
+     */
+    public function authorize(): void {
 		$this->load->language('user/user');
 
 		$this->response->setOutput($this->getAuthorize());
 	}
 
 	/**
-	 * Get Authorize
-	 *
-	 * @return string
-	 */
-	public function getAuthorize(): string {
+     * Get Authorize
+     */
+    public function getAuthorize(): string {
 		if (isset($this->request->get['user_id'])) {
 			$user_id = (int)$this->request->get['user_id'];
 		} else {
@@ -614,11 +594,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Authorize
-	 *
-	 * @return void
-	 */
-	public function deleteAuthorize(): void {
+     * Delete Authorize
+     */
+    public function deleteAuthorize(): void {
 		$this->load->language('user/user');
 
 		$json = [];
@@ -666,22 +644,18 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Login
-	 *
-	 * @return void
-	 */
-	public function login(): void {
+     * Login
+     */
+    public function login(): void {
 		$this->load->language('user/user');
 
 		$this->response->setOutput($this->getLogin());
 	}
 
 	/**
-	 * Get Login
-	 *
-	 * @return string
-	 */
-	public function getLogin(): string {
+     * Get Login
+     */
+    public function getLogin(): string {
 		if (isset($this->request->get['user_id'])) {
 			$user_id = (int)$this->request->get['user_id'];
 		} else {
@@ -722,11 +696,9 @@ class User extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Autocomplete
-	 *
-	 * @return void
-	 */
-	public function autocomplete(): void {
+     * Autocomplete
+     */
+    public function autocomplete(): void {
 		$json = [];
 
 		if (isset($this->request->get['filter_username']) || isset($this->request->get['filter_name']) || isset($this->request->get['filter_email'])) {

@@ -89,15 +89,13 @@ class Cart extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Totals
-	 *
-	 * @param array<int, array<string, mixed>> $totals
-	 * @param array<int, float>                $taxes
-	 * @param float                            $total
-	 *
-	 * @return void
-	 */
-	public function getTotals(array &$totals, array &$taxes, float &$total): void {
+     * Get Totals
+     *
+     * @param array<int, array<string, mixed>> $totals
+     * @param array<int, float>                $taxes
+     *
+     */
+    public function getTotals(array &$totals, array &$taxes, float &$total): void {
 		$sort_order = [];
 
 		// Extensions

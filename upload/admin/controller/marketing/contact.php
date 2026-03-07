@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Marketing;
  */
 class Contact extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('marketing/contact');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -58,13 +56,11 @@ class Contact extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Send
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function send(): void {
+     * Send
+     *
+     * @throws \Exception
+     */
+    public function send(): void {
 		$this->load->language('marketing/contact');
 
 		$json = [];

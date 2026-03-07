@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Task\Report;
  */
 class Stock extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return array
-	 */
-	public function index(array $args = []): array {
+     * Index
+     */
+    public function index(array $args = []): array {
 		$this->load->language('task/report/stock');
 
 		$this->load->model('catalog/product');

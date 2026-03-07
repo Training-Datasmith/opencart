@@ -7,19 +7,17 @@ namespace Opencart\Catalog\Controller\Mail;
  */
 class Authorize extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * catalog/controller/account/authorize.send/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param array<mixed>      $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, mixed &$output): void {
+     * Index
+     *
+     * catalog/controller/account/authorize.send/after
+     *
+     * @param array<int, mixed> $args
+     * @param array<mixed>      $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, mixed &$output): void {
 		if (!isset($this->session->data['code'])) {
 			return;
 		}
@@ -57,19 +55,17 @@ class Authorize extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Reset
-	 *
-	 * catalog/model/account/customer.addToken/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param array<mixed>      $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function reset(string &$route, array &$args, mixed &$output): void {
+     * Reset
+     *
+     * catalog/model/account/customer.addToken/after
+     *
+     * @param array<int, mixed> $args
+     * @param array<mixed>      $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function reset(string &$route, array &$args, mixed &$output): void {
 		if (!isset($args[0])) {
 			return;
 		}
@@ -93,7 +89,7 @@ class Authorize extends \Opencart\System\Engine\Controller {
 
 		$this->load->language('mail/authorize_reset');
 
-		$data['reset'] = $this->url->link('account/authorize.unlock', 'email=' . $customer_info['email'] . '&code=' . (string)$args[2], true);
+		$data['reset'] = $this->url->link('account/authorize.unlock', 'email=' . $customer_info['email'] . '&code=' . $args[2], true);
 		$data['ip'] = oc_get_ip();
 		$data['store'] = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
 

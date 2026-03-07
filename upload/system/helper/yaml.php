@@ -9,10 +9,10 @@
  *
  * @see       https://www.opencart.com
  */
-function oc_yaml_encode($yaml) {
+function oc_yaml_encode($yaml): string {
 	return \Symfony\Component\Yaml\Yaml::dump($yaml);
 }
 
-function oc_yaml_decode($data) {
+function oc_yaml_decode(string $data): mixed {
 	return \Symfony\Component\Yaml\Yaml::parse($data);
 }

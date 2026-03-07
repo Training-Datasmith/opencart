@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Mail;
  */
 class Forgotten extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * admin/model/user/user.addToken/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * admin/model/user/user.addToken/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		if (!isset($args[0])) {
 			return;
 		}
@@ -48,7 +46,7 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 
 		$data['text_greeting'] = sprintf($this->language->get('text_greeting'), $store_name);
 
-		$data['reset'] = $this->url->link('common/forgotten.reset', 'email=' . $user_info['email'] . '&code=' . (string)$args[2], true);
+		$data['reset'] = $this->url->link('common/forgotten.reset', 'email=' . $user_info['email'] . '&code=' . $args[2], true);
 		$data['ip'] = oc_get_ip();
 
 		$data['store'] = $store_name;

@@ -2,7 +2,7 @@
 
 class PublisherUtilities
 {
-    public static function niceTitle($title)
+    public static function niceTitle($title): string
     {
         if ($title == 'index.html') {
             return 'Homepage';
@@ -11,7 +11,7 @@ class PublisherUtilities
         return rtrim(strtr($title, ['index.html' => '', '.html' => '']), '/');
     }
 
-    public static function shouldUpdate($local, $localContent, $published, $threshold)
+    public static function shouldUpdate($local, $localContent, array $published, $threshold): bool
     {
         if (!array_key_exists('content', $published)) {
             return true;

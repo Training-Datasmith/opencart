@@ -9,11 +9,9 @@ namespace Opencart\Catalog\Controller\Common;
  */
 class Search extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('common/search');
 
 		$data['text_search'] = $this->language->get('text_search');

@@ -7,18 +7,16 @@ namespace Opencart\Admin\Controller\Event;
  */
 class CustomerGroup extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Customer Group
-	 *
-	 * Adds task to generate new customer group data.
-	 *
-	 * Triggered using admin/model/customer/customer_group/addCustomerGroup/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function addCustomerGroup(string &$route, array &$args, &$output): void {
+     * Add Customer Group
+     *
+     * Adds task to generate new customer group data.
+     *
+     * Triggered using admin/model/customer/customer_group/addCustomerGroup/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function addCustomerGroup(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'customer_group.list',
 			'action' => 'task/catalog/customer_group.list',
@@ -41,18 +39,16 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Customer Group
-	 *
-	 * Adds task to generate new customer group data.
-	 *
-	 * Triggered using admin/model/customer/customer_group/editCustomerGroup/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function editCustomerGroup(string &$route, array &$args, &$output): void {
+     * Edit Customer Group
+     *
+     * Adds task to generate new customer group data.
+     *
+     * Triggered using admin/model/customer/customer_group/editCustomerGroup/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function editCustomerGroup(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'customer_group.list',
 			'action' => 'task/catalog/customer_group.list',
@@ -92,18 +88,16 @@ class CustomerGroup extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Customer Group
-	 *
-	 * Adds task to generate new customer group data.
-	 *
-	 * Triggered using admin/model/customer/customer_group/deleteCustomerGroup/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function deleteCustomerGroup(string &$route, array &$args, &$output): void {
+     * Delete Customer Group
+     *
+     * Adds task to generate new customer group data.
+     *
+     * Triggered using admin/model/customer/customer_group/deleteCustomerGroup/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function deleteCustomerGroup(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'customer_group.list',
 			'action' => 'task/catalog/customer_group.list',

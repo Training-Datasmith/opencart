@@ -70,29 +70,28 @@ class Topic extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Topic
-	 *
-	 * Edit topic record in the database.
-	 *
-	 * @param int                  $topic_id primary key of the topic record
-	 * @param array<string, mixed> $data     array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $topic_data = [
-	 *     'topic_description' => [],
-	 *     'sort_order'        => 0,
-	 *     'status'            => 1
-	 * ];
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->editTopic($topic_id, $topic_data);
-	 */
-	public function editTopic(int $topic_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "topic` SET `sort_order` = '" . (int)$data['sort_order'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `topic_id` = '" . (int)$topic_id . "'");
+     * Edit Topic
+     *
+     * Edit topic record in the database.
+     *
+     * @param int                  $topic_id primary key of the topic record
+     * @param array<string, mixed> $data     array of data
+     *
+     *
+     * @example
+     *
+     * $topic_data = [
+     *     'topic_description' => [],
+     *     'sort_order'        => 0,
+     *     'status'            => 1
+     * ];
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->editTopic($topic_id, $topic_data);
+     */
+    public function editTopic(int $topic_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "topic` SET `sort_order` = '" . (int)$data['sort_order'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `topic_id` = '" . $topic_id . "'");
 
 		// Description
 		$this->model_cms_topic->deleteDescriptions($topic_id);
@@ -136,22 +135,21 @@ class Topic extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Topic
-	 *
-	 * Delete topic record in the database.
-	 *
-	 * @param int $topic_id primary key of the topic record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->deleteTopic($topic_id);
-	 */
-	public function deleteTopic(int $topic_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic` WHERE `topic_id` = '" . (int)$topic_id . "'");
+     * Delete Topic
+     *
+     * Delete topic record in the database.
+     *
+     * @param int $topic_id primary key of the topic record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->deleteTopic($topic_id);
+     */
+    public function deleteTopic(int $topic_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic` WHERE `topic_id` = '" . $topic_id . "'");
 
 		$this->model_cms_topic->deleteDescriptions($topic_id);
 		$this->model_cms_topic->deleteStores($topic_id);
@@ -182,7 +180,7 @@ class Topic extends \Opencart\System\Engine\Model {
 	 * $topic_info = $this->model_cms_topic->getTopic($topic_id);
 	 */
 	public function getTopic(int $topic_id): array {
-		$sql = "SELECT DISTINCT * FROM `" . DB_PREFIX . "topic` `t` LEFT JOIN `" . DB_PREFIX . "topic_description` `td` ON (`t`.`topic_id` = `td`.`topic_id`) WHERE `t`.`topic_id` = '" . (int)$topic_id . "' AND `td`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'";
+		$sql = "SELECT DISTINCT * FROM `" . DB_PREFIX . "topic` `t` LEFT JOIN `" . DB_PREFIX . "topic_description` `td` ON (`t`.`topic_id` = `td`.`topic_id`) WHERE `t`.`topic_id` = '" . $topic_id . "' AND `td`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'";
 
 		$topic_data = $this->cache->get('topic.' . md5($sql));
 
@@ -344,71 +342,68 @@ class Topic extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Description
-	 *
-	 * Create a new topic description record in the database.
-	 *
-	 * @param int                  $topic_id    primary key of the topic record
-	 * @param int                  $language_id primary key of the language record
-	 * @param array<string, mixed> $data        array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $topic_data['topic_description'] = [
-	 *     'image'            => 'topic_image',
-	 *     'name'             => 'Topic Name',
-	 *     'description'      => 'Topic Description',
-	 *     'meta_title'       => 'Meta Title',
-	 *     'meta_description' => 'Meta Description',
-	 *     'meta_keyword'     => 'Meta Keyword'
-	 * ];
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->addDescription($topic_id, $language_id, $topic_data);
-	 */
-	public function addDescription(int $topic_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "topic_description` SET `topic_id` = '" . (int)$topic_id . "', `language_id` = '" . (int)$language_id . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `name` = '" . $this->db->escape($data['name']) . "', `description` = '" . $this->db->escape($data['description']) . "', `meta_title` = '" . $this->db->escape($data['meta_title']) . "', `meta_description` = '" . $this->db->escape($data['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($data['meta_keyword']) . "'");
+     * Add Description
+     *
+     * Create a new topic description record in the database.
+     *
+     * @param int                  $topic_id    primary key of the topic record
+     * @param int                  $language_id primary key of the language record
+     * @param array<string, mixed> $data        array of data
+     *
+     *
+     * @example
+     *
+     * $topic_data['topic_description'] = [
+     *     'image'            => 'topic_image',
+     *     'name'             => 'Topic Name',
+     *     'description'      => 'Topic Description',
+     *     'meta_title'       => 'Meta Title',
+     *     'meta_description' => 'Meta Description',
+     *     'meta_keyword'     => 'Meta Keyword'
+     * ];
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->addDescription($topic_id, $language_id, $topic_data);
+     */
+    public function addDescription(int $topic_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "topic_description` SET `topic_id` = '" . $topic_id . "', `language_id` = '" . $language_id . "', `image` = '" . $this->db->escape((string)$data['image']) . "', `name` = '" . $this->db->escape($data['name']) . "', `description` = '" . $this->db->escape($data['description']) . "', `meta_title` = '" . $this->db->escape($data['meta_title']) . "', `meta_description` = '" . $this->db->escape($data['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($data['meta_keyword']) . "'");
 	}
 
 	/**
-	 * Delete Descriptions
-	 *
-	 * Delete topic description records in the database.
-	 *
-	 * @param int $topic_id primary key of the topic record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->deleteDescriptions($topic_id);
-	 */
-	public function deleteDescriptions(int $topic_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_description` WHERE `topic_id` = '" . (int)$topic_id . "'");
+     * Delete Descriptions
+     *
+     * Delete topic description records in the database.
+     *
+     * @param int $topic_id primary key of the topic record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->deleteDescriptions($topic_id);
+     */
+    public function deleteDescriptions(int $topic_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_description` WHERE `topic_id` = '" . $topic_id . "'");
 	}
 
 	/**
-	 * Delete Descriptions By Language ID
-	 *
-	 * Delete topic descriptions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->deleteDescriptionsByLanguageId($language_id);
-	 */
-	public function deleteDescriptionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_description` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Descriptions By Language ID
+     *
+     * Delete topic descriptions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->deleteDescriptionsByLanguageId($language_id);
+     */
+    public function deleteDescriptionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_description` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -429,7 +424,7 @@ class Topic extends \Opencart\System\Engine\Model {
 	public function getDescriptions(int $topic_id): array {
 		$topic_description_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_description` WHERE `topic_id` = '" . (int)$topic_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_description` WHERE `topic_id` = '" . $topic_id . "'");
 
 		foreach ($query->rows as $result) {
 			$topic_description_data[$result['language_id']] = $result;
@@ -454,48 +449,46 @@ class Topic extends \Opencart\System\Engine\Model {
 	 * $topic_description = $this->model_cms_topic->getDescriptionsByLanguageId($language_id);
 	 */
 	public function getDescriptionsByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_description` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_description` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}
 
 	/**
-	 * Add Store
-	 *
-	 * Create a new topic store record in the database.
-	 *
-	 * @param int $topic_id primary key of the topic record
-	 * @param int $store_id primary key of the store record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->addStore($topic_id, $store_id);
-	 */
-	public function addStore(int $topic_id, int $store_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "topic_to_store` SET `topic_id` = '" . (int)$topic_id . "', `store_id` = '" . (int)$store_id . "'");
+     * Add Store
+     *
+     * Create a new topic store record in the database.
+     *
+     * @param int $topic_id primary key of the topic record
+     * @param int $store_id primary key of the store record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->addStore($topic_id, $store_id);
+     */
+    public function addStore(int $topic_id, int $store_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "topic_to_store` SET `topic_id` = '" . $topic_id . "', `store_id` = '" . $store_id . "'");
 	}
 
 	/**
-	 * Delete Stores
-	 *
-	 * Delete topic store records in the database.
-	 *
-	 * @param int $topic_id primary key of the topic record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->deleteStores($topic_id);
-	 */
-	public function deleteStores(int $topic_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_to_store` WHERE `topic_id` = '" . (int)$topic_id . "'");
+     * Delete Stores
+     *
+     * Delete topic store records in the database.
+     *
+     * @param int $topic_id primary key of the topic record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->deleteStores($topic_id);
+     */
+    public function deleteStores(int $topic_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_to_store` WHERE `topic_id` = '" . $topic_id . "'");
 	}
 
 	/**
@@ -516,7 +509,7 @@ class Topic extends \Opencart\System\Engine\Model {
 	public function getStores(int $topic_id): array {
 		$topic_store_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_to_store` WHERE `topic_id` = '" . (int)$topic_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_to_store` WHERE `topic_id` = '" . $topic_id . "'");
 
 		foreach ($query->rows as $result) {
 			$topic_store_data[] = $result['store_id'];
@@ -526,62 +519,59 @@ class Topic extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Layout
-	 *
-	 * Create a new topic layout record in the database.
-	 *
-	 * @param int $topic_id  primary key of the topic record
-	 * @param int $store_id  primary key of the store record
-	 * @param int $layout_id primary key of the layout record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->addLayout($topic_id, $store_id, $layout_id);
-	 */
-	public function addLayout(int $topic_id, int $store_id, int $layout_id): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "topic_to_layout` SET `topic_id` = '" . (int)$topic_id . "', `store_id` = '" . (int)$store_id . "', `layout_id` = '" . (int)$layout_id . "'");
+     * Add Layout
+     *
+     * Create a new topic layout record in the database.
+     *
+     * @param int $topic_id  primary key of the topic record
+     * @param int $store_id  primary key of the store record
+     * @param int $layout_id primary key of the layout record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->addLayout($topic_id, $store_id, $layout_id);
+     */
+    public function addLayout(int $topic_id, int $store_id, int $layout_id): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "topic_to_layout` SET `topic_id` = '" . $topic_id . "', `store_id` = '" . $store_id . "', `layout_id` = '" . $layout_id . "'");
 	}
 
 	/**
-	 * Delete Layouts
-	 *
-	 * Delete topic layout records in the database.
-	 *
-	 * @param int $topic_id primary key of the topic record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->deleteLayouts($topic_id);
-	 */
-	public function deleteLayouts(int $topic_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_to_layout` WHERE `topic_id` = '" . (int)$topic_id . "'");
+     * Delete Layouts
+     *
+     * Delete topic layout records in the database.
+     *
+     * @param int $topic_id primary key of the topic record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->deleteLayouts($topic_id);
+     */
+    public function deleteLayouts(int $topic_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_to_layout` WHERE `topic_id` = '" . $topic_id . "'");
 	}
 
 	/**
-	 * Delete Layouts By Layout ID
-	 *
-	 * Delete topic layouts by layout records in the database.
-	 *
-	 * @param int $layout_id primary key of the layout record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('cms/topic');
-	 *
-	 * $this->model_cms_topic->deleteLayoutsByLayoutId($layout_id);
-	 */
-	public function deleteLayoutsByLayoutId(int $layout_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
+     * Delete Layouts By Layout ID
+     *
+     * Delete topic layouts by layout records in the database.
+     *
+     * @param int $layout_id primary key of the layout record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('cms/topic');
+     *
+     * $this->model_cms_topic->deleteLayoutsByLayoutId($layout_id);
+     */
+    public function deleteLayoutsByLayoutId(int $layout_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "topic_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
 	}
 
 	/**
@@ -602,7 +592,7 @@ class Topic extends \Opencart\System\Engine\Model {
 	public function getLayouts(int $topic_id): array {
 		$topic_id_layout_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_to_layout` WHERE `topic_id` = '" . (int)$topic_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "topic_to_layout` WHERE `topic_id` = '" . $topic_id . "'");
 
 		foreach ($query->rows as $result) {
 			$topic_id_layout_data[$result['store_id']] = $result['layout_id'];
@@ -621,7 +611,7 @@ class Topic extends \Opencart\System\Engine\Model {
 	 * @return int total number of layout records that have layout ID
 	 */
 	public function getTotalLayoutsByLayoutId(int $layout_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "topic_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "topic_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
 
 		return (int)$query->row['total'];
 	}

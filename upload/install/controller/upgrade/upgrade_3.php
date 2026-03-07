@@ -9,11 +9,9 @@ namespace Opencart\Install\Controller\Upgrade;
  */
 class Upgrade3 extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('upgrade/upgrade');
 
 		$json = [];
@@ -43,7 +41,7 @@ class Upgrade3 extends \Opencart\System\Engine\Controller {
 
 			$lines = file($file);
 
-			foreach ($lines as $number => $line) {
+			foreach ($lines as $line) {
 				if (preg_match('/define\(\'(.*)\',\s+\'(.*)\'\)/', $line, $match, PREG_OFFSET_CAPTURE)) {
 					$config[$match[1][0]] = $match[2][0];
 				}
@@ -73,21 +71,21 @@ class Upgrade3 extends \Opencart\System\Engine\Controller {
 				for ($i = $start; $i < $end; $i++) {
 					$source = $zip->getNameIndex($i);
 
-					if (substr($source, 0, strlen($remove)) == $remove) {
+					if (str_starts_with($source, $remove)) {
 						// Only extract the contents of the upload folder
 						$destination = str_replace('\\', '/', substr($source, strlen($remove)));
 
-						if (substr($destination, 0, 8) != 'install/') {
+						if (!str_starts_with($destination, 'install/')) {
 							// Default copy location
 							$base = DIR_OPENCART;
 
 							// Fixes admin folder being under a different name
-							if (substr($destination, 0, 6) == 'admin/') {
+							if (str_starts_with($destination, 'admin/')) {
 								$destination = $admin . '/' . substr($destination, 6);
 							}
 
 							// We need to use a different path for vendor folders.
-							if (substr($destination, 0, 15) == 'system/storage/' && isset($config['DIR_STORAGE'])) {
+							if (str_starts_with($destination, 'system/storage/') && isset($config['DIR_STORAGE'])) {
 								$destination = substr($destination, 15);
 								$base = $config['DIR_STORAGE'];
 							}
@@ -111,7 +109,7 @@ class Upgrade3 extends \Opencart\System\Engine\Controller {
 							}
 
 							// Check if the path is not directory, and check there is no existing file
-							if (substr($destination, -1) != '/' && !is_dir($base . $destination)) {
+							if (!str_ends_with($destination, '/') && !is_dir($base . $destination)) {
 								if (is_file($base . $destination)) {
 									unlink($base . $destination);
 								}

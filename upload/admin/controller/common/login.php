@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Login extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('common/login');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -62,11 +60,9 @@ class Login extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Login
-	 *
-	 * @return void
-	 */
-	public function login(): void {
+     * Login
+     */
+    public function login(): void {
 		$this->load->language('common/login');
 
 		$json = [];

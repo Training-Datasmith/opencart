@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Report;
  */
 class Customer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/report/customer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -47,11 +45,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/report/customer');
 
 		$json = [];
@@ -74,11 +70,9 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Report
-	 *
-	 * @return void
-	 */
-	public function report(): void {
+     * Report
+     */
+    public function report(): void {
 		$this->load->language('extension/opencart/report/customer');
 
 		$data['list'] = $this->getReport();
@@ -111,22 +105,18 @@ class Customer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('extension/opencart/report/customer');
 
 		$this->response->setOutput($this->getReport());
 	}
 
 	/**
-	 * Get Report
-	 *
-	 * @return string
-	 */
-	public function getReport(): string {
+     * Get Report
+     */
+    public function getReport(): string {
 		if (isset($this->request->get['filter_date_start'])) {
 			$filter_date_start = $this->request->get['filter_date_start'];
 		} else {

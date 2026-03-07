@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Startup;
  */
 class Maintenance extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function index() {
+     * Index
+     */
+    public function index(): ?\Opencart\System\Engine\Action {
 		if ($this->config->get('config_maintenance')) {
 			// Route
 			if (isset($this->request->get['route'])) {
@@ -28,7 +26,7 @@ class Maintenance extends \Opencart\System\Engine\Controller {
 			// Show site if logged in as admin
 			$user = new \Opencart\System\Library\Cart\User($this->registry);
 
-			if (substr($route, 0, 3) != 'api' && !in_array($route, $ignore) && !$user->isLogged()) {
+			if (!str_starts_with($route, 'api') && !in_array($route, $ignore) && !$user->isLogged()) {
 				return new \Opencart\System\Engine\Action('common/maintenance');
 			}
 		}

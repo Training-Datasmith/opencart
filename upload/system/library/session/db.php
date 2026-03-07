@@ -14,51 +14,39 @@ namespace Opencart\System\Library\Session;
  * @package Opencart\System\Library\Session
  */
 class DB {
-	/**
-	 * @var object
-	 */
 	private object $db;
-	/**
-	 * @var object
-	 */
 	private object $config;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+     * Constructor
+     */
+    public function __construct(\Opencart\System\Engine\Registry $registry) {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 	}
 
 	/**
-	 * Read
-	 *
-	 * @param string $session_id
-	 *
-	 * @return array<mixed>
-	 */
-	public function read(string $session_id): array {
+     * Read
+     *
+     *
+     * @return array<mixed>
+     */
+    public function read(string $session_id): array {
 		$query = $this->db->query("SELECT `data` FROM `" . DB_PREFIX . "session` WHERE `session_id` = '" . $this->db->escape($session_id) . "' AND `expire` > '" . $this->db->escape(gmdate('Y-m-d H:i:s')) . "'");
 
 		if ($query->num_rows) {
 			return (array)json_decode($query->row['data'], true);
-		} else {
-			return [];
 		}
+        return [];
 	}
 
 	/**
-	 * Write
-	 *
-	 * @param string       $session_id
-	 * @param array<mixed> $data
-	 *
-	 * @return bool
-	 */
-	public function write(string $session_id, array $data): bool {
+     * Write
+     *
+     * @param array<mixed> $data
+     *
+     */
+    public function write(string $session_id, array $data): bool {
 		if ($session_id) {
 			$this->db->query("REPLACE INTO `" . DB_PREFIX . "session` SET `session_id` = '" . $this->db->escape($session_id) . "', `data` = '" . $this->db->escape($data ? json_encode($data) : '') . "', `expire` = '" . $this->db->escape(gmdate('Y-m-d H:i:s', time() + $this->config->get('session_expire'))) . "'");
 		}
@@ -67,24 +55,20 @@ class DB {
 	}
 
 	/**
-	 * Destroy
-	 *
-	 * @param string $session_id
-	 *
-	 * @return bool
-	 */
-	public function destroy(string $session_id): bool {
+     * Destroy
+     *
+     *
+     */
+    public function destroy(string $session_id): bool {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE `session_id` = '" . $this->db->escape($session_id) . "'");
 
 		return true;
 	}
 
 	/**
-	 * GC
-	 *
-	 * @return bool
-	 */
-	public function gc(): bool {
+     * GC
+     */
+    public function gc(): bool {
 		if (round(mt_rand(1, $this->config->get('session_divisor') / $this->config->get('session_probability'))) == 1) {
 			$this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE `expire` < '" . $this->db->escape(gmdate('Y-m-d H:i:s', time())) . "'");
 			$this->db->query("OPTIMIZE TABLE `" . DB_PREFIX . "session`");

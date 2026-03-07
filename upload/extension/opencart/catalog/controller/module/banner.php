@@ -7,13 +7,11 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Module;
  */
 class Banner extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param array<string, mixed> $setting array of filters
-	 *
-	 * @return string
-	 */
-	public function index(array $setting): string {
+     * Index
+     *
+     * @param array<string, mixed> $setting array of filters
+     */
+    public function index(array $setting): string {
 		static $module = 0;
 
 		//$this->document->addScript('extension/opencart/catalog/view/javascript/banner.js');
@@ -50,8 +48,7 @@ class Banner extends \Opencart\System\Engine\Controller {
 			$data['height'] = $setting['height'];
 
 			return $this->load->view('extension/opencart/module/banner', $data);
-		} else {
-			return '';
 		}
+        return '';
 	}
 }

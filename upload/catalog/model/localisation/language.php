@@ -33,7 +33,7 @@ class Language extends \Opencart\System\Engine\Model {
 			return $this->data[$language_id];
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "language` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "language` WHERE `language_id` = '" . $language_id . "'");
 
 		$language = $query->row;
 
@@ -55,19 +55,17 @@ class Language extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Language By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/language');
-	 *
-	 * $language_info = $this->model_localisation_language->getLanguageByCode($code);
-	 */
-	public function getLanguageByCode(string $code): array {
+     * Get Language By Code
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('localisation/language');
+     *
+     * $language_info = $this->model_localisation_language->getLanguageByCode($code);
+     */
+    public function getLanguageByCode(string $code): array {
 		if (isset($this->data[$code])) {
 			return $this->data[$code];
 		}

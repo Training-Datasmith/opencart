@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Localisation;
  */
 class Country extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('localisation/country');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -99,22 +97,18 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('localisation/country');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = (string)$this->request->get['filter_name'];
 		} else {
@@ -256,11 +250,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Form
-	 *
-	 * @return void
-	 */
-	public function form(): void {
+     * Form
+     */
+    public function form(): void {
 		$this->load->language('localisation/country');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -362,11 +354,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('localisation/country');
 
 		$json = [];
@@ -419,11 +409,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Enable
-	 *
-	 * @return void
-	 */
-	public function enable(): void {
+     * Enable
+     */
+    public function enable(): void {
 		$this->load->language('localisation/country');
 
 		$json = [];
@@ -453,11 +441,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Disable
-	 *
-	 * @return void
-	 */
-	public function disable(): void {
+     * Disable
+     */
+    public function disable(): void {
 		$this->load->language('localisation/country');
 
 		$json = [];
@@ -487,11 +473,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('localisation/country');
 
 		$json = [];
@@ -561,11 +545,9 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Country
-	 *
-	 * @return void
-	 */
-	public function country(): void {
+     * Country
+     */
+    public function country(): void {
 		$json = [];
 
 		if (isset($this->request->get['country_id'])) {

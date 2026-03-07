@@ -7,13 +7,11 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Module;
  */
 class Featured extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param array<string, mixed> $setting array of data
-	 *
-	 * @return string
-	 */
-	public function index(array $setting): string {
+     * Index
+     *
+     * @param array<string, mixed> $setting array of data
+     */
+    public function index(array $setting): string {
 		$this->load->language('extension/opencart/module/featured');
 
 		$data['axis'] = $setting['axis'];
@@ -83,8 +81,7 @@ class Featured extends \Opencart\System\Engine\Controller {
 
 		if ($data['products']) {
 			return $this->load->view('extension/opencart/module/featured', $data);
-		} else {
-			return '';
 		}
+        return '';
 	}
 }

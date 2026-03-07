@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Checkout;
  */
 class PaymentMethod extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		$this->load->language('checkout/payment_method');
 
 		if (isset($this->session->data['payment_method'])) {
@@ -51,11 +49,9 @@ class PaymentMethod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Get Methods
-	 *
-	 * @return void
-	 */
-	public function getMethods(): void {
+     * Get Methods
+     */
+    public function getMethods(): void {
 		$this->load->language('checkout/payment_method');
 
 		$json = [];
@@ -115,11 +111,9 @@ class PaymentMethod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('checkout/payment_method');
 
 		$json = [];
@@ -171,11 +165,9 @@ class PaymentMethod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Comment
-	 *
-	 * @return void
-	 */
-	public function comment(): void {
+     * Comment
+     */
+    public function comment(): void {
 		$this->load->language('checkout/payment_method');
 		$this->load->model('checkout/order');
 
@@ -212,11 +204,9 @@ class PaymentMethod extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Agree
-	 *
-	 * @return void
-	 */
-	public function agree(): void {
+     * Agree
+     */
+    public function agree(): void {
 		$this->load->language('checkout/payment_method');
 
 		$json = [];

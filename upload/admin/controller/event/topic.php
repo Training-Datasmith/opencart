@@ -19,7 +19,7 @@ class Topic extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function addTopic(string &$route, array &$args, &$output): void {
+	public function addTopic(string &$route, array &$args, string &$output): void {
 		$task_data = [
 			'code'   => 'topic.info.' . $output,
 			'action' => 'task/catalog/topic.info',

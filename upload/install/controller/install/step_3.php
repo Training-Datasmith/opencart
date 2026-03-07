@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Install;
  */
 class Step3 extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('install/step_3');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -75,11 +73,9 @@ class Step3 extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('install/step_3');
 
 		$json = [];
@@ -130,7 +126,7 @@ class Step3 extends \Opencart\System\Engine\Controller {
 				];
 
 				$this->db = new \Opencart\System\Library\DB($option);
-			} catch (\Exception $e) {
+			} catch (\Exception) {
 				$json['error']['warning'] = $this->language->get('error_db_connect');
 			}
 		}

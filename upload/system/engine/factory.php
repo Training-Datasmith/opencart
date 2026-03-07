@@ -14,27 +14,19 @@ namespace Opencart\System\Engine;
  */
 class Factory {
 	/**
-	 * @var \Opencart\System\Engine\Registry
-	 */
-	protected \Opencart\System\Engine\Registry $registry;
+     * Constructor
+     */
+    public function __construct(protected \Opencart\System\Engine\Registry $registry)
+    {
+    }
 
 	/**
-	 * Constructor
-	 *
-	 * @param \Opencart\System\Engine\Registry $registry
-	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
-		$this->registry = $registry;
-	}
-
-	/**
-	 * Controller
-	 *
-	 * @param string $route
-	 *
-	 * @return \Exception|\Opencart\System\Engine\Controller
-	 */
-	public function controller(string $route): object {
+     * Controller
+     *
+     *
+     * @return \Exception|\Opencart\System\Engine\Controller
+     */
+    public function controller(string $route): object {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -43,19 +35,17 @@ class Factory {
 
 		if (class_exists($class)) {
 			return new $class($this->registry);
-		} else {
-			return new \Exception('Error: Could not load controller ' . $route . '!');
 		}
+        return new \Exception('Error: Could not load controller ' . $route . '!');
 	}
 
 	/**
-	 * Model
-	 *
-	 * @param string $route
-	 *
-	 * @return \Opencart\System\Engine\Model
-	 */
-	public function model(string $route): object {
+     * Model
+     *
+     *
+     * @return \Opencart\System\Engine\Model
+     */
+    public function model(string $route): object {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -65,20 +55,17 @@ class Factory {
 		// Check if the requested model is already stored in the registry.
 		if (class_exists($class)) {
 			return new $class($this->registry);
-		} else {
-			return new \Exception('Error: Could not load model ' . $route . '!');
 		}
+        return new \Exception('Error: Could not load model ' . $route . '!');
 	}
 
 	/**
-	 * Library
-	 *
-	 * @param string       $route
-	 * @param array<mixed> $args
-	 *
-	 * @return object
-	 */
-	public function library(string $route, array $args): object {
+     * Library
+     *
+     * @param array<mixed> $args
+     *
+     */
+    public function library(string $route, array $args): object {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -88,8 +75,7 @@ class Factory {
 		// Check if the requested model is already stored in the registry.
 		if (class_exists($class)) {
 			return new $class(...$args);
-		} else {
-			return new \Exception('Error: Could not load library ' . $route . '!');
 		}
+        return new \Exception('Error: Could not load library ' . $route . '!');
 	}
 }

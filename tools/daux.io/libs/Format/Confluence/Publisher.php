@@ -7,25 +7,16 @@ class Publisher
 {
     use RunAction;
 
-    protected int $width;
-    protected OutputInterface $output;
-    protected Api $client;
-    protected Config $confluence;
-
-    public function __construct(Config $confluence, Api $client, OutputInterface $output, int $width)
+    public function __construct(protected Config $confluence, protected Api $client, protected OutputInterface $output, protected int $width)
     {
-        $this->confluence = $confluence;
-        $this->client = $client;
-        $this->output = $output;
-        $this->width = $width;
     }
 
-    public function run($title, $closure)
+    public function run($title, \Closure $closure)
     {
         return $this->runAction($title, $this->width, $closure);
     }
 
-    public function diff($local, $remote, $level)
+    public function diff(array $local, array $remote, $level): void
     {
         if ($remote == null) {
             $this->output->writeLn("$level- " . $local['title'] . ' <fg=green>(create)</>');
@@ -56,7 +47,7 @@ class Publisher
         }
     }
 
-    public function publish(array $tree)
+    public function publish(array $tree): void
     {
         $this->output->writeLn('Finding Root Page...');
         $published = $this->getRootPage($tree);
@@ -65,7 +56,7 @@ class Publisher
 
         $this->run(
             'Getting already published pages...',
-            function () use (&$published) {
+            function () use (&$published): void {
                 if ($published != null) {
                     $published['children'] = $this->client->getList($published['id'], true);
                 }
@@ -81,9 +72,7 @@ class Publisher
 
         $published = $this->run(
             'Create placeholder pages...',
-            function () use ($ancestorId, $tree, $published) {
-                return $this->createRecursive($ancestorId, $tree, $published);
-            }
+            fn() => $this->createRecursive($ancestorId, $tree, $published)
         );
 
         $this->output->writeLn('Publishing updates...');
@@ -107,20 +96,20 @@ class Publisher
 
         $pageNames = implode(
             "', '",
-            array_map(function ($page) { return $page['title']; }, $pages)
+            array_map(fn(array $page) => $page['title'], $pages)
         );
 
         throw new ConfluenceConfigurationException("$pageNotFound but found ['$pageNames']. $configRecommendation");
     }
 
-    protected function configureSpace($page)
+    protected function configureSpace(array $page)
     {
         // We infer the Space from the root page
         $this->client->setSpace($page['space_key']);
         $this->confluence->setSpaceId($page['space_key']);
     }
 
-    protected function getRootPage($tree)
+    protected function getRootPage(array $tree)
     {
         if ($this->confluence->hasRootId()) {
             $root = $this->client->getPage($this->confluence->getRootId());
@@ -158,7 +147,7 @@ class Publisher
         $this->rootNotFound($rootTitle, $pages);
     }
 
-    protected function createPage($parentId, $entry, $published)
+    protected function createPage($parentId, array $entry, array $published): array
     {
         $this->output->writeLn('- ' . PublisherUtilities::niceTitle($entry['file']->getUrl()));
         $published['version'] = 1;
@@ -168,7 +157,7 @@ class Publisher
         return $published;
     }
 
-    protected function createPlaceholderPage($parentId, $entry, $published)
+    protected function createPlaceholderPage($parentId, array $entry, array $published): array
     {
         $this->output->writeLn('- ' . $entry['title']);
         $published['version'] = 1;
@@ -178,7 +167,7 @@ class Publisher
         return $published;
     }
 
-    protected function recursiveWithCallback($parentId, $entry, $published, $callback)
+    protected function recursiveWithCallback($parentId, array $entry, $published, $callback)
     {
         $published = $callback($parentId, $entry, $published);
 
@@ -226,7 +215,7 @@ class Publisher
 
     protected function updateRecursive($parentId, $entry, $published)
     {
-        $callback = function ($parentId, $entry, $published) {
+        $callback = function ($parentId, $entry, array $published): array {
             if (array_key_exists('id', $published) && array_key_exists('page', $entry)) {
                 $this->updatePage($parentId, $entry, $published);
             }
@@ -238,13 +227,13 @@ class Publisher
         return $this->recursiveWithCallback($parentId, $entry, $published, $callback);
     }
 
-    protected function updatePage($parentId, $entry, $published)
+    protected function updatePage($parentId, array $entry, $published)
     {
         $updateThreshold = $this->confluence->getUpdateThreshold();
 
         $this->run(
             '- ' . PublisherUtilities::niceTitle($entry['file']->getUrl()),
-            function () use ($entry, $published, $parentId, $updateThreshold) {
+            function () use ($entry, $published, $parentId, $updateThreshold): void {
                 $generatedContent = $entry['page']->getContent();
                 if (PublisherUtilities::shouldUpdate($entry['page'], $generatedContent, $published, $updateThreshold)) {
                     $this->client->updatePage(
@@ -262,7 +251,7 @@ class Publisher
             foreach ($entry['page']->attachments as $attachment) {
                 $this->run(
                     "  With attachment: $attachment[filename]",
-                    function ($write) use ($published, $attachment) {
+                    function ($write) use ($published, $attachment): void {
                         $this->client->uploadAttachment($published['id'], $attachment, $write);
                     }
                 );

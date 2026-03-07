@@ -7,18 +7,16 @@ namespace Opencart\Admin\Controller\Event;
  */
 class GeoZone extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Geo Zone
-	 *
-	 * Generate new tax rate info data by geo zone ID.
-	 *
-	 * Called using admin/model/localisation/geo_zone.addGeoZone/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function addGeoZone(string &$route, array &$args, &$output): void {
+     * Add Geo Zone
+     *
+     * Generate new tax rate info data by geo zone ID.
+     *
+     * Called using admin/model/localisation/geo_zone.addGeoZone/after
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function addGeoZone(string &$route, array &$args, string &$output): void {
 		// Update tax rates based on geo zone
 		$task_data = [
 			'code'   => 'tax_rate.info.' . $output,
@@ -47,18 +45,16 @@ class GeoZone extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Geo Zone
-	 *
-	 * Generate new tax rate info data by geo zone ID.
-	 *
-	 * Called using admin/model/localisation/zone.editGeoZone/before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function editGeoZone(string &$route, array &$args, &$output): void {
+     * Edit Geo Zone
+     *
+     * Generate new tax rate info data by geo zone ID.
+     *
+     * Called using admin/model/localisation/zone.editGeoZone/before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function editGeoZone(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'tax_rate.info.' . $args[0],
 			'action' => 'task/catalog/tax_rate.info',
@@ -103,18 +99,16 @@ class GeoZone extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Geo Zone
-	 *
-	 * Generate new tax rate info data by geo zone ID.
-	 *
-	 * Called using admin/model/localisation/zone.deleteGeoZone/before
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 *
-	 * @return void
-	 */
-	public function deleteGeoZone(string &$route, array &$args, &$output): void {
+     * Delete Geo Zone
+     *
+     * Generate new tax rate info data by geo zone ID.
+     *
+     * Called using admin/model/localisation/zone.deleteGeoZone/before
+     *
+     * @param array<string, string> $args
+     *
+     */
+    public function deleteGeoZone(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'tax_rate.info.' . $args[0],
 			'action' => 'task/admin/tax_rate.info',

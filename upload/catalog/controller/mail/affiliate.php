@@ -7,17 +7,15 @@ namespace Opencart\Catalog\Controller\Mail;
  */
 class Affiliate extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		// Customer Group
 		$this->load->model('account/customer_group');
 
@@ -57,17 +55,15 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Alert
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function alert(string &$route, array &$args, &$output): void {
+     * Alert
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     * @throws \Exception
+     *
+     */
+    public function alert(string &$route, array &$args, &$output): void {
 		// Send to main admin email if new affiliate email is enabled
 		if (!in_array('affiliate', (array)$this->config->get('config_mail_alert'))) {
 			return;

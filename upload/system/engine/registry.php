@@ -19,89 +19,73 @@ class Registry {
 	private array $data = [];
 
 	/**
-	 * __get
-	 *
-	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
-	 *
-	 * @param string $key
-	 *
-	 * @return ?object
-	 */
-	public function __get(string $key): ?object {
+     * __get
+     *
+     * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
+     *
+     *
+     */
+    public function __get(string $key): ?object {
 		return $this->get($key);
 	}
 
 	/**
-	 * __set
-	 *
-	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
-	 *
-	 * @param string $key
-	 * @param object $value
-	 *
-	 * @return void
-	 */
-	public function __set(string $key, object $value): void {
+     * __set
+     *
+     * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
+     *
+     *
+     */
+    public function __set(string $key, object $value): void {
 		$this->set($key, $value);
 	}
 
 	/**
-	 * __isset
-	 *
-	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
-	 *
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	public function __isset(string $key): bool {
+     * __isset
+     *
+     * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
+     *
+     *
+     */
+    public function __isset(string $key): bool {
 		return $this->has($key);
 	}
 
 	/**
-	 * Get
-	 *
-	 * @param string $key
-	 *
-	 * @return ?object
-	 */
-	public function get(string $key): ?object {
+     * Get
+     *
+     *
+     */
+    public function get(string $key): ?object {
 		return $this->data[$key] ?? null;
 	}
 
 	/**
-	 * Set
-	 *
-	 * @param string $key
-	 * @param object $value
-	 *
-	 * @return void
-	 */
-	public function set(string $key, object $value): void {
+     * Set
+     *
+     *
+     */
+    public function set(string $key, object $value): void {
 		$this->data[$key] = $value;
 	}
 
 	/**
-	 * Has
-	 *
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	public function has(string $key): bool {
+     * Has
+     *
+     *
+     */
+    public function has(string $key): bool {
 		return isset($this->data[$key]);
 	}
 
 	/**
-	 * Unset
-	 *
-	 * Unsets registry value by key.
-	 *
-	 * @param string $key
-	 *
-	 * @return void
-	 */
-	public function unset(string $key): void {
+     * Unset
+     *
+     * Unsets registry value by key.
+     *
+     *
+     */
+    public function unset(string $key): void {
 		unset($this->data[$key]);
 	}
 }

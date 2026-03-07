@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Upgrade;
  */
 class Upgrade extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('upgrade/upgrade');
 
 		$this->document->setTitle($this->language->get('heading_title'));

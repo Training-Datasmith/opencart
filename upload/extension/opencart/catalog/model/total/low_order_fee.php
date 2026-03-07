@@ -9,15 +9,13 @@ namespace Opencart\Catalog\Model\Extension\Opencart\Total;
  */
 class LowOrderFee extends \Opencart\System\Engine\Model {
 	/**
-	 * Get Total
-	 *
-	 * @param array<int, array<string, mixed>> $totals
-	 * @param  array<int, float>               &$taxes
-	 * @param  float                           &$total
-	 *
-	 * @return void
-	 */
-	public function getTotal(array &$totals, array &$taxes, float &$total): void {
+     * Get Total
+     *
+     * @param array<int, array<string, mixed>> $totals
+     * @param  array<int, float>               &$taxes
+     *
+     */
+    public function getTotal(array &$totals, array &$taxes, float &$total): void {
 		if ($this->cart->getSubTotal() && ($this->cart->getSubTotal() < (float)$this->config->get('total_low_order_fee_total'))) {
 			$this->load->language('extension/opencart/total/low_order_fee');
 

@@ -9,25 +9,24 @@ namespace Opencart\Admin\Model\Localisation;
  */
 class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	/**
-	 * Add Subscription Status
-	 *
-	 * Create a new subscription status record in the database.
-	 *
-	 * @param array<string, mixed> $data array of data
-	 *
-	 * @return ?int
-	 *
-	 * @example
-	 *
-	 * $subscription_status_data['subscription_status'][1] = [
-	 *     'name' => 'Subscription Status Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/subscription_status');
-	 *
-	 * $subscription_status_id = $this->model_localisation_subscription_status->addSubscriptionStatus($subscription_status_data);
-	 */
-	public function addSubscriptionStatus(array $data): ?int {
+     * Add Subscription Status
+     *
+     * Create a new subscription status record in the database.
+     *
+     * @param array<string, mixed> $data array of data
+     *
+     *
+     * @example
+     *
+     * $subscription_status_data['subscription_status'][1] = [
+     *     'name' => 'Subscription Status Name'
+     * ];
+     *
+     * $this->load->model('localisation/subscription_status');
+     *
+     * $subscription_status_id = $this->model_localisation_subscription_status->addSubscriptionStatus($subscription_status_data);
+     */
+    public function addSubscriptionStatus(array $data): ?int {
 		$subscription_status_id = 0;
 
 		foreach ($data['subscription_status'] as $language_id => $subscription_status) {
@@ -46,26 +45,25 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Subscription Status
-	 *
-	 * Edit subscription status record in the database.
-	 *
-	 * @param int                  $subscription_status_id primary key of the subscription status record
-	 * @param array<string, mixed> $data                   array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $subscription_status_data['subscription_status'][1] = [
-	 *     'name' => 'Subscription Status Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/subscription_status');
-	 *
-	 * $this->model_localisation_subscription_status->editSubscriptionStatus($subscription_status_id, $subscription_status_data);
-	 */
-	public function editSubscriptionStatus(int $subscription_status_id, array $data): void {
+     * Edit Subscription Status
+     *
+     * Edit subscription status record in the database.
+     *
+     * @param int                  $subscription_status_id primary key of the subscription status record
+     * @param array<string, mixed> $data                   array of data
+     *
+     *
+     * @example
+     *
+     * $subscription_status_data['subscription_status'][1] = [
+     *     'name' => 'Subscription Status Name'
+     * ];
+     *
+     * $this->load->model('localisation/subscription_status');
+     *
+     * $this->model_localisation_subscription_status->editSubscriptionStatus($subscription_status_id, $subscription_status_data);
+     */
+    public function editSubscriptionStatus(int $subscription_status_id, array $data): void {
 		$this->deleteSubscriptionStatus($subscription_status_id);
 
 		foreach ($data['subscription_status'] as $language_id => $subscription_status) {
@@ -76,43 +74,41 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Subscription Status
-	 *
-	 * Delete subscription status record in the database.
-	 *
-	 * @param int $subscription_status_id primary key of the subscription status record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/subscription_status');
-	 *
-	 * $this->model_localisation_subscription_status->deleteSubscriptionStatus($subscription_status_id);
-	 */
-	public function deleteSubscriptionStatus(int $subscription_status_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . (int)$subscription_status_id . "'");
+     * Delete Subscription Status
+     *
+     * Delete subscription status record in the database.
+     *
+     * @param int $subscription_status_id primary key of the subscription status record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/subscription_status');
+     *
+     * $this->model_localisation_subscription_status->deleteSubscriptionStatus($subscription_status_id);
+     */
+    public function deleteSubscriptionStatus(int $subscription_status_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . $subscription_status_id . "'");
 
 		$this->cache->delete('subscription_status');
 	}
 
 	/**
-	 * Delete Subscription Statuses By Language ID
-	 *
-	 * Delete subscription statuses by language record in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/subscription_status');
-	 *
-	 * $this->model_localisation_subscription_status->deleteStockStatusesByLanguageId($language_id);
-	 */
-	public function deleteStockStatusesByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Subscription Statuses By Language ID
+     *
+     * Delete subscription statuses by language record in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/subscription_status');
+     *
+     * $this->model_localisation_subscription_status->deleteStockStatusesByLanguageId($language_id);
+     */
+    public function deleteStockStatusesByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . $language_id . "'");
 
 		$this->cache->delete('subscription_status');
 	}
@@ -133,7 +129,7 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	 * $subscription_status_info = $this->model_localisation_subscription_status->getSubscriptionStatus($subscription_status_id);
 	 */
 	public function getSubscriptionStatus(int $subscription_status_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . (int)$subscription_status_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . $subscription_status_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
@@ -228,49 +224,47 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Description
-	 *
-	 * Create a new subscription status description record in the database.
-	 *
-	 * @param int                  $subscription_status_id primary key of the subscription status record
-	 * @param int                  $language_id            primary key of the language record
-	 * @param array<string, mixed> $data                   array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $subscription_status_data = [
-	 *     'subscription_status_id' => 1,
-	 *     'language_id'            => 1,
-	 *     'name'                   => 'Subscription Status Name'
-	 * ];
-	 *
-	 * $this->load->model('localisation/subscription_status');
-	 *
-	 * $this->model_localisation_subscription_status->addDescription($subscription_status_id, $language_id, $subscription_status_data);
-	 */
-	public function addDescription(int $subscription_status_id, int $language_id, array $data): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "subscription_status` SET `subscription_status_id` = '" . (int)$subscription_status_id . "', `language_id` = '" . (int)$language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
+     * Add Description
+     *
+     * Create a new subscription status description record in the database.
+     *
+     * @param int                  $subscription_status_id primary key of the subscription status record
+     * @param int                  $language_id            primary key of the language record
+     * @param array<string, mixed> $data                   array of data
+     *
+     *
+     * @example
+     *
+     * $subscription_status_data = [
+     *     'subscription_status_id' => 1,
+     *     'language_id'            => 1,
+     *     'name'                   => 'Subscription Status Name'
+     * ];
+     *
+     * $this->load->model('localisation/subscription_status');
+     *
+     * $this->model_localisation_subscription_status->addDescription($subscription_status_id, $language_id, $subscription_status_data);
+     */
+    public function addDescription(int $subscription_status_id, int $language_id, array $data): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "subscription_status` SET `subscription_status_id` = '" . $subscription_status_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
 	}
 
 	/**
-	 * Delete Descriptions By Language ID
-	 *
-	 * Delete country descriptions by language records in the database.
-	 *
-	 * @param int $language_id primary key of the language record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('localisation/country');
-	 *
-	 * $this->model_localisation_country->deleteDescriptionsByLanguageId($language_id);
-	 */
-	public function deleteDescriptionsByLanguageId(int $language_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . (int)$language_id . "'");
+     * Delete Descriptions By Language ID
+     *
+     * Delete country descriptions by language records in the database.
+     *
+     * @param int $language_id primary key of the language record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('localisation/country');
+     *
+     * $this->model_localisation_country->deleteDescriptionsByLanguageId($language_id);
+     */
+    public function deleteDescriptionsByLanguageId(int $language_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . $language_id . "'");
 	}
 
 	/**
@@ -290,7 +284,7 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	 * $description = $this->model_localisation_country->getDescription($country_id, $language_id);
 	 */
 	public function getDescription(int $stock_status_id, int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "stock_status` WHERE `stock_status_id` = '" . (int)$stock_status_id . "' AND `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "stock_status` WHERE `stock_status_id` = '" . $stock_status_id . "' AND `language_id` = '" . $language_id . "'");
 
 		return $query->row;
 	}
@@ -313,7 +307,7 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	public function getDescriptions(int $subscription_status_id): array {
 		$subscription_status_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . (int)$subscription_status_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . $subscription_status_id . "'");
 
 		foreach ($query->rows as $result) {
 			$subscription_status_data[$result['language_id']] = $result;
@@ -338,7 +332,7 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model {
 	 * $results = $this->model_localisation_subscription_status->getDescriptionsByLanguageId($language_id);
 	 */
 	public function getDescriptionsByLanguageId(int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . $language_id . "'");
 
 		return $query->rows;
 	}

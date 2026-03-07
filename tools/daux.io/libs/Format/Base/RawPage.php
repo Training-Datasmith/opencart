@@ -4,11 +4,8 @@ use Todaymade\Daux\Exception;
 
 abstract class RawPage implements Page
 {
-    protected $file;
-
-    public function __construct($filename)
+    public function __construct(protected $file)
     {
-        $this->file = $filename;
     }
 
     public function getFile()

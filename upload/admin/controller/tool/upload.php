@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Tool;
  */
 class Upload extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('tool/upload');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -53,22 +51,18 @@ class Upload extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * List
-	 *
-	 * @return void
-	 */
-	public function list(): void {
+     * List
+     */
+    public function list(): void {
 		$this->load->language('tool/upload');
 
 		$this->response->setOutput($this->getList());
 	}
 
 	/**
-	 * Get List
-	 *
-	 * @return string
-	 */
-	public function getList(): string {
+     * Get List
+     */
+    public function getList(): string {
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -158,11 +152,9 @@ class Upload extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('tool/upload');
 
 		$json = [];
@@ -200,11 +192,9 @@ class Upload extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return void
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		$this->load->language('tool/upload');
 
 		if (isset($this->request->get['code'])) {
@@ -235,43 +225,32 @@ class Upload extends \Opencart\System\Engine\Controller {
 
 					readfile($file);
 					exit;
-				} else {
-					exit(sprintf($this->language->get('error_not_found'), basename($file)));
 				}
-			} else {
-				exit($this->language->get('error_headers_sent'));
+                exit(sprintf($this->language->get('error_not_found'), basename($file)));
 			}
-		} else {
-			$this->load->language('error/not_found');
-
-			$this->document->setTitle($this->language->get('heading_title'));
-
-			$data['breadcrumbs'] = [];
-
-			$data['breadcrumbs'][] = [
+            exit($this->language->get('error_headers_sent'));
+		}
+        $this->load->language('error/not_found');
+        $this->document->setTitle($this->language->get('heading_title'));
+        $data['breadcrumbs'] = [];
+        $data['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
 				'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
 			];
-
-			$data['breadcrumbs'][] = [
+        $data['breadcrumbs'][] = [
 				'text' => $this->language->get('heading_title'),
 				'href' => $this->url->link('error/not_found', 'user_token=' . $this->session->data['user_token'])
 			];
-
-			$data['header'] = $this->load->controller('common/header');
-			$data['column_left'] = $this->load->controller('common/column_left');
-			$data['footer'] = $this->load->controller('common/footer');
-
-			$this->response->setOutput($this->load->view('error/not_found', $data));
-		}
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+        $this->response->setOutput($this->load->view('error/not_found', $data));
 	}
 
 	/**
-	 * Upload
-	 *
-	 * @return void
-	 */
-	public function upload(): void {
+     * Upload
+     */
+    public function upload(): void {
 		$this->load->language('tool/upload');
 
 		$json = [];

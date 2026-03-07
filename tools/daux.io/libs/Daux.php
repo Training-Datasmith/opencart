@@ -12,11 +12,12 @@ class Daux
     public const STATIC_MODE = 'DAUX_STATIC';
     public const LIVE_MODE = 'DAUX_LIVE';
 
+    /**
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
     public static $output;
 
     public ?Root $tree;
-
-    public Config $config;
 
     protected Generator $generator;
 
@@ -25,22 +26,20 @@ class Daux
     /** @var string[] */
     protected $validExtensions;
 
-    protected ?Processor $processor;
+    protected ?Processor $processor = null;
 
     private bool $mergedTree = false;
 
-    public function __construct(Config $config, OutputInterface $output)
+    public function __construct(public Config $config, OutputInterface $output)
     {
         Daux::$output = $output;
-
-        $this->config = $config;
         $this->tree = null;
     }
 
     /**
      * Generate the tree that will be used.
      */
-    public function generateTree()
+    public function generateTree(): void
     {
         $this->config->setValidContentExtensions($this->getContentExtensions());
 
@@ -63,10 +62,7 @@ class Daux
         Builder::finalizeTree($this->tree);
     }
 
-    /**
-     * @return Config
-     */
-    public function getConfig()
+    public function getConfig(): \Todaymade\Daux\Config
     {
         if ($this->tree && !$this->mergedTree) {
             $this->config->setTree($this->tree);
@@ -96,10 +92,7 @@ class Daux
         return $this->getConfig();
     }
 
-    /**
-     * @return Processor
-     */
-    public function getProcessor()
+    public function getProcessor(): \Todaymade\Daux\Processor
     {
         if (!isset($this->processor)) {
             $this->processor = new Processor($this, Daux::getOutput(), 0);
@@ -108,7 +101,7 @@ class Daux
         return $this->processor;
     }
 
-    public function setProcessor(Processor $processor)
+    public function setProcessor(Processor $processor): void
     {
         $this->processor = $processor;
 
@@ -118,12 +111,12 @@ class Daux
         $this->config->setProcessorInstance($processor);
     }
 
-    public function getGenerators()
+    public function getGenerators(): array
     {
         $default = [
-            'confluence' => '\Todaymade\Daux\Format\Confluence\Generator',
-            'html-file' => '\Todaymade\Daux\Format\HTMLFile\Generator',
-            'html' => '\Todaymade\Daux\Format\HTML\Generator',
+            'confluence' => \Todaymade\Daux\Format\Confluence\Generator::class,
+            'html-file' => \Todaymade\Daux\Format\HTMLFile\Generator::class,
+            'html' => \Todaymade\Daux\Format\HTML\Generator::class,
         ];
 
         $extended = $this->getProcessor()->addGenerators();
@@ -143,11 +136,10 @@ class Daux
      *
      * @example -p \\Todaymade\\Daux\\Extension\\Processor
      *
-     * @return null|string
      *
      * @throws ConfigurationException
      */
-    public function getProcessorClass()
+    public function getProcessorClass(): ?string
     {
         $processor = $this->getConfig()->getProcessor();
 
@@ -163,7 +155,7 @@ class Daux
             throw new ConfigurationException("Class '$processor' not found. We cannot use it as a Processor");
         }
 
-        if (!array_key_exists('Todaymade\\Daux\\Processor', class_parents($processor))) {
+        if (!array_key_exists(\Todaymade\Daux\Processor::class, class_parents($processor))) {
             throw new ConfigurationException(
                 "Class '$processor' invalid, should extend '\\Todaymade\\Daux\\Processor'"
             );
@@ -172,7 +164,10 @@ class Daux
         return $processor;
     }
 
-    protected function findAlternatives($input, $words)
+    /**
+     * @return mixed[]
+     */
+    protected function findAlternatives($input, $words): array
     {
         $alternatives = [];
 
@@ -221,8 +216,8 @@ class Daux
             throw new ConfigurationException("Class '$class' not found. We cannot use it as a Generator");
         }
 
-        $interface = 'Todaymade\Daux\Format\Base\Generator';
-        if (!in_array('Todaymade\Daux\Format\Base\Generator', class_implements($class))) {
+        $interface = \Todaymade\Daux\Format\Base\Generator::class;
+        if (!in_array(\Todaymade\Daux\Format\Base\Generator::class, class_implements($class))) {
             throw new ConfigurationException("The class '$class' does not implement the '$interface' interface");
         }
 
@@ -274,7 +269,7 @@ class Daux
      * @param bool         $newline  Whether to add a newline
      * @param int          $options  A bitmask of options (one of the OUTPUT or VERBOSITY constants)
      */
-    public static function write($messages, $newline = false, $options = 0)
+    public static function write($messages, $newline = false, $options = 0): void
     {
         Daux::getOutput()->write($messages, $newline, $options);
     }
@@ -285,7 +280,7 @@ class Daux
      * @param array|string $messages The message as an array of lines of a single string
      * @param int          $options  A bitmask of options (one of the OUTPUT or VERBOSITY constants)
      */
-    public static function writeln($messages, $options = 0)
+    public static function writeln($messages, $options = 0): void
     {
         Daux::getOutput()->write($messages, true, $options);
     }

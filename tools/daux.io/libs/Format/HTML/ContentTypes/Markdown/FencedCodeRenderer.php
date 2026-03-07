@@ -54,7 +54,7 @@ class FencedCodeRenderer implements NodeRendererInterface
         return $this->renderCode($content, $language, $attrs);
     }
 
-    public function renderCode($content, $language, $attrs)
+    public function renderCode($content, ?string $language, array $attrs)
     {
         $highlighted = false;
         if ($language) {
@@ -64,7 +64,7 @@ class FencedCodeRenderer implements NodeRendererInterface
                 $highlighted = $this->hl->highlight($language, $content);
                 $content = $highlighted->value;
                 $attrs['class'] .= 'hljs ' . $highlighted->language;
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $attrs['class'] .= 'language-' . $language;
             }
         }

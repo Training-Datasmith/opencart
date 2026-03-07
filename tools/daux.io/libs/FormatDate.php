@@ -2,7 +2,7 @@
 
 class FormatDate
 {
-    public static function format($config, $date)
+    public static function format($config, $date): string|false
     {
         $locale = $config->getLanguage();
         $datetype = \IntlDateFormatter::LONG;

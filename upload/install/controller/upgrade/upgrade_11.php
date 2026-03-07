@@ -7,11 +7,9 @@ namespace Opencart\Install\Controller\Upgrade;
  */
 class Upgrade11 extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('upgrade/upgrade');
 
 		$json = [];

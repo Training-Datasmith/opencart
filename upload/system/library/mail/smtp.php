@@ -6,65 +6,20 @@ namespace Opencart\System\Library\Mail;
  * Basic SMTP mail class
  */
 class Smtp {
-	/**
-	 * @var string
-	 */
 	protected string|array $to = '';
-	/**
-	 * @var string
-	 */
 	protected string $from = '';
-	/**
-	 * @var string
-	 */
 	protected string $sender = '';
-	/**
-	 * @var string
-	 */
 	protected string $reply_to = '';
-	/**
-	 * @var string
-	 */
 	protected string $subject = '';
-	/**
-	 * @var string
-	 */
 	protected string $text = '';
-	/**
-	 * @var string
-	 */
 	protected string $html = '';
-	/**
-	 * @var string
-	 */
 	protected string $parameter = '';
-	/**
-	 * @var string
-	 */
 	protected string $smtp_hostname = '';
-	/**
-	 * @var string
-	 */
 	protected string $smtp_username = '';
-	/**
-	 * @var string
-	 */
 	protected string $smtp_password = '';
-	/**
-	 * @var int
-	 */
 	protected int $smtp_port = 25;
-	/**
-	 * @var int
-	 */
 	protected int $smtp_timeout = 5;
-	/**
-	 * @var int
-	 */
 	protected int $max_attempts = 3;
-	/**
-	 * @var bool
-	 */
 	protected bool $verp = false;
 
 	/**
@@ -79,88 +34,72 @@ class Smtp {
 	}
 
 	/**
-	 * Set To
-	 *
-	 * @param array<string>|string $to
-	 *
-	 * @return void
-	 */
-	public function setTo(string|array $to): void {
+     * Set To
+     *
+     * @param array<string>|string $to
+     */
+    public function setTo(string|array $to): void {
 		$this->to = $to;
 	}
 
 	/**
-	 * Set From
-	 *
-	 * @param string $from
-	 *
-	 * @return void
-	 */
-	public function setFrom(string $from): void {
+     * Set From
+     *
+     *
+     */
+    public function setFrom(string $from): void {
 		$this->from = $from;
 	}
 
 	/**
-	 * Set Sender
-	 *
-	 * @param string $sender
-	 *
-	 * @return void
-	 */
-	public function setSender(string $sender): void {
+     * Set Sender
+     *
+     *
+     */
+    public function setSender(string $sender): void {
 		$this->sender = $sender;
 	}
 
 	/**
-	 * Set Reply To
-	 *
-	 * @param string $reply_to
-	 *
-	 * @return void
-	 */
-	public function setReplyTo(string $reply_to): void {
+     * Set Reply To
+     *
+     *
+     */
+    public function setReplyTo(string $reply_to): void {
 		$this->reply_to = $reply_to;
 	}
 
 	/**
-	 * Set Subject
-	 *
-	 * @param string $subject
-	 *
-	 * @return void
-	 */
-	public function setSubject(string $subject): void {
+     * Set Subject
+     *
+     *
+     */
+    public function setSubject(string $subject): void {
 		$this->subject = $subject;
 	}
 
 	/**
-	 * Set Text
-	 *
-	 * @param string $text
-	 *
-	 * @return void
-	 */
-	public function setText(string $text): void {
+     * Set Text
+     *
+     *
+     */
+    public function setText(string $text): void {
 		$this->text = $text;
 	}
 
 	/**
-	 * Set Html
-	 *
-	 * @param string $html
-	 *
-	 * @return void
-	 */
-	public function setHtml(string $html): void {
+     * Set Html
+     *
+     *
+     */
+    public function setHtml(string $html): void {
 		$this->html = $html;
 	}
 
 	/**
-	 * Send
-	 *
-	 * @return bool
-	 */
-	public function send(): bool {
+     * Send
+     */
+    public function send(): bool {
 		if (empty($this->to)) {
 			throw new \Exception('Error: E-Mail to required!');
 		}
@@ -278,7 +217,7 @@ class Smtp {
 
 		$message .= '--' . $boundary . '--' . PHP_EOL;
 
-		if (substr($this->smtp_hostname, 0, 3) == 'tls') {
+		if (str_starts_with($this->smtp_hostname, 'tls')) {
 			$hostname = substr($this->smtp_hostname, 6);
 		} else {
 			$hostname = $this->smtp_hostname;
@@ -290,7 +229,7 @@ class Smtp {
 			throw new \Exception('Error: ' . $errstr . ' (' . $errno . ')');
 		}
 
-		if (substr(PHP_OS, 0, 3) != 'WIN') {
+		if (!str_starts_with(PHP_OS, 'WIN')) {
 			stream_set_timeout($handle, $this->smtp_timeout, 0);
 		}
 
@@ -306,22 +245,23 @@ class Smtp {
 
 		while ($line = fgets($handle, 515)) {
 			$reply .= $line;
+            //some SMTP servers respond with 220 code before responding with 250. hence, we need to ignore 220 response string
+            if (substr($reply, 0, 3) == 220 && substr($line, 3, 1) == ' ') {
+                $reply = '';
+                continue;
+            }
 
 			//some SMTP servers respond with 220 code before responding with 250. hence, we need to ignore 220 response string
-			if (substr($reply, 0, 3) == 220 && substr($line, 3, 1) == ' ') {
-				$reply = '';
-
-				continue;
-			} elseif (substr($line, 3, 1) == ' ') {
-				break;
-			}
+			if (substr($line, 3, 1) == ' ') {
+                break;
+            }
 		}
 
 		if (substr($reply, 0, 3) != 250) {
 			throw new \Exception('Error: ' . $reply);
 		}
 
-		if (substr($this->smtp_hostname, 0, 3) == 'tls') {
+		if (str_starts_with($this->smtp_hostname, 'tls')) {
 			fwrite($handle, 'STARTTLS' . "\r\n");
 
 			$this->handleReply($handle, 220, 'Error: STARTTLS not accepted from server!');
@@ -402,16 +342,14 @@ class Smtp {
 	}
 
 	/**
-	 * Handle Reply
-	 *
-	 * @param resource     $handle
-	 * @param false|int    $status_code
-	 * @param false|string $error_text
-	 * @param int          $counter
-	 *
-	 * @return string
-	 */
-	private function handleReply($handle, $status_code = false, $error_text = false, int $counter = 0): string {
+     * Handle Reply
+     *
+     * @param resource     $handle
+     * @param false|int    $status_code
+     * @param false|string $error_text
+     *
+     */
+    private function handleReply($handle, $status_code = false, $error_text = false, int $counter = 0): string {
 		$reply = '';
 
 		while (($line = fgets($handle, 515)) !== false) {

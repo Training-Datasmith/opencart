@@ -46,29 +46,28 @@ class Api extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Edit Api
-	 *
-	 * Edit api record in the database.
-	 *
-	 * @param int                  $api_id primary key of the Api record
-	 * @param array<string, mixed> $data   array of data
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $api_data = [
-	 *     'username' => 'Api Username',
-	 *     'key'      => '',
-	 *     'status'   => 1
-	 * ];
-	 *
-	 * $this->load->model('user/api');
-	 *
-	 * $this->model_user_api->editApi($api_id, $api_data);
-	 */
-	public function editApi(int $api_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "api` SET `username` = '" . $this->db->escape((string)$data['username']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_modified` = NOW() WHERE `api_id` = '" . (int)$api_id . "'");
+     * Edit Api
+     *
+     * Edit api record in the database.
+     *
+     * @param int                  $api_id primary key of the Api record
+     * @param array<string, mixed> $data   array of data
+     *
+     *
+     * @example
+     *
+     * $api_data = [
+     *     'username' => 'Api Username',
+     *     'key'      => '',
+     *     'status'   => 1
+     * ];
+     *
+     * $this->load->model('user/api');
+     *
+     * $this->model_user_api->editApi($api_id, $api_data);
+     */
+    public function editApi(int $api_id, array $data): void {
+		$this->db->query("UPDATE `" . DB_PREFIX . "api` SET `username` = '" . $this->db->escape((string)$data['username']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_modified` = NOW() WHERE `api_id` = '" . $api_id . "'");
 
 		$this->deleteIps($api_id);
 
@@ -82,22 +81,21 @@ class Api extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Delete Api
-	 *
-	 * Delete api record in the database.
-	 *
-	 * @param int $api_id primary key of the Api record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/api');
-	 *
-	 * $this->model_user_api->deleteApi($api_id);
-	 */
-	public function deleteApi(int $api_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . (int)$api_id . "'");
+     * Delete Api
+     *
+     * Delete api record in the database.
+     *
+     * @param int $api_id primary key of the Api record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('user/api');
+     *
+     * $this->model_user_api->deleteApi($api_id);
+     */
+    public function deleteApi(int $api_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . $api_id . "'");
 
 		$this->deleteIps($api_id);
 	}
@@ -118,7 +116,7 @@ class Api extends \Opencart\System\Engine\Model {
 	 * $api_info = $this->model_user_api->getApi($api_id);
 	 */
 	public function getApi(int $api_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . (int)$api_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . $api_id . "'");
 
 		return $query->row;
 	}
@@ -204,42 +202,39 @@ class Api extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add Ip
-	 *
-	 * Create a new api ip record in the database.
-	 *
-	 * @param int    $api_id primary key of the Api record
-	 * @param string $ip
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/api');
-	 *
-	 * $this->model_user_api->addIp($api_id, $ip);
-	 */
-	public function addIp(int $api_id, string $ip): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "api_ip` SET `api_id` = '" . (int)$api_id . "', `ip` = '" . $this->db->escape($ip) . "'");
+     * Add Ip
+     *
+     * Create a new api ip record in the database.
+     *
+     * @param int    $api_id primary key of the Api record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('user/api');
+     *
+     * $this->model_user_api->addIp($api_id, $ip);
+     */
+    public function addIp(int $api_id, string $ip): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "api_ip` SET `api_id` = '" . $api_id . "', `ip` = '" . $this->db->escape($ip) . "'");
 	}
 
 	/**
-	 * Delete Ips
-	 *
-	 * Delete api ip records in the database.
-	 *
-	 * @param int $api_id primary key of the Api record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/api');
-	 *
-	 * $this->model_user_api->deleteIps($api_id);
-	 */
-	public function deleteIps(int $api_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "api_ip` WHERE `api_id` = '" . (int)$api_id . "'");
+     * Delete Ips
+     *
+     * Delete api ip records in the database.
+     *
+     * @param int $api_id primary key of the Api record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('user/api');
+     *
+     * $this->model_user_api->deleteIps($api_id);
+     */
+    public function deleteIps(int $api_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "api_ip` WHERE `api_id` = '" . $api_id . "'");
 	}
 
 	/**
@@ -260,7 +255,7 @@ class Api extends \Opencart\System\Engine\Model {
 	public function getIps(int $api_id): array {
 		$ip_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_ip` WHERE `api_id` = '" . (int)$api_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_ip` WHERE `api_id` = '" . $api_id . "'");
 
 		foreach ($query->rows as $result) {
 			$ip_data[] = $result['ip'];
@@ -270,23 +265,21 @@ class Api extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Get Histories
-	 *
-	 * Get the record of the api history records in the database.
-	 *
-	 * @param int $api_id primary key of the Api record
-	 * @param int $start
-	 * @param int $limit
-	 *
-	 * @return array<int, array<string, mixed>> history records that have api ID
-	 *
-	 * @example
-	 *
-	 * $this->load->model('user/api');
-	 *
-	 * $results = $this->model_user_api->getHistories($api_id, $start, $limit);
-	 */
-	public function getHistories(int $api_id, int $start = 0, int $limit = 10): array {
+     * Get Histories
+     *
+     * Get the record of the api history records in the database.
+     *
+     * @param int $api_id primary key of the Api record
+     *
+     * @return array<int, array<string, mixed>> history records that have api ID
+     *
+     * @example
+     *
+     * $this->load->model('user/api');
+     *
+     * $results = $this->model_user_api->getHistories($api_id, $start, $limit);
+     */
+    public function getHistories(int $api_id, int $start = 0, int $limit = 10): array {
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -295,7 +288,7 @@ class Api extends \Opencart\System\Engine\Model {
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_history` WHERE `api_id` = '" . (int)$api_id . "' ORDER BY `date_added` DESC LIMIT " . (int)$start . "," . (int)$limit);
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_history` WHERE `api_id` = '" . $api_id . "' ORDER BY `date_added` DESC LIMIT " . $start . "," . $limit);
 
 		return $query->rows;
 	}
@@ -316,7 +309,7 @@ class Api extends \Opencart\System\Engine\Model {
 	 * $history_total = $this->model_user_api->getTotalHistories($api_id);
 	 */
 	public function getTotalHistories(int $api_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "api_history` WHERE `api_id` = '" . (int)$api_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "api_history` WHERE `api_id` = '" . $api_id . "'");
 
 		return (int)$query->row['total'];
 	}

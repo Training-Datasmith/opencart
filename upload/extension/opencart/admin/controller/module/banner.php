@@ -7,11 +7,9 @@ namespace Opencart\Admin\Controller\Extension\Opencart\Module;
  */
 class Banner extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('extension/opencart/module/banner');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -134,11 +132,9 @@ class Banner extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/module/banner');
 
 		$json = [];
@@ -191,11 +187,9 @@ class Banner extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Add
-	 *
-	 * @return void
-	 */
-	public function add(): void {
+     * Add
+     */
+    public function add(): void {
 		$this->load->language('extension/opencart/module/banner');
 
 		$json = [];
@@ -218,11 +212,9 @@ class Banner extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete
-	 *
-	 * @return void
-	 */
-	public function delete(): void {
+     * Delete
+     */
+    public function delete(): void {
 		$this->load->language('extension/opencart/module/banner');
 
 		$json = [];

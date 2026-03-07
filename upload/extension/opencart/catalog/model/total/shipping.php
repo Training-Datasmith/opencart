@@ -9,15 +9,13 @@ namespace Opencart\Catalog\Model\Extension\Opencart\Total;
  */
 class Shipping extends \Opencart\System\Engine\Model {
 	/**
-	 * Get Total
-	 *
-	 * @param array<int, array<string, mixed>> $totals
-	 * @param  array<int, float>               &$taxes
-	 * @param  float                           &$total
-	 *
-	 * @return void
-	 */
-	public function getTotal(array &$totals, array &$taxes, float &$total): void {
+     * Get Total
+     *
+     * @param array<int, array<string, mixed>> $totals
+     * @param  array<int, float>               &$taxes
+     *
+     */
+    public function getTotal(array &$totals, array &$taxes, float &$total): void {
 		if ($this->cart->hasShipping() && isset($this->session->data['shipping_method'])) {
 			$totals[] = [
 				'extension'  => 'opencart',

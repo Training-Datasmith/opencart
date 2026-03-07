@@ -9,11 +9,9 @@ namespace Opencart\Admin\Controller\Common;
  */
 class Logout extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->user->logout();
 
 		unset($this->session->data['user_token']);

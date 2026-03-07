@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Extension\Opencart\Checkout;
  */
 class Shipping extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return string
-	 */
-	public function index(): string {
+     * Index
+     */
+    public function index(): string {
 		if ($this->config->get('total_shipping_status') && $this->config->get('total_shipping_estimator') && $this->cart->hasShipping()) {
 			$this->load->language('extension/opencart/checkout/shipping');
 
@@ -41,11 +39,9 @@ class Shipping extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Quote
-	 *
-	 * @return void
-	 */
-	public function quote(): void {
+     * Quote
+     */
+    public function quote(): void {
 		$this->load->language('extension/opencart/checkout/shipping');
 
 		$json = [];
@@ -145,11 +141,9 @@ class Shipping extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Save
-	 *
-	 * @return void
-	 */
-	public function save(): void {
+     * Save
+     */
+    public function save(): void {
 		$this->load->language('extension/opencart/checkout/shipping');
 
 		$json = [];

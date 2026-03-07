@@ -7,17 +7,15 @@ namespace Opencart\Admin\Controller\Mail;
  */
 class Gdpr extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * admin/model/customer/gdpr/editStatus
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function index(string &$route, array &$args, &$output): void {
+     * Index
+     *
+     * admin/model/customer/gdpr/editStatus
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function index(string &$route, array &$args, &$output): void {
 		// GDPR
 		$this->load->model('customer/gdpr');
 
@@ -49,15 +47,13 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Export
-	 *
-	 * @param array<string, mixed> $gdpr_info
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function export(array $gdpr_info): void {
+     * Export
+     *
+     * @param array<string, mixed> $gdpr_info
+     *
+     * @throws \Exception
+     */
+    public function export(array $gdpr_info): void {
 		// Setting
 		$this->load->model('setting/store');
 
@@ -227,15 +223,13 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Approve
-	 *
-	 * @param array<string, mixed> $gdpr_info
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function approve(array $gdpr_info): void {
+     * Approve
+     *
+     * @param array<string, mixed> $gdpr_info
+     *
+     * @throws \Exception
+     */
+    public function approve(array $gdpr_info): void {
 		// Setting
 		$this->load->model('setting/store');
 
@@ -321,15 +315,13 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Deny
-	 *
-	 * @param array<string, mixed> $gdpr_info
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function deny(array $gdpr_info): void {
+     * Deny
+     *
+     * @param array<string, mixed> $gdpr_info
+     *
+     * @throws \Exception
+     */
+    public function deny(array $gdpr_info): void {
 		// Setting
 		$this->load->model('setting/store');
 
@@ -415,15 +407,13 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Remove
-	 *
-	 * @param array<string, mixed> $gdpr_info
-	 *
-	 * @throws \Exception
-	 *
-	 * @return void
-	 */
-	public function remove(array $gdpr_info): void {
+     * Remove
+     *
+     * @param array<string, mixed> $gdpr_info
+     *
+     * @throws \Exception
+     */
+    public function remove(array $gdpr_info): void {
 		// Setting
 		$this->load->model('setting/store');
 

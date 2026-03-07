@@ -9,19 +9,17 @@ namespace Opencart\Catalog\Model\Marketing;
  */
 class Coupon extends \Opencart\System\Engine\Model {
 	/**
-	 * Get Coupon
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('marketing/coupon');
-	 *
-	 * $coupon_info = $this->model_marketing_coupon->getCoupon($code);
-	 */
-	public function getCoupon(string $code): array {
+     * Get Coupon
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('marketing/coupon');
+     *
+     * $coupon_info = $this->model_marketing_coupon->getCoupon($code);
+     */
+    public function getCoupon(string $code): array {
 		$status = true;
 
 		$coupon_info = $this->model_marketing_coupon->getCouponByCode($code);
@@ -91,25 +89,22 @@ class Coupon extends \Opencart\System\Engine\Model {
 
 		if ($status) {
 			return ['product' => $product_data] + $coupon_info;
-		} else {
-			return [];
 		}
+        return [];
 	}
 
 	/**
-	 * Get Coupon By Code
-	 *
-	 * @param string $code
-	 *
-	 * @return array<string, mixed>
-	 *
-	 * @example
-	 *
-	 * $this->load->model('marketing/coupon');
-	 *
-	 * $coupon_info = $this->model_marketing_coupon->getCouponByCode($code);
-	 */
-	public function getCouponByCode(string $code): array {
+     * Get Coupon By Code
+     *
+     *
+     * @return array<string, mixed>
+     * @example
+     *
+     * $this->load->model('marketing/coupon');
+     *
+     * $coupon_info = $this->model_marketing_coupon->getCouponByCode($code);
+     */
+    public function getCouponByCode(string $code): array {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "coupon` WHERE `code` = '" . $this->db->escape($code) . "' AND `status` = '1'");
 
 		return $query->row;
@@ -133,7 +128,7 @@ class Coupon extends \Opencart\System\Engine\Model {
 	public function getProducts(int $coupon_id): array {
 		$product_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "coupon_product` WHERE `coupon_id` = '" . (int)$coupon_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "coupon_product` WHERE `coupon_id` = '" . $coupon_id . "'");
 
 		foreach ($query->rows as $product) {
 			$product_data[] = $product['product_id'];
@@ -160,7 +155,7 @@ class Coupon extends \Opencart\System\Engine\Model {
 	public function getCategories(int $coupon_id): array {
 		$category_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "coupon_category` `cc` LEFT JOIN `" . DB_PREFIX . "category_path` `cp` ON (`cc`.`category_id` = `cp`.`path_id`) WHERE `cc`.`coupon_id` = '" . (int)$coupon_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "coupon_category` `cc` LEFT JOIN `" . DB_PREFIX . "category_path` `cp` ON (`cc`.`category_id` = `cp`.`path_id`) WHERE `cc`.`coupon_id` = '" . $coupon_id . "'");
 
 		foreach ($query->rows as $category) {
 			$category_data[] = $category['category_id'];
@@ -170,44 +165,41 @@ class Coupon extends \Opencart\System\Engine\Model {
 	}
 
 	/**
-	 * Add History
-	 *
-	 * Create a new coupon history record in the database.
-	 *
-	 * @param int   $coupon_id   primary key of the coupon record
-	 * @param int   $order_id    primary key of the order record
-	 * @param int   $customer_id primary key of the customer record
-	 * @param float $amount
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('marketing/coupon');
-	 *
-	 * $this->model_marketing_coupon->addHistory($coupon_id, $order_id, $customer_id, $amount);
-	 */
-	public function addHistory(int $coupon_id, int $order_id, int $customer_id, float $amount = 0.00): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "coupon_history` SET `coupon_id` = '" . (int)$coupon_id . "', `order_id` = '" . (int)$order_id . "', `customer_id` = '" . (int)$customer_id . "', `amount` = '" . (float)$amount . "', `date_added` = NOW()");
+     * Add History
+     *
+     * Create a new coupon history record in the database.
+     *
+     * @param int   $coupon_id   primary key of the coupon record
+     * @param int   $order_id    primary key of the order record
+     * @param int   $customer_id primary key of the customer record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('marketing/coupon');
+     *
+     * $this->model_marketing_coupon->addHistory($coupon_id, $order_id, $customer_id, $amount);
+     */
+    public function addHistory(int $coupon_id, int $order_id, int $customer_id, float $amount = 0.00): void {
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "coupon_history` SET `coupon_id` = '" . $coupon_id . "', `order_id` = '" . $order_id . "', `customer_id` = '" . $customer_id . "', `amount` = '" . $amount . "', `date_added` = NOW()");
 	}
 
 	/**
-	 * Delete Coupon Histories By Order ID
-	 *
-	 * Delete coupon history by order records in the database.
-	 *
-	 * @param int $order_id primary key of the order record
-	 *
-	 * @return void
-	 *
-	 * @example
-	 *
-	 * $this->load->model('marketing/coupon');
-	 *
-	 * $this->model_marketing_coupon->deleteHistoriesByOrderId($order_id);
-	 */
-	public function deleteHistoriesByOrderId(int $order_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "coupon_history` WHERE `order_id` = '" . (int)$order_id . "'");
+     * Delete Coupon Histories By Order ID
+     *
+     * Delete coupon history by order records in the database.
+     *
+     * @param int $order_id primary key of the order record
+     *
+     *
+     * @example
+     *
+     * $this->load->model('marketing/coupon');
+     *
+     * $this->model_marketing_coupon->deleteHistoriesByOrderId($order_id);
+     */
+    public function deleteHistoriesByOrderId(int $order_id): void {
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "coupon_history` WHERE `order_id` = '" . $order_id . "'");
 	}
 
 	/**
@@ -248,7 +240,7 @@ class Coupon extends \Opencart\System\Engine\Model {
 	 * $history_total = $this->model_marketing_coupon->getTotalHistoriesByCustomerId($coupon_id, $customer_id);
 	 */
 	public function getTotalHistoriesByCustomerId(int $coupon_id, int $customer_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "coupon_history` `ch` LEFT JOIN `" . DB_PREFIX . "coupon` `c` ON (`ch`.`coupon_id` = `c`.`coupon_id`) WHERE `c`.`coupon_id` = '" . (int)$coupon_id . "' AND `ch`.`customer_id` = '" . (int)$customer_id . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "coupon_history` `ch` LEFT JOIN `" . DB_PREFIX . "coupon` `c` ON (`ch`.`coupon_id` = `c`.`coupon_id`) WHERE `c`.`coupon_id` = '" . $coupon_id . "' AND `ch`.`customer_id` = '" . $customer_id . "'");
 
 		return (int)$query->row['total'];
 	}

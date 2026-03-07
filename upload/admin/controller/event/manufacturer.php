@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Manufacturer extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Manufacturer
-	 *
-	 * Adds task to generate new manufacturer data.
-	 *
-	 * Called using model/catalog/manufacturer/addManufacturer/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function addManufacturer(string &$route, array &$args, &$output): void {
+     * Add Manufacturer
+     *
+     * Adds task to generate new manufacturer data.
+     *
+     * Called using model/catalog/manufacturer/addManufacturer/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function addManufacturer(string &$route, array &$args, string &$output): void {
 		// List
 		$task_data = [
 			'code'   => 'manufacturer.list',
@@ -42,19 +40,17 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Manufacturer
-	 *
-	 * Adds task to generate new manufacturer data.
-	 *
-	 * Called using model/catalog/manufacturer/editManufacturer/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function editManufacturer(string &$route, array &$args, &$output): void {
+     * Edit Manufacturer
+     *
+     * Adds task to generate new manufacturer data.
+     *
+     * Called using model/catalog/manufacturer/editManufacturer/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function editManufacturer(string &$route, array &$args, &$output): void {
 		// List
 		$task_data = [
 			'code'   => 'manufacturer.list',
@@ -92,19 +88,17 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Manufacturer
-	 *
-	 * Adds task to generate new manufacturer data.
-	 *
-	 * Called using model/catalog/manufacturer/editManufacturer/after
-	 *
-	 * @param string            $route
-	 * @param array<int, mixed> $args
-	 * @param mixed             $output
-	 *
-	 * @return void
-	 */
-	public function deleteManufacturer(string &$route, array &$args, &$output): void {
+     * Delete Manufacturer
+     *
+     * Adds task to generate new manufacturer data.
+     *
+     * Called using model/catalog/manufacturer/editManufacturer/after
+     *
+     * @param array<int, mixed> $args
+     * @param mixed             $output
+     *
+     */
+    public function deleteManufacturer(string &$route, array &$args, &$output): void {
 		// List
 		$task_data = [
 			'code'   => 'manufacturer.list',

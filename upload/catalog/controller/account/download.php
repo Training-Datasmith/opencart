@@ -7,11 +7,9 @@ namespace Opencart\Catalog\Controller\Account;
  */
 class Download extends \Opencart\System\Engine\Controller {
 	/**
-	 * Index
-	 *
-	 * @return void
-	 */
-	public function index(): void {
+     * Index
+     */
+    public function index(): void {
 		$this->load->language('account/download');
 
 		if (isset($this->request->get['page'])) {
@@ -111,11 +109,9 @@ class Download extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Download
-	 *
-	 * @return void
-	 */
-	public function download(): void {
+     * Download
+     */
+    public function download(): void {
 		if (isset($this->request->get['download_id'])) {
 			$download_id = (int)$this->request->get['download_id'];
 		} else {
@@ -155,14 +151,11 @@ class Download extends \Opencart\System\Engine\Controller {
 					$this->model_account_download->addReport($download_id, oc_get_ip());
 
 					exit();
-				} else {
-					exit(sprintf($this->language->get('error_not_found'), basename($file)));
 				}
-			} else {
-				exit($this->language->get('error_headers_sent'));
+                exit(sprintf($this->language->get('error_not_found'), basename($file)));
 			}
-		} else {
-			$this->response->redirect($this->url->link('account/download', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true));
+            exit($this->language->get('error_headers_sent'));
 		}
+        $this->response->redirect($this->url->link('account/download', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true));
 	}
 }

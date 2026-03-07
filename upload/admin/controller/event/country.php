@@ -7,19 +7,17 @@ namespace Opencart\Admin\Controller\Event;
  */
 class Country extends \Opencart\System\Engine\Controller {
 	/**
-	 * Add Country
-	 *
-	 * Adds task to generate new country data.
-	 *
-	 * Called using admin/model/localisation/country/addCountry/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 * @param array<string, string> $output
-	 *
-	 * @return void
-	 */
-	public function addCountry(string &$route, array &$args, &$output): void {
+     * Add Country
+     *
+     * Adds task to generate new country data.
+     *
+     * Called using admin/model/localisation/country/addCountry/after
+     *
+     * @param array<string, string> $args
+     * @param array<string, string> $output
+     *
+     */
+    public function addCountry(string &$route, array &$args, &$output): void {
 		// Generate new country list.
 		$task_data = [
 			'code'   => 'country.list',
@@ -61,19 +59,17 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Edit Country
-	 *
-	 * Adds task to generate new country data.
-	 *
-	 * Called using admin/model/localisation/country/editCountry/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 * @param array<string, string> $output
-	 *
-	 * @return void
-	 */
-	public function editCountry(string &$route, array &$args, &$output): void {
+     * Edit Country
+     *
+     * Adds task to generate new country data.
+     *
+     * Called using admin/model/localisation/country/editCountry/after
+     *
+     * @param array<string, string> $args
+     * @param array<string, string> $output
+     *
+     */
+    public function editCountry(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'country.list',
 			'action' => 'task/catalog/country.list',
@@ -113,19 +109,17 @@ class Country extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * Delete Country
-	 *
-	 * Adds task to generate new country data.
-	 *
-	 * Called using admin/model/localisation/country/deleteCountry/after
-	 *
-	 * @param string                $route
-	 * @param array<string, string> $args
-	 * @param array<string, string> $output
-	 *
-	 * @return void
-	 */
-	public function deleteCountry(string &$route, array &$args, &$output): void {
+     * Delete Country
+     *
+     * Adds task to generate new country data.
+     *
+     * Called using admin/model/localisation/country/deleteCountry/after
+     *
+     * @param array<string, string> $args
+     * @param array<string, string> $output
+     *
+     */
+    public function deleteCountry(string &$route, array &$args, &$output): void {
 		$task_data = [
 			'code'   => 'country.list',
 			'action' => 'task/catalog/country.list',
