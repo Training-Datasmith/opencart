@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\ContentTypes\Markdown\Admonition;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\ContentTypes\Markdown\Admonition;
 
 use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Node\Block\Paragraph;
@@ -21,7 +25,7 @@ final class AdmonitionParser extends AbstractBlockContinueParser implements Bloc
     private Paragraph $titleBlock;
 
     public function __construct(string $type, /** @psalm-readonly */
-    private ?string $title)
+        private ?string $title)
     {
         $this->titleBlock = new Paragraph();
         $this->block = new AdmonitionBlock($type, $this->titleBlock);
@@ -64,7 +68,7 @@ final class AdmonitionParser extends AbstractBlockContinueParser implements Bloc
 
     public static function blockStartParser(): BlockStartParserInterface
     {
-        return new class() implements BlockStartParserInterface {
+        return new class () implements BlockStartParserInterface {
             public function tryStart(Cursor $cursor, MarkdownParserStateInterface $parserState): ?BlockStart
             {
                 if ($cursor->isIndented()) {

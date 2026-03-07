@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']      = '%s - Order Update %s';
 $_['text_order_id']     = 'Order ID:';

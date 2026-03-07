@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_success']   = 'Success: Starting to restore database!';
 $_['text_restore']   = 'Restoring previous backup %s';

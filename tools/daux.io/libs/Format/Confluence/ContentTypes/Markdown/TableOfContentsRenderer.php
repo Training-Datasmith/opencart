@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Confluence\ContentTypes\Markdown;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Confluence\ContentTypes\Markdown;
 
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;

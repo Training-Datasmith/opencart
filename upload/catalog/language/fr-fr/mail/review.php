@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']  = '%s - Avis sur un produit';
 $_['text_waiting']  = 'Vous avez un nouvel avis produit en attente.';

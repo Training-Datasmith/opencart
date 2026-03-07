@@ -1,22 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Startup;
+
 /**
  * Class Application
  *
  * @package Opencart\Catalog\Controller\Startup
  */
-class Application extends \Opencart\System\Engine\Controller {
-	/**
+class Application extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		// Weight
-		$this->registry->set('weight', new \Opencart\System\Library\Cart\Weight($this->registry));
+    public function index(): void
+    {
+        // Weight
+        $this->registry->set('weight', new \Opencart\System\Library\Cart\Weight($this->registry));
 
-		// Length
-		$this->registry->set('length', new \Opencart\System\Library\Cart\Length($this->registry));
+        // Length
+        $this->registry->set('length', new \Opencart\System\Library\Cart\Length($this->registry));
 
-		// Cart
-		$this->registry->set('cart', new \Opencart\System\Library\Cart\Cart($this->registry));
-	}
+        // Cart
+        $this->registry->set('cart', new \Opencart\System\Library\Cart\Cart($this->registry));
+    }
 }

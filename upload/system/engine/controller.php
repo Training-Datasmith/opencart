@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package      OpenCart
  *
@@ -8,39 +10,44 @@
  *
  * @see         https://www.opencart.com
  */
+
 namespace Opencart\System\Engine;
+
 /**
  * Class Controller
  *
  * @mixin \Opencart\System\Engine\Registry
  */
-class Controller {
-	/**
+class Controller
+{
+    /**
      * Constructor
      */
     public function __construct(protected \Opencart\System\Engine\Registry $registry)
     {
     }
 
-	/**
+    /**
      * __get
      *
      *
      */
-    public function __get(string $key): object {
-		if (!$this->registry->has($key)) {
-			throw new \Exception('Error: Could not call registry key ' . $key . '!');
-		}
+    public function __get(string $key): object
+    {
+        if (!$this->registry->has($key)) {
+            throw new \Exception('Error: Could not call registry key ' . $key . '!');
+        }
 
-		return $this->registry->get($key);
-	}
+        return $this->registry->get($key);
+    }
 
-	/**
+    /**
      * __set
      *
      *
      */
-    public function __set(string $key, object $value): void {
-		$this->registry->set($key, $value);
-	}
+    public function __set(string $key, object $value): void
+    {
+        $this->registry->set($key, $value);
+    }
 }

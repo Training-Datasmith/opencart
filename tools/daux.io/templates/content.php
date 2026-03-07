@@ -10,10 +10,10 @@
         <?php } ?>
         <?php
         $edit_on = $config->getHTML()->getEditOn();
-        if ($edit_on && $page['relative_path']) { ?>
+if ($edit_on && $page['relative_path']) { ?>
         <span class="EditOn">
             <a href="<?= $edit_on['basepath'] ?>/<?= $page['relative_path'] ?>" target="_blank">
-                <?= str_replace(":name:", $edit_on['name'], $this->translate("Edit_on")) ?>
+                <?= str_replace(':name:', $edit_on['name'], $this->translate('Edit_on')) ?>
             </a>
         </span>
         <?php } ?>
@@ -25,19 +25,19 @@
 
     <?php
     $hasPrevNext = (!empty($page['prev']) || !empty($page['next']));
-    if ($hasPrevNext && $config->getHTML()->showPreviousNextLinks()) {
-        ?>
+if ($hasPrevNext && $config->getHTML()->showPreviousNextLinks()) {
+    ?>
     <nav>
         <ul class="Pager">
             <?php if (!empty($page['prev'])) {
-            ?><li class=Pager--prev><a href="<?= $base_url . $page['prev']->getUrl() ?>"><?= $this->translate("Link_previous") ?></a></li><?php
-        } ?>
+                ?><li class=Pager--prev><a href="<?= $base_url . $page['prev']->getUrl() ?>"><?= $this->translate('Link_previous') ?></a></li><?php
+            } ?>
             <?php if (!empty($page['next'])) {
-            ?><li class=Pager--next><a href="<?= $base_url . $page['next']->getUrl() ?>"><?= $this->translate("Link_next") ?></a></li><?php
-        } ?>
+                ?><li class=Pager--next><a href="<?= $base_url . $page['next']->getUrl() ?>"><?= $this->translate('Link_next') ?></a></li><?php
+            } ?>
         </ul>
     </nav>
     <?php
-    } ?>
+} ?>
 </article>
 

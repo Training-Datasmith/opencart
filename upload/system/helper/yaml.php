@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package   OpenCart
  *
@@ -9,10 +11,12 @@
  *
  * @see       https://www.opencart.com
  */
-function oc_yaml_encode($yaml): string {
-	return \Symfony\Component\Yaml\Yaml::dump($yaml);
+function oc_yaml_encode($yaml): string
+{
+    return \Symfony\Component\Yaml\Yaml::dump($yaml);
 }
 
-function oc_yaml_decode(string $data): mixed {
-	return \Symfony\Component\Yaml\Yaml::parse($data);
+function oc_yaml_decode(string $data): mixed
+{
+    return \Symfony\Component\Yaml\Yaml::parse($data);
 }

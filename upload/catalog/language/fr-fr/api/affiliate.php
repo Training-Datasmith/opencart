@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_success']    = 'Succès: La commission d\'affiliation sera appliquée à cette commande!';
 $_['text_remove']     = 'Succès: Votre commission d\'affiliation a été supprimée!';

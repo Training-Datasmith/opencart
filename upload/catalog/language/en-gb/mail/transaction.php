@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']  = '%s - Affiliate Commission';
 $_['text_received'] = 'Congratulations! You have received a commission payment from the %s affiliate program';

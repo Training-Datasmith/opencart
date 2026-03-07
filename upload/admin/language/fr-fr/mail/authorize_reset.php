@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject'] = 'Réinitialiser les tentatives de code de sécurité';
 $_['text_reset']   = 'Quelqu\'un a saisi le code de sécurité de manière incorrecte plus de 3 fois.';

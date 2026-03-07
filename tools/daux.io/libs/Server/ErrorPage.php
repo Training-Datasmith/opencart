@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Server;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Server;
 
 use Todaymade\Daux\Config;
 use Todaymade\Daux\Format\HTML\SimplePage;

@@ -1,150 +1,157 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Task\System;
+
 /**
  * Class Restore
  *
  * @package Opencart\Admin\Controller\Task\Admin
  */
-class Restore extends \Opencart\System\Engine\Controller {
-	/**
+class Restore extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Generate restore task list.
      */
-    public function index(array $args = []): array {
-		$this->load->language('task/system/restore');
+    public function index(array $args = []): array
+    {
+        $this->load->language('task/system/restore');
 
-		if (!array_key_exists('filename', $args)) {
-			return ['error' => $this->language->get('error_filename')];
-		}
+        if (!array_key_exists('filename', $args)) {
+            return ['error' => $this->language->get('error_filename')];
+        }
 
-		$filename = basename(html_entity_decode($args['filename'], ENT_QUOTES, 'UTF-8'));
+        $filename = basename(html_entity_decode($args['filename'], ENT_QUOTES, 'UTF-8'));
 
-		if (!oc_validate_length($filename, 5, 128)) {
-			return ['error' => $this->language->get('error_filename')];
-		}
+        if (!oc_validate_length($filename, 5, 128)) {
+            return ['error' => $this->language->get('error_filename')];
+        }
 
-		$file = DIR_STORAGE . 'backup/' . $filename;
+        $file = DIR_STORAGE . 'backup/' . $filename;
 
-		if (!is_file($file)) {
-			return ['error' => $this->language->get('error_file')];
-		}
+        if (!is_file($file)) {
+            return ['error' => $this->language->get('error_file')];
+        }
 
-		$maintenance = $this->config->get('config_maintenance');
+        $maintenance = $this->config->get('config_maintenance');
 
-		$this->config->set('config_maintenance', true);
+        $this->config->set('config_maintenance', true);
 
-		$task_data = [
-			'code'   => 'restore',
-			'action' => 'task/system/restore.read',
-			'args'   => [
-				'filename'    => $args['filename'],
-				'position'    => 0,
-				'maintenance' => $maintenance
-			]
-		];
+        $task_data = [
+            'code'   => 'restore',
+            'action' => 'task/system/restore.read',
+            'args'   => [
+                'filename'    => $args['filename'],
+                'position'    => 0,
+                'maintenance' => $maintenance,
+            ],
+        ];
 
-		$this->load->model('setting/task');
+        $this->load->model('setting/task');
 
-		$this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->addTask($task_data);
 
-		return ['success' => $this->language->get('text_success')];
-	}
+        return ['success' => $this->language->get('text_success')];
+    }
 
-	/*
-	 * Read
-	 *
-	 * @return array
-	 */
-	public function read(array $args = []): array {
-		$this->load->language('task/system/restore');
+    /*
+     * Read
+     *
+     * @return array
+     */
+    public function read(array $args = []): array
+    {
+        $this->load->language('task/system/restore');
 
-		$required = [
-			'filename',
-			'position',
-			'maintenance'
-		];
+        $required = [
+            'filename',
+            'position',
+            'maintenance',
+        ];
 
-		foreach ($required as $value) {
-			if (!isset($args[$value])) {
-				return ['error' => sprintf($this->language->get('error_required'), $value)];
-			}
-		}
+        foreach ($required as $value) {
+            if (!isset($args[$value])) {
+                return ['error' => sprintf($this->language->get('error_required'), $value)];
+            }
+        }
 
-		$file = DIR_STORAGE . 'backup/' . $args['filename'];
+        $file = DIR_STORAGE . 'backup/' . $args['filename'];
 
-		if (!is_file($file)) {
-			return ['error' => $this->language->get('error_file')];
-		}
+        if (!is_file($file)) {
+            return ['error' => $this->language->get('error_file')];
+        }
 
-		$disallowed = [
-			DB_PREFIX . 'task',
-			DB_PREFIX . 'user',
-			DB_PREFIX . 'user_authorize',
-			DB_PREFIX . 'user_group',
-			DB_PREFIX . 'user_login',
-			DB_PREFIX . 'user_token'
-		];
+        $disallowed = [
+            DB_PREFIX . 'task',
+            DB_PREFIX . 'user',
+            DB_PREFIX . 'user_authorize',
+            DB_PREFIX . 'user_group',
+            DB_PREFIX . 'user_login',
+            DB_PREFIX . 'user_token',
+        ];
 
-		// We set $i so we can batch execute the queries rather than do them all at once.
-		$i = 0;
+        // We set $i so we can batch execute the queries rather than do them all at once.
+        $i = 0;
 
-		$handle = fopen($file, 'r');
+        $handle = fopen($file, 'r');
 
-		fseek($handle, $args['position'], SEEK_SET);
+        fseek($handle, $args['position'], SEEK_SET);
 
-		while (!feof($handle) && ($i < 1000)) {
-			$position = ftell($handle);
+        while (!feof($handle) && ($i < 1000)) {
+            $position = ftell($handle);
 
-			$line = fgets($handle, 4096);
+            $line = fgets($handle, 4096);
 
-			if ($i > 0) {
-				foreach ($disallowed as $table) {
-					if (str_starts_with($line, "TRUNCATE TABLE `" . DB_PREFIX . $table . "`") || str_starts_with($line, "INSERT INTO `" . DB_PREFIX . $table . "`")) {
-						fseek($handle, $position, SEEK_SET);
+            if ($i > 0) {
+                foreach ($disallowed as $table) {
+                    if (str_starts_with($line, 'TRUNCATE TABLE `' . DB_PREFIX . $table . '`') || str_starts_with($line, 'INSERT INTO `' . DB_PREFIX . $table . '`')) {
+                        fseek($handle, $position, SEEK_SET);
 
-						break 2;
-					}
-				}
-			}
+                        break 2;
+                    }
+                }
+            }
 
-			if ((str_starts_with($line, 'TRUNCATE TABLE') || str_starts_with($line, 'INSERT INTO')) && str_ends_with($line, ";\n")) {
-				$this->db->query(substr($line, 0, strlen($line) - 2));
-			}
+            if ((str_starts_with($line, 'TRUNCATE TABLE') || str_starts_with($line, 'INSERT INTO')) && str_ends_with($line, ";\n")) {
+                $this->db->query(substr($line, 0, strlen($line) - 2));
+            }
 
-			$i++;
-		}
+            $i++;
+        }
 
-		$position = ftell($handle);
+        $position = ftell($handle);
 
-		$size = filesize($file);
+        $size = filesize($file);
 
-		if ($position) {
-			$progress = round(($position / $size) * 100, 2);
-		} else {
-			$progress = 0;
-		}
+        if ($position) {
+            $progress = round(($position / $size) * 100, 2);
+        } else {
+            $progress = 0;
+        }
 
-		if ($position && !feof($handle)) {
-			$task_data = [
-				'code'   => 'backup',
-				'action' => 'task/system/restore.read',
-				'args'   => [
-					'filename'   => $args['filename'],
-					'position'   => $position,
-					'maintenance'=> $args['maintenance']
-				]
-			];
+        if ($position && !feof($handle)) {
+            $task_data = [
+                'code'   => 'backup',
+                'action' => 'task/system/restore.read',
+                'args'   => [
+                    'filename'   => $args['filename'],
+                    'position'   => $position,
+                    'maintenance' => $args['maintenance'],
+                ],
+            ];
 
-			$this->load->model('setting/task');
+            $this->load->model('setting/task');
 
-			$this->model_setting_task->addTask($task_data);
-		} else {
-			$this->config->set('config_maintenance', $args['maintenance']);
-		}
+            $this->model_setting_task->addTask($task_data);
+        } else {
+            $this->config->set('config_maintenance', $args['maintenance']);
+        }
 
-		fclose($handle);
+        fclose($handle);
 
-		return ['success' => sprintf($this->language->get('text_restore'), $progress . '%')];
-	}
+        return ['success' => sprintf($this->language->get('text_restore'), $progress . '%')];
+    }
 }

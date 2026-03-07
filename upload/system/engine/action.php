@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package     OpenCart
  *
@@ -8,7 +10,9 @@
  *
  * @see        https://www.opencart.com
  */
+
 namespace Opencart\System\Engine;
+
 /**
  * Class Action
  *
@@ -16,70 +20,74 @@ namespace Opencart\System\Engine;
  *
  * @package Opencart\System\Engine
  */
-class Action {
-	private string $route;
+class Action
+{
+    private string $route;
 
-	private string $controller;
+    private string $controller;
 
-	private string $method;
+    private string $method;
 
-	/**
+    /**
      * Constructor
      */
-    public function __construct(string $route) {
-		$this->route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', $route);
+    public function __construct(string $route)
+    {
+        $this->route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', $route);
 
-		$pos = strrpos($route, '.');
+        $pos = strrpos($route, '.');
 
-		if ($pos !== false) {
-			$this->controller = substr($route, 0, $pos);
-			$this->method = substr($route, $pos + 1);
-		} else {
-			$this->controller = $route;
-			$this->method = 'index';
-		}
-	}
+        if ($pos !== false) {
+            $this->controller = substr($route, 0, $pos);
+            $this->method = substr($route, $pos + 1);
+        } else {
+            $this->controller = $route;
+            $this->method = 'index';
+        }
+    }
 
-	/**
+    /**
      * Get Id
      */
-    public function getId(): string {
-		return $this->route;
-	}
+    public function getId(): string
+    {
+        return $this->route;
+    }
 
-	/**
+    /**
      * Execute
      *
      * @param array<mixed>                     $args
      * @return mixed
      */
-    public function execute(\Opencart\System\Engine\Registry $registry, array &$args = []) {
-		// Stop any magical methods being called
-		if (str_starts_with($this->method, '__')) {
-			return new \Exception('Error: Calls to magic methods are not allowed!');
-		}
+    public function execute(\Opencart\System\Engine\Registry $registry, array &$args = [])
+    {
+        // Stop any magical methods being called
+        if (str_starts_with($this->method, '__')) {
+            return new \Exception('Error: Calls to magic methods are not allowed!');
+        }
 
-		// Create a new key to store the model object
-		$key = 'fallback_controller_' . str_replace('/', '_', $this->controller);
+        // Create a new key to store the model object
+        $key = 'fallback_controller_' . str_replace('/', '_', $this->controller);
 
-		if (!$registry->has($key)) {
-			$object = $registry->get('factory')->controller($this->controller);
-		} else {
-			$object = $registry->get($key);
-		}
+        if (!$registry->has($key)) {
+            $object = $registry->get('factory')->controller($this->controller);
+        } else {
+            $object = $registry->get($key);
+        }
 
-		if ($object instanceof \Opencart\System\Engine\Controller) {
-			$registry->set($key, $object);
-		} else {
-			// If action cannot be executed, we return an error object.
-			return new \Exception('Error: Could not load controller ' . $this->route . '!');
-		}
+        if ($object instanceof \Opencart\System\Engine\Controller) {
+            $registry->set($key, $object);
+        } else {
+            // If action cannot be executed, we return an error object.
+            return new \Exception('Error: Could not load controller ' . $this->route . '!');
+        }
 
-		$callable = [$object, $this->method];
+        $callable = [$object, $this->method];
 
-		if (is_callable($callable)) {
-			return $callable(...$args);
-		}
+        if (is_callable($callable)) {
+            return $callable(...$args);
+        }
         return new \Exception('Error: Could not call controller ' . $this->route . '!');
-	}
+    }
 }

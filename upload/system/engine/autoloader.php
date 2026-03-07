@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package     OpenCart
  *
@@ -8,85 +10,93 @@
  *
  * @see        https://www.opencart.com
  */
+
 namespace Opencart\System\Engine;
+
 /**
  * Class Autoloader
  */
-class Autoloader {
-	/**
-	 * @var array<string, array<string, mixed>>
-	 */
-	private array $path = [];
+class Autoloader
+{
+    /**
+     * @var array<string, array<string, mixed>>
+     */
+    private array $path = [];
 
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		spl_autoload_register(function(string $class): void {
-			$this->load($class);
-		});
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        spl_autoload_register(function (string $class): void {
+            $this->load($class);
+        });
 
-		spl_autoload_extensions('.php');
-	}
+        spl_autoload_extensions('.php');
+    }
 
-	/**
+    /**
      * Register
      *
      * @param bool   $psr4
      *
      * @psr-4 filename standard is stupid composer has lower case file structure than its packages have camelcase file names!
      */
-    public function register(string $namespace, string $directory, $psr4 = false): void {
-		if (isset($this->path[$namespace])) {
-			$this->path[$namespace]['directories'][] = $directory;
-		} else {
-			$this->path[$namespace] = [
-				'directories' => [$directory],
-				'psr4'      => $psr4
-			];
-		}
-	}
+    public function register(string $namespace, string $directory, $psr4 = false): void
+    {
+        if (isset($this->path[$namespace])) {
+            $this->path[$namespace]['directories'][] = $directory;
+        } else {
+            $this->path[$namespace] = [
+                'directories' => [$directory],
+                'psr4'      => $psr4,
+            ];
+        }
+    }
 
-	/**
+    /**
      * Load
      *
      *
      */
-    public function load(string $class): bool {
-		$namespace = '';
+    public function load(string $class): bool
+    {
+        $namespace = '';
 
-		$parts = explode('\\', $class);
+        $parts = explode('\\', $class);
 
-		foreach ($parts as $part) {
-			if (!$namespace) {
-				$namespace .= $part;
-			} else {
-				$namespace .= '\\' . $part;
-			}
+        foreach ($parts as $part) {
+            if (!$namespace) {
+                $namespace .= $part;
+            } else {
+                $namespace .= '\\' . $part;
+            }
 
-			if (isset($this->path[$namespace])) {
-				$files = [];
+            if (isset($this->path[$namespace])) {
+                $files = [];
 
-				if (!$this->path[$namespace]['psr4']) {
-					foreach ($this->path[$namespace]['directories'] as $directory) {
-						$files[] = $directory . trim(str_replace('\\', '/', strtolower(preg_replace('~([a-z])([A-Z]|[0-9])~', '\\1_\\2', substr($class, strlen($namespace))))), '/') . '.php';
-					}
-				} else {
-					foreach ($this->path[$namespace]['directories'] as $directory) {
-						$files[] = $directory . trim(str_replace('\\', '/', substr($class, strlen($namespace))), '/') . '.php';
-					}
-				}
-			}
-		}
+                if (!$this->path[$namespace]['psr4']) {
+                    foreach ($this->path[$namespace]['directories'] as $directory) {
+                        $files[] = $directory . trim(str_replace('\\', '/', strtolower(preg_replace('~([a-z])([A-Z]|[0-9])~', '\\1_\\2', substr($class, strlen($namespace))))), '/') . '.php';
+                    }
+                } else {
+                    foreach ($this->path[$namespace]['directories'] as $directory) {
+                        $files[] = $directory . trim(str_replace('\\', '/', substr($class, strlen($namespace))), '/') . '.php';
+                    }
+                }
+            }
+        }
 
-		if (isset($files)) {
-			foreach ($files as $file) {
-				if (is_file($file)) include_once($file);
-			}
+        if (isset($files)) {
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    include_once($file);
+                }
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

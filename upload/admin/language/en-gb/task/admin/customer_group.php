@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_task']            = 'Generating customer group task list!';
 $_['text_list']            = 'Generating %s customer group data!';

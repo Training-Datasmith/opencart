@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']               = '%s - Order %s';
 $_['text_greeting']              = 'Thank you for your interest in %s products. Your order has been received and will be processed once payment has been confirmed.';

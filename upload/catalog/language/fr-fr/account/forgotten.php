@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // En-tête
 $_['heading_title']            = 'Mot de passe oublié?';
 $_['heading_reset']            = 'Réinitialisez votre mot de passe';

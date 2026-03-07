@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_catalog']           = 'Catalog';
 $_['text_cms']               = 'CMS';

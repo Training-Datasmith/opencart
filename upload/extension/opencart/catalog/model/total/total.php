@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Extension\Opencart\Total;
+
 /**
  * Class Total
  *
@@ -7,23 +11,25 @@ namespace Opencart\Catalog\Model\Extension\Opencart\Total;
  *
  * @package Opencart\Catalog\Model\Extension\Opencart\Total
  */
-class Total extends \Opencart\System\Engine\Model {
-	/**
+class Total extends \Opencart\System\Engine\Model
+{
+    /**
      * Get Total
      *
      * @param array<int, array<string, mixed>> $totals
      * @param  array<int, float>               &$taxes
      *
      */
-    public function getTotal(array &$totals, array &$taxes, float &$total): void {
-		$this->load->language('extension/opencart/total/total');
+    public function getTotal(array &$totals, array &$taxes, float &$total): void
+    {
+        $this->load->language('extension/opencart/total/total');
 
-		$totals[] = [
-			'extension'  => 'opencart',
-			'code'       => 'total',
-			'title'      => $this->language->get('text_total'),
-			'value'      => $total,
-			'sort_order' => (int)$this->config->get('total_total_sort_order')
-		];
-	}
+        $totals[] = [
+            'extension'  => 'opencart',
+            'code'       => 'total',
+            'title'      => $this->language->get('text_total'),
+            'value'      => $total,
+            'sort_order' => (int)$this->config->get('total_total_sort_order'),
+        ];
+    }
 }

@@ -1,12 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Event;
+
 /**
  * Class Language
  *
  * @package Opencart\Catalog\Controller\Event
  */
-class Language extends \Opencart\System\Engine\Controller {
-	/**
+class Language extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Dump all the language vars into the template.
@@ -18,15 +23,16 @@ class Language extends \Opencart\System\Engine\Controller {
      * @param array<string, string> $args
      *
      */
-    public function template(string &$route, array &$args): void {
-		foreach ($this->language->all() as $key => $value) {
-			if (!isset($args[$key])) {
-				$args[$key] = $value;
-			}
-		}
-	}
+    public function template(string &$route, array &$args): void
+    {
+        foreach ($this->language->all() as $key => $value) {
+            if (!isset($args[$key])) {
+                $args[$key] = $value;
+            }
+        }
+    }
 
-	/**
+    /**
      * Before
      *
      * 1. Before controller load store all current loaded language data
@@ -38,15 +44,16 @@ class Language extends \Opencart\System\Engine\Controller {
      * @param array<int, mixed> $args
      *
      */
-    public function before(string &$route, array &$args): void {
-		$data = $this->language->all();
+    public function before(string &$route, array &$args): void
+    {
+        $data = $this->language->all();
 
-		if ($data) {
-			$this->language->set('backup', json_encode($data));
-		}
-	}
+        if ($data) {
+            $this->language->set('backup', json_encode($data));
+        }
+    }
 
-	/**
+    /**
      * After
      *
      * 2. After controller load restore old language data
@@ -59,15 +66,16 @@ class Language extends \Opencart\System\Engine\Controller {
      * @param mixed             $output
      *
      */
-    public function after(string &$route, array &$args, &$output): void {
-		$data = json_decode($this->language->get('backup'), true);
+    public function after(string &$route, array &$args, &$output): void
+    {
+        $data = json_decode($this->language->get('backup'), true);
 
-		if (is_array($data)) {
-			$this->language->clear();
+        if (is_array($data)) {
+            $this->language->clear();
 
-			foreach ($data as $key => $value) {
-				$this->language->set($key, $value);
-			}
-		}
-	}
+            foreach ($data as $key => $value) {
+                $this->language->set($key, $value);
+            }
+        }
+    }
 }

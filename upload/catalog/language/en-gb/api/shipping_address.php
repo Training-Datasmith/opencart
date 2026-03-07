@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_success']       = 'Success: Shipping address has been set!';
 

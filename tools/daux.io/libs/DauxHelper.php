@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux;
 
 use Todaymade\Daux\Tree\Builder;
 use Todaymade\Daux\Tree\Directory;

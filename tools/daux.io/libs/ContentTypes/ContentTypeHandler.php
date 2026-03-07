@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\ContentTypes;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\ContentTypes;
 
 use Todaymade\Daux\Exception;
 use Todaymade\Daux\Tree\Content;

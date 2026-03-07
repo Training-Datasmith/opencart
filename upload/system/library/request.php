@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package        OpenCart
  *
@@ -8,51 +10,56 @@
  *
  * @see           https://www.opencart.com
  */
+
 namespace Opencart\System\Library;
+
 /**
  * Class Request
  */
-class Request {
-	/**
-	 * @var array<string, mixed>
-	 */
-	public array $get = [];
-	/**
-	 * @var array<string, mixed>
-	 */
-	public array $post = [];
-	/**
-	 * @var array<string, mixed>
-	 */
-	public array $cookie = [];
-	/**
-	 * @var array<string, mixed>
-	 */
-	public array $files = [];
-	/**
-	 * @var array<string, mixed>
-	 */
-	public array $server = [];
+class Request
+{
+    /**
+     * @var array<string, mixed>
+     */
+    public array $get = [];
+    /**
+     * @var array<string, mixed>
+     */
+    public array $post = [];
+    /**
+     * @var array<string, mixed>
+     */
+    public array $cookie = [];
+    /**
+     * @var array<string, mixed>
+     */
+    public array $files = [];
+    /**
+     * @var array<string, mixed>
+     */
+    public array $server = [];
 
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->get = $this->clean($_GET);
-		$this->post = $this->clean($_POST);
-		$this->cookie = $this->clean($_COOKIE);
-		$this->files = $this->clean($_FILES);
-		$this->server = $this->clean($_SERVER);
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->get = $this->clean($_GET);
+        $this->post = $this->clean($_POST);
+        $this->cookie = $this->clean($_COOKIE);
+        $this->files = $this->clean($_FILES);
+        $this->server = $this->clean($_SERVER);
+    }
 
-	public function get(string $key, string $type = ''): mixed {
-		if (isset($this->get[$key])) {
-			$value = $this->get[$key];
-		} else {
-			$value = null;
-		}
+    public function get(string $key, string $type = ''): mixed
+    {
+        if (isset($this->get[$key])) {
+            $value = $this->get[$key];
+        } else {
+            $value = null;
+        }
 
-		return match ($type) {
+        return match ($type) {
             'string' => (string)$value,
             'int' => (int)$value,
             'float' => (float)$value,
@@ -60,16 +67,17 @@ class Request {
             'array' => (array)$value,
             default => $value,
         };
-	}
+    }
 
-	public function post(string $key, string $type = ''): mixed {
-		if (isset($this->post[$key])) {
-			$value = $this->post[$key];
-		} else {
-			$value = null;
-		}
+    public function post(string $key, string $type = ''): mixed
+    {
+        if (isset($this->post[$key])) {
+            $value = $this->post[$key];
+        } else {
+            $value = null;
+        }
 
-		return match ($type) {
+        return match ($type) {
             'string' => (string)$value,
             'int' => (int)$value,
             'float' => (float)$value,
@@ -77,24 +85,25 @@ class Request {
             'array' => (array)$value,
             default => $value,
         };
-	}
+    }
 
-	/**
+    /**
      * Clean
      *
      * @param mixed $data
      */
-    public function clean($data): string|array {
-		if (is_array($data)) {
-			foreach ($data as $key => $value) {
-				unset($data[$key]);
+    public function clean($data): string|array
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                unset($data[$key]);
 
-				$data[$this->clean($key)] = $this->clean($value);
-			}
-		} else {
-			$data = trim(htmlspecialchars($data, ENT_COMPAT, 'UTF-8'));
-		}
+                $data[$this->clean($key)] = $this->clean($value);
+            }
+        } else {
+            $data = trim(htmlspecialchars($data, ENT_COMPAT, 'UTF-8'));
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 }

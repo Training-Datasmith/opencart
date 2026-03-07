@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']  = '%s - GDPR Export/Deletion Request!';
 $_['text_export']   = 'Export Data Request';

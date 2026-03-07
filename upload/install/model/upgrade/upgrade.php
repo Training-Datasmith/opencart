@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Install\Model\Upgrade;
+
 /**
  * Class Install
  *
@@ -15,97 +19,104 @@ namespace Opencart\Install\Model\Upgrade;
  *
  * $install_model = $this->model_upgrade_upgrade($table, $data);
  */
-class Upgrade extends \Opencart\System\Engine\Model {
-	/**
+class Upgrade extends \Opencart\System\Engine\Model
+{
+    /**
      * Add Record
      *
      * @param $table
      * @param $data
      */
-    public function addRecord(string $table, $data): int {
-		$implode = [];
+    public function addRecord(string $table, $data): int
+    {
+        $implode = [];
 
-		foreach ($data as $key => $value) {
-			$key = $this->db->escape((string)$key);
+        foreach ($data as $key => $value) {
+            $key = $this->db->escape((string)$key);
 
-			switch (gettype($value)) {
-				case 'boolean':
-					$implode[] = "`" . $key . "` = '" . $value . "'";
-					break;
-				case 'integer':
-					$implode[] = "`" . $key . "` = '" . $value . "'";
-					break;
-				case 'double':
-					$implode[] = "`" . $key . "` = '" . $value . "'";
-					break;
-				case 'string':
-					$implode[] = "`" . $key . "` = '" . $this->db->escape($value) . "'";
-					break;
-				case 'array':
-				case 'object':
-					$implode[] = "`" . $key . "` = '" . $this->db->escape((array)json_encode($value)) . "'";
-					break;
-			}
-		}
+            switch (gettype($value)) {
+                case 'boolean':
+                    $implode[] = '`' . $key . "` = '" . $value . "'";
+                    break;
+                case 'integer':
+                    $implode[] = '`' . $key . "` = '" . $value . "'";
+                    break;
+                case 'double':
+                    $implode[] = '`' . $key . "` = '" . $value . "'";
+                    break;
+                case 'string':
+                    $implode[] = '`' . $key . "` = '" . $this->db->escape($value) . "'";
+                    break;
+                case 'array':
+                case 'object':
+                    $implode[] = '`' . $key . "` = '" . $this->db->escape((array)json_encode($value)) . "'";
+                    break;
+            }
+        }
 
-		$this->db->query("INSERT INTO `" . DB_PREFIX . $table . "` SET " . implode(", ", $implode));
+        $this->db->query('INSERT INTO `' . DB_PREFIX . $table . '` SET ' . implode(', ', $implode));
 
-		return $this->db->getLastId();
-	}
+        return $this->db->getLastId();
+    }
 
-	/**
+    /**
      * Get Records
      *
      *
      * @return array<int, array<string, mixed>>
      */
-    public function getRecords(string $table): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . $table . "`");
+    public function getRecords(string $table): array
+    {
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . $table . '`');
 
-		return $query->rows;
-	}
+        return $query->rows;
+    }
 
-	/**
+    /**
      * Has Table
      *
      *
      */
-    public function hasTable(string $table): int {
-		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . $table . "'");
+    public function hasTable(string $table): int
+    {
+        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . $table . "'");
 
-		return $query->num_rows;
-	}
+        return $query->num_rows;
+    }
 
-	/**
+    /**
      * Has Field
      *
      *
      */
-    public function hasField(string $table, string $field): int {
-		$query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . $table . "' AND COLUMN_NAME = '" . $field . "'");
+    public function hasField(string $table, string $field): int
+    {
+        $query = $this->db->query("SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . DB_PREFIX . $table . "' AND COLUMN_NAME = '" . $field . "'");
 
-		return $query->num_rows;
-	}
+        return $query->num_rows;
+    }
 
-	/**
+    /**
      * Drop Table
      *
      *
      */
-    public function dropTable(string $table): void {
-		if ($this->hasTable($table)) {
-			$this->db->query("DROP TABLE `" . DB_PREFIX . $table . "`");
-		}
-	}
+    public function dropTable(string $table): void
+    {
+        if ($this->hasTable($table)) {
+            $this->db->query('DROP TABLE `' . DB_PREFIX . $table . '`');
+        }
+    }
 
-	/**
+    /**
      * Drop Field
      *
      *
      */
-    public function dropField(string $table, string $field): void {
-		if ($this->hasField($table, $field)) {
-			$this->db->query("ALTER TABLE `" . DB_PREFIX . $table . "` DROP `" . $field . "`");
-		}
-	}
+    public function dropField(string $table, string $field): void
+    {
+        if ($this->hasField($table, $field)) {
+            $this->db->query('ALTER TABLE `' . DB_PREFIX . $table . '` DROP `' . $field . '`');
+        }
+    }
 }

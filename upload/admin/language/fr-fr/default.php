@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Lieu
 $_['code']                          = 'fr';
 $_['direction']                     = 'ltr';

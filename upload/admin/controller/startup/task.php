@@ -1,12 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Startup;
+
 /**
  * Class Task
  *
  * @package Opencart\Admin\Controller\Event
  */
-class Task extends \Opencart\System\Engine\Controller {
-	/**
+class Task extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Register shutdown function  to start any tasks in the queue.
@@ -17,30 +22,32 @@ class Task extends \Opencart\System\Engine\Controller {
      * @param array<int, mixed> $args
      * @param mixed             $output
      */
-    public function index(): void {
-		if (php_sapi_name() !== 'cli') {
-			register_shutdown_function([$this, 'start']);
-		}
-	}
+    public function index(): void
+    {
+        if (php_sapi_name() !== 'cli') {
+            register_shutdown_function([$this, 'start']);
+        }
+    }
 
-	/*
-	 * Start
-	 *
-	 * Starts task list by command line if queue not running.
-	 */
-	public function start(): void {
-		$this->load->model('setting/task');
+    /*
+     * Start
+     *
+     * Starts task list by command line if queue not running.
+     */
+    public function start(): void
+    {
+        $this->load->model('setting/task');
 
-		$task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
+        $task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
 
-		if ($task_total) {
-			return;
-		}
+        if ($task_total) {
+            return;
+        }
 
-		if (strtoupper(substr(php_uname(), 0, 3)) == 'WIN') {
-			pclose(popen('start /B php ' . DIR_APPLICATION . 'index.php start', 'r'));
-		} else {
-			shell_exec('php ' . DIR_APPLICATION . 'index.php start > /dev/null 2>&1 &');
-		}
-	}
+        if (strtoupper(substr(php_uname(), 0, 3)) == 'WIN') {
+            pclose(popen('start /B php ' . DIR_APPLICATION . 'index.php start', 'r'));
+        } else {
+            shell_exec('php ' . DIR_APPLICATION . 'index.php start > /dev/null 2>&1 &');
+        }
+    }
 }

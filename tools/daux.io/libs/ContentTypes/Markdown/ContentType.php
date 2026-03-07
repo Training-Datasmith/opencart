@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\ContentTypes\Markdown;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\ContentTypes\Markdown;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Todaymade\Daux\Cache;

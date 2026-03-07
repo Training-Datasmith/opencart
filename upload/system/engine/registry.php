@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -8,84 +10,94 @@
  *
  * @see		https://www.opencart.com
  */
+
 namespace Opencart\System\Engine;
+
 /**
  * Class Registry
  */
-class Registry {
-	/**
-	 * @var array<string, object>
-	 */
-	private array $data = [];
+class Registry
+{
+    /**
+     * @var array<string, object>
+     */
+    private array $data = [];
 
-	/**
+    /**
      * __get
      *
      * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
      *
      *
      */
-    public function __get(string $key): ?object {
-		return $this->get($key);
-	}
+    public function __get(string $key): ?object
+    {
+        return $this->get($key);
+    }
 
-	/**
+    /**
      * __set
      *
      * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
      *
      *
      */
-    public function __set(string $key, object $value): void {
-		$this->set($key, $value);
-	}
+    public function __set(string $key, object $value): void
+    {
+        $this->set($key, $value);
+    }
 
-	/**
+    /**
      * __isset
      *
      * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
      *
      *
      */
-    public function __isset(string $key): bool {
-		return $this->has($key);
-	}
+    public function __isset(string $key): bool
+    {
+        return $this->has($key);
+    }
 
-	/**
+    /**
      * Get
      *
      *
      */
-    public function get(string $key): ?object {
-		return $this->data[$key] ?? null;
-	}
+    public function get(string $key): ?object
+    {
+        return $this->data[$key] ?? null;
+    }
 
-	/**
+    /**
      * Set
      *
      *
      */
-    public function set(string $key, object $value): void {
-		$this->data[$key] = $value;
-	}
+    public function set(string $key, object $value): void
+    {
+        $this->data[$key] = $value;
+    }
 
-	/**
+    /**
      * Has
      *
      *
      */
-    public function has(string $key): bool {
-		return isset($this->data[$key]);
-	}
+    public function has(string $key): bool
+    {
+        return isset($this->data[$key]);
+    }
 
-	/**
+    /**
      * Unset
      *
      * Unsets registry value by key.
      *
      *
      */
-    public function unset(string $key): void {
-		unset($this->data[$key]);
-	}
+    public function unset(string $key): void
+    {
+        unset($this->data[$key]);
+    }
 }

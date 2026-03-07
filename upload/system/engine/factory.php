@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package        OpenCart
  *
@@ -8,74 +10,80 @@
  *
  * @see           https://www.opencart.com
  */
+
 namespace Opencart\System\Engine;
+
 /**
  * Class Factory
  */
-class Factory {
-	/**
+class Factory
+{
+    /**
      * Constructor
      */
     public function __construct(protected \Opencart\System\Engine\Registry $registry)
     {
     }
 
-	/**
+    /**
      * Controller
      *
      *
      * @return \Exception|\Opencart\System\Engine\Controller
      */
-    public function controller(string $route): object {
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
+    public function controller(string $route): object
+    {
+        // Sanitize the call
+        $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
-		// Class path
-		$class = 'Opencart\\' . $this->registry->get('config')->get('application') . '\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+        // Class path
+        $class = 'Opencart\\' . $this->registry->get('config')->get('application') . '\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
-		if (class_exists($class)) {
-			return new $class($this->registry);
-		}
+        if (class_exists($class)) {
+            return new $class($this->registry);
+        }
         return new \Exception('Error: Could not load controller ' . $route . '!');
-	}
+    }
 
-	/**
+    /**
      * Model
      *
      *
      * @return \Opencart\System\Engine\Model
      */
-    public function model(string $route): object {
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
+    public function model(string $route): object
+    {
+        // Sanitize the call
+        $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
-		// Generate the class
-		$class = 'Opencart\\' . $this->registry->get('config')->get('application') . '\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+        // Generate the class
+        $class = 'Opencart\\' . $this->registry->get('config')->get('application') . '\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
-		// Check if the requested model is already stored in the registry.
-		if (class_exists($class)) {
-			return new $class($this->registry);
-		}
+        // Check if the requested model is already stored in the registry.
+        if (class_exists($class)) {
+            return new $class($this->registry);
+        }
         return new \Exception('Error: Could not load model ' . $route . '!');
-	}
+    }
 
-	/**
+    /**
      * Library
      *
      * @param array<mixed> $args
      *
      */
-    public function library(string $route, array $args): object {
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
+    public function library(string $route, array $args): object
+    {
+        // Sanitize the call
+        $route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
-		// Generate the class
-		$class = 'Opencart\System\Library\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+        // Generate the class
+        $class = 'Opencart\System\Library\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
-		// Check if the requested model is already stored in the registry.
-		if (class_exists($class)) {
-			return new $class(...$args);
-		}
+        // Check if the requested model is already stored in the registry.
+        if (class_exists($class)) {
+            return new $class(...$args);
+        }
         return new \Exception('Error: Could not load library ' . $route . '!');
-	}
+    }
 }

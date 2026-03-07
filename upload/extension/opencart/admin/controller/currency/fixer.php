@@ -1,132 +1,140 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Extension\Opencart\Currency;
+
 /**
  * Class Fixer
  *
  * @package Opencart\Admin\Controller\Extension\Opencart\Currency
  */
-class Fixer extends \Opencart\System\Engine\Controller {
-	/**
+class Fixer extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$this->load->language('extension/opencart/currency/fixer');
+    public function index(): void
+    {
+        $this->load->language('extension/opencart/currency/fixer');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=currency')
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_extension'),
+            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=currency'),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/opencart/currency/fixer', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('extension/opencart/currency/fixer', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['save'] = $this->url->link('extension/opencart/currency/fixer.save', 'user_token=' . $this->session->data['user_token']);
-		$data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=currency');
+        $data['save'] = $this->url->link('extension/opencart/currency/fixer.save', 'user_token=' . $this->session->data['user_token']);
+        $data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=currency');
 
-		$data['currency_fixer_api'] = $this->config->get('currency_fixer_api');
-		$data['currency_fixer_status'] = $this->config->get('currency_fixer_status');
+        $data['currency_fixer_api'] = $this->config->get('currency_fixer_api');
+        $data['currency_fixer_status'] = $this->config->get('currency_fixer_status');
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/opencart/currency/fixer', $data));
-	}
+        $this->response->setOutput($this->load->view('extension/opencart/currency/fixer', $data));
+    }
 
-	/**
+    /**
      * Save
      */
-    public function save(): void {
-		$this->load->language('extension/opencart/currency/fixer');
+    public function save(): void
+    {
+        $this->load->language('extension/opencart/currency/fixer');
 
-		$json = [];
+        $json = [];
 
-		if (!$this->user->hasPermission('modify', 'extension/opencart/currency/fixer')) {
-			$json['error']['warning'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'extension/opencart/currency/fixer')) {
+            $json['error']['warning'] = $this->language->get('error_permission');
+        }
 
-		if (!$this->request->post['currency_fixer_api']) {
-			$json['error']['api'] = $this->language->get('error_api');
-		}
+        if (!$this->request->post['currency_fixer_api']) {
+            $json['error']['api'] = $this->language->get('error_api');
+        }
 
-		if (!$json) {
-			// Setting
-			$this->load->model('setting/setting');
+        if (!$json) {
+            // Setting
+            $this->load->model('setting/setting');
 
-			$this->model_setting_setting->editSetting('currency_fixer', $this->request->post);
+            $this->model_setting_setting->editSetting('currency_fixer', $this->request->post);
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Currency
      *
      *
      */
-    public function currency(string $default = ''): void {
-		if ($this->config->get('currency_fixer_status')) {
-			$curl = curl_init();
+    public function currency(string $default = ''): void
+    {
+        if ($this->config->get('currency_fixer_status')) {
+            $curl = curl_init();
 
-			curl_setopt($curl, CURLOPT_URL, 'http://data.fixer.io/api/latest?access_key=' . $this->config->get('currency_fixer_api'));
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_HEADER, false);
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-			curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_URL, 'http://data.fixer.io/api/latest?access_key=' . $this->config->get('currency_fixer_api'));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
 
-			$response = curl_exec($curl);
+            $response = curl_exec($curl);
 
-			$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-			if ($status == 200) {
-				$response_info = json_decode($response, true);
-			} else {
-				$response_info = [];
-			}
+            if ($status == 200) {
+                $response_info = json_decode($response, true);
+            } else {
+                $response_info = [];
+            }
 
-			if (isset($response_info['rates'])) {
-				// Compile all the rates into an array
-				$currencies = [];
+            if (isset($response_info['rates'])) {
+                // Compile all the rates into an array
+                $currencies = [];
 
-				$currencies['EUR'] = 1.0000;
+                $currencies['EUR'] = 1.0000;
 
-				foreach ($response_info['rates'] as $key => $value) {
-					$currencies[$key] = $value;
-				}
+                foreach ($response_info['rates'] as $key => $value) {
+                    $currencies[$key] = $value;
+                }
 
-				// Currency
-				$this->load->model('localisation/currency');
+                // Currency
+                $this->load->model('localisation/currency');
 
-				$results = $this->model_localisation_currency->getCurrencies();
+                $results = $this->model_localisation_currency->getCurrencies();
 
-				foreach ($results as $result) {
-					if (isset($currencies[$result['code']])) {
-						$from = $currencies['EUR'];
+                foreach ($results as $result) {
+                    if (isset($currencies[$result['code']])) {
+                        $from = $currencies['EUR'];
 
-						$to = $currencies[$result['code']];
+                        $to = $currencies[$result['code']];
 
-						$this->model_localisation_currency->editValueByCode($result['code'], 1 / ($currencies[$default] * ($from / $to)));
-					}
-				}
+                        $this->model_localisation_currency->editValueByCode($result['code'], 1 / ($currencies[$default] * ($from / $to)));
+                    }
+                }
 
-				$this->model_localisation_currency->editValueByCode($default, 1);
+                $this->model_localisation_currency->editValueByCode($default, 1);
 
-				$this->cache->delete('currency');
-			}
-		}
-	}
+                $this->cache->delete('currency');
+            }
+        }
+    }
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject'] = 'Sécurité';
 $_['text_code']    = 'Vous devez entrer le code de sécurité lors de la vérification de sécurité de l\'administration.';

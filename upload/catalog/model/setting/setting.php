@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Setting;
+
 /**
  * Class Setting
  *
@@ -7,8 +11,9 @@ namespace Opencart\Catalog\Model\Setting;
  *
  * @package Opencart\Catalog\Model\Setting
  */
-class Setting extends \Opencart\System\Engine\Model {
-	/**
+class Setting extends \Opencart\System\Engine\Model
+{
+    /**
      * Get Settings
      *
      * Get the record of the setting records in the database.
@@ -21,13 +26,14 @@ class Setting extends \Opencart\System\Engine\Model {
      *
      * $settings = $this->model_setting_setting->getSettings();
      */
-    public function getSettings(int $store_id = 0): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE `store_id` = '" . $store_id . "' OR `store_id` = '0' ORDER BY `store_id` ASC");
+    public function getSettings(int $store_id = 0): array
+    {
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "setting` WHERE `store_id` = '" . $store_id . "' OR `store_id` = '0' ORDER BY `store_id` ASC");
 
-		return $query->rows;
-	}
+        return $query->rows;
+    }
 
-	/**
+    /**
      * Get Setting
      *
      *
@@ -39,23 +45,24 @@ class Setting extends \Opencart\System\Engine\Model {
      *
      * $setting_info = $this->model_setting_setting->getSetting($code, $store_id);
      */
-    public function getSetting(string $code, int $store_id = 0): array {
-		$setting_data = [];
+    public function getSetting(string $code, int $store_id = 0): array
+    {
+        $setting_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "setting` WHERE `store_id` = '" . $store_id . "' AND `code` = '" . $this->db->escape($code) . "'");
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "setting` WHERE `store_id` = '" . $store_id . "' AND `code` = '" . $this->db->escape($code) . "'");
 
-		foreach ($query->rows as $result) {
-			if (!$result['serialized']) {
-				$setting_data[$result['key']] = $result['value'];
-			} else {
-				$setting_data[$result['key']] = $result['value'] ? json_decode($result['value'], true) : [];
-			}
-		}
+        foreach ($query->rows as $result) {
+            if (!$result['serialized']) {
+                $setting_data[$result['key']] = $result['value'];
+            } else {
+                $setting_data[$result['key']] = $result['value'] ? json_decode($result['value'], true) : [];
+            }
+        }
 
-		return $setting_data;
-	}
+        return $setting_data;
+    }
 
-	/**
+    /**
      * Get Value
      *
      *
@@ -66,12 +73,13 @@ class Setting extends \Opencart\System\Engine\Model {
      *
      * $value = $this->model_setting_setting->getValue($key, $store_id);
      */
-    public function getValue(string $key, int $store_id = 0): string {
-		$query = $this->db->query("SELECT `value` FROM `" . DB_PREFIX . "setting` WHERE `store_id` = '" . $store_id . "' AND `key` = '" . $this->db->escape($key) . "'");
+    public function getValue(string $key, int $store_id = 0): string
+    {
+        $query = $this->db->query('SELECT `value` FROM `' . DB_PREFIX . "setting` WHERE `store_id` = '" . $store_id . "' AND `key` = '" . $this->db->escape($key) . "'");
 
-		if ($query->num_rows) {
-			return $query->row['value'];
-		}
+        if ($query->num_rows) {
+            return $query->row['value'];
+        }
         return '';
-	}
+    }
 }

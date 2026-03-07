@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']       = '%s - Return Update %s';
 $_['text_return_id']     = 'Return ID:';

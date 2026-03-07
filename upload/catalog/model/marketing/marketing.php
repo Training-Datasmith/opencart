@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Marketing;
+
 /**
  * Class Marketing
  *
@@ -7,8 +11,9 @@ namespace Opencart\Catalog\Model\Marketing;
  *
  * @package Opencart\Catalog\Model\Marketing
  */
-class Marketing extends \Opencart\System\Engine\Model {
-	/**
+class Marketing extends \Opencart\System\Engine\Model
+{
+    /**
      * Get Marketing By Code
      *
      *
@@ -19,13 +24,14 @@ class Marketing extends \Opencart\System\Engine\Model {
      *
      * $marketing_info = $this->model_marketing_marketing->getMarketingByCode($code);
      */
-    public function getMarketingByCode(string $code): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "marketing` WHERE `code` = '" . $this->db->escape($code) . "'");
+    public function getMarketingByCode(string $code): array
+    {
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "marketing` WHERE `code` = '" . $this->db->escape($code) . "'");
 
-		return $query->row;
-	}
+        return $query->row;
+    }
 
-	/**
+    /**
      * Add Report
      *
      * Create a new marketing report record in the database.
@@ -39,7 +45,8 @@ class Marketing extends \Opencart\System\Engine\Model {
      *
      * $this->model_marketing_marketing->addReport($marketing_id, $ip, $country);
      */
-    public function addReport(int $marketing_id, string $ip, string $country = ''): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "marketing_report` SET `marketing_id` = '" . $marketing_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
-	}
+    public function addReport(int $marketing_id, string $ip, string $country = ''): void
+    {
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "marketing_report` SET `marketing_id` = '" . $marketing_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
+    }
 }

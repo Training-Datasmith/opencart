@@ -1,7 +1,7 @@
 <?php $this->layout('theme::layout/00_layout') ?>
 <div class="Columns content">
     <aside class="Columns__left Collapsible">
-        <button type="button" class="Button Collapsible__trigger" aria-controls="sidebar_content" aria-expanded="false" aria-label="<?= $this->translate("Toggle_navigation") ?>">
+        <button type="button" class="Button Collapsible__trigger" aria-controls="sidebar_content" aria-expanded="false" aria-label="<?= $this->translate('Toggle_navigation') ?>">
             <span class="Collapsible__trigger__bar"></span>
             <span class="Collapsible__trigger__bar"></span>
             <span class="Collapsible__trigger__bar"></span>
@@ -13,15 +13,15 @@
             <!-- Navigation -->
             <?php
             $rendertree = $tree;
-            $path = '';
+$path = '';
 
-            if ($page['language'] !== '') {
-                $rendertree = $tree[$page['language']];
-                $path = $page['language'];
-            }
+if ($page['language'] !== '') {
+    $rendertree = $tree[$page['language']];
+    $path = $page['language'];
+}
 
-            echo $this->get_navigation($rendertree, $path, $config->hasRequest() ? $config->getRequest() : '', $base_page, $config->getMode());
-            ?>
+echo $this->get_navigation($rendertree, $path, $config->hasRequest() ? $config->getRequest() : '', $base_page, $config->getMode());
+?>
 
             <div class="Links">
                 <?php if ($config->getHTML()->hasLinks()) { ?>
@@ -36,7 +36,7 @@
             <?php if ($config->getHTML()->showCodeToggle()) { ?>
                 <div class="CodeToggler">
                     <hr/>
-                    <label class="Checkbox"><?=$this->translate("CodeBlocks_show") ?>
+                    <label class="Checkbox"><?=$this->translate('CodeBlocks_show') ?>
                         <input type="checkbox" class="CodeToggler__button--main" checked="checked"/>
                         <div class="Checkbox__indicator"></div>
                     </label>
@@ -45,7 +45,7 @@
 
             <div class="DarkModeToggler">
                 <hr/>
-                <label class="Checkbox"><?=$this->translate("DarkMode") ?>
+                <label class="Checkbox"><?=$this->translate('DarkMode') ?>
                     <input type="checkbox" class="ColorMode__button" />
                     <div class="Checkbox__indicator"></div>
                 </label>

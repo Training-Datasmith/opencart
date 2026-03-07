@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\ContentTypes\Markdown\Admonition;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\ContentTypes\Markdown\Admonition;
 
 use League\CommonMark\Node\Block\AbstractBlock;
 use League\CommonMark\Node\Block\Paragraph;

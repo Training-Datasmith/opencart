@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject'] = '%s - Votre compte a été activé!';
 $_['text_welcome'] = 'Bienvenue et merci de vous être inscrit sur %s!';

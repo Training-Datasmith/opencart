@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\HTML\ContentTypes\Markdown;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\HTML\ContentTypes\Markdown;
 
 use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\CommonMark\Renderer\Inline\ImageRenderer as OriginalImageRenderer;

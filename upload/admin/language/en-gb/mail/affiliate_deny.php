@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject'] = '%s - Your affiliate account has been denied!';
 $_['text_welcome'] = 'Welcome and thank you for registering at %s!';

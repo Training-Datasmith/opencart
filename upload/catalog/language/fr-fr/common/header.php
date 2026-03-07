@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_wishlist']      = 'Liste de souhaits (%s)';
 $_['text_shopping_cart'] = 'Panier d\'achat';

@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Extension\Opencart\Total;
+
 /**
  * Class Sub Total
  *
@@ -7,27 +11,29 @@ namespace Opencart\Catalog\Model\Extension\Opencart\Total;
  *
  * @package Opencart\Catalog\Model\Extension\Opencart\Total
  */
-class SubTotal extends \Opencart\System\Engine\Model {
-	/**
+class SubTotal extends \Opencart\System\Engine\Model
+{
+    /**
      * Get Total
      *
      * @param array<int, array<string, mixed>> $totals
      * @param  array<int, float>               &$taxes
      *
      */
-    public function getTotal(array &$totals, array &$taxes, float &$total): void {
-		$this->load->language('extension/opencart/total/sub_total');
+    public function getTotal(array &$totals, array &$taxes, float &$total): void
+    {
+        $this->load->language('extension/opencart/total/sub_total');
 
-		$sub_total = $this->cart->getSubTotal();
+        $sub_total = $this->cart->getSubTotal();
 
-		$totals[] = [
-			'extension'  => 'opencart',
-			'code'       => 'sub_total',
-			'title'      => $this->language->get('text_sub_total'),
-			'value'      => $sub_total,
-			'sort_order' => (int)$this->config->get('total_sub_total_sort_order')
-		];
+        $totals[] = [
+            'extension'  => 'opencart',
+            'code'       => 'sub_total',
+            'title'      => $this->language->get('text_sub_total'),
+            'value'      => $sub_total,
+            'sort_order' => (int)$this->config->get('total_sub_total_sort_order'),
+        ];
 
-		$total += $sub_total;
-	}
+        $total += $sub_total;
+    }
 }

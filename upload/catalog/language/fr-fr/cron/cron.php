@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_success']     = 'Succès: Vous avez exécuté la tâche cron %s!';
 

@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Common;
+
 /**
  * Class Home
  *
@@ -7,23 +11,25 @@ namespace Opencart\Catalog\Controller\Common;
  *
  * @package Opencart\Catalog\Controller\Common
  */
-class Home extends \Opencart\System\Engine\Controller {
-	/**
+class Home extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$description = $this->config->get('config_description');
-		$language_id = $this->config->get('config_language_id');
+    public function index(): void
+    {
+        $description = $this->config->get('config_description');
+        $language_id = $this->config->get('config_language_id');
 
-		if (isset($description[$language_id])) {
-			$this->document->setTitle($description[$language_id]['meta_title']);
-			$this->document->setDescription($description[$language_id]['meta_description']);
-			$this->document->setKeywords($description[$language_id]['meta_keyword']);
-		}
+        if (isset($description[$language_id])) {
+            $this->document->setTitle($description[$language_id]['meta_title']);
+            $this->document->setDescription($description[$language_id]['meta_description']);
+            $this->document->setKeywords($description[$language_id]['meta_keyword']);
+        }
 
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
+        $data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
 
-		$this->response->setOutput($this->load->view('common/home', $data));
-	}
+        $this->response->setOutput($this->load->view('common/home', $data));
+    }
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_name']       = 'English (United Kingdom)';
 $_['text_loading']    = 'Loading...';

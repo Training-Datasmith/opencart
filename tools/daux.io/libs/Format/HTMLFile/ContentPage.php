@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\HTMLFile;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\HTMLFile;
 
 use Todaymade\Daux\Format\Base\EmbedImages;
 use Todaymade\Daux\Tree\Raw;

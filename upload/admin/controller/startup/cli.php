@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Startup;
+
 /**
  * Class Task
  *
@@ -15,52 +19,54 @@ namespace Opencart\Admin\Controller\Startup;
  *
  * php c://xampp/htdocs/opencart-master/upload/install/cli_install.php start
  */
-class Cli extends \Opencart\System\Engine\Controller {
-	/**
+class Cli extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): ?\Opencart\System\Engine\Action {
-		if (php_sapi_name() == 'cli') {
-			if (isset($this->request->server['argv'])) {
-				$argv = (array)$this->request->server['argv'];
-			} else {
-				$argv = [];
-			}
+    public function index(): ?\Opencart\System\Engine\Action
+    {
+        if (php_sapi_name() == 'cli') {
+            if (isset($this->request->server['argv'])) {
+                $argv = (array)$this->request->server['argv'];
+            } else {
+                $argv = [];
+            }
 
-			// Just displays the path to the file
-			$script = array_shift($argv);
+            // Just displays the path to the file
+            $script = array_shift($argv);
 
-			// Get the arguments passed with the command
-			$command = array_shift($argv);
+            // Get the arguments passed with the command
+            $command = array_shift($argv);
 
+            switch ($command) {
+                case 'start':
+                    if (stream_isatty(STDOUT)) {
+                        fwrite(STDOUT, $this->language->get('text_start') . "\n");
+                    }
 
+                    return new \Opencart\System\Engine\Action('marketplace/task.cli', $argv);
+                case 'usage':
+                default:
+                    return new \Opencart\System\Engine\Action('startup/task.usage', $argv);
+            }
+        }
 
-			switch ($command) {
-				case 'start':
-					if (stream_isatty(STDOUT)) {
-						fwrite(STDOUT, $this->language->get('text_start') . "\n");
-					}
+        return null;
+    }
 
-					return new \Opencart\System\Engine\Action('marketplace/task.cli', $argv);
-				case 'usage':
-				default:
-					return new \Opencart\System\Engine\Action('startup/task.usage', $argv);
-			}
-		}
+    /**
+     * Usage
+     *
+     * @return \Opencart\System\Engine\Action|null
+     */
+    public function usage()
+    {
 
-		return null;
-	}
+    }
 
-	/**
-	 * Usage
-	 *
-	 * @return \Opencart\System\Engine\Action|null
-	 */
-	public function usage() {
+    public function end()
+    {
 
-	}
-
-	public function end() {
-
-	}
+    }
 }

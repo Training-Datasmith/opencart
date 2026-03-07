@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Todaymade\Daux\Format\Confluence;
 
 use org\bovigo\vfs\vfsStream;
@@ -82,7 +85,7 @@ class GeneratorTest extends TestCase
     {
         $width = 50;
         $input = new ArrayInput([]);
-        $output = new class() extends Output {
+        $output = new class () extends Output {
             protected $output = '';
 
             protected function doWrite(string $message, bool $newline): void

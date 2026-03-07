@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_task']       = 'Generating all country data!';
 $_['text_list']       = 'Generating country lists!';

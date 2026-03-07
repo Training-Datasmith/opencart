@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_success']    = 'Generated language list!';
 $_['text_clear']      = 'Language data cleared!';

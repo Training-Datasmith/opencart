@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Product;
+
 /**
  * Class Thumb
  *
@@ -19,25 +23,27 @@ namespace Opencart\Catalog\Controller\Product;
  *
  * @package Opencart\Catalog\Controller\Product
  */
-class Thumb extends \Opencart\System\Engine\Controller {
-	/**
+class Thumb extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * @param array<string, mixed> $data array of data
      */
-    public function index(array $data): string {
-		$this->load->language('product/thumb');
+    public function index(array $data): string
+    {
+        $this->load->language('product/thumb');
 
-		$data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
+        $data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
 
-		$data['cart_add'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
-		$data['wishlist_add'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
-		$data['compare_add'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
+        $data['cart_add'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
+        $data['wishlist_add'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
+        $data['compare_add'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
 
-		$data['review_status'] = (int)$this->config->get('config_review_status');
+        $data['review_status'] = (int)$this->config->get('config_review_status');
 
-		$data['currency'] = $this->session->data['currency'];
+        $data['currency'] = $this->session->data['currency'];
 
-		return $this->load->view('product/thumb', $data);
-	}
+        return $this->load->view('product/thumb', $data);
+    }
 }

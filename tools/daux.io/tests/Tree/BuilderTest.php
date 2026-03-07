@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Todaymade\Daux\Tree;
 
 use org\bovigo\vfs\vfsStream;

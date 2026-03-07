@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Account;
+
 /**
  * Class Activity
  *
@@ -7,8 +11,9 @@ namespace Opencart\Catalog\Model\Account;
  *
  * @package Opencart\Catalog\Model\Account
  */
-class Activity extends \Opencart\System\Engine\Model {
-	/**
+class Activity extends \Opencart\System\Engine\Model
+{
+    /**
      * Add Activity
      *
      * Create a new activity record in the database.
@@ -27,17 +32,18 @@ class Activity extends \Opencart\System\Engine\Model {
      *
      * $this->model_account_activity->addActivity($key, $activity_data);
      */
-    public function addActivity(string $key, array $data): void {
-		if (isset($data['customer_id'])) {
-			$customer_id = $data['customer_id'];
-		} else {
-			$customer_id = 0;
-		}
+    public function addActivity(string $key, array $data): void
+    {
+        if (isset($data['customer_id'])) {
+            $customer_id = $data['customer_id'];
+        } else {
+            $customer_id = 0;
+        }
 
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_activity` SET `customer_id` = '" . (int)$customer_id . "', `key` = '" . $this->db->escape($key) . "', `data` = '" . $this->db->escape(json_encode($data)) . "', `ip` = '" . $this->db->escape(oc_get_ip()) . "', `date_added` = NOW()");
-	}
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_activity` SET `customer_id` = '" . (int)$customer_id . "', `key` = '" . $this->db->escape($key) . "', `data` = '" . $this->db->escape(json_encode($data)) . "', `ip` = '" . $this->db->escape(oc_get_ip()) . "', `date_added` = NOW()");
+    }
 
-	/**
+    /**
      * Delete Activities
      *
      * Delete activities records in the database.
@@ -51,7 +57,8 @@ class Activity extends \Opencart\System\Engine\Model {
      *
      * $this->model_account_activity->deleteActivities($customer_id);
      */
-    public function deleteActivities(int $customer_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_activity` WHERE `customer_id` = '" . $customer_id . "'");
-	}
+    public function deleteActivities(int $customer_id): void
+    {
+        $this->db->query('DELETE FROM `' . DB_PREFIX . "customer_activity` WHERE `customer_id` = '" . $customer_id . "'");
+    }
 }

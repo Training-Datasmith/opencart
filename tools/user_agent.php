@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 $user_agent = [];
 
 // Android User Agents
@@ -326,26 +328,26 @@ $patterns[] = '(AppleTV|CriOS|DOOM|Dalvik|Edg|Edge|Firefox|FireKeepers|FxiOS|Ins
 $matches = [];
 
 foreach ($user_agent as $agent) {
-	$status = false;
+    $status = false;
 
-	foreach ($patterns as $pattern) {
-		if (preg_match('/' . $pattern . '/', $agent)) {
-			$status = true;
+    foreach ($patterns as $pattern) {
+        if (preg_match('/' . $pattern . '/', $agent)) {
+            $status = true;
 
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	$matches[] = [
-		'agent'  => $agent,
-		'status' => $status
-	];
+    $matches[] = [
+        'agent'  => $agent,
+        'status' => $status,
+    ];
 }
 
 //$sort_order = [];
 
 foreach ($matches as $value) {
-	//$sort_order[$key] = $value['agent'];
+    //$sort_order[$key] = $value['agent'];
 }
 
 //array_multisort($sort_order, SORT_ASC, $matches);
@@ -357,16 +359,16 @@ $html .= '    <th>Status</th>' . "\n";
 $html .= '  </tr>' . "\n";
 
 foreach ($matches as $match) {
-	if ($match['status']) {
-		$color = 'green';
-	} else {
-		$color = 'red';
-	}
+    if ($match['status']) {
+        $color = 'green';
+    } else {
+        $color = 'red';
+    }
 
-	$html .= '<tr>' . "\n";
-	$html .= '  <td style="color: ' . $color . '">' . $match['agent'] . '</td>' . "\n";
-	$html .= '  <td>' . ($match['status'] ? 'true' :  'false') . '</td>' . "\n";
- 	$html .= '</tr>' . "\n";
+    $html .= '<tr>' . "\n";
+    $html .= '  <td style="color: ' . $color . '">' . $match['agent'] . '</td>' . "\n";
+    $html .= '  <td>' . ($match['status'] ? 'true' : 'false') . '</td>' . "\n";
+    $html .= '</tr>' . "\n";
 }
 
 $html .= '</table>';

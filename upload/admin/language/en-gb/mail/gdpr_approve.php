@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject'] = '%s - GDPR request approved!';
 $_['text_request'] = 'Account Deletion Request';

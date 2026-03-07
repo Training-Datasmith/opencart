@@ -1,235 +1,246 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Marketplace;
+
 /**
  * Class Event
  *
  * @package Opencart\Admin\Controller\Marketplace
  */
-class Event extends \Opencart\System\Engine\Controller {
-	/**
+class Event extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$this->load->language('marketplace/event');
+    public function index(): void
+    {
+        $this->load->language('marketplace/event');
 
-		if (isset($this->request->get['filter_code'])) {
-			$filter_code = $this->request->get['filter_code'];
-		} else {
-			$filter_code = '';
-		}
+        if (isset($this->request->get['filter_code'])) {
+            $filter_code = $this->request->get['filter_code'];
+        } else {
+            $filter_code = '';
+        }
 
-		if (isset($this->request->get['filter_status'])) {
-			$filter_status = $this->request->get['filter_status'];
-		} else {
-			$filter_status = '';
-		}
+        if (isset($this->request->get['filter_status'])) {
+            $filter_status = $this->request->get['filter_status'];
+        } else {
+            $filter_status = '';
+        }
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$allowed = [
-			'filter_code',
-			'filter_status',
-			'page'
-		];
+        $allowed = [
+            'filter_code',
+            'filter_status',
+            'page',
+        ];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
+        $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('marketplace/event', 'user_token=' . $this->session->data['user_token'] . $url)
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('marketplace/event', 'user_token=' . $this->session->data['user_token'] . $url),
+        ];
 
-		$data['delete'] = $this->url->link('marketplace/event.delete', 'user_token=' . $this->session->data['user_token']);
-		$data['enable']	= $this->url->link('marketplace/event.enable', 'user_token=' . $this->session->data['user_token']);
-		$data['disable'] = $this->url->link('marketplace/event.disable', 'user_token=' . $this->session->data['user_token']);
+        $data['delete'] = $this->url->link('marketplace/event.delete', 'user_token=' . $this->session->data['user_token']);
+        $data['enable']	= $this->url->link('marketplace/event.enable', 'user_token=' . $this->session->data['user_token']);
+        $data['disable'] = $this->url->link('marketplace/event.disable', 'user_token=' . $this->session->data['user_token']);
 
-		$data['list'] = $this->getList();
+        $data['list'] = $this->getList();
 
-		$data['filter_code'] = $filter_code;
-		$data['filter_status'] = $filter_status;
+        $data['filter_code'] = $filter_code;
+        $data['filter_status'] = $filter_status;
 
-		$data['user_token'] = $this->session->data['user_token'];
+        $data['user_token'] = $this->session->data['user_token'];
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('marketplace/event', $data));
-	}
+        $this->response->setOutput($this->load->view('marketplace/event', $data));
+    }
 
-	/**
+    /**
      * List
      */
-    public function list(): void {
-		$this->load->language('marketplace/event');
+    public function list(): void
+    {
+        $this->load->language('marketplace/event');
 
-		$this->response->setOutput($this->getList());
-	}
+        $this->response->setOutput($this->getList());
+    }
 
-	/**
+    /**
      * Get List
      */
-    public function getList(): string {
-		if (isset($this->request->get['filter_code'])) {
-			$filter_code = (string)$this->request->get['filter_code'];
-		} else {
-			$filter_code = '';
-		}
+    public function getList(): string
+    {
+        if (isset($this->request->get['filter_code'])) {
+            $filter_code = (string)$this->request->get['filter_code'];
+        } else {
+            $filter_code = '';
+        }
 
-		if (isset($this->request->get['filter_status'])) {
-			$filter_status = $this->request->get['filter_status'];
-		} else {
-			$filter_status = '';
-		}
+        if (isset($this->request->get['filter_status'])) {
+            $filter_status = $this->request->get['filter_status'];
+        } else {
+            $filter_status = '';
+        }
 
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
+        if (isset($this->request->get['page'])) {
+            $page = (int)$this->request->get['page'];
+        } else {
+            $page = 1;
+        }
 
-		$allowed = [
-			'filter_code',
-			'filter_status',
-			'page'
-		];
+        $allowed = [
+            'filter_code',
+            'filter_status',
+            'page',
+        ];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
+        $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
 
-		$data['action'] = $this->url->link('marketplace/event.list', 'user_token=' . $this->session->data['user_token'] . $url);
+        $data['action'] = $this->url->link('marketplace/event.list', 'user_token=' . $this->session->data['user_token'] . $url);
 
-		$filter_data = [
-			'filter_code'   => $filter_code,
-			'filter_status' => $filter_status,
-			'start'         => ($page - 1) * $this->config->get('config_pagination_admin'),
-			'limit'         => $this->config->get('config_pagination_admin')
-		];
+        $filter_data = [
+            'filter_code'   => $filter_code,
+            'filter_status' => $filter_status,
+            'start'         => ($page - 1) * $this->config->get('config_pagination_admin'),
+            'limit'         => $this->config->get('config_pagination_admin'),
+        ];
 
-		$this->load->model('setting/event');
+        $this->load->model('setting/event');
 
-		$data['events'] = $this->model_setting_event->getEvents($filter_data);
+        $data['events'] = $this->model_setting_event->getEvents($filter_data);
 
-		$allowed = [
-			'filter_code',
-			'filter_status'
-		];
+        $allowed = [
+            'filter_code',
+            'filter_status',
+        ];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
+        $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
 
-		// Total Events
-		$event_total = $this->model_setting_event->getTotalEvents($filter_data);
+        // Total Events
+        $event_total = $this->model_setting_event->getTotalEvents($filter_data);
 
-		// Pagination
-		$data['total'] = $event_total;
-		$data['page'] = $page;
-		$data['limit'] = $this->config->get('config_pagination_admin');
-		$data['pagination'] = $this->url->link('marketplace/event.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
+        // Pagination
+        $data['total'] = $event_total;
+        $data['page'] = $page;
+        $data['limit'] = $this->config->get('config_pagination_admin');
+        $data['pagination'] = $this->url->link('marketplace/event.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($event_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($event_total - $this->config->get('config_pagination_admin'))) ? $event_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $event_total, ceil($event_total / $this->config->get('config_pagination_admin')));
+        $data['results'] = sprintf($this->language->get('text_pagination'), ($event_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($event_total - $this->config->get('config_pagination_admin'))) ? $event_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $event_total, ceil($event_total / $this->config->get('config_pagination_admin')));
 
-		return $this->load->view('marketplace/event_list', $data);
-	}
+        return $this->load->view('marketplace/event_list', $data);
+    }
 
-	/**
+    /**
      * Enable
      */
-    public function enable(): void {
-		$this->load->language('marketplace/event');
+    public function enable(): void
+    {
+        $this->load->language('marketplace/event');
 
-		$json = [];
+        $json = [];
 
-		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
-		} else {
-			$selected = [];
-		}
+        if (isset($this->request->post['selected'])) {
+            $selected = (array)$this->request->post['selected'];
+        } else {
+            $selected = [];
+        }
 
-		if (!$this->user->hasPermission('modify', 'marketplace/event')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'marketplace/event')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			$this->load->model('setting/event');
+        if (!$json) {
+            $this->load->model('setting/event');
 
-			foreach ($selected as $event_id) {
-				$this->model_setting_event->editStatus($event_id, true);
-			}
+            foreach ($selected as $event_id) {
+                $this->model_setting_event->editStatus($event_id, true);
+            }
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Disable
      */
-    public function disable(): void {
-		$this->load->language('marketplace/event');
+    public function disable(): void
+    {
+        $this->load->language('marketplace/event');
 
-		$json = [];
+        $json = [];
 
-		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
-		} else {
-			$selected = [];
-		}
+        if (isset($this->request->post['selected'])) {
+            $selected = (array)$this->request->post['selected'];
+        } else {
+            $selected = [];
+        }
 
-		if (!$this->user->hasPermission('modify', 'marketplace/event')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'marketplace/event')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			$this->load->model('setting/event');
+        if (!$json) {
+            $this->load->model('setting/event');
 
-			foreach ($selected as $event_id) {
-				$this->model_setting_event->editStatus($event_id, false);
-			}
+            foreach ($selected as $event_id) {
+                $this->model_setting_event->editStatus($event_id, false);
+            }
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Delete
      */
-    public function delete(): void {
-		$this->load->language('marketplace/event');
+    public function delete(): void
+    {
+        $this->load->language('marketplace/event');
 
-		$json = [];
+        $json = [];
 
-		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
-		} else {
-			$selected = [];
-		}
+        if (isset($this->request->post['selected'])) {
+            $selected = (array)$this->request->post['selected'];
+        } else {
+            $selected = [];
+        }
 
-		if (!$this->user->hasPermission('modify', 'marketplace/event')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'marketplace/event')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			$this->load->model('setting/event');
+        if (!$json) {
+            $this->load->model('setting/event');
 
-			foreach ($selected as $event_id) {
-				$this->model_setting_event->deleteEvent($event_id);
-			}
+            foreach ($selected as $event_id) {
+                $this->model_setting_event->deleteEvent($event_id);
+            }
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 }

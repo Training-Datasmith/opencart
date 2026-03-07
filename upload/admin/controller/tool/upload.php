@@ -1,308 +1,319 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Tool;
+
 /**
  * Class Upload
  *
  * @package Opencart\Admin\Controller\Tool
  */
-class Upload extends \Opencart\System\Engine\Controller {
-	/**
+class Upload extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$this->load->language('tool/upload');
+    public function index(): void
+    {
+        $this->load->language('tool/upload');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$allowed = [
-			'filter_name',
-			'filter_code',
-			'filter_date_from',
-			'filter_date_to',
-			'page'
-		];
+        $allowed = [
+            'filter_name',
+            'filter_code',
+            'filter_date_from',
+            'filter_date_to',
+            'page',
+        ];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
+        $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('tool/upload', 'user_token=' . $this->session->data['user_token'] . $url)
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('tool/upload', 'user_token=' . $this->session->data['user_token'] . $url),
+        ];
 
-		$data['add'] = $this->url->link('tool/upload.form', 'user_token=' . $this->session->data['user_token'] . $url);
-		$data['delete'] = $this->url->link('tool/upload.delete', 'user_token=' . $this->session->data['user_token']);
+        $data['add'] = $this->url->link('tool/upload.form', 'user_token=' . $this->session->data['user_token'] . $url);
+        $data['delete'] = $this->url->link('tool/upload.delete', 'user_token=' . $this->session->data['user_token']);
 
-		$data['list'] = $this->getList();
+        $data['list'] = $this->getList();
 
-		$data['user_token'] = $this->session->data['user_token'];
+        $data['user_token'] = $this->session->data['user_token'];
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('tool/upload', $data));
-	}
+        $this->response->setOutput($this->load->view('tool/upload', $data));
+    }
 
-	/**
+    /**
      * List
      */
-    public function list(): void {
-		$this->load->language('tool/upload');
+    public function list(): void
+    {
+        $this->load->language('tool/upload');
 
-		$this->response->setOutput($this->getList());
-	}
+        $this->response->setOutput($this->getList());
+    }
 
-	/**
+    /**
      * Get List
      */
-    public function getList(): string {
-		if (isset($this->request->get['filter_name'])) {
-			$filter_name = $this->request->get['filter_name'];
-		} else {
-			$filter_name = '';
-		}
+    public function getList(): string
+    {
+        if (isset($this->request->get['filter_name'])) {
+            $filter_name = $this->request->get['filter_name'];
+        } else {
+            $filter_name = '';
+        }
 
-		if (isset($this->request->get['filter_code'])) {
-			$filter_code = $this->request->get['filter_code'];
-		} else {
-			$filter_code = '';
-		}
+        if (isset($this->request->get['filter_code'])) {
+            $filter_code = $this->request->get['filter_code'];
+        } else {
+            $filter_code = '';
+        }
 
-		if (isset($this->request->get['filter_date_from'])) {
-			$filter_date_from = $this->request->get['filter_date_from'];
-		} else {
-			$filter_date_from = '';
-		}
+        if (isset($this->request->get['filter_date_from'])) {
+            $filter_date_from = $this->request->get['filter_date_from'];
+        } else {
+            $filter_date_from = '';
+        }
 
-		if (isset($this->request->get['filter_date_to'])) {
-			$filter_date_to = $this->request->get['filter_date_to'];
-		} else {
-			$filter_date_to = '';
-		}
+        if (isset($this->request->get['filter_date_to'])) {
+            $filter_date_to = $this->request->get['filter_date_to'];
+        } else {
+            $filter_date_to = '';
+        }
 
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
+        if (isset($this->request->get['page'])) {
+            $page = (int)$this->request->get['page'];
+        } else {
+            $page = 1;
+        }
 
-		$allowed = [
-			'filter_name',
-			'filter_code',
-			'filter_date_from',
-			'filter_date_to',
-			'page'
-		];
+        $allowed = [
+            'filter_name',
+            'filter_code',
+            'filter_date_from',
+            'filter_date_to',
+            'page',
+        ];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
+        $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
 
-		$data['action'] = $this->url->link('tool/upload.list', 'user_token=' . $this->session->data['user_token'] . $url);
+        $data['action'] = $this->url->link('tool/upload.list', 'user_token=' . $this->session->data['user_token'] . $url);
 
-		// Uploads
-		$data['uploads'] = [];
+        // Uploads
+        $data['uploads'] = [];
 
-		$filter_data = [
-			'filter_name'      => $filter_name,
-			'filter_code'      => $filter_code,
-			'filter_date_from' => $filter_date_from,
-			'filter_date_to'   => $filter_date_to,
-			'start'            => ($page - 1) * $this->config->get('config_pagination_admin'),
-			'limit'            => $this->config->get('config_pagination_admin')
-		];
+        $filter_data = [
+            'filter_name'      => $filter_name,
+            'filter_code'      => $filter_code,
+            'filter_date_from' => $filter_date_from,
+            'filter_date_to'   => $filter_date_to,
+            'start'            => ($page - 1) * $this->config->get('config_pagination_admin'),
+            'limit'            => $this->config->get('config_pagination_admin'),
+        ];
 
-		$this->load->model('tool/upload');
+        $this->load->model('tool/upload');
 
-		$results = $this->model_tool_upload->getUploads($filter_data);
+        $results = $this->model_tool_upload->getUploads($filter_data);
 
-		foreach ($results as $result) {
-			$data['uploads'][] = ['download'   => $this->url->link('tool/upload.download', 'user_token=' . $this->session->data['user_token'] . '&code=' . $result['code'] . $url)] + $result;
-		}
+        foreach ($results as $result) {
+            $data['uploads'][] = ['download'   => $this->url->link('tool/upload.download', 'user_token=' . $this->session->data['user_token'] . '&code=' . $result['code'] . $url)] + $result;
+        }
 
-		$allowed = [
-			'filter_name',
-			'filter_date_from',
-			'filter_date_to'
-		];
+        $allowed = [
+            'filter_name',
+            'filter_date_from',
+            'filter_date_to',
+        ];
 
-		$url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
+        $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
 
-		// Total Uploads
-		$upload_total = $this->model_tool_upload->getTotalUploads($filter_data);
+        // Total Uploads
+        $upload_total = $this->model_tool_upload->getTotalUploads($filter_data);
 
-		// Pagination
-		$data['total'] = $upload_total;
-		$data['page'] = $page;
-		$data['limit'] = $this->config->get('config_pagination_admin');
-		$data['pagination'] = $this->url->link('tool/upload.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
+        // Pagination
+        $data['total'] = $upload_total;
+        $data['page'] = $page;
+        $data['limit'] = $this->config->get('config_pagination_admin');
+        $data['pagination'] = $this->url->link('tool/upload.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($upload_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($upload_total - $this->config->get('config_pagination_admin'))) ? $upload_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $upload_total, ceil($upload_total / $this->config->get('config_pagination_admin')));
+        $data['results'] = sprintf($this->language->get('text_pagination'), ($upload_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($upload_total - $this->config->get('config_pagination_admin'))) ? $upload_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $upload_total, ceil($upload_total / $this->config->get('config_pagination_admin')));
 
-		$data['filter_name'] = $filter_name;
-		$data['filter_date_from'] = $filter_date_from;
-		$data['filter_date_to'] = $filter_date_to;
+        $data['filter_name'] = $filter_name;
+        $data['filter_date_from'] = $filter_date_from;
+        $data['filter_date_to'] = $filter_date_to;
 
-		return $this->load->view('tool/upload_list', $data);
-	}
+        return $this->load->view('tool/upload_list', $data);
+    }
 
-	/**
+    /**
      * Delete
      */
-    public function delete(): void {
-		$this->load->language('tool/upload');
+    public function delete(): void
+    {
+        $this->load->language('tool/upload');
 
-		$json = [];
+        $json = [];
 
-		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
-		} else {
-			$selected = [];
-		}
+        if (isset($this->request->post['selected'])) {
+            $selected = (array)$this->request->post['selected'];
+        } else {
+            $selected = [];
+        }
 
-		if (!$this->user->hasPermission('modify', 'tool/upload')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'tool/upload')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			// Upload
-			$this->load->model('tool/upload');
+        if (!$json) {
+            // Upload
+            $this->load->model('tool/upload');
 
-			foreach ($selected as $upload_id) {
-				// Remove file before deleting DB record.
-				$upload_info = $this->model_tool_upload->getUpload($upload_id);
+            foreach ($selected as $upload_id) {
+                // Remove file before deleting DB record.
+                $upload_info = $this->model_tool_upload->getUpload($upload_id);
 
-				if ($upload_info && is_file(DIR_UPLOAD . $upload_info['filename'])) {
-					unlink(DIR_UPLOAD . $upload_info['filename']);
-				}
+                if ($upload_info && is_file(DIR_UPLOAD . $upload_info['filename'])) {
+                    unlink(DIR_UPLOAD . $upload_info['filename']);
+                }
 
-				$this->model_tool_upload->deleteUpload($upload_id);
-			}
+                $this->model_tool_upload->deleteUpload($upload_id);
+            }
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Download
      */
-    public function download(): void {
-		$this->load->language('tool/upload');
+    public function download(): void
+    {
+        $this->load->language('tool/upload');
 
-		if (isset($this->request->get['code'])) {
-			$code = $this->request->get['code'];
-		} else {
-			$code = '';
-		}
+        if (isset($this->request->get['code'])) {
+            $code = $this->request->get['code'];
+        } else {
+            $code = '';
+        }
 
-		// Upload
-		$this->load->model('tool/upload');
+        // Upload
+        $this->load->model('tool/upload');
 
-		$upload_info = $this->model_tool_upload->getUploadByCode($code);
+        $upload_info = $this->model_tool_upload->getUploadByCode($code);
 
-		if ($upload_info) {
-			$file = DIR_UPLOAD . $upload_info['filename'];
-			$mask = basename($upload_info['name']);
+        if ($upload_info) {
+            $file = DIR_UPLOAD . $upload_info['filename'];
+            $mask = basename($upload_info['name']);
 
-			if (!headers_sent()) {
-				if (is_file($file)) {
-					header('Content-Type: application/octet-stream');
-					header('Content-Description: File Transfer');
-					header('Content-Disposition: attachment; filename="' . ($mask ?: basename($file)) . '"');
-					header('Content-Transfer-Encoding: binary');
-					header('Expires: 0');
-					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-					header('Pragma: public');
-					header('Content-Length: ' . filesize($file));
+            if (!headers_sent()) {
+                if (is_file($file)) {
+                    header('Content-Type: application/octet-stream');
+                    header('Content-Description: File Transfer');
+                    header('Content-Disposition: attachment; filename="' . ($mask ?: basename($file)) . '"');
+                    header('Content-Transfer-Encoding: binary');
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                    header('Pragma: public');
+                    header('Content-Length: ' . filesize($file));
 
-					readfile($file);
-					exit;
-				}
+                    readfile($file);
+                    exit;
+                }
                 exit(sprintf($this->language->get('error_not_found'), basename($file)));
-			}
+            }
             exit($this->language->get('error_headers_sent'));
-		}
+        }
         $this->load->language('error/not_found');
         $this->document->setTitle($this->language->get('heading_title'));
         $data['breadcrumbs'] = [];
         $data['breadcrumbs'][] = [
-				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-			];
+                'text' => $this->language->get('text_home'),
+                'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+            ];
         $data['breadcrumbs'][] = [
-				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('error/not_found', 'user_token=' . $this->session->data['user_token'])
-			];
+                'text' => $this->language->get('heading_title'),
+                'href' => $this->url->link('error/not_found', 'user_token=' . $this->session->data['user_token']),
+            ];
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
         $this->response->setOutput($this->load->view('error/not_found', $data));
-	}
+    }
 
-	/**
+    /**
      * Upload
      */
-    public function upload(): void {
-		$this->load->language('tool/upload');
+    public function upload(): void
+    {
+        $this->load->language('tool/upload');
 
-		$json = [];
+        $json = [];
 
-		// Check user has permission
-		if (!$this->user->hasPermission('modify', 'tool/upload')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        // Check user has permission
+        if (!$this->user->hasPermission('modify', 'tool/upload')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (empty($this->request->files['file']['name']) || !is_file($this->request->files['file']['tmp_name'])) {
-			$json['error'] = $this->language->get('error_upload');
-		}
+        if (empty($this->request->files['file']['name']) || !is_file($this->request->files['file']['tmp_name'])) {
+            $json['error'] = $this->language->get('error_upload');
+        }
 
-		if (!$json) {
-			// Sanitize the filename
-			$filename = basename(html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8'));
+        if (!$json) {
+            // Sanitize the filename
+            $filename = basename(html_entity_decode($this->request->files['file']['name'], ENT_QUOTES, 'UTF-8'));
 
-			// Validate the filename length
-			if (!oc_validate_length($filename, 5, 128)) {
-				$json['error'] = $this->language->get('error_filename');
-			}
+            // Validate the filename length
+            if (!oc_validate_length($filename, 5, 128)) {
+                $json['error'] = $this->language->get('error_filename');
+            }
 
-			// Allowed file extension types
-			if (!in_array(strtolower(substr(strrchr($filename, '.'), 1)), $this->config->get('upload_type_allowed'))) {
-				$json['error'] = $this->language->get('error_file_type');
-			}
+            // Allowed file extension types
+            if (!in_array(strtolower(substr(strrchr($filename, '.'), 1)), $this->config->get('upload_type_allowed'))) {
+                $json['error'] = $this->language->get('error_file_type');
+            }
 
-			// Allowed file mime types
-			if (!in_array($this->request->files['file']['type'], $this->config->get('upload_mime_allowed'))) {
-				$json['error'] = $this->language->get('error_file_type');
-			}
+            // Allowed file mime types
+            if (!in_array($this->request->files['file']['type'], $this->config->get('upload_mime_allowed'))) {
+                $json['error'] = $this->language->get('error_file_type');
+            }
 
-			// Return any upload error
-			if ($this->request->files['file']['error'] != UPLOAD_ERR_OK) {
-				$json['error'] = $this->language->get('error_upload_' . $this->request->files['file']['error']);
-			}
-		}
+            // Return any upload error
+            if ($this->request->files['file']['error'] != UPLOAD_ERR_OK) {
+                $json['error'] = $this->language->get('error_upload_' . $this->request->files['file']['error']);
+            }
+        }
 
-		if (!$json) {
-			$file = $filename . '.' . oc_token(32);
+        if (!$json) {
+            $file = $filename . '.' . oc_token(32);
 
-			move_uploaded_file($this->request->files['file']['tmp_name'], DIR_UPLOAD . $file);
+            move_uploaded_file($this->request->files['file']['tmp_name'], DIR_UPLOAD . $file);
 
-			// Hide the uploaded file name so people cannot link to it directly.
-			$this->load->model('tool/upload');
+            // Hide the uploaded file name so people cannot link to it directly.
+            $this->load->model('tool/upload');
 
-			$json['code'] = $this->model_tool_upload->addUpload($filename, $file);
+            $json['code'] = $this->model_tool_upload->addUpload($filename, $file);
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 }

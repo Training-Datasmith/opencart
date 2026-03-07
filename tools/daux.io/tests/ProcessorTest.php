@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux;
 
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -51,7 +55,7 @@ class ProcessorTest extends TestCase
         $output = new NullOutput();
         $daux = new Daux($config, $output);
 
-        $daux->setProcessor(new class($daux, $output, $width) extends Processor {
+        $daux->setProcessor(new class ($daux, $output, $width) extends Processor {
             public function manipulateTree(Root $root)
             {
                 $new = Builder::getOrCreateDir($root, 'New Pages');

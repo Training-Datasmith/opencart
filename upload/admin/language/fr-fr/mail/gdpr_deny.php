@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']   = '%s - Demande RGPD refusée!';
 $_['text_export']    = 'Demande d\'exportation des données du compte';

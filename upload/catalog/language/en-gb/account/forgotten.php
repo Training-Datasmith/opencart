@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Heading
 $_['heading_title']            = 'Forgot Your Password?';
 $_['heading_reset']            = 'Reset your password';

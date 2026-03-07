@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Confluence;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Confluence;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;

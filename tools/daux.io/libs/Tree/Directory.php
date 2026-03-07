@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Tree;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Tree;
 
 use Todaymade\Daux\Config;
 
@@ -88,7 +92,7 @@ class Directory extends Entry implements \ArrayAccess, \IteratorAggregate
 
     private function sortBucket($bucket, array $final): array
     {
-        uasort($bucket, fn(Entry $a, Entry $b) => strcasecmp($a->getNameForSort(), $b->getNameForSort()));
+        uasort($bucket, fn (Entry $a, Entry $b) => strcasecmp($a->getNameForSort(), $b->getNameForSort()));
 
         foreach ($bucket as $key => $value) {
             $final[$key] = $value;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_items']                 = '%s item(s) - <x-currency code="%s" amount="%f"></x-currency>';
 $_['text_points']                = 'Reward Points';

@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\HTML\Test;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\HTML\Test;
 
 use PHPUnit\Framework\TestCase;
 use Todaymade\Daux\Config as MainConfig;

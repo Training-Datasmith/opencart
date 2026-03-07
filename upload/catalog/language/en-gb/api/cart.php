@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_success']       = 'Success: You have modified your shopping cart!';
 $_['text_subscription']  = 'Subscription';

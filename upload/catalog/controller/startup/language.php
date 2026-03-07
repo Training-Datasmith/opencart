@@ -1,58 +1,64 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Startup;
+
 /**
  * Class Language
  *
  * @package Opencart\Catalog\Controller\Startup
  */
-class Language extends \Opencart\System\Engine\Controller {
-	/**
-	 * @var array<string, array<string, mixed>>
-	 */
-	private static array $languages = [];
+class Language extends \Opencart\System\Engine\Controller
+{
+    /**
+     * @var array<string, array<string, mixed>>
+     */
+    private static array $languages = [];
 
-	/**
+    /**
      * Index
      */
-    public function index(): void {
-		// Languages
-		$this->load->model('localisation/language');
+    public function index(): void
+    {
+        // Languages
+        $this->load->model('localisation/language');
 
-		self::$languages = $this->model_localisation_language->getLanguages();
+        self::$languages = $this->model_localisation_language->getLanguages();
 
-		$code = '';
+        $code = '';
 
-		if (isset($this->request->get['language'])) {
-			$code = $this->request->get['language'];
-		}
+        if (isset($this->request->get['language'])) {
+            $code = $this->request->get['language'];
+        }
 
-		// If SEO URL then the first path has to be language code
-		if (isset($this->request->get['_route_']) && preg_match('/^([a-z]{2}-[a-z]{2})/', $this->request->get['_route_'], $matches)) {
-			$code = $matches[0];
-		}
+        // If SEO URL then the first path has to be language code
+        if (isset($this->request->get['_route_']) && preg_match('/^([a-z]{2}-[a-z]{2})/', $this->request->get['_route_'], $matches)) {
+            $code = $matches[0];
+        }
 
-		if (!$code) {
-			$code = $this->config->get('config_language_catalog');
-		}
+        if (!$code) {
+            $code = $this->config->get('config_language_catalog');
+        }
 
-		// Use default language if on homepage and no language code set
-		if (!isset(self::$languages[$code])) {
-			$code = $this->config->get('config_language_catalog');
-		}
+        // Use default language if on homepage and no language code set
+        if (!isset(self::$languages[$code])) {
+            $code = $this->config->get('config_language_catalog');
+        }
 
-		// If extension switch add language directory
-		if (self::$languages[$code]['extension']) {
-			$this->language->addPath('extension/' . self::$languages[$code]['extension'], DIR_EXTENSION . self::$languages[$code]['extension'] . '/catalog/language/');
-		}
+        // If extension switch add language directory
+        if (self::$languages[$code]['extension']) {
+            $this->language->addPath('extension/' . self::$languages[$code]['extension'], DIR_EXTENSION . self::$languages[$code]['extension'] . '/catalog/language/');
+        }
 
-		// Set the config language_id key
-		$this->config->set('config_language_id', self::$languages[$code]['language_id']);
-		$this->config->set('config_language', self::$languages[$code]['code']);
+        // Set the config language_id key
+        $this->config->set('config_language_id', self::$languages[$code]['language_id']);
+        $this->config->set('config_language', self::$languages[$code]['code']);
 
-		$this->load->language('default');
-	}
+        $this->load->language('default');
+    }
 
-	/**
+    /**
      * After
      *
      * Override the language default values
@@ -62,29 +68,30 @@ class Language extends \Opencart\System\Engine\Controller {
      * @param array<mixed> $output
      *
      */
-    public function after(string &$route, &$prefix, &$code, &$output): void {
-		if (!$code) {
-			$code = $this->config->get('config_language');
-		}
+    public function after(string &$route, &$prefix, &$code, &$output): void
+    {
+        if (!$code) {
+            $code = $this->config->get('config_language');
+        }
 
-		// Use $this->language->load so it's not triggering infinite loops
-		$this->language->load($route, $prefix, $code);
+        // Use $this->language->load so it's not triggering infinite loops
+        $this->language->load($route, $prefix, $code);
 
-		if (isset(self::$languages[$code])) {
-			$language_info = self::$languages[$code];
+        if (isset(self::$languages[$code])) {
+            $language_info = self::$languages[$code];
 
-			$path = '';
+            $path = '';
 
-			if ($language_info['extension']) {
-				$extension = 'extension/' . $language_info['extension'];
+            if ($language_info['extension']) {
+                $extension = 'extension/' . $language_info['extension'];
 
-				if (oc_substr($route, 0, strlen($extension)) != $extension) {
-					$path = $extension . '/';
-				}
-			}
+                if (oc_substr($route, 0, strlen($extension)) != $extension) {
+                    $path = $extension . '/';
+                }
+            }
 
-			// Use $this->language->load so it's not triggering infinite loops
-			$this->language->load($path . $route, $prefix, $code);
-		}
-	}
+            // Use $this->language->load so it's not triggering infinite loops
+            $this->language->load($path . $route, $prefix, $code);
+        }
+    }
 }

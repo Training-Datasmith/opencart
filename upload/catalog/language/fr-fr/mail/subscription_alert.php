@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']              = '%s - Commande %s - Abonnement annulé';
 $_['text_received']             = 'Vous avez reçu une annulation d\'abonnement.';

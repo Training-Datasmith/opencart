@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Base;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Base;
 
 abstract class SimplePage implements Page
 {

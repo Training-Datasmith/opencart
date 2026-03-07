@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Confluence;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Confluence;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -12,7 +16,7 @@ class PublisherDelete
     public function __construct(public OutputInterface $output, /**
      * @var bool should delete ?
      */
-    protected bool $delete, protected Api $client)
+        protected bool $delete, protected Api $client)
     {
         $this->deletable = [];
     }

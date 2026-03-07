@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject'] = '%s - Votre compte affilié a été refusé!';
 $_['text_welcome'] = 'Bienvenue et merci de vous être inscrit sur %s!';

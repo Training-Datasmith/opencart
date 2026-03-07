@@ -1,10 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Created by IntelliJ IDEA.
  * User: onigoetz
  * Date: 06/11/15
  * Time: 20:27.
  */
+
 namespace Todaymade\Daux\Format\Base;
 
 use Todaymade\Daux\DauxHelper;

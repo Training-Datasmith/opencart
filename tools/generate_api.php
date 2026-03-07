@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 //$directory = chdir(__DIR__ . '/..');
 
 //passthru('php tools/apigen.phar --working-dir "upload/system/storage"');
@@ -8,9 +10,9 @@
 include(__DIR__ . '/ApiGen/vendor/autoload.php');
 
 if ((isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'))) || $_SERVER['SERVER_PORT'] == 443) {
-	$protocol = 'https://';
+    $protocol = 'https://';
 } else {
-	$protocol = 'http://';
+    $protocol = 'http://';
 }
 
 $directory = realpath(__DIR__ . '/../') . '/';
@@ -37,4 +39,3 @@ exec($command, $output);
 
 echo $command . "\n";
 print_r($output);
-

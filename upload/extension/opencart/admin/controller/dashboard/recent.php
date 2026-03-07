@@ -1,111 +1,119 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Extension\Opencart\Dashboard;
+
 /**
  * Class Recent
  *
  * @package Opencart\Admin\Controller\Extension\Opencart\Dashboard
  */
-class Recent extends \Opencart\System\Engine\Controller {
-	/**
+class Recent extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$this->load->language('extension/opencart/dashboard/recent');
+    public function index(): void
+    {
+        $this->load->language('extension/opencart/dashboard/recent');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=dashboard')
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_extension'),
+            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=dashboard'),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/opencart/dashboard/recent', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('extension/opencart/dashboard/recent', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['save'] = $this->url->link('extension/opencart/dashboard/recent.save', 'user_token=' . $this->session->data['user_token']);
-		$data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=dashboard');
+        $data['save'] = $this->url->link('extension/opencart/dashboard/recent.save', 'user_token=' . $this->session->data['user_token']);
+        $data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=dashboard');
 
-		$data['dashboard_recent_width'] = $this->config->get('dashboard_recent_width');
+        $data['dashboard_recent_width'] = $this->config->get('dashboard_recent_width');
 
-		$data['columns'] = [];
+        $data['columns'] = [];
 
-		for ($i = 3; $i <= 12; $i++) {
-			$data['columns'][] = $i;
-		}
+        for ($i = 3; $i <= 12; $i++) {
+            $data['columns'][] = $i;
+        }
 
-		$data['dashboard_recent_status'] = $this->config->get('dashboard_recent_status');
-		$data['dashboard_recent_sort_order'] = $this->config->get('dashboard_recent_sort_order');
+        $data['dashboard_recent_status'] = $this->config->get('dashboard_recent_status');
+        $data['dashboard_recent_sort_order'] = $this->config->get('dashboard_recent_sort_order');
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/opencart/dashboard/recent_form', $data));
-	}
+        $this->response->setOutput($this->load->view('extension/opencart/dashboard/recent_form', $data));
+    }
 
-	/**
+    /**
      * Save
      */
-    public function save(): void {
-		$this->load->language('extension/opencart/dashboard/recent');
+    public function save(): void
+    {
+        $this->load->language('extension/opencart/dashboard/recent');
 
-		$json = [];
+        $json = [];
 
-		if (!$this->user->hasPermission('modify', 'extension/opencart/dashboard/recent')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'extension/opencart/dashboard/recent')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			// Setting
-			$this->load->model('setting/setting');
+        if (!$json) {
+            // Setting
+            $this->load->model('setting/setting');
 
-			$this->model_setting_setting->editSetting('dashboard_recent', $this->request->post);
+            $this->model_setting_setting->editSetting('dashboard_recent', $this->request->post);
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Dashboard
      */
-    public function dashboard(): string {
-		$this->load->language('extension/opencart/dashboard/recent');
+    public function dashboard(): string
+    {
+        $this->load->language('extension/opencart/dashboard/recent');
 
-		// Last 5 Orders
-		$data['orders'] = [];
+        // Last 5 Orders
+        $data['orders'] = [];
 
-		$filter_data = [
-			'sort'  => 'o.date_added',
-			'order' => 'DESC',
-			'start' => 0,
-			'limit' => 5
-		];
+        $filter_data = [
+            'sort'  => 'o.date_added',
+            'order' => 'DESC',
+            'start' => 0,
+            'limit' => 5,
+        ];
 
-		$this->load->model('sale/order');
+        $this->load->model('sale/order');
 
-		$results = $this->model_sale_order->getOrders($filter_data);
+        $results = $this->model_sale_order->getOrders($filter_data);
 
-		foreach ($results as $result) {
-			$data['orders'][] = [
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'view'       => $this->url->link('sale/order.info', 'user_token=' . $this->session->data['user_token'] . '&order_id=' . $result['order_id'])
-			] + $result;
-		}
+        foreach ($results as $result) {
+            $data['orders'][] = [
+                'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+                'view'       => $this->url->link('sale/order.info', 'user_token=' . $this->session->data['user_token'] . '&order_id=' . $result['order_id']),
+            ] + $result;
+        }
 
-		$data['user_token'] = $this->session->data['user_token'];
+        $data['user_token'] = $this->session->data['user_token'];
 
-		return $this->load->view('extension/opencart/dashboard/recent_info', $data);
-	}
+        return $this->load->view('extension/opencart/dashboard/recent_info', $data);
+    }
 }

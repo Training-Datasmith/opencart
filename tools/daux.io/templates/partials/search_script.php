@@ -7,21 +7,21 @@ if (!isset($config)) {
     <script>
         <?php
         $search_strings = [
-            "Search_one_result",
-            "Search_results",
-            "Search_no_results",
-            "Search_common_words_ignored",
-            "Search_too_short",
-            "Search_one_character_or_more",
-            "Search_should_be_x_or_more",
-            "Link_previous",
-            "Link_next",
+            'Search_one_result',
+            'Search_results',
+            'Search_no_results',
+            'Search_common_words_ignored',
+            'Search_too_short',
+            'Search_one_character_or_more',
+            'Search_should_be_x_or_more',
+            'Link_previous',
+            'Link_next',
         ];
-        $search_translations = [];
-        foreach ($search_strings as $key) {
-            $search_translations[$key] = $this->translate($key);
-        }
-        ?>
+    $search_translations = [];
+    foreach ($search_strings as $key) {
+        $search_translations[$key] = $this->translate($key);
+    }
+    ?>
 
         window.searchLanguage = <?= json_encode($page['language']) ?>;
         window.searchTranslation = <?= json_encode($search_translations) ?>;

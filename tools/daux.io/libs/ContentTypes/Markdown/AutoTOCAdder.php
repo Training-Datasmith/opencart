@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\ContentTypes\Markdown;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\ContentTypes\Markdown;
 
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\TableOfContents\Node\TableOfContentsPlaceholder;

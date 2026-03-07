@@ -1,12 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Event;
+
 /**
  * Class SSR
  *
  * @package Opencart\Catalog\Controller\Event
  */
-class Ssr extends \Opencart\System\Engine\Controller {
-	/**
+class Ssr extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Creates a static page from the response from selected pages.
@@ -30,17 +35,18 @@ class Ssr extends \Opencart\System\Engine\Controller {
      * @param string            $code
      *
      */
-    public function index(string &$route, array &$args, &$output): void {
-		// 1. Get the main response
-		if (!isset($this->request->get['_route_'])) {
-			return;
-		}
+    public function index(string &$route, array &$args, &$output): void
+    {
+        // 1. Get the main response
+        if (!isset($this->request->get['_route_'])) {
+            return;
+        }
 
-		$output = $this->response->getOutput();
+        $output = $this->response->getOutput();
         parse_url($this->config->get('config_url'), PHP_URL_HOST);
 
-		//oc_directory_create($base . $directory, 0777);
+        //oc_directory_create($base . $directory, 0777);
 
-		//file_put_contents($base . $directory . $filename, $output);
-	}
+        //file_put_contents($base . $directory . $filename, $output);
+    }
 }

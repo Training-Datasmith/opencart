@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux;
 
 use League\CommonMark\Environment\Environment;
 use Symfony\Component\Console\Output\OutputInterface;

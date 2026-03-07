@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Tree;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Tree;
 
 use League\CommonMark\Extension\FrontMatter\Data\SymfonyYamlFrontMatterParser;
 use League\CommonMark\Extension\FrontMatter\Exception\InvalidFrontMatterException;

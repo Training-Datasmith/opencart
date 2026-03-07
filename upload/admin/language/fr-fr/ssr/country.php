@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_list']        = 'Vous avez généré la liste des pays';
 $_['text_next']        = 'Vous avez généré %s dans %s des %s pays';

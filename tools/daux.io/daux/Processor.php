@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Extension;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Extension;
 
 use Todaymade\Daux\Tree\Root;
 

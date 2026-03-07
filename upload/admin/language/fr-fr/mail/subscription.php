@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']             = '%s - Abonnement';
 $_['text_subscription_id']     = 'ID d\'Abonnement';

@@ -1,36 +1,42 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Startup;
+
 /**
  * Class Event
  *
  * @package Opencart\Admin\Controller\Startup
  */
-class Event extends \Opencart\System\Engine\Controller {
-	/**
+class Event extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Adds events from the DB to the event object.
      */
-    public function index(): void {
-		// Add events from the DB
-		$this->load->model('setting/event');
+    public function index(): void
+    {
+        // Add events from the DB
+        $this->load->model('setting/event');
 
-		$results = $this->model_setting_event->getEvents();
+        $results = $this->model_setting_event->getEvents();
 
-		foreach ($results as $result) {
-			if ($result['status']) {
-				$part = explode('/', $result['trigger']);
+        foreach ($results as $result) {
+            if ($result['status']) {
+                $part = explode('/', $result['trigger']);
 
-				if ($part[0] == 'admin') {
-					array_shift($part);
+                if ($part[0] == 'admin') {
+                    array_shift($part);
 
-					$this->event->register(implode('/', $part), new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
-				}
+                    $this->event->register(implode('/', $part), new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
+                }
 
-				if ($part[0] == 'system') {
-					$this->event->register($result['trigger'], new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
-				}
-			}
-		}
-	}
+                if ($part[0] == 'system') {
+                    $this->event->register($result['trigger'], new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
+                }
+            }
+        }
+    }
 }

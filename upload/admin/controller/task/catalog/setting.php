@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Task\Catalog;
+
 /**
  * Class Setting
  *
@@ -7,157 +11,158 @@ namespace Opencart\Admin\Controller\Task\Catalog;
  *
  * @package Opencart\Admin\Controller\Task\Catalog
  */
-class Setting extends \Opencart\System\Engine\Controller {
-	/**
+class Setting extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Generate setting task list.
      *
      * @param array<string, string> $args
      */
-    public function index(array $args = []): array {
-		$this->load->language('task/catalog/setting');
+    public function index(array $args = []): array
+    {
+        $this->load->language('task/catalog/setting');
 
-		$stores = [];
+        $stores = [];
 
-		$stores[] = [
-			'store_id' => 0,
-			'name'     => $this->config->get('config_name')
-		];
+        $stores[] = [
+            'store_id' => 0,
+            'name'     => $this->config->get('config_name'),
+        ];
 
-		$this->load->model('setting/store');
-		$this->load->model('setting/task');
+        $this->load->model('setting/store');
+        $this->load->model('setting/task');
 
-		[0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
+        [0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
 
-		$this->load->model('localisation/language');
+        $this->load->model('localisation/language');
 
-		$languages = $this->model_localisation_language->getLanguages();
+        $languages = $this->model_localisation_language->getLanguages();
 
-		foreach ($stores as $store) {
+        foreach ($stores as $store) {
 
+            foreach ($languages as $language) {
+                $task_data = [
+                    'code'   => 'setting',
+                    'action' => 'task/catalog/setting.store',
+                    'args'   => [
+                        'store_id'    => $store['store_id'],
+                        'language_id' => $language['language_id'],
+                    ],
+                ];
 
+                $this->model_setting_task->addTask($task_data);
+            }
+        }
 
-			foreach ($languages as $language) {
-				$task_data = [
-					'code'   => 'setting',
-					'action' => 'task/catalog/setting.store',
-					'args'   => [
-						'store_id'    => $store['store_id'],
-						'language_id' => $language['language_id']
-					]
-				];
+        return ['success' => $this->language->get('text_task')];
+    }
 
-				$this->model_setting_task->addTask($task_data);
-			}
-		}
-
-		return ['success' => $this->language->get('text_task')];
-	}
-
-	/**
+    /**
      * Store
      *
      * Generate JSON currency list file.
      *
      * @param array<string, string> $args
      */
-    public function store(array $args = []): array {
-		$this->load->language('task/catalog/setting');
+    public function store(array $args = []): array
+    {
+        $this->load->language('task/catalog/setting');
 
-		if (!array_key_exists('store_id', $args)) {
-			return ['error' => $this->language->get('error_store')];
-		}
+        if (!array_key_exists('store_id', $args)) {
+            return ['error' => $this->language->get('error_store')];
+        }
 
-		// Store
-		$this->load->model('setting/store');
+        // Store
+        $this->load->model('setting/store');
 
-		$store_info = $this->model_setting_store->getStore((int)$args['store_id']);
+        $store_info = $this->model_setting_store->getStore((int)$args['store_id']);
 
-		if (!$store_info) {
-			return ['error' => $this->language->get('error_store')];
-		}
+        if (!$store_info) {
+            return ['error' => $this->language->get('error_store')];
+        }
 
-		// Setting
-		$this->load->model('setting/setting');
+        // Setting
+        $this->load->model('setting/setting');
 
-		$setting_info = $this->model_setting_setting->getSettings('config', $store_info['store_id']);
+        $setting_info = $this->model_setting_setting->getSettings('config', $store_info['store_id']);
 
-		if (!$setting_info) {
-			return ['error' => $this->language->get('error_setting')];
-		}
+        if (!$setting_info) {
+            return ['error' => $this->language->get('error_setting')];
+        }
 
-		// Country
-		$this->load->model('localisation/country');
+        // Country
+        $this->load->model('localisation/country');
 
-		$country_info = $this->model_localisation_country->getCountry((int)$setting_info['country_id']);
+        $country_info = $this->model_localisation_country->getCountry((int)$setting_info['country_id']);
 
-		if (!$country_info) {
-			return ['error' => $this->language->get('error_country')];
-		}
+        if (!$country_info) {
+            return ['error' => $this->language->get('error_country')];
+        }
 
-		// Zone
-		$this->load->model('localisation/zone');
+        // Zone
+        $this->load->model('localisation/zone');
 
-		$zone_info = $this->model_localisation_zone->getZone((int)$setting_info['zone_id']);
+        $zone_info = $this->model_localisation_zone->getZone((int)$setting_info['zone_id']);
 
-		if (!$zone_info) {
-			return ['error' => $this->language->get('error_zone')];
-		}
+        if (!$zone_info) {
+            return ['error' => $this->language->get('error_zone')];
+        }
 
-		// Language
-		$this->load->model('localisation/language');
+        // Language
+        $this->load->model('localisation/language');
 
-		$language_info = $this->model_localisation_language->getLanguageByCode($setting_info['language']);
+        $language_info = $this->model_localisation_language->getLanguageByCode($setting_info['language']);
 
-		if (!$language_info) {
-			return ['error' => $this->language->get('error_language')];
-		}
+        if (!$language_info) {
+            return ['error' => $this->language->get('error_language')];
+        }
 
-		// Currency
-		$this->load->model('localisation/currency');
+        // Currency
+        $this->load->model('localisation/currency');
 
-		$currency_info = $this->model_localisation_currency->getCurrencyByCode($setting_info['currency']);
+        $currency_info = $this->model_localisation_currency->getCurrencyByCode($setting_info['currency']);
 
-		if (!$currency_info) {
-			return ['error' => $this->language->get('error_currency')];
-		}
+        if (!$currency_info) {
+            return ['error' => $this->language->get('error_currency')];
+        }
 
-		$config = [];
+        $config = [];
 
-		// Hostname
-		$hostname = parse_url($store_info['url'], PHP_URL_HOST);
+        // Hostname
+        $hostname = parse_url($store_info['url'], PHP_URL_HOST);
 
-		$config['config_path'] = 'catalog/view/config/' . $hostname  . '/' . $language_info['code']  . '/';
-		$config['storage_path'] = 'catalog/view/data/' . $hostname  . '/' . $language_info['code']  . '/';
-		$config['language_path'] = 'catalog/view/language/' . $hostname  . '/' . $language_info['code']  . '/';
-		$config['template_path'] = 'catalog/view/template/' . $hostname  . '/';
+        $config['config_path'] = 'catalog/view/config/' . $hostname  . '/' . $language_info['code']  . '/';
+        $config['storage_path'] = 'catalog/view/data/' . $hostname  . '/' . $language_info['code']  . '/';
+        $config['language_path'] = 'catalog/view/language/' . $hostname  . '/' . $language_info['code']  . '/';
+        $config['template_path'] = 'catalog/view/template/' . $hostname  . '/';
 
-		// Store URL toi be used
-		$config['store_url'] = $store_info['url'];
+        // Store URL toi be used
+        $config['store_url'] = $store_info['url'];
 
-		// Meta Information
-		$description = $setting_info['config_description'][$language_info['language_id']];
+        // Meta Information
+        $description = $setting_info['config_description'][$language_info['language_id']];
 
-		$config['meta_title'] = $description['meta_title'];
-		$config['meta_description'] = $description['meta_description'];
-		$config['meta_keyword'] = $description['meta_keyword'];
+        $config['meta_title'] = $description['meta_title'];
+        $config['meta_description'] = $description['meta_description'];
+        $config['meta_keyword'] = $description['meta_keyword'];
 
-		// Theme
-		$config['theme'] = $setting_info['config_theme'];
+        // Theme
+        $config['theme'] = $setting_info['config_theme'];
 
-		// Store
-		$config['name'] = $store_info['name'];
+        // Store
+        $config['name'] = $store_info['name'];
 
-		// Country
-		$config['country_id'] = (int)$country_info['country_id'];
+        // Country
+        $config['country_id'] = (int)$country_info['country_id'];
 
-		$config['country_list'] = [];
+        $config['country_list'] = [];
 
-		$countries = $setting_info['config_country_list'];
+        $countries = $setting_info['config_country_list'];
 
-		foreach ($countries as $country_id) {
-			$country_info = $this->model_localisation_country->getCountry((int)$country_id);
+        foreach ($countries as $country_id) {
+            $country_info = $this->model_localisation_country->getCountry((int)$country_id);
             if (!$country_info) {
                 continue;
             }
@@ -165,85 +170,86 @@ class Setting extends \Opencart\System\Engine\Controller {
                 continue;
             }
 
-			$description_info = $this->model_localisation_country->getDescription((int)$country_id, $language_info['language_id']);
+            $description_info = $this->model_localisation_country->getDescription((int)$country_id, $language_info['language_id']);
 
-			if (!$description_info) {
-				continue;
-			}
+            if (!$description_info) {
+                continue;
+            }
 
-			unset($description_info['language_id']);
-			
-			$config['country_list'][] = $description_info;
-		}
+            unset($description_info['language_id']);
 
-		// Zone
-		$config['zone_id'] = (int)$zone_info['zone_id'];
+            $config['country_list'][] = $description_info;
+        }
 
-		// Language
-		$config['language'] = $language_info['code'];
+        // Zone
+        $config['zone_id'] = (int)$zone_info['zone_id'];
 
-		$config['language_list'] = [];
+        // Language
+        $config['language'] = $language_info['code'];
 
-		$languages = $setting_info['config_language_list'];
+        $config['language_list'] = [];
 
-		foreach ($languages as $language) {
-			$language_info = $this->model_localisation_language->getLanguageByCode((string)$language);
+        $languages = $setting_info['config_language_list'];
 
-			if ($language_info) {
-				$config['language_list'][] = $language_info;
-			}
-		}
+        foreach ($languages as $language) {
+            $language_info = $this->model_localisation_language->getLanguageByCode((string)$language);
 
-		// Currency
-		$config['currency'] = $currency_info['code'];
+            if ($language_info) {
+                $config['language_list'][] = $language_info;
+            }
+        }
 
-		$currencies = $setting_info['config_currency_list'];
+        // Currency
+        $config['currency'] = $currency_info['code'];
 
-		foreach ($currencies as $currency) {
-			$currency_info = $this->model_localisation_currency->getCurrencyByCode((string)$currency);
+        $currencies = $setting_info['config_currency_list'];
 
-			if ($currency_info) {
-				$config['currency_list'][] = $currency_info;
-			}
-		}
+        foreach ($currencies as $currency) {
+            $currency_info = $this->model_localisation_currency->getCurrencyByCode((string)$currency);
 
-		$config['pagination'] = (int)$setting_info['config_pagination'];
+            if ($currency_info) {
+                $config['currency_list'][] = $currency_info;
+            }
+        }
 
-		// Customer Group
-		$config['customer_group_id'] = (int)$setting_info['config_customer_group_id'];
+        $config['pagination'] = (int)$setting_info['config_pagination'];
 
-		// Tax
-		$config['tax'] = (int)$setting_info['config_tax'];
-		$config['tax_default'] = $setting_info['config_tax_default'];
-		$config['tax_customer'] = $setting_info['config_tax_customer'];
+        // Customer Group
+        $config['customer_group_id'] = (int)$setting_info['config_customer_group_id'];
 
-		$base = DIR_CATALOG . 'view/data/';
+        // Tax
+        $config['tax'] = (int)$setting_info['config_tax'];
+        $config['tax_default'] = $setting_info['config_tax_default'];
+        $config['tax_customer'] = $setting_info['config_tax_customer'];
 
-		$filename = parse_url($store_info['url'], PHP_URL_HOST) . '-' . $language_info['code'] . '.json';
+        $base = DIR_CATALOG . 'view/data/';
 
-		if (!file_put_contents($base . $filename, json_encode($config))) {
-			return ['error' => sprintf($this->language->get('error_file'), $filename)];
-		}
+        $filename = parse_url($store_info['url'], PHP_URL_HOST) . '-' . $language_info['code'] . '.json';
 
-		return ['success' => sprintf($this->language->get('text_list'), $setting_info['name'])];
-	}
+        if (!file_put_contents($base . $filename, json_encode($config))) {
+            return ['error' => sprintf($this->language->get('error_file'), $filename)];
+        }
 
-	/**
+        return ['success' => sprintf($this->language->get('text_list'), $setting_info['name'])];
+    }
+
+    /**
      * Clear
      *
      * Delete generated JSON currency files.
      *
      * @param array<string, string> $args
      */
-    public function clear(array $args = []): array {
-		$this->load->language('task/catalog/setting');
+    public function clear(array $args = []): array
+    {
+        $this->load->language('task/catalog/setting');
 
-		$file = DIR_CATALOG . 'view/data/' . parse_url($store['url'], PHP_URL_HOST) . '-' . $language['code'] . '.json';
+        $file = DIR_CATALOG . 'view/data/' . parse_url($store['url'], PHP_URL_HOST) . '-' . $language['code'] . '.json';
 
-		if (is_file($file)) {
-			unlink($file);
-		}
+        if (is_file($file)) {
+            unlink($file);
+        }
 
-		return ['success' => $this->language->get('text_clear')];
-	}
+        return ['success' => $this->language->get('text_clear')];
+    }
 }

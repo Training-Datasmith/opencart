@@ -1,34 +1,40 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Startup;
+
 /**
  * Class Setting
  *
  * @package Opencart\Admin\Controller\Startup
  */
-class Setting extends \Opencart\System\Engine\Controller {
-	/**
+class Setting extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		// Setting
-		$this->load->model('setting/setting');
+    public function index(): void
+    {
+        // Setting
+        $this->load->model('setting/setting');
 
-		$results = $this->model_setting_setting->getSettings(0);
+        $results = $this->model_setting_setting->getSettings(0);
 
-		foreach ($results as $result) {
-			if (!$result['serialized']) {
-				$this->config->set($result['key'], $result['value']);
-			} else {
-				$this->config->set($result['key'], json_decode($result['value'], true));
-			}
-		}
+        foreach ($results as $result) {
+            if (!$result['serialized']) {
+                $this->config->set($result['key'], $result['value']);
+            } else {
+                $this->config->set($result['key'], json_decode($result['value'], true));
+            }
+        }
 
-		// Set time zone
-		if ($this->config->get('config_timezone')) {
-			date_default_timezone_set($this->config->get('config_timezone'));
+        // Set time zone
+        if ($this->config->get('config_timezone')) {
+            date_default_timezone_set($this->config->get('config_timezone'));
 
-			// Sync PHP and DB time zones.
-			$this->db->query("SET `time_zone` = '" . $this->db->escape(date('P')) . "'");
-		}
-	}
+            // Sync PHP and DB time zones.
+            $this->db->query("SET `time_zone` = '" . $this->db->escape(date('P')) . "'");
+        }
+    }
 }

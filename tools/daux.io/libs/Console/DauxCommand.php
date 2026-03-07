@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Console;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Console;
 
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,7 +50,7 @@ class DauxCommand extends SymfonyCommand
 
         if ($input->hasOption('value')) {
             $values = array_map(
-                fn($value) => array_map('trim', explode('=', $value)),
+                fn ($value) => array_map('trim', explode('=', $value)),
                 $input->getOption('value')
             );
             $builder->withValues($values);

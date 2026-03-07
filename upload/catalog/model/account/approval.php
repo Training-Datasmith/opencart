@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Account;
+
 /**
  * Class Customer
  *
@@ -7,8 +11,9 @@ namespace Opencart\Catalog\Model\Account;
  *
  * @package Opencart\Catalog\Model\Account
  */
-class Approval extends \Opencart\System\Engine\Model {
-	/**
+class Approval extends \Opencart\System\Engine\Model
+{
+    /**
      * Add Customer Approval
      *
      * Create a new customer approval record in the database.
@@ -22,11 +27,12 @@ class Approval extends \Opencart\System\Engine\Model {
      *
      * $this->model_account_approval->addApproval($customer_id, $type);
      */
-    public function addApproval(int $customer_id, string $type): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer_approval` SET `customer_id` = '" . $customer_id . "', `type` = '" . $this->db->escape($type) . "', `date_added` = NOW()");
-	}
+    public function addApproval(int $customer_id, string $type): void
+    {
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_approval` SET `customer_id` = '" . $customer_id . "', `type` = '" . $this->db->escape($type) . "', `date_added` = NOW()");
+    }
 
-	/**
+    /**
      * Delete Customer Approvals
      *
      * Delete customer approval records in the database.
@@ -40,7 +46,8 @@ class Approval extends \Opencart\System\Engine\Model {
      *
      * $this->model_account_approval->deleteApprovals($customer_id);
      */
-    public function deleteApprovals(int $customer_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "'");
-	}
+    public function deleteApprovals(int $customer_id): void
+    {
+        $this->db->query('DELETE FROM `' . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . $customer_id . "'");
+    }
 }

@@ -1,12 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Event;
+
 /**
  * Class Product
  *
  * @package Opencart\Admin\Controller\Event
  */
-class Product extends \Opencart\System\Engine\Controller {
-	/**
+class Product extends \Opencart\System\Engine\Controller
+{
+    /**
      * Add Product
      *
      * Adds task to generate new product data.
@@ -17,52 +22,50 @@ class Product extends \Opencart\System\Engine\Controller {
      * @param mixed             $output
      *
      */
-    public function addProduct(string &$route, array &$args, string &$output): void {
-		$task_data = [
-			'code'   => 'product.info.' . $output,
-			'action' => 'task/catalog/product.info',
-			'args'   => ['product_id' => $output]
-		];
+    public function addProduct(string &$route, array &$args, string &$output): void
+    {
+        $task_data = [
+            'code'   => 'product.info.' . $output,
+            'action' => 'task/catalog/product.info',
+            'args'   => ['product_id' => $output],
+        ];
 
-		$this->load->model('setting/task');
+        $this->load->model('setting/task');
 
-		$this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->addTask($task_data);
 
+        // Categories
+        $this->load->model('catalog/category');
 
+        $results = $this->model_catalog_category->getProductsByFilterId($output);
 
+        foreach ($results as $result) {
+            $task_data = [
+                'code'   => 'filter.' . $result['filter_id'],
+                'action' => 'task/catalog/filter',
+                'args'   => ['filter_id' => $result['filter_id']],
+            ];
 
-		// Categories
-		$this->load->model('catalog/category');
+            $this->model_setting_task->addTask($task_data);
+        }
 
-		$results = $this->model_catalog_category->getProductsByFilterId($output);
+        // Filters
+        $this->load->model('catalog/filter');
 
-		foreach ($results as $result) {
-			$task_data = [
-				'code'   => 'filter.' . $result['filter_id'],
-				'action' => 'task/catalog/filter',
-				'args'   => ['filter_id' => $result['filter_id']]
-			];
+        $results = $this->model_catalog_product->getProductsByFilterId($output);
 
-			$this->model_setting_task->addTask($task_data);
-		}
+        foreach ($results as $result) {
+            $task_data = [
+                'code'   => 'filter.' . $result['filter_id'],
+                'action' => 'task/catalog/filter',
+                'args'   => ['filter_id' => $result['filter_id']],
+            ];
 
-		// Filters
-		$this->load->model('catalog/filter');
+            $this->model_setting_task->addTask($task_data);
+        }
+    }
 
-		$results = $this->model_catalog_product->getProductsByFilterId($output);
-
-		foreach ($results as $result) {
-			$task_data = [
-				'code'   => 'filter.' . $result['filter_id'],
-				'action' => 'task/catalog/filter',
-				'args'   => ['filter_id' => $result['filter_id']]
-			];
-
-			$this->model_setting_task->addTask($task_data);
-		}
-	}
-
-	/**
+    /**
      * Edit Product
      *
      * Adds task to generate new product data.
@@ -73,19 +76,20 @@ class Product extends \Opencart\System\Engine\Controller {
      * @param mixed             $output
      *
      */
-    public function editProduct(string &$route, array &$args, &$output): void {
-		$task_data = [
-			'code'   => 'product.info.' . $args[0],
-			'action' => 'task/catalog/product.info',
-			'args'   => ['product_id' => $args[0]]
-		];
+    public function editProduct(string &$route, array &$args, &$output): void
+    {
+        $task_data = [
+            'code'   => 'product.info.' . $args[0],
+            'action' => 'task/catalog/product.info',
+            'args'   => ['product_id' => $args[0]],
+        ];
 
-		$this->load->model('setting/task');
+        $this->load->model('setting/task');
 
-		$this->model_setting_task->addTask($task_data);
-	}
+        $this->model_setting_task->addTask($task_data);
+    }
 
-	/**
+    /**
      * Delete Product
      *
      * Adds task to generate new product data.
@@ -96,15 +100,16 @@ class Product extends \Opencart\System\Engine\Controller {
      * @param mixed             $output
      *
      */
-    public function deleteProduct(string &$route, array &$args, &$output): void {
-		$task_data = [
-			'code'   => 'product.delete.' . $args[0],
-			'action' => 'task/catalog/product.delete',
-			'args'   => ['product_id' => $args[0]]
-		];
+    public function deleteProduct(string &$route, array &$args, &$output): void
+    {
+        $task_data = [
+            'code'   => 'product.delete.' . $args[0],
+            'action' => 'task/catalog/product.delete',
+            'args'   => ['product_id' => $args[0]],
+        ];
 
-		$this->load->model('setting/task');
+        $this->load->model('setting/task');
 
-		$this->model_setting_task->addTask($task_data);
-	}
+        $this->model_setting_task->addTask($task_data);
+    }
 }

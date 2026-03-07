@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']       = '%s - Mise à jour du retour %s';
 $_['text_return_id']     = 'ID de retour:';

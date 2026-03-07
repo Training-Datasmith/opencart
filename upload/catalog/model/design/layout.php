@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Model\Design;
+
 /**
  * Class Layout
  *
@@ -7,8 +11,9 @@ namespace Opencart\Catalog\Model\Design;
  *
  * @package Opencart\Catalog\Model\Design
  */
-class Layout extends \Opencart\System\Engine\Model {
-	/**
+class Layout extends \Opencart\System\Engine\Model
+{
+    /**
      * Get Layout
      *
      * Get the record of the layout record in the database.
@@ -21,16 +26,17 @@ class Layout extends \Opencart\System\Engine\Model {
      *
      * $layout_id = $this->model_design_layout->getLayout($route);
      */
-    public function getLayout(string $route): int {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "layout_route` WHERE '" . $this->db->escape($route) . "' LIKE `route` AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' ORDER BY `route` DESC LIMIT 1");
+    public function getLayout(string $route): int
+    {
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "layout_route` WHERE '" . $this->db->escape($route) . "' LIKE `route` AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' ORDER BY `route` DESC LIMIT 1");
 
-		if ($query->num_rows) {
-			return (int)$query->row['layout_id'];
-		}
+        if ($query->num_rows) {
+            return (int)$query->row['layout_id'];
+        }
         return 0;
-	}
+    }
 
-	/**
+    /**
      * Get Modules
      *
      * Get the record of the layout module records in the database.
@@ -44,9 +50,10 @@ class Layout extends \Opencart\System\Engine\Model {
      *
      * $modules = $this->model_design_banner->getModules($layout_id, $position);
      */
-    public function getModules(int $layout_id, string $position): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . $layout_id . "' AND `position` = '" . $this->db->escape($position) . "' ORDER BY `sort_order`");
+    public function getModules(int $layout_id, string $position): array
+    {
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . $layout_id . "' AND `position` = '" . $this->db->escape($position) . "' ORDER BY `sort_order`");
 
-		return $query->rows;
-	}
+        return $query->rows;
+    }
 }

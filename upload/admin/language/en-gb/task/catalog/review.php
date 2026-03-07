@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_task']       = 'Generating translation task list!';
 $_['text_write']      = 'Generating %s %s %s translation data!';

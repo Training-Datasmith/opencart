@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_refine']      = 'Affiner la recherche';
 $_['text_product']     = 'Produits';

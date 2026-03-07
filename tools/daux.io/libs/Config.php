@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux;
 
 use Todaymade\Daux\Format\Confluence\Config as ConfluenceConfig;
 use Todaymade\Daux\Format\HTML\Config as HTMLConfig;

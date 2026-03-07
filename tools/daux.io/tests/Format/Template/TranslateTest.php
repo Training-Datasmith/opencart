@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Todaymade\Daux\Format\Template;
 
 use org\bovigo\vfs\vfsStream;

@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Install\Controller\Install;
+
 /**
  * Class Promotion
  *
@@ -7,27 +11,29 @@ namespace Opencart\Install\Controller\Install;
  *
  * @package Opencart\Install\Controller\Install
  */
-class Promotion extends \Opencart\System\Engine\Controller {
-	/**
+class Promotion extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): string {
-		$curl = curl_init();
+    public function index(): string
+    {
+        $curl = curl_init();
 
-		curl_setopt($curl, CURLOPT_URL, 'https://www.opencart.com/index.php?route=api/install');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HEADER, false);
-		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_URL, 'https://www.opencart.com/index.php?route=api/install');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
 
-		$output = curl_exec($curl);
+        $output = curl_exec($curl);
 
-		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-		if ($status == 200) {
-			return $output;
-		}
+        if ($status == 200) {
+            return $output;
+        }
 
-		return '';
-	}
+        return '';
+    }
 }

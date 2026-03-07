@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_reviews']    = '%s avis';
 $_['text_write']      = 'Écrire un avis';

@@ -1,49 +1,55 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Extension\Opencart\Module;
+
 /**
  * Class Blog
  *
  * @package Opencart\Catalog\Controller\Extension\Opencart\Module
  */
-class Blog extends \Opencart\System\Engine\Controller {
-	/**
+class Blog extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * @param array<string, mixed> $setting array of filters
      */
-    public function index(array $setting): string {
-		$this->load->language('extension/opencart/module/blog');
+    public function index(array $setting): string
+    {
+        $this->load->language('extension/opencart/module/blog');
 
-		$data['blogs'] = [];
+        $data['blogs'] = [];
 
-		// Blog
-		$this->load->model('extension/opencart/module/blog');
+        // Blog
+        $this->load->model('extension/opencart/module/blog');
 
-		// Image
-		$this->load->model('tool/image');
+        // Image
+        $this->load->model('tool/image');
 
-		$filter_data = [
-			'sort'  => $setting['sort'],
-			'order' => $setting['order'],
-			'start' => 0,
-			'limit' => $setting['limit']
-		];
+        $filter_data = [
+            'sort'  => $setting['sort'],
+            'order' => $setting['order'],
+            'start' => 0,
+            'limit' => $setting['limit'],
+        ];
 
-		$results = $this->model_extension_opencart_module_blog->getArticles($filter_data);
+        $results = $this->model_extension_opencart_module_blog->getArticles($filter_data);
 
-		if ($results) {
-			foreach ($results as $result) {
-				$data['blogs'][] = [
-					'article_id'  => $result['article_id'],
-					'thumb'       => $result['image'],
-					'name'        => $result['name'],
-					'description' => oc_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('config_article_description_length')) . '..',
-					'href'        => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $result['article_id'])
-				];
-			}
+        if ($results) {
+            foreach ($results as $result) {
+                $data['blogs'][] = [
+                    'article_id'  => $result['article_id'],
+                    'thumb'       => $result['image'],
+                    'name'        => $result['name'],
+                    'description' => oc_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('config_article_description_length')) . '..',
+                    'href'        => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $result['article_id']),
+                ];
+            }
 
-			return $this->load->view('extension/opencart/module/blog', $data);
-		}
+            return $this->load->view('extension/opencart/module/blog', $data);
+        }
         return '';
-	}
+    }
 }

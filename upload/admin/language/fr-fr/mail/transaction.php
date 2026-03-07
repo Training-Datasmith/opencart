@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']  = '%s - Crédit d\'affiliation';
 $_['text_received'] = 'Vous avez reçu un crédit de %s!';

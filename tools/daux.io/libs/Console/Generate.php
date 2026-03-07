@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Console;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Console;
 
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;

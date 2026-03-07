@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Locale
 $_['code']                  = 'en-GB';
 $_['direction']             = 'ltr';

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // En-tête
 $_['heading_title']     = 'Demande relative au Règlement Général sur la Protection des Données (RGPD)';
 

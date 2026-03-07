@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']      = '%s - Mise à jour de la commande %s';
 $_['text_order_id']     = 'ID de la commande:';

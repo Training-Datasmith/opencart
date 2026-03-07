@@ -1,6 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Base;
+<?php
 
-use Todaymade\Daux\Tree\ComputedRaw;
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Base;
 
 abstract class ComputedRawPage implements Page
 {

@@ -1,15 +1,17 @@
 <?php
+
+declare(strict_types=1);
 ini_set('display_errors', 1);
 
 error_reporting(E_ALL);
 
 // Check if SSL
 if ((isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'))) || $_SERVER['SERVER_PORT'] == 443) {
-	$protocol = 'https://';
+    $protocol = 'https://';
 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
-	$protocol = 'https://';
+    $protocol = 'https://';
 } else {
-	$protocol = 'http://';
+    $protocol = 'http://';
 }
 
 // APPLICATION

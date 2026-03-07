@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -8,42 +10,47 @@
  *
  * @see		https://www.opencart.com
  */
+
 namespace Opencart\System\Library;
+
 /**
  * Class Session
  */
-class Session {
-	protected object $adaptor;
-	protected string $session_id;
-	/**
-	 * @var array<mixed>
-	 */
-	public array $data = [];
+class Session
+{
+    protected object $adaptor;
+    protected string $session_id;
+    /**
+     * @var array<mixed>
+     */
+    public array $data = [];
 
-	/**
+    /**
      * Constructor
      */
-    public function __construct(string $adaptor, \Opencart\System\Engine\Registry $registry) {
-		$class = 'Opencart\System\Library\Session\\' . $adaptor;
+    public function __construct(string $adaptor, \Opencart\System\Engine\Registry $registry)
+    {
+        $class = 'Opencart\System\Library\Session\\' . $adaptor;
 
-		if (!class_exists($class)) {
-			throw new \Exception('Error: Could not load session adaptor ' . $adaptor . ' session!');
-		}
+        if (!class_exists($class)) {
+            throw new \Exception('Error: Could not load session adaptor ' . $adaptor . ' session!');
+        }
 
-		$this->adaptor = new $class($registry);
+        $this->adaptor = new $class($registry);
 
-		register_shutdown_function([&$this, 'close']);
-		register_shutdown_function([&$this, 'gc']);
-	}
+        register_shutdown_function([&$this, 'close']);
+        register_shutdown_function([&$this, 'gc']);
+    }
 
-	/**
+    /**
      * Get Session ID
      */
-    public function getId(): string {
-		return $this->session_id;
-	}
+    public function getId(): string
+    {
+        return $this->session_id;
+    }
 
-	/**
+    /**
      * Start
      *
      * Starts a session.
@@ -51,48 +58,52 @@ class Session {
      *
      * @return string returns the current session ID
      */
-    public function start(string $session_id = ''): string {
-		if (!$session_id) {
-			$session_id = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
-		}
+    public function start(string $session_id = ''): string
+    {
+        if (!$session_id) {
+            $session_id = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
+        }
 
-		if (!preg_match('/^[a-zA-Z0-9,\-]{22,52}$/', $session_id)) {
-			throw new \Exception('Error: Invalid session ID!');
-		}
+        if (!preg_match('/^[a-zA-Z0-9,\-]{22,52}$/', $session_id)) {
+            throw new \Exception('Error: Invalid session ID!');
+        }
 
-		$this->session_id = $session_id;
+        $this->session_id = $session_id;
 
-		$this->data = $this->adaptor->read($session_id);
+        $this->data = $this->adaptor->read($session_id);
 
-		return $session_id;
-	}
+        return $session_id;
+    }
 
-	/**
+    /**
      * Close
      *
      * Writes the session data to storage
      */
-    public function close(): void {
-		$this->adaptor->write($this->session_id, $this->data);
-	}
+    public function close(): void
+    {
+        $this->adaptor->write($this->session_id, $this->data);
+    }
 
-	/**
+    /**
      * Destroy
      *
      * Deletes the current session from storage
      */
-    public function destroy(): void {
-		$this->data = [];
+    public function destroy(): void
+    {
+        $this->data = [];
 
-		$this->adaptor->destroy($this->session_id);
-	}
+        $this->adaptor->destroy($this->session_id);
+    }
 
-	/**
+    /**
      * GC
      *
      * Garbage Collection
      */
-    public function gc(): void {
-		$this->adaptor->gc();
-	}
+    public function gc(): void
+    {
+        $this->adaptor->gc();
+    }
 }

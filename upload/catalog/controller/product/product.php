@@ -1,482 +1,488 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Catalog\Controller\Product;
+
 /**
  * Class Product
  *
  * @package Opencart\Catalog\Controller\Product
  */
-class Product extends \Opencart\System\Engine\Controller {
-	/**
+class Product extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): ?\Opencart\System\Engine\Action {
-		$this->load->language('product/product');
+    public function index(): ?\Opencart\System\Engine\Action
+    {
+        $this->load->language('product/product');
 
-		// Product
-		if (isset($this->request->get['product_id'])) {
-			$product_id = (int)$this->request->get['product_id'];
-		} else {
-			$product_id = 0;
-		}
+        // Product
+        if (isset($this->request->get['product_id'])) {
+            $product_id = (int)$this->request->get['product_id'];
+        } else {
+            $product_id = 0;
+        }
 
-		$this->load->model('catalog/product');
+        $this->load->model('catalog/product');
 
-		$product_info = $this->model_catalog_product->getProduct($product_id);
+        $product_info = $this->model_catalog_product->getProduct($product_id);
 
-		if (!$product_info) {
-			return new \Opencart\System\Engine\Action('error/not_found');
-		}
+        if (!$product_info) {
+            return new \Opencart\System\Engine\Action('error/not_found');
+        }
 
-		$this->document->setTitle($product_info['meta_title']);
-		$this->document->setDescription($product_info['meta_description']);
-		$this->document->setKeywords($product_info['meta_keyword']);
-		$this->document->addLink($this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id), 'canonical');
+        $this->document->setTitle($product_info['meta_title']);
+        $this->document->setDescription($product_info['meta_description']);
+        $this->document->setKeywords($product_info['meta_keyword']);
+        $this->document->addLink($this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id), 'canonical');
 
-		$this->document->addScript('catalog/view/javascript/product.js');
-		$this->document->addScript('assets/magnific/jquery.magnific-popup.min.js');
-		$this->document->addStyle('assets/view/javascript/jquery/magnific/magnific-popup.css');
-
-		$data['breadcrumbs'] = [];
+        $this->document->addScript('catalog/view/javascript/product.js');
+        $this->document->addScript('assets/magnific/jquery.magnific-popup.min.js');
+        $this->document->addStyle('assets/view/javascript/jquery/magnific/magnific-popup.css');
+
+        $data['breadcrumbs'] = [];
+
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language')),
+        ];
+
+        // Category
+        $this->load->model('catalog/category');
+
+        if (isset($this->request->get['path'])) {
+            $path = '';
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
-		];
-
-		// Category
-		$this->load->model('catalog/category');
+            $parts = explode('_', (string)$this->request->get['path']);
+
+            $category_id = (int)array_pop($parts);
 
-		if (isset($this->request->get['path'])) {
-			$path = '';
+            foreach ($parts as $path_id) {
+                if (!$path) {
+                    $path = $path_id;
+                } else {
+                    $path .= '_' . $path_id;
+                }
 
-			$parts = explode('_', (string)$this->request->get['path']);
-
-			$category_id = (int)array_pop($parts);
+                $category_info = $this->model_catalog_category->getCategory((int)$path_id);
+
+                if ($category_info) {
+                    $data['breadcrumbs'][] = [
+                        'text' => $category_info['name'],
+                        'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $path),
+                    ];
+                }
+            }
+
+            // Set the last category breadcrumb
+            $category_info = $this->model_catalog_category->getCategory($category_id);
 
-			foreach ($parts as $path_id) {
-				if (!$path) {
-					$path = $path_id;
-				} else {
-					$path .= '_' . $path_id;
-				}
+            if ($category_info) {
+                $url = '';
 
-				$category_info = $this->model_catalog_category->getCategory((int)$path_id);
+                if (isset($this->request->get['sort'])) {
+                    $url .= '&sort=' . $this->request->get['sort'];
+                }
+
+                if (isset($this->request->get['order'])) {
+                    $url .= '&order=' . $this->request->get['order'];
+                }
 
-				if ($category_info) {
-					$data['breadcrumbs'][] = [
-						'text' => $category_info['name'],
-						'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $path)
-					];
-				}
-			}
+                if (isset($this->request->get['page'])) {
+                    $url .= '&page=' . $this->request->get['page'];
+                }
 
-			// Set the last category breadcrumb
-			$category_info = $this->model_catalog_category->getCategory($category_id);
+                if (isset($this->request->get['limit'])) {
+                    $url .= '&limit=' . $this->request->get['limit'];
+                }
 
-			if ($category_info) {
-				$url = '';
+                $data['breadcrumbs'][] = [
+                    'text' => $category_info['name'],
+                    'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url),
+                ];
+            }
+        }
+
+        // Manufacturer
+        $this->load->model('catalog/manufacturer');
+
+        if (isset($this->request->get['manufacturer_id'])) {
+            $data['breadcrumbs'][] = [
+                'text' => $this->language->get('text_brand'),
+                'href' => $this->url->link('product/manufacturer', 'language=' . $this->config->get('config_language')),
+            ];
 
-				if (isset($this->request->get['sort'])) {
-					$url .= '&sort=' . $this->request->get['sort'];
-				}
-
-				if (isset($this->request->get['order'])) {
-					$url .= '&order=' . $this->request->get['order'];
-				}
+            $url = '';
+
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
+
+            $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
 
-				if (isset($this->request->get['page'])) {
-					$url .= '&page=' . $this->request->get['page'];
-				}
+            if ($manufacturer_info) {
+                $data['breadcrumbs'][] = [
+                    'text' => $manufacturer_info['name'],
+                    'href' => $this->url->link('product/manufacturer.info', 'language=' . $this->config->get('config_language') . '&manufacturer_id=' . $this->request->get['manufacturer_id'] . $url),
+                ];
+            }
+        }
+
+        if (isset($this->request->get['search']) || isset($this->request->get['tag'])) {
+            $url = '';
 
-				if (isset($this->request->get['limit'])) {
-					$url .= '&limit=' . $this->request->get['limit'];
-				}
+            if (isset($this->request->get['search'])) {
+                $url .= '&search=' . $this->request->get['search'];
+            }
 
-				$data['breadcrumbs'][] = [
-					'text' => $category_info['name'],
-					'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url)
-				];
-			}
-		}
-
-		// Manufacturer
-		$this->load->model('catalog/manufacturer');
+            if (isset($this->request->get['tag'])) {
+                $url .= '&tag=' . $this->request->get['tag'];
+            }
 
-		if (isset($this->request->get['manufacturer_id'])) {
-			$data['breadcrumbs'][] = [
-				'text' => $this->language->get('text_brand'),
-				'href' => $this->url->link('product/manufacturer', 'language=' . $this->config->get('config_language'))
-			];
+            if (isset($this->request->get['description'])) {
+                $url .= '&description=' . $this->request->get['description'];
+            }
 
-			$url = '';
+            if (isset($this->request->get['category_id'])) {
+                $url .= '&category_id=' . $this->request->get['category_id'];
+            }
 
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
+            if (isset($this->request->get['sub_category'])) {
+                $url .= '&sub_category=' . $this->request->get['sub_category'];
+            }
 
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
 
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
 
-			if (isset($this->request->get['limit'])) {
-				$url .= '&limit=' . $this->request->get['limit'];
-			}
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
 
-			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
+            if (isset($this->request->get['limit'])) {
+                $url .= '&limit=' . $this->request->get['limit'];
+            }
 
-			if ($manufacturer_info) {
-				$data['breadcrumbs'][] = [
-					'text' => $manufacturer_info['name'],
-					'href' => $this->url->link('product/manufacturer.info', 'language=' . $this->config->get('config_language') . '&manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
-				];
-			}
-		}
-
-		if (isset($this->request->get['search']) || isset($this->request->get['tag'])) {
-			$url = '';
+            $data['breadcrumbs'][] = [
+                'text' => $this->language->get('text_search'),
+                'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url),
+            ];
+        }
 
-			if (isset($this->request->get['search'])) {
-				$url .= '&search=' . $this->request->get['search'];
-			}
+        $url = '';
 
-			if (isset($this->request->get['tag'])) {
-				$url .= '&tag=' . $this->request->get['tag'];
-			}
+        if (isset($this->request->get['path'])) {
+            $url .= '&path=' . $this->request->get['path'];
+        }
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
-			}
+        if (isset($this->request->get['filter'])) {
+            $url .= '&filter=' . $this->request->get['filter'];
+        }
 
-			if (isset($this->request->get['category_id'])) {
-				$url .= '&category_id=' . $this->request->get['category_id'];
-			}
+        if (isset($this->request->get['manufacturer_id'])) {
+            $url .= '&manufacturer_id=' . $this->request->get['manufacturer_id'];
+        }
 
-			if (isset($this->request->get['sub_category'])) {
-				$url .= '&sub_category=' . $this->request->get['sub_category'];
-			}
+        if (isset($this->request->get['search'])) {
+            $url .= '&search=' . $this->request->get['search'];
+        }
 
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
+        if (isset($this->request->get['tag'])) {
+            $url .= '&tag=' . $this->request->get['tag'];
+        }
 
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
+        if (isset($this->request->get['description'])) {
+            $url .= '&description=' . $this->request->get['description'];
+        }
 
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
+        if (isset($this->request->get['category_id'])) {
+            $url .= '&category_id=' . $this->request->get['category_id'];
+        }
 
-			if (isset($this->request->get['limit'])) {
-				$url .= '&limit=' . $this->request->get['limit'];
-			}
+        if (isset($this->request->get['sub_category'])) {
+            $url .= '&sub_category=' . $this->request->get['sub_category'];
+        }
 
-			$data['breadcrumbs'][] = [
-				'text' => $this->language->get('text_search'),
-				'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url)
-			];
-		}
+        if (isset($this->request->get['sort'])) {
+            $url .= '&sort=' . $this->request->get['sort'];
+        }
 
-		$url = '';
+        if (isset($this->request->get['order'])) {
+            $url .= '&order=' . $this->request->get['order'];
+        }
 
-		if (isset($this->request->get['path'])) {
-			$url .= '&path=' . $this->request->get['path'];
-		}
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
 
-		if (isset($this->request->get['filter'])) {
-			$url .= '&filter=' . $this->request->get['filter'];
-		}
+        if (isset($this->request->get['limit'])) {
+            $url .= '&limit=' . $this->request->get['limit'];
+        }
 
-		if (isset($this->request->get['manufacturer_id'])) {
-			$url .= '&manufacturer_id=' . $this->request->get['manufacturer_id'];
-		}
+        $data['breadcrumbs'][] = [
+            'text' => $product_info['name'],
+            'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . $url . '&product_id=' . $product_id),
+        ];
 
-		if (isset($this->request->get['search'])) {
-			$url .= '&search=' . $this->request->get['search'];
-		}
+        $data['heading_title'] = $product_info['name'];
 
-		if (isset($this->request->get['tag'])) {
-			$url .= '&tag=' . $this->request->get['tag'];
-		}
+        $data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
+        $data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')));
+        $data['text_reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
 
-		if (isset($this->request->get['description'])) {
-			$url .= '&description=' . $this->request->get['description'];
-		}
+        $data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
 
-		if (isset($this->request->get['category_id'])) {
-			$url .= '&category_id=' . $this->request->get['category_id'];
-		}
+        $data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		if (isset($this->request->get['sub_category'])) {
-			$url .= '&sub_category=' . $this->request->get['sub_category'];
-		}
+        $data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
 
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
+        $this->session->data['upload_token'] = oc_token(32);
 
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
+        $data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language') . '&upload_token=' . $this->session->data['upload_token']);
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+        $data['product_id'] = $product_id;
 
-		if (isset($this->request->get['limit'])) {
-			$url .= '&limit=' . $this->request->get['limit'];
-		}
+        $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($product_info['manufacturer_id']);
 
-		$data['breadcrumbs'][] = [
-			'text' => $product_info['name'],
-			'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . $url . '&product_id=' . $product_id)
-		];
+        if ($manufacturer_info) {
+            $data['manufacturer'] = $manufacturer_info['name'];
+        } else {
+            $data['manufacturer'] = '';
+        }
 
-		$data['heading_title'] = $product_info['name'];
+        $data['manufacturers'] = $this->url->link('product/manufacturer.info', 'language=' . $this->config->get('config_language') . '&manufacturer_id=' . $product_info['manufacturer_id']);
+        $data['model'] = $product_info['model'];
 
-		$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
-		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')));
-		$data['text_reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
+        $data['product_codes'] = [];
 
-		$data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
+        $results = $this->model_catalog_product->getCodes($product_id);
 
-		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
+        foreach ($results as $result) {
+            if ($result['status']) {
+                $data['product_codes'][] = $result;
+            }
+        }
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+        $data['reward'] = $product_info['reward'];
+        $data['points'] = $product_info['points'];
+        $data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 
-		$this->session->data['upload_token'] = oc_token(32);
+        // Stock Status
+        if ($product_info['quantity'] <= 0) {
+            $stock_status_id = $product_info['stock_status_id'];
 
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language') . '&upload_token=' . $this->session->data['upload_token']);
+            $data['stock'] = false;
+        } elseif (!$this->config->get('config_stock_display')) {
+            $stock_status_id = (int)$this->config->get('config_stock_status_id');
 
-		$data['product_id'] = $product_id;
+            $data['stock'] = true;
+        } else {
+            $stock_status_id = 0;
 
-		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($product_info['manufacturer_id']);
+            $data['stock'] = true;
+        }
 
-		if ($manufacturer_info) {
-			$data['manufacturer'] = $manufacturer_info['name'];
-		} else {
-			$data['manufacturer'] = '';
-		}
+        $this->load->model('localisation/stock_status');
 
-		$data['manufacturers'] = $this->url->link('product/manufacturer.info', 'language=' . $this->config->get('config_language') . '&manufacturer_id=' . $product_info['manufacturer_id']);
-		$data['model'] = $product_info['model'];
+        $stock_status_info = $this->model_localisation_stock_status->getStockStatus($stock_status_id);
 
-		$data['product_codes'] = [];
+        if ($stock_status_info) {
+            $data['stock_status'] = $stock_status_info['name'];
+        } else {
+            $data['stock_status'] = $product_info['quantity'];
+        }
 
-		$results = $this->model_catalog_product->getCodes($product_id);
+        $data['rating'] = (int)$product_info['rating'];
+        $data['review_status'] = (int)$this->config->get('config_review_status');
+        $data['review'] = $this->load->controller('product/review');
 
-		foreach ($results as $result) {
-			if ($result['status']) {
-				$data['product_codes'][] = $result;
-			}
-		}
+        $data['wishlist_add'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
+        $data['compare_add'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
 
-		$data['reward'] = $product_info['reward'];
-		$data['points'] = $product_info['points'];
-		$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+        // Image
+        $this->load->model('tool/image');
 
-		// Stock Status
-		if ($product_info['quantity'] <= 0) {
-			$stock_status_id = $product_info['stock_status_id'];
+        if ($product_info['image'] && is_file(DIR_IMAGE . html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'))) {
+            $data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
+            $data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+        } else {
+            $data['popup'] = '';
+            $data['thumb'] = '';
+        }
 
-			$data['stock'] = false;
-		} elseif (!$this->config->get('config_stock_display')) {
-			$stock_status_id = (int)$this->config->get('config_stock_status_id');
+        $data['images'] = [];
 
-			$data['stock'] = true;
-		} else {
-			$stock_status_id = 0;
+        $results = $this->model_catalog_product->getImages($product_id);
 
-			$data['stock'] = true;
-		}
+        foreach ($results as $result) {
+            if ($result['image'] && is_file(DIR_IMAGE . html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'))) {
+                $data['images'][] = [
+                    'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),
+                    'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height')),
+                ];
+            }
+        }
 
-		$this->load->model('localisation/stock_status');
+        if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
+            $data['price'] = $this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));
+        } else {
+            $data['price'] = false;
+        }
 
-		$stock_status_info = $this->model_localisation_stock_status->getStockStatus($stock_status_id);
+        if ((float)$product_info['special']) {
+            $data['special'] = $this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax'));
+        } else {
+            $data['special'] = false;
+        }
 
-		if ($stock_status_info) {
-			$data['stock_status'] = $stock_status_info['name'];
-		} else {
-			$data['stock_status'] = $product_info['quantity'];
-		}
+        if ($this->config->get('config_tax')) {
+            $data['tax'] = (float)$product_info['special'] ? $product_info['special'] : $product_info['price'];
+        } else {
+            $data['tax'] = false;
+        }
 
-		$data['rating'] = (int)$product_info['rating'];
-		$data['review_status'] = (int)$this->config->get('config_review_status');
-		$data['review'] = $this->load->controller('product/review');
+        $discounts = $this->model_catalog_product->getDiscounts($product_id);
 
-		$data['wishlist_add'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
-		$data['compare_add'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
+        $data['discounts'] = [];
 
-		// Image
-		$this->load->model('tool/image');
+        if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
+            foreach ($discounts as $discount) {
+                $data['discounts'][] = ['price' => $this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))] + $discount;
+            }
+        }
 
-		if ($product_info['image'] && is_file(DIR_IMAGE . html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'))) {
-			$data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
-			$data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
-		} else {
-			$data['popup'] = '';
-			$data['thumb'] = '';
-		}
+        $data['options'] = [];
 
-		$data['images'] = [];
+        // Check if product is variant
+        if ($product_info['master_id']) {
+            $master_id = (int)$product_info['master_id'];
+        } else {
+            $master_id = $product_id;
+        }
 
-		$results = $this->model_catalog_product->getImages($product_id);
+        $product_options = $this->model_catalog_product->getOptions($master_id);
+
+        foreach ($product_options as $option) {
+            if ($product_id && !isset($product_info['override']['variant'][$option['product_option_id']])) {
+                $product_option_value_data = [];
 
-		foreach ($results as $result) {
-			if ($result['image'] && is_file(DIR_IMAGE . html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'))) {
-				$data['images'][] = [
-					'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),
-					'thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'))
-				];
-			}
-		}
+                foreach ($option['product_option_value'] as $option_value) {
+                    if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
+                        if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
+                            $price = $this->tax->calculate($option_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));
+                        } else {
+                            $price = false;
+                        }
 
-		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-			$data['price'] = $this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));
-		} else {
-			$data['price'] = false;
-		}
+                        if ($option_value['image'] && is_file(DIR_IMAGE . html_entity_decode($option_value['image'], ENT_QUOTES, 'UTF-8'))) {
+                            $image = $option_value['image'];
+                        } else {
+                            $image = '';
+                        }
 
-		if ((float)$product_info['special']) {
-			$data['special'] = $this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax'));
-		} else {
-			$data['special'] = false;
-		}
+                        $product_option_value_data[] = [
+                            'image' => $this->model_tool_image->resize($image, 50, 50),
+                            'price' => $price,
+                        ] + $option_value;
+                    }
+                }
 
-		if ($this->config->get('config_tax')) {
-			$data['tax'] = (float)$product_info['special'] ? $product_info['special'] : $product_info['price'];
-		} else {
-			$data['tax'] = false;
-		}
+                $data['options'][] = ['product_option_value' => $product_option_value_data] + $option;
+            }
+        }
 
-		$discounts = $this->model_catalog_product->getDiscounts($product_id);
+        // Subscription Plans
+        $data['subscription_plans'] = [];
 
-		$data['discounts'] = [];
+        $results = $this->model_catalog_product->getSubscriptions($product_id);
 
-		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-			foreach ($discounts as $discount) {
-				$data['discounts'][] = ['price' => $this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))] + $discount;
-			}
-		}
+        foreach ($results as $result) {
+            $description = '';
 
-		$data['options'] = [];
+            if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
+                if ($result['duration']) {
+                    $price = ($product_info['special'] ?: $product_info['price']) / $result['duration'];
+                } else {
+                    $price = ($product_info['special'] ?: $product_info['price']);
+                }
 
-		// Check if product is variant
-		if ($product_info['master_id']) {
-			$master_id = (int)$product_info['master_id'];
-		} else {
-			$master_id = $product_id;
-		}
+                $price = $this->tax->calculate($price, $product_info['tax_class_id'], $this->config->get('config_tax'));
+                $cycle = $result['cycle'];
+                $frequency = $this->language->get('text_' . $result['frequency']);
+                $duration = $result['duration'];
 
-		$product_options = $this->model_catalog_product->getOptions($master_id);
+                if ($duration) {
+                    $description = sprintf($this->language->get('text_subscription_duration'), $price, $cycle, $frequency, $duration);
+                } else {
+                    $description = sprintf($this->language->get('text_subscription_cancel'), $price, $cycle, $frequency);
+                }
+            }
 
-		foreach ($product_options as $option) {
-			if ($product_id && !isset($product_info['override']['variant'][$option['product_option_id']])) {
-				$product_option_value_data = [];
+            $data['subscription_plans'][] = ['description' => $description] + $result;
+        }
 
-				foreach ($option['product_option_value'] as $option_value) {
-					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
-						if ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option_value['price']) {
-							$price = $this->tax->calculate($option_value['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));
-						} else {
-							$price = false;
-						}
+        if ($product_info['minimum']) {
+            $data['minimum'] = $product_info['minimum'];
+        } else {
+            $data['minimum'] = 1;
+        }
 
-						if ($option_value['image'] && is_file(DIR_IMAGE . html_entity_decode($option_value['image'], ENT_QUOTES, 'UTF-8'))) {
-							$image = $option_value['image'];
-						} else {
-							$image = '';
-						}
+        $data['share'] = $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id);
 
-						$product_option_value_data[] = [
-							'image' => $this->model_tool_image->resize($image, 50, 50),
-							'price' => $price
-						] + $option_value;
-					}
-				}
+        // Attribute Groups
+        $data['attribute_groups'] = $this->model_catalog_product->getAttributes($product_id);
 
-				$data['options'][] = ['product_option_value' => $product_option_value_data] + $option;
-			}
-		}
+        // Related
+        $data['related'] = $this->load->controller('product/related');
 
-		// Subscription Plans
-		$data['subscription_plans'] = [];
+        // Tag
+        $data['tags'] = [];
 
-		$results = $this->model_catalog_product->getSubscriptions($product_id);
+        if ($product_info['tag']) {
+            $tags = explode(',', $product_info['tag']);
 
-		foreach ($results as $result) {
-			$description = '';
+            foreach ($tags as $tag) {
+                $data['tags'][] = [
+                    'tag'  => trim($tag),
+                    'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&tag=' . trim($tag)),
+                ];
+            }
+        }
 
-			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-				if ($result['duration']) {
-					$price = ($product_info['special'] ?: $product_info['price']) / $result['duration'];
-				} else {
-					$price = ($product_info['special'] ?: $product_info['price']);
-				}
+        if ($this->config->get('config_product_report_status')) {
+            $this->model_catalog_product->addReport($product_id, oc_get_ip());
+        }
 
-				$price = $this->tax->calculate($price, $product_info['tax_class_id'], $this->config->get('config_tax'));
-				$cycle = $result['cycle'];
-				$frequency = $this->language->get('text_' . $result['frequency']);
-				$duration = $result['duration'];
+        $data['language'] = $this->config->get('config_language');
+        $data['currency'] = $this->session->data['currency'];
 
-				if ($duration) {
-					$description = sprintf($this->language->get('text_subscription_duration'), $price, $cycle, $frequency, $duration);
-				} else {
-					$description = sprintf($this->language->get('text_subscription_cancel'), $price, $cycle, $frequency);
-				}
-			}
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['column_right'] = $this->load->controller('common/column_right');
+        $data['content_top'] = $this->load->controller('common/content_top');
+        $data['content_bottom'] = $this->load->controller('common/content_bottom');
+        $data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
 
-			$data['subscription_plans'][] = ['description' => $description] + $result;
-		}
+        $this->response->setOutput($this->load->view('product/product', $data));
 
-		if ($product_info['minimum']) {
-			$data['minimum'] = $product_info['minimum'];
-		} else {
-			$data['minimum'] = 1;
-		}
-
-		$data['share'] = $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id);
-
-		// Attribute Groups
-		$data['attribute_groups'] = $this->model_catalog_product->getAttributes($product_id);
-
-		// Related
-		$data['related'] = $this->load->controller('product/related');
-
-		// Tag
-		$data['tags'] = [];
-
-		if ($product_info['tag']) {
-			$tags = explode(',', $product_info['tag']);
-
-			foreach ($tags as $tag) {
-				$data['tags'][] = [
-					'tag'  => trim($tag),
-					'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&tag=' . trim($tag))
-				];
-			}
-		}
-
-		if ($this->config->get('config_product_report_status')) {
-			$this->model_catalog_product->addReport($product_id, oc_get_ip());
-		}
-
-		$data['language'] = $this->config->get('config_language');
-		$data['currency'] = $this->session->data['currency'];
-
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
-
-		$this->response->setOutput($this->load->view('product/product', $data));
-
-		return null;
-	}
+        return null;
+    }
 }

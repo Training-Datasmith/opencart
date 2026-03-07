@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Event;
+
 /**
  * Class Article
  *

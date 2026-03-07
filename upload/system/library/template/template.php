@@ -1,87 +1,95 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\System\Library\Template;
+
 /**
  * Class Template
  *
  * @package Opencart\System\Library\Template
  */
-class Template {
-	protected string $directory = '';
-	/**
-	 * @var array<string, string>
-	 */
-	protected array $path = [];
+class Template
+{
+    protected string $directory = '';
+    /**
+     * @var array<string, string>
+     */
+    protected array $path = [];
 
-	/**
+    /**
      * Add Path
      *
      *
      */
-    public function addPath(string $namespace, string $directory = ''): void {
-		if (!$directory) {
-			$this->directory = $namespace;
-		} else {
-			$this->path[$namespace] = $directory;
-		}
-	}
+    public function addPath(string $namespace, string $directory = ''): void
+    {
+        if (!$directory) {
+            $this->directory = $namespace;
+        } else {
+            $this->path[$namespace] = $directory;
+        }
+    }
 
-	/**
+    /**
      * Render
      *
      * @param array<string, mixed> $data
      *
      */
-    public function render(string $filename, array $data = [], string $code = ''): string {
-		if (!$code) {
-			$file = $this->directory . $filename . '.tpl';
+    public function render(string $filename, array $data = [], string $code = ''): string
+    {
+        if (!$code) {
+            $file = $this->directory . $filename . '.tpl';
 
-			$namespace = '';
+            $namespace = '';
 
-			$parts = explode('/', $filename);
+            $parts = explode('/', $filename);
 
-			foreach ($parts as $part) {
-				if (!$namespace) {
-					$namespace .= $part;
-				} else {
-					$namespace .= '/' . $part;
-				}
+            foreach ($parts as $part) {
+                if (!$namespace) {
+                    $namespace .= $part;
+                } else {
+                    $namespace .= '/' . $part;
+                }
 
-				if (isset($this->path[$namespace])) {
-					$file = $this->path[$namespace] . substr($filename, strlen($namespace) + 1) . '.tpl';
-				}
-			}
+                if (isset($this->path[$namespace])) {
+                    $file = $this->path[$namespace] . substr($filename, strlen($namespace) + 1) . '.tpl';
+                }
+            }
 
-			if (!is_file($file)) {
-				throw new \Exception('Error: Could not load template ' . $filename . '!');
-			}
+            if (!is_file($file)) {
+                throw new \Exception('Error: Could not load template ' . $filename . '!');
+            }
 
-			$code = file_get_contents($file);
-		}
+            $code = file_get_contents($file);
+        }
 
-		if ($code) {
-			ob_start();
+        if ($code) {
+            ob_start();
 
-			extract($data);
+            extract($data);
 
-			include($this->compile($filename, $code));
+            include($this->compile($filename, $code));
 
-			return ob_get_clean();
-		}
+            return ob_get_clean();
+        }
         return '';
-	}
+    }
 
-	/**
+    /**
      * Compile
      *
      *
      */
-    protected function compile(string $filename, string $code): string {
-		$file = DIR_CACHE . 'template/' . hash('md5', $filename . $code) . '.php';
+    protected function compile(string $filename, string $code): string
+    {
+        $file = DIR_CACHE . 'template/' . hash('md5', $filename . $code) . '.php';
 
-		if (!is_file($file)) {
-			file_put_contents($file, $code, LOCK_EX);
-		}
+        if (!is_file($file)) {
+            file_put_contents($file, $code, LOCK_EX);
+        }
 
-		return $file;
-	}
+        return $file;
+    }
 }

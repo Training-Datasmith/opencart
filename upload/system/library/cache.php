@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package        OpenCart
  *
@@ -8,43 +10,48 @@
  *
  * @see           https://www.opencart.com
  */
+
 namespace Opencart\System\Library;
+
 /**
  * Class Cache
  */
-class Cache {
-	private object $adaptor;
+class Cache
+{
+    private object $adaptor;
 
-	/**
-	 * Constructor
-	 *
-	 * @param string $adaptor the type of storage for the cache
-	 * @param int    $expire  Optional parameters
-	 */
-	public function __construct(string $adaptor, int $expire = 3600) {
-		$class = 'Opencart\System\Library\Cache\\' . $adaptor;
+    /**
+     * Constructor
+     *
+     * @param string $adaptor the type of storage for the cache
+     * @param int    $expire  Optional parameters
+     */
+    public function __construct(string $adaptor, int $expire = 3600)
+    {
+        $class = 'Opencart\System\Library\Cache\\' . $adaptor;
 
-		if (!class_exists($class)) {
-			throw new \Exception('Error: Could not load cache adaptor ' . $adaptor . ' cache!');
-		}
+        if (!class_exists($class)) {
+            throw new \Exception('Error: Could not load cache adaptor ' . $adaptor . ' cache!');
+        }
 
-		$this->adaptor = new $class($expire);
-	}
+        $this->adaptor = new $class($expire);
+    }
 
-	/**
-	 * Get
-	 *
-	 * Gets a cache by key name.
-	 *
-	 * @param string $key The cache key name
-	 *
-	 * @return mixed
-	 */
-	public function get(string $key) {
-		return $this->adaptor->get($key);
-	}
+    /**
+     * Get
+     *
+     * Gets a cache by key name.
+     *
+     * @param string $key The cache key name
+     *
+     * @return mixed
+     */
+    public function get(string $key)
+    {
+        return $this->adaptor->get($key);
+    }
 
-	/**
+    /**
      * Set
      *
      * Sets a cache by key value.
@@ -53,18 +60,20 @@ class Cache {
      * @param mixed  $value  The cache value
      * @param int    $expire The cache expiry
      */
-    public function set(string $key, $value, int $expire = 0): void {
-		$this->adaptor->set($key, $value, $expire);
-	}
+    public function set(string $key, $value, int $expire = 0): void
+    {
+        $this->adaptor->set($key, $value, $expire);
+    }
 
-	/**
+    /**
      * Delete
      *
      * Deletes a cache by key name.
      *
      * @param string $key The cache key
      */
-    public function delete(string $key): void {
-		$this->adaptor->delete($key);
-	}
+    public function delete(string $key): void
+    {
+        $this->adaptor->delete($key);
+    }
 }

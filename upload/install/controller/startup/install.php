@@ -1,42 +1,48 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Install\Controller\Startup;
+
 /**
  * Class Install
  *
  * @package Opencart\Install\Controller\Startup
  */
-class Install extends \Opencart\System\Engine\Controller {
-	/**
+class Install extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		// Document
-		$this->registry->set('document', new \Opencart\System\Library\Document());
+    public function index(): void
+    {
+        // Document
+        $this->registry->set('document', new \Opencart\System\Library\Document());
 
-		// URL
-		$this->registry->set('url', new \Opencart\System\Library\Url(HTTP_SERVER));
+        // URL
+        $this->registry->set('url', new \Opencart\System\Library\Url(HTTP_SERVER));
 
-		// Language
-		if (isset($this->request->get['language']) && $this->request->get['language'] != $this->config->get('language_code')) {
-			$language_data = [];
+        // Language
+        if (isset($this->request->get['language']) && $this->request->get['language'] != $this->config->get('language_code')) {
+            $language_data = [];
 
-			$languages = glob(DIR_LANGUAGE . '*', GLOB_ONLYDIR);
+            $languages = glob(DIR_LANGUAGE . '*', GLOB_ONLYDIR);
 
-			if ($languages) {
-				foreach ($languages as $language) {
-					$language_data[] = basename($language);
-				}
-			}
+            if ($languages) {
+                foreach ($languages as $language) {
+                    $language_data[] = basename($language);
+                }
+            }
 
-			if (in_array($this->request->get['language'], $language_data)) {
-				$this->config->set('language_code', $this->request->get['language']);
-			}
-		}
+            if (in_array($this->request->get['language'], $language_data)) {
+                $this->config->set('language_code', $this->request->get['language']);
+            }
+        }
 
-		$language = new \Opencart\System\Library\Language($this->config->get('language_code'));
-		$language->addPath(DIR_LANGUAGE);
-		$language->load('default');
+        $language = new \Opencart\System\Library\Language($this->config->get('language_code'));
+        $language->addPath(DIR_LANGUAGE);
+        $language->load('default');
 
-		$this->registry->set('language', $language);
-	}
+        $this->registry->set('language', $language);
+    }
 }

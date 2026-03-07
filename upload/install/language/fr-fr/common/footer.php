@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_project']       = 'Page d\'accueil du projet';
 $_['text_documentation'] = 'Documentation';

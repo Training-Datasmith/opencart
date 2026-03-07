@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_log']               = 'Vérifiez vos rapports d\'abonnements pour plus d\'informations.';
 

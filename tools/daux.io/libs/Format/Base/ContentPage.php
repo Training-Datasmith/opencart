@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Base;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Base;
 
 use Todaymade\Daux\Config;
 use Todaymade\Daux\ContentTypes\ContentType;

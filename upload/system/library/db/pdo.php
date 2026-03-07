@@ -1,175 +1,187 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\System\Library\DB;
+
 /**
  * Class PDO
  *
  * @package Opencart\System\Library\DB
  */
-class PDO {
-	private ?\PDO $db;
-	/**
-	 * @var array<string, string>
-	 */
-	private array $data = [];
-	private int $affected;
+class PDO
+{
+    private ?\PDO $db;
+    /**
+     * @var array<string, string>
+     */
+    private array $data = [];
+    private int $affected;
 
-	/**
-	 * Constructor
-	 *
-	 * @param array<string, mixed> $option Database connection options array with keys:
-	 *                                     - 'hostname' (string, required): Database server hostname
-	 *                                     - 'username' (string, required): Database username
-	 *                                     - 'password' (string, required): Database password
-	 *                                     - 'database' (string, required): Database name
-	 *                                     - 'port' (string, optional): Database port (default: '3306')
-	 *
-	 * @throws \Exception If database connection fails
-	 *
-	 * @example
-	 * $pdo = new PDO([
-	 *     'hostname' => 'localhost',
-	 *     'username' => 'opencart',
-	 *     'password' => 'password',
-	 *     'database' => 'opencart_db',
-	 *     'port'     => '3306'
-	 * ]);
-	 */
-	public function __construct(array $option = []) {
-		$required = [
-			'hostname',
-			'username',
-			'database'
-		];
+    /**
+     * Constructor
+     *
+     * @param array<string, mixed> $option Database connection options array with keys:
+     *                                     - 'hostname' (string, required): Database server hostname
+     *                                     - 'username' (string, required): Database username
+     *                                     - 'password' (string, required): Database password
+     *                                     - 'database' (string, required): Database name
+     *                                     - 'port' (string, optional): Database port (default: '3306')
+     *
+     * @throws \Exception If database connection fails
+     *
+     * @example
+     * $pdo = new PDO([
+     *     'hostname' => 'localhost',
+     *     'username' => 'opencart',
+     *     'password' => 'password',
+     *     'database' => 'opencart_db',
+     *     'port'     => '3306'
+     * ]);
+     */
+    public function __construct(array $option = [])
+    {
+        $required = [
+            'hostname',
+            'username',
+            'database',
+        ];
 
-		foreach ($required as $key) {
-			if (empty($option[$key])) {
-				throw new \Exception('Error: Database ' . $key . ' required!');
-			}
-		}
+        foreach ($required as $key) {
+            if (empty($option[$key])) {
+                throw new \Exception('Error: Database ' . $key . ' required!');
+            }
+        }
 
-		if (isset($option['port'])) {
-			$port = $option['port'];
-		} else {
-			$port = '3306';
-		}
+        if (isset($option['port'])) {
+            $port = $option['port'];
+        } else {
+            $port = '3306';
+        }
 
-		try {
-			$pdo = new \PDO('mysql:host=' . $option['hostname'] . ';port=' . $port . ';dbname=' . $option['database'] . ';charset=utf8mb4', $option['username'], $option['password'], [\PDO::ATTR_PERSISTENT => false, \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci']);
-		} catch (\PDOException) {
-			throw new \Exception('Error: Could not connect to the database please make sure the database server, username and password is correct!');
-		}
+        try {
+            $pdo = new \PDO('mysql:host=' . $option['hostname'] . ';port=' . $port . ';dbname=' . $option['database'] . ';charset=utf8mb4', $option['username'], $option['password'], [\PDO::ATTR_PERSISTENT => false, \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci']);
+        } catch (\PDOException) {
+            throw new \Exception('Error: Could not connect to the database please make sure the database server, username and password is correct!');
+        }
 
-		$this->db = $pdo;
+        $this->db = $pdo;
 
-		$this->query("SET SESSION sql_mode = 'NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION'");
-		$this->query("SET FOREIGN_KEY_CHECKS = 0");
+        $this->query("SET SESSION sql_mode = 'NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION'");
+        $this->query('SET FOREIGN_KEY_CHECKS = 0');
 
-		// Sync PHP and DB time zones
-		$this->query("SET `time_zone` = '" . $this->escape(date('P')) . "'");
-	}
+        // Sync PHP and DB time zones
+        $this->query("SET `time_zone` = '" . $this->escape(date('P')) . "'");
+    }
 
-	/**
-	 * Query
-	 *
-	 * Execute SQL query using prepared statements and return result object or boolean
-	 *
-	 * @param string $sql SQL query to execute (supports named parameters)
-	 *
-	 * @return \stdClass|bool Query result object with row, rows, num_rows properties for SELECT queries, true for other queries
-	 *
-	 * @throws \Exception If query execution fails
-	 */
-	public function query(string $sql): \stdClass|bool {
-		$sql = preg_replace('/(?:\'\:)([a-z0-9]*.)(?:\')/', ':$1', $sql);
+    /**
+     * Query
+     *
+     * Execute SQL query using prepared statements and return result object or boolean
+     *
+     * @param string $sql SQL query to execute (supports named parameters)
+     *
+     * @return \stdClass|bool Query result object with row, rows, num_rows properties for SELECT queries, true for other queries
+     *
+     * @throws \Exception If query execution fails
+     */
+    public function query(string $sql): \stdClass|bool
+    {
+        $sql = preg_replace('/(?:\'\:)([a-z0-9]*.)(?:\')/', ':$1', $sql);
 
-		$statement = $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
-		try {
-			if ($statement && $statement->execute($this->data)) {
-				$this->data = [];
+        try {
+            if ($statement && $statement->execute($this->data)) {
+                $this->data = [];
 
-				if ($statement->columnCount()) {
-					$data = $statement->fetchAll(\PDO::FETCH_ASSOC);
-					$statement->closeCursor();
+                if ($statement->columnCount()) {
+                    $data = $statement->fetchAll(\PDO::FETCH_ASSOC);
+                    $statement->closeCursor();
 
-					$result = new \stdClass();
-					$result->row = $data[0] ?? [];
-					$result->rows = $data;
-					$result->num_rows = count($data);
-					$this->affected = 0;
+                    $result = new \stdClass();
+                    $result->row = $data[0] ?? [];
+                    $result->rows = $data;
+                    $result->num_rows = count($data);
+                    $this->affected = 0;
 
-					return $result;
-				}
+                    return $result;
+                }
                 $this->affected = $statement->rowCount();
                 $statement->closeCursor();
                 return true;
-			}
+            }
             $this->data = [];
             return true;
-		} catch (\PDOException $e) {
-			$this->data = [];
-			throw new \Exception('Error: ' . $e->getMessage() . ' <br/>Error Code : ' . $e->getCode() . ' <br/>' . $sql);
-		}
-	}
+        } catch (\PDOException $e) {
+            $this->data = [];
+            throw new \Exception('Error: ' . $e->getMessage() . ' <br/>Error Code : ' . $e->getCode() . ' <br/>' . $sql);
+        }
+    }
 
-	/**
-	 * Escape
-	 *
-	 * Create named parameter placeholder for safe SQL usage with prepared statements
-	 *
-	 * @param string $value String value to escape
-	 *
-	 * @return string Named parameter placeholder (e.g., ':0', ':1')
-	 */
-	public function escape(string $value): string {
-		$key = ':' . count($this->data);
+    /**
+     * Escape
+     *
+     * Create named parameter placeholder for safe SQL usage with prepared statements
+     *
+     * @param string $value String value to escape
+     *
+     * @return string Named parameter placeholder (e.g., ':0', ':1')
+     */
+    public function escape(string $value): string
+    {
+        $key = ':' . count($this->data);
 
-		$this->data[$key] = $value;
+        $this->data[$key] = $value;
 
-		return $key;
-	}
+        return $key;
+    }
 
-	/**
-	 * Count Affected
-	 *
-	 * Get number of rows affected by the last INSERT, UPDATE, or DELETE query
-	 *
-	 * @return int Number of affected rows
-	 */
-	public function countAffected(): int {
-		return $this->affected;
-	}
+    /**
+     * Count Affected
+     *
+     * Get number of rows affected by the last INSERT, UPDATE, or DELETE query
+     *
+     * @return int Number of affected rows
+     */
+    public function countAffected(): int
+    {
+        return $this->affected;
+    }
 
-	/**
-	 * Get Last Id
-	 *
-	 * Get the auto-increment ID generated by the last INSERT query
-	 *
-	 * @return int|null Last inserted auto-increment ID, null if none
-	 */
-	public function getLastId(): ?int {
-		$id = $this->db->lastInsertId();
+    /**
+     * Get Last Id
+     *
+     * Get the auto-increment ID generated by the last INSERT query
+     *
+     * @return int|null Last inserted auto-increment ID, null if none
+     */
+    public function getLastId(): ?int
+    {
+        $id = $this->db->lastInsertId();
 
-		return $id ? (int)$id : null;
-	}
+        return $id ? (int)$id : null;
+    }
 
-	/**
-	 * Is Connected
-	 *
-	 * Check if database connection is active and valid
-	 *
-	 * @return bool True if connected, false otherwise
-	 */
-	public function isConnected(): bool {
-		return $this->db !== null;
-	}
+    /**
+     * Is Connected
+     *
+     * Check if database connection is active and valid
+     *
+     * @return bool True if connected, false otherwise
+     */
+    public function isConnected(): bool
+    {
+        return $this->db !== null;
+    }
 
-	/**
+    /**
      * Destructor
      *
      * Closes the database connection when object is destroyed
      */
-    public function __destruct() {
-		$this->db = null;
-	}
+    public function __destruct()
+    {
+        $this->db = null;
+    }
 }

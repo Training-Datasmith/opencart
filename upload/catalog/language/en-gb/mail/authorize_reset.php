@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject'] = 'Reset security code attempts';
 $_['text_reset']   = 'Some one entered the security code wrongly more than 3 times.';

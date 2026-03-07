@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_items']                 = '%s article(s) - %s';
 $_['text_points']                = 'Points de récompenses';

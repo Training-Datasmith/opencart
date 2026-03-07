@@ -1,67 +1,74 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Task\Report;
+
 /**
  * Class Sale
  *
  * @package Opencart\Admin\Controller\Task\Report
  */
-class Sale extends \Opencart\System\Engine\Controller {
-	/**
+class Sale extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      *
      * Generate rating task list.
      */
-    public function index(array $args = []): array {
-		$this->load->language('task/catalog/sale');
+    public function index(array $args = []): array
+    {
+        $this->load->language('task/catalog/sale');
 
-		$this->load->model('setting/task');
+        $this->load->model('setting/task');
 
-		$limit = 10;
+        $limit = 10;
 
-		$this->load->model('catalog/product');
+        $this->load->model('catalog/product');
 
-		$product_total = $this->model_catalog_product->getTotalProducts();
+        $product_total = $this->model_catalog_product->getTotalProducts();
 
-		$page_total = ceil($product_total / $limit);
+        $page_total = ceil($product_total / $limit);
 
-		for ($i = 1; $i <= $page_total; $i++) {
-			$start = $i * $limit;
+        for ($i = 1; $i <= $page_total; $i++) {
+            $start = $i * $limit;
 
-			$task_data = [
-				'code'   => 'sale',
-				'action' => 'task/report/sale.list',
-				'args'   => [
-					'start' => $start,
-					'limit' => $limit
-				]
-			];
+            $task_data = [
+                'code'   => 'sale',
+                'action' => 'task/report/sale.list',
+                'args'   => [
+                    'start' => $start,
+                    'limit' => $limit,
+                ],
+            ];
 
-			$this->model_setting_task->addTask($task_data);
-		}
+            $this->model_setting_task->addTask($task_data);
+        }
 
-		return ['success' => $this->language->get('text_task')];
-	}
+        return ['success' => $this->language->get('text_task')];
+    }
 
-	/**
+    /**
      * List
      *
      * Calculates product sales.
      */
-    public function list(array $args = []): array {
-		$this->load->language('task/report/sale');
+    public function list(array $args = []): array
+    {
+        $this->load->language('task/report/sale');
 
-		$this->load->model('sale/order');
+        $this->load->model('sale/order');
 
-		$this->load->model('catalog/product');
+        $this->load->model('catalog/product');
 
-		$results = $this->model_catalog_product->getProducts($args);
+        $results = $this->model_catalog_product->getProducts($args);
 
-		foreach ($results as $result) {
-			$this->model_catalog_product->editSale($result['product_id'], $this->model_sale_order->getTotalSales(['filter_order_status' => implode(',', (array)$this->config->get('config_complete_status'))]));
-		}
+        foreach ($results as $result) {
+            $this->model_catalog_product->editSale($result['product_id'], $this->model_sale_order->getTotalSales(['filter_order_status' => implode(',', (array)$this->config->get('config_complete_status'))]));
+        }
 
-		$product_total = $this->model_catalog_product->getTotalProducts();
+        $product_total = $this->model_catalog_product->getTotalProducts();
 
-		return ['success' => sprintf($this->language->get('text_list'), $args['start'], ($args['start'] > ($product_total - $args['limit'])) ? $product_total : $args['start'] + $args['limit'])];
-	}
+        return ['success' => sprintf($this->language->get('text_list'), $args['start'], ($args['start'] > ($product_total - $args['limit'])) ? $product_total : $args['start'] + $args['limit'])];
+    }
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']        = '%s - Affiliate Program';
 $_['text_welcome']        = 'Thank you for joining the %s Affiliate Program!';

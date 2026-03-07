@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Heading
 $_['heading_title']     = 'Search';
 $_['heading_tag']       = 'Tag - ';

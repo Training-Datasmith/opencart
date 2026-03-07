@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_article'] = 'Interprétation des rendus graphiques %s envers %s de %s articles';
 $_['text_next']    = 'Vous avez rendu %s à %s de %s pays';

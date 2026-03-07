@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_address_format']      = 'Format d\'Adresse';
 $_['text_affiliate']           = 'Affiliation';

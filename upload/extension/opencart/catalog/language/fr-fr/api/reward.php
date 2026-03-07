@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_success']   = 'Succès: Le rabais sur vos points de récompenses a été appliqué!';
 

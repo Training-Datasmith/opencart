@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject'] = 'Security';
 $_['text_code']    = 'You must enter the security code in the admin security check.';

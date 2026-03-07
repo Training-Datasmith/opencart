@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']   = '%s - GDPR request denied!';
 $_['text_export']    = 'Account Export Data Request';

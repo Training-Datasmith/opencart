@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_task']       = 'Generating currency task list!';
 $_['text_list']       = 'Generating %s %s currency data!';

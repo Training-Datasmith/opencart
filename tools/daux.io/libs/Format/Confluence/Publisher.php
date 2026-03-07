@@ -1,4 +1,8 @@
-<?php namespace Todaymade\Daux\Format\Confluence;
+<?php
+
+declare(strict_types=1);
+
+namespace Todaymade\Daux\Format\Confluence;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Todaymade\Daux\Console\RunAction;
@@ -72,7 +76,7 @@ class Publisher
 
         $published = $this->run(
             'Create placeholder pages...',
-            fn() => $this->createRecursive($ancestorId, $tree, $published)
+            fn () => $this->createRecursive($ancestorId, $tree, $published)
         );
 
         $this->output->writeLn('Publishing updates...');
@@ -96,7 +100,7 @@ class Publisher
 
         $pageNames = implode(
             "', '",
-            array_map(fn(array $page) => $page['title'], $pages)
+            array_map(fn (array $page) => $page['title'], $pages)
         );
 
         throw new ConfluenceConfigurationException("$pageNotFound but found ['$pageNames']. $configRecommendation");

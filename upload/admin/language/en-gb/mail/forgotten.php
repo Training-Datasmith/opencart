@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']  = '%s - Password reset request';
 $_['text_greeting'] = 'A new password was requested for %s administration.';

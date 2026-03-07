@@ -1,190 +1,199 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Extension\Opencart\Module;
+
 /**
  * Class Latest
  *
  * @package Opencart\Admin\Controller\Extension\Opencart\Module
  */
-class Latest extends \Opencart\System\Engine\Controller {
-	/**
+class Latest extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$this->load->language('extension/opencart/module/latest');
+    public function index(): void
+    {
+        $this->load->language('extension/opencart/module/latest');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module')
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_extension'),
+            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module'),
+        ];
 
-		if (!isset($this->request->get['module_id'])) {
-			$data['breadcrumbs'][] = [
-				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/opencart/module/latest', 'user_token=' . $this->session->data['user_token'])
-			];
-		} else {
-			$data['breadcrumbs'][] = [
-				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/opencart/module/latest', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id'])
-			];
-		}
+        if (!isset($this->request->get['module_id'])) {
+            $data['breadcrumbs'][] = [
+                'text' => $this->language->get('heading_title'),
+                'href' => $this->url->link('extension/opencart/module/latest', 'user_token=' . $this->session->data['user_token']),
+            ];
+        } else {
+            $data['breadcrumbs'][] = [
+                'text' => $this->language->get('heading_title'),
+                'href' => $this->url->link('extension/opencart/module/latest', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id']),
+            ];
+        }
 
-		if (!isset($this->request->get['module_id'])) {
-			$data['save'] = $this->url->link('extension/opencart/module/latest.save', 'user_token=' . $this->session->data['user_token']);
-		} else {
-			$data['save'] = $this->url->link('extension/opencart/module/latest.save', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id']);
-		}
+        if (!isset($this->request->get['module_id'])) {
+            $data['save'] = $this->url->link('extension/opencart/module/latest.save', 'user_token=' . $this->session->data['user_token']);
+        } else {
+            $data['save'] = $this->url->link('extension/opencart/module/latest.save', 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $this->request->get['module_id']);
+        }
 
-		$data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module');
+        $data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module');
 
-		// Extension
-		if (isset($this->request->get['module_id'])) {
-			$this->load->model('setting/module');
+        // Extension
+        if (isset($this->request->get['module_id'])) {
+            $this->load->model('setting/module');
 
-			$module_info = $this->model_setting_module->getModule($this->request->get['module_id']);
-		}
+            $module_info = $this->model_setting_module->getModule($this->request->get['module_id']);
+        }
 
-		if (isset($module_info['name'])) {
-			$data['name'] = $module_info['name'];
-		} else {
-			$data['name'] = '';
-		}
+        if (isset($module_info['name'])) {
+            $data['name'] = $module_info['name'];
+        } else {
+            $data['name'] = '';
+        }
 
-		if (isset($module_info['axis'])) {
-			$data['axis'] = $module_info['axis'];
-		} else {
-			$data['axis'] = '';
-		}
+        if (isset($module_info['axis'])) {
+            $data['axis'] = $module_info['axis'];
+        } else {
+            $data['axis'] = '';
+        }
 
-		if (isset($module_info['limit'])) {
-			$data['limit'] = $module_info['limit'];
-		} else {
-			$data['limit'] = 5;
-		}
+        if (isset($module_info['limit'])) {
+            $data['limit'] = $module_info['limit'];
+        } else {
+            $data['limit'] = 5;
+        }
 
-		if (isset($module_info['status'])) {
-			$data['status'] = $module_info['status'];
-		} else {
-			$data['status'] = '';
-		}
+        if (isset($module_info['status'])) {
+            $data['status'] = $module_info['status'];
+        } else {
+            $data['status'] = '';
+        }
 
-		if (isset($this->request->get['module_id'])) {
-			$data['module_id'] = (int)$this->request->get['module_id'];
-		} else {
-			$data['module_id'] = 0;
-		}
+        if (isset($this->request->get['module_id'])) {
+            $data['module_id'] = (int)$this->request->get['module_id'];
+        } else {
+            $data['module_id'] = 0;
+        }
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('extension/opencart/module/latest', $data));
-	}
+        $this->response->setOutput($this->load->view('extension/opencart/module/latest', $data));
+    }
 
-	/**
+    /**
      * Save
      */
-    public function save(): void {
-		$this->load->language('extension/opencart/module/latest');
+    public function save(): void
+    {
+        $this->load->language('extension/opencart/module/latest');
 
-		$json = [];
+        $json = [];
 
-		if (!$this->user->hasPermission('modify', 'extension/opencart/module/latest')) {
-			$json['error']['warning'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'extension/opencart/module/latest')) {
+            $json['error']['warning'] = $this->language->get('error_permission');
+        }
 
-		$required = [
-			'module_id' => 0,
-			'name'      => ''
-		];
+        $required = [
+            'module_id' => 0,
+            'name'      => '',
+        ];
 
-		$post_info = $this->request->post + $required;
+        $post_info = $this->request->post + $required;
 
-		if (!oc_validate_length($post_info['name'], 3, 64)) {
-			$json['error']['name'] = $this->language->get('error_name');
-		}
+        if (!oc_validate_length($post_info['name'], 3, 64)) {
+            $json['error']['name'] = $this->language->get('error_name');
+        }
 
-		if (!$json) {
-			// Extension
-			$this->load->model('setting/module');
+        if (!$json) {
+            // Extension
+            $this->load->model('setting/module');
 
-			if (!$post_info['module_id']) {
-				$json['module_id'] = $this->model_setting_module->addModule('opencart.latest', $post_info);
-			} else {
-				$this->model_setting_module->editModule($post_info['module_id'], $post_info);
-			}
+            if (!$post_info['module_id']) {
+                $json['module_id'] = $this->model_setting_module->addModule('opencart.latest', $post_info);
+            } else {
+                $this->model_setting_module->editModule($post_info['module_id'], $post_info);
+            }
 
-			$this->cache->delete('product');
+            $this->cache->delete('product');
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Add
      */
-    public function add(): void {
-		$this->load->language('extension/opencart/module/latest');
+    public function add(): void
+    {
+        $this->load->language('extension/opencart/module/latest');
 
-		$json = [];
+        $json = [];
 
-		if (!$this->user->hasPermission('modify', 'extension/opencart/module/latest')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'extension/opencart/module/latest')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			// Extension
-			$this->load->model('setting/module');
+        if (!$json) {
+            // Extension
+            $this->load->model('setting/module');
 
-			$this->model_setting_module->addModule('opencart.latest', ['name' => $this->language->get('heading_title')]);
+            $this->model_setting_module->addModule('opencart.latest', ['name' => $this->language->get('heading_title')]);
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Delete
      */
-    public function delete(): void {
-		$this->load->language('extension/opencart/module/latest');
+    public function delete(): void
+    {
+        $this->load->language('extension/opencart/module/latest');
 
-		$json = [];
+        $json = [];
 
-		if (isset($this->request->get['module_id'])) {
-			$module_id = $this->request->get['module_id'];
-		} else {
-			$module_id = 0;
-		}
+        if (isset($this->request->get['module_id'])) {
+            $module_id = $this->request->get['module_id'];
+        } else {
+            $module_id = 0;
+        }
 
-		if (!$this->user->hasPermission('modify', 'extension/opencart/module/latest')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'extension/opencart/module/latest')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		if (!$json) {
-			// Extension
-			$this->load->model('setting/module');
+        if (!$json) {
+            // Extension
+            $this->load->model('setting/module');
 
-			$this->model_setting_module->deleteModule($module_id);
+            $this->model_setting_module->deleteModule($module_id);
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 }

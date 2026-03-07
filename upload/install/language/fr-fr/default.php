@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_name']       = 'France';
 $_['text_loading']    = 'Chargement...';

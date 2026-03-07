@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_success']   = 'Preparing database backup!';
 $_['text_backup']    = 'Backing up table %s %s';

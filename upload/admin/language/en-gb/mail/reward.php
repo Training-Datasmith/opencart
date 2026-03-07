@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_subject']  = '%s - Reward Points';
 $_['text_received'] = 'You have received %s Reward Points!';

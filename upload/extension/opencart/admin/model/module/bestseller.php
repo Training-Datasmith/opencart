@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Model\Extension\Opencart\Module;
+
 /**
  * Class Bestseller
  *
@@ -7,8 +11,9 @@ namespace Opencart\Admin\Model\Extension\Opencart\Module;
  *
  * @package Opencart\Admin\Model\Extension\Opencart\Module
  */
-class Bestseller extends \Opencart\System\Engine\Model {
-	/**
+class Bestseller extends \Opencart\System\Engine\Model
+{
+    /**
      * Install
      *
      *
@@ -16,15 +21,16 @@ class Bestseller extends \Opencart\System\Engine\Model {
      *
      * $this->model_extension_opencart_module_bestseller->install();
      */
-    public function install(): void {
-		$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "product_bestseller` (
+    public function install(): void
+    {
+        $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'product_bestseller` (
 		  `product_id` int(11) NOT NULL,
 		  `total` int(11) NOT NULL,
 		  PRIMARY KEY (`product_id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
-	}
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+    }
 
-	/**
+    /**
      * Uninstall
      *
      *
@@ -32,11 +38,12 @@ class Bestseller extends \Opencart\System\Engine\Model {
      *
      * $this->model_extension_opencart_module_bestseller->uninstall();
      */
-    public function uninstall(): void {
-		$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "product_bestseller`");
-	}
+    public function uninstall(): void
+    {
+        $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'product_bestseller`');
+    }
 
-	/**
+    /**
      * Edit Total
      *
      * @param int $product_id primary key of the product record
@@ -46,11 +53,12 @@ class Bestseller extends \Opencart\System\Engine\Model {
      *
      * $this->model_extension_opencart_module_bestseller->editTotal($product_id, $total);
      */
-    public function editTotal(int $product_id, int $total): void {
-		$this->db->query("REPLACE INTO `" . DB_PREFIX . "product_bestseller` SET `product_id` = '" . $product_id . "', `total` = '" . $total . "'");
-	}
+    public function editTotal(int $product_id, int $total): void
+    {
+        $this->db->query('REPLACE INTO `' . DB_PREFIX . "product_bestseller` SET `product_id` = '" . $product_id . "', `total` = '" . $total . "'");
+    }
 
-	/**
+    /**
      * Delete
      *
      * @param int $product_id primary key of the product record
@@ -60,11 +68,12 @@ class Bestseller extends \Opencart\System\Engine\Model {
      *
      * $this->model_extension_opencart_module_bestseller->delete($product_id);
      */
-    public function delete(int $product_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_bestseller` WHERE `product_id` = '" . $product_id . "'");
-	}
+    public function delete(int $product_id): void
+    {
+        $this->db->query('DELETE FROM `' . DB_PREFIX . "product_bestseller` WHERE `product_id` = '" . $product_id . "'");
+    }
 
-	/**
+    /**
      * Get Reports
      *
      *
@@ -74,32 +83,34 @@ class Bestseller extends \Opencart\System\Engine\Model {
      *
      * $results = $this->model_extension_opencart_module_bestseller->getReports();
      */
-    public function getReports(int $start = 0, int $limit = 10): array {
-		if ($start < 0) {
-			$start = 0;
-		}
+    public function getReports(int $start = 0, int $limit = 10): array
+    {
+        if ($start < 0) {
+            $start = 0;
+        }
 
-		if ($limit < 1) {
-			$limit = 10;
-		}
+        if ($limit < 1) {
+            $limit = 10;
+        }
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_bestseller` ORDER BY `total` DESC LIMIT " . $start . "," . $limit);
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'product_bestseller` ORDER BY `total` DESC LIMIT ' . $start . ',' . $limit);
 
-		return $query->rows;
-	}
+        return $query->rows;
+    }
 
-	/**
-	 * Get Total Reports
-	 *
-	 * @return int total number of bestseller record
-	 *
-	 * @example
-	 *
-	 * $bestseller_total = $this->model_extension_opencart_module_bestseller->getTotalReports();
-	 */
-	public function getTotalReports(): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "product_bestseller`");
+    /**
+     * Get Total Reports
+     *
+     * @return int total number of bestseller record
+     *
+     * @example
+     *
+     * $bestseller_total = $this->model_extension_opencart_module_bestseller->getTotalReports();
+     */
+    public function getTotalReports(): int
+    {
+        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'product_bestseller`');
 
-		return (int)$query->row['total'];
-	}
+        return (int)$query->row['total'];
+    }
 }

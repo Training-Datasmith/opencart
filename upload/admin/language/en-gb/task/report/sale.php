@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Text
 $_['text_task']       = 'Generating order statistic task list!';
 $_['text_sale']       = 'Success: You have modified order sale statistics!';

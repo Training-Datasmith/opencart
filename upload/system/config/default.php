@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Site
 $_['site_url']             = '';
 
@@ -11,15 +13,15 @@ $_['date_timezone']        = 'UTC';
 // Database
 $_['db_autostart']         = false;
 $_['db_option']            = [
-	'engine'   => 'mysqli', // mysqli, pdo or pgsql
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => '',
-	'port'     => '3306',
-	'ssl_key'  => '',
-	'ssl_cert' => '',
-	'ssl_ca'   => ''
+    'engine'   => 'mysqli', // mysqli, pdo or pgsql
+    'hostname' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => '',
+    'port'     => '3306',
+    'ssl_key'  => '',
+    'ssl_cert' => '',
+    'ssl_ca'   => '',
 ];
 
 // Mail
@@ -57,41 +59,41 @@ $_['template_extension']   = '.twig';
 // Upload
 $_['upload_max_size']      = 20; // MB
 $_['upload_type_allowed']  = [
-	'txt',
-	'zip',
-	'png',
-	'webp',
-	'jpe',
-	'jpeg',
-	'jpg',
-	'gif',
-	'bmp',
-	'svg',
-	'svgz',
-	'zip',
-	'rar',
-	'mp3',
-	'mp4',
-	'mov',
-	'pdf'
+    'txt',
+    'zip',
+    'png',
+    'webp',
+    'jpe',
+    'jpeg',
+    'jpg',
+    'gif',
+    'bmp',
+    'svg',
+    'svgz',
+    'zip',
+    'rar',
+    'mp3',
+    'mp4',
+    'mov',
+    'pdf',
 ];
 $_['upload_mime_allowed']  = [
-	'text/plain',
-	'image/png',
-	'image/webp',
-	'image/jpeg',
-	'image/gif',
-	'image/bmp',
-	'image/svg+xml',
-	'application/zip',
-	'application/x-zip',
-	'application/x-zip-compressed',
-	'application/rar',
-	'application/x-rar',
-	'application/x-rar-compressed',
-	'audio/mpeg',
-	'video/mp4',
-	'application/pdf'
+    'text/plain',
+    'image/png',
+    'image/webp',
+    'image/jpeg',
+    'image/gif',
+    'image/bmp',
+    'image/svg+xml',
+    'application/zip',
+    'application/x-zip',
+    'application/x-zip-compressed',
+    'application/rar',
+    'application/x-rar',
+    'application/x-rar-compressed',
+    'audio/mpeg',
+    'video/mp4',
+    'application/pdf',
 ];
 
 // Error

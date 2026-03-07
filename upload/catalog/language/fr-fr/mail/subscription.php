@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']               = '%s - Abonnement %s';
 $_['text_greeting']              = 'Merci pour votre intérêt pour le produit %s. Votre demande d\'abonnement a été reçue et sera traitée une fois le paiement confirmé.';

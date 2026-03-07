@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // En-tête
 $_['heading_title']        = 'Générateur de Site Statique';
 
@@ -11,7 +13,7 @@ $_['text_render']          = 'Générateurs de Site Statique';
 
 // Entrée
 $_['entry_progress']       = 'Progression';
- 
+
 // Colonne
 $_['column_code']          = 'Code GSS (SSR)';
 $_['column_progress']      = 'Progression';

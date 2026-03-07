@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']        = '%s - Programme d\'affiliation';
 $_['text_welcome']        = 'Merci de rejoindre le programme d\'affiliation %s!';

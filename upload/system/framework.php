@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Autoloader
 $autoloader = new \Opencart\System\Engine\Autoloader();
 $autoloader->register('Opencart\\' . APPLICATION, DIR_APPLICATION);
@@ -34,29 +36,29 @@ $log = new \Opencart\System\Library\Log($config->get('error_filename'));
 $registry->set('log', $log);
 
 // Error Handler
-set_error_handler(function(int $code, string $message, string $file, int $line): bool {
-	// error suppressed with @
-	if (!(error_reporting() & $code)) {
-		return false;
-	}
+set_error_handler(function (int $code, string $message, string $file, int $line): bool {
+    // error suppressed with @
+    if (!(error_reporting() & $code)) {
+        return false;
+    }
 
-	throw new \ErrorException($message, 0, $code, $file, $line);
+    throw new \ErrorException($message, 0, $code, $file, $line);
 });
 
 // Exception Handler
-set_exception_handler(function(object $e) use ($log, $config): void {
-	$message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
+set_exception_handler(function (object $e) use ($log, $config): void {
+    $message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
 
-	if ($config->get('error_log')) {
-		$log->write($message);
-	}
+    if ($config->get('error_log')) {
+        $log->write($message);
+    }
 
-	if ($config->get('error_display')) {
-		echo $message;
-	} else {
-		header('Location: ' . $config->get('error_page'));
-		exit();
-	}
+    if ($config->get('error_display')) {
+        echo $message;
+    } else {
+        header('Location: ' . $config->get('error_page'));
+        exit();
+    }
 });
 
 // Event
@@ -65,11 +67,11 @@ $registry->set('event', $event);
 
 // Event Register
 if ($config->has('action_event')) {
-	foreach ($config->get('action_event') as $key => $value) {
-		foreach ($value as $priority => $action) {
-			$event->register($key, new \Opencart\System\Engine\Action($action), $priority);
-		}
-	}
+    foreach ($config->get('action_event') as $key => $value) {
+        foreach ($value as $priority => $action) {
+            $event->register($key, new \Opencart\System\Engine\Action($action), $priority);
+        }
+    }
 }
 
 // Factory
@@ -85,8 +87,8 @@ $registry->set('request', $request);
 
 // Compatibility
 if (isset($request->get['route'])) {
-	$request->get['route'] = str_replace('|', '.', $request->get['route']);
-	$request->get['route'] = str_replace('%7C', '|', (string)$request->get['route']);
+    $request->get['route'] = str_replace('|', '.', $request->get['route']);
+    $request->get['route'] = str_replace('%7C', '|', (string)$request->get['route']);
 }
 
 // Response
@@ -95,50 +97,50 @@ $registry->set('response', $response);
 
 // For none command line
 if (php_sapi_name() != 'cli') {
-	foreach ($config->get('response_header') as $header) {
-		$response->addHeader($header);
-	}
+    foreach ($config->get('response_header') as $header) {
+        $response->addHeader($header);
+    }
 
-	$response->addHeader('Access-Control-Allow-Origin: *');
-	$response->addHeader('Access-Control-Allow-Credentials: true');
-	$response->addHeader('Access-Control-Max-Age: 1000');
-	$response->addHeader('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding');
-	$response->addHeader('Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS, DELETE');
-	$response->addHeader('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-	$response->addHeader('Pragma: no-cache');
-	$response->setCompression((int)$config->get('response_compression'));
+    $response->addHeader('Access-Control-Allow-Origin: *');
+    $response->addHeader('Access-Control-Allow-Credentials: true');
+    $response->addHeader('Access-Control-Max-Age: 1000');
+    $response->addHeader('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding');
+    $response->addHeader('Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS, DELETE');
+    $response->addHeader('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+    $response->addHeader('Pragma: no-cache');
+    $response->setCompression((int)$config->get('response_compression'));
 }
 
 // Database
 if ($config->get('db_autostart')) {
-	$db = new \Opencart\System\Library\DB($config->get('db_option'));
-	$registry->set('db', $db);
+    $db = new \Opencart\System\Library\DB($config->get('db_option'));
+    $registry->set('db', $db);
 }
 
 // Session
 if ($config->get('session_autostart')) {
-	$session = new \Opencart\System\Library\Session($config->get('session_engine'), $registry);
-	$registry->set('session', $session);
+    $session = new \Opencart\System\Library\Session($config->get('session_engine'), $registry);
+    $registry->set('session', $session);
 
-	if (isset($request->cookie[$config->get('session_name')])) {
-		$session_id = $request->cookie[$config->get('session_name')];
-	} else {
-		$session_id = '';
-	}
+    if (isset($request->cookie[$config->get('session_name')])) {
+        $session_id = $request->cookie[$config->get('session_name')];
+    } else {
+        $session_id = '';
+    }
 
-	$session->start($session_id);
+    $session->start($session_id);
 
-	// Require higher security for session cookies
-	$option = [
-		'expires'  => 0,
-		'path'     => $config->get('session_path'),
-		'domain'   => $config->get('session_domain'),
-		'secure'   => $request->server['HTTPS'],
-		'httponly' => false,
-		'SameSite' => $config->get('session_samesite')
-	];
+    // Require higher security for session cookies
+    $option = [
+        'expires'  => 0,
+        'path'     => $config->get('session_path'),
+        'domain'   => $config->get('session_domain'),
+        'secure'   => $request->server['HTTPS'],
+        'httponly' => false,
+        'SameSite' => $config->get('session_samesite'),
+    ];
 
-	setcookie($config->get('session_name'), $session->getId(), $option);
+    setcookie($config->get('session_name'), $session->getId(), $option);
 }
 
 // Cache
@@ -169,41 +171,41 @@ $error = new \Opencart\System\Engine\Action($config->get('action_error'));
 
 // Pre Actions
 foreach ($config->get('action_pre_action') as $pre_action) {
-	$pre_action = new \Opencart\System\Engine\Action($pre_action);
+    $pre_action = new \Opencart\System\Engine\Action($pre_action);
 
-	$result = $pre_action->execute($registry, $args);
+    $result = $pre_action->execute($registry, $args);
 
-	if ($result instanceof \Opencart\System\Engine\Action) {
-		$action = $result;
+    if ($result instanceof \Opencart\System\Engine\Action) {
+        $action = $result;
 
-		break;
-	}
+        break;
+    }
 
-	// If action cannot be executed, we return an action error object.
-	if ($result instanceof \Exception) {
-		$action = $error;
+    // If action cannot be executed, we return an action error object.
+    if ($result instanceof \Exception) {
+        $action = $error;
 
-		// In case there is an error we only want to execute once.
-		$error = '';
+        // In case there is an error we only want to execute once.
+        $error = '';
 
-		break;
-	}
+        break;
+    }
 }
 
 // Route
 if (isset($request->get['route'])) {
-	$route = (string)$request->get['route'];
+    $route = (string)$request->get['route'];
 } else {
-	$route = (string)$config->get('action_default');
+    $route = (string)$config->get('action_default');
 }
 
 // To block calls to controller methods we want to keep from being accessed directly
 if (str_contains($route, '._')) {
-	$action = new \Opencart\System\Engine\Action($config->get('action_error'));
+    $action = new \Opencart\System\Engine\Action($config->get('action_error'));
 }
 
 if ($action) {
-	$route = $action->getId();
+    $route = $action->getId();
 }
 
 // Keep the original trigger
@@ -216,29 +218,29 @@ $event->trigger('controller/' . $trigger . '/before', [&$route, &$args]);
 
 // Action to execute
 if (!$action) {
-	$action = new \Opencart\System\Engine\Action($route);
+    $action = new \Opencart\System\Engine\Action($route);
 }
 
 // Dispatch
 while ($action) {
-	// Execute action
-	$output = $action->execute($registry, $args);
+    // Execute action
+    $output = $action->execute($registry, $args);
 
-	// Make action a non-object so it's not infinitely looping
-	$action = '';
+    // Make action a non-object so it's not infinitely looping
+    $action = '';
 
-	// Action object returned then we keep the loop going
-	if ($output instanceof \Opencart\System\Engine\Action) {
-		$action = $output;
-	}
+    // Action object returned then we keep the loop going
+    if ($output instanceof \Opencart\System\Engine\Action) {
+        $action = $output;
+    }
 
-	// If action cannot be executed, we return the action error object.
-	if ($output instanceof \Exception) {
-		$action = $error;
+    // If action cannot be executed, we return the action error object.
+    if ($output instanceof \Exception) {
+        $action = $error;
 
-		// In case there is an error we don't want to infinitely keep calling the action error object.
-		$error = '';
-	}
+        // In case there is an error we don't want to infinitely keep calling the action error object.
+        $error = '';
+    }
 }
 
 // Trigger the post events

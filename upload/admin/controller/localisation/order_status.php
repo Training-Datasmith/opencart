@@ -1,270 +1,280 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Opencart\Admin\Controller\Localisation;
+
 /**
  * Class Order Status
  *
  * @package Opencart\Admin\Controller\Localisation
  */
-class OrderStatus extends \Opencart\System\Engine\Controller {
-	/**
+class OrderStatus extends \Opencart\System\Engine\Controller
+{
+    /**
      * Index
      */
-    public function index(): void {
-		$this->load->language('localisation/order_status');
+    public function index(): void
+    {
+        $this->load->language('localisation/order_status');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$url = '';
+        $url = '';
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('localisation/order_status', 'user_token=' . $this->session->data['user_token'] . $url)
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('localisation/order_status', 'user_token=' . $this->session->data['user_token'] . $url),
+        ];
 
-		$data['add'] = $this->url->link('localisation/order_status.form', 'user_token=' . $this->session->data['user_token'] . $url);
-		$data['delete'] = $this->url->link('localisation/order_status.delete', 'user_token=' . $this->session->data['user_token']);
+        $data['add'] = $this->url->link('localisation/order_status.form', 'user_token=' . $this->session->data['user_token'] . $url);
+        $data['delete'] = $this->url->link('localisation/order_status.delete', 'user_token=' . $this->session->data['user_token']);
 
-		$data['list'] = $this->getList();
+        $data['list'] = $this->getList();
 
-		$data['user_token'] = $this->session->data['user_token'];
+        $data['user_token'] = $this->session->data['user_token'];
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('localisation/order_status', $data));
-	}
+        $this->response->setOutput($this->load->view('localisation/order_status', $data));
+    }
 
-	/**
+    /**
      * List
      */
-    public function list(): void {
-		$this->load->language('localisation/order_status');
+    public function list(): void
+    {
+        $this->load->language('localisation/order_status');
 
-		$this->response->setOutput($this->getList());
-	}
+        $this->response->setOutput($this->getList());
+    }
 
-	/**
+    /**
      * Get List
      */
-    public function getList(): string {
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
+    public function getList(): string
+    {
+        if (isset($this->request->get['page'])) {
+            $page = (int)$this->request->get['page'];
+        } else {
+            $page = 1;
+        }
 
-		$url = '';
+        $url = '';
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
 
-		$data['action'] = $this->url->link('localisation/order_status.list', 'user_token=' . $this->session->data['user_token'] . $url);
+        $data['action'] = $this->url->link('localisation/order_status.list', 'user_token=' . $this->session->data['user_token'] . $url);
 
-		// Order Statuses
-		$data['order_statuses'] = [];
+        // Order Statuses
+        $data['order_statuses'] = [];
 
-		$filter_data = [
-			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
-			'limit' => $this->config->get('config_pagination_admin')
-		];
+        $filter_data = [
+            'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
+            'limit' => $this->config->get('config_pagination_admin'),
+        ];
 
-		$this->load->model('localisation/order_status');
+        $this->load->model('localisation/order_status');
 
-		$results = $this->model_localisation_order_status->getOrderStatuses($filter_data);
+        $results = $this->model_localisation_order_status->getOrderStatuses($filter_data);
 
-		foreach ($results as $result) {
-			$data['order_statuses'][] = ['edit' => $this->url->link('localisation/order_status.form', 'user_token=' . $this->session->data['user_token'] . '&order_status_id=' . $result['order_status_id'] . $url)] + $result;
-		}
+        foreach ($results as $result) {
+            $data['order_statuses'][] = ['edit' => $this->url->link('localisation/order_status.form', 'user_token=' . $this->session->data['user_token'] . '&order_status_id=' . $result['order_status_id'] . $url)] + $result;
+        }
 
-		// Default
-		$data['order_status_id'] = $this->config->get('config_order_status_id');
+        // Default
+        $data['order_status_id'] = $this->config->get('config_order_status_id');
 
-		// Total Order Statuses
-		$order_status_total = $this->model_localisation_order_status->getTotalOrderStatuses();
+        // Total Order Statuses
+        $order_status_total = $this->model_localisation_order_status->getTotalOrderStatuses();
 
-		// Pagination
-		$data['total'] = $order_status_total;
-		$data['page'] = $page;
-		$data['limit'] = $this->config->get('config_pagination_admin');
-		$data['pagination'] = $this->url->link('localisation/order_status.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
+        // Pagination
+        $data['total'] = $order_status_total;
+        $data['page'] = $page;
+        $data['limit'] = $this->config->get('config_pagination_admin');
+        $data['pagination'] = $this->url->link('localisation/order_status.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($order_status_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($order_status_total - $this->config->get('config_pagination_admin'))) ? $order_status_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $order_status_total, ceil($order_status_total / $this->config->get('config_pagination_admin')));
+        $data['results'] = sprintf($this->language->get('text_pagination'), ($order_status_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($order_status_total - $this->config->get('config_pagination_admin'))) ? $order_status_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $order_status_total, ceil($order_status_total / $this->config->get('config_pagination_admin')));
 
+        return $this->load->view('localisation/order_status_list', $data);
+    }
 
-		return $this->load->view('localisation/order_status_list', $data);
-	}
-
-	/**
+    /**
      * Form
      */
-    public function form(): void {
-		$this->load->language('localisation/order_status');
+    public function form(): void
+    {
+        $this->load->language('localisation/order_status');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->language->get('heading_title'));
 
-		$data['text_form'] = !isset($this->request->get['order_status_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+        $data['text_form'] = !isset($this->request->get['order_status_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
-		$url = '';
+        $url = '';
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
 
-		$data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = [];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('text_home'),
+            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
+        ];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('localisation/order_status', 'user_token=' . $this->session->data['user_token'] . $url)
-		];
+        $data['breadcrumbs'][] = [
+            'text' => $this->language->get('heading_title'),
+            'href' => $this->url->link('localisation/order_status', 'user_token=' . $this->session->data['user_token'] . $url),
+        ];
 
-		$data['save'] = $this->url->link('localisation/order_status.save', 'user_token=' . $this->session->data['user_token']);
-		$data['back'] = $this->url->link('localisation/order_status', 'user_token=' . $this->session->data['user_token'] . $url);
+        $data['save'] = $this->url->link('localisation/order_status.save', 'user_token=' . $this->session->data['user_token']);
+        $data['back'] = $this->url->link('localisation/order_status', 'user_token=' . $this->session->data['user_token'] . $url);
 
-		// Order Status
-		if (isset($this->request->get['order_status_id'])) {
-			$data['order_status_id'] = (int)$this->request->get['order_status_id'];
-		} else {
-			$data['order_status_id'] = 0;
-		}
+        // Order Status
+        if (isset($this->request->get['order_status_id'])) {
+            $data['order_status_id'] = (int)$this->request->get['order_status_id'];
+        } else {
+            $data['order_status_id'] = 0;
+        }
 
-		// Languages
-		$this->load->model('localisation/language');
+        // Languages
+        $this->load->model('localisation/language');
 
-		$data['languages'] = $this->model_localisation_language->getLanguages();
+        $data['languages'] = $this->model_localisation_language->getLanguages();
 
-		if (isset($this->request->get['order_status_id'])) {
-			$this->load->model('localisation/order_status');
+        if (isset($this->request->get['order_status_id'])) {
+            $this->load->model('localisation/order_status');
 
-			$data['order_status'] = $this->model_localisation_order_status->getDescriptions((int)$this->request->get['order_status_id']);
-		} else {
-			$data['order_status'] = [];
-		}
+            $data['order_status'] = $this->model_localisation_order_status->getDescriptions((int)$this->request->get['order_status_id']);
+        } else {
+            $data['order_status'] = [];
+        }
 
-		$data['user_token'] = $this->session->data['user_token'];
+        $data['user_token'] = $this->session->data['user_token'];
 
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('localisation/order_status_form', $data));
-	}
+        $this->response->setOutput($this->load->view('localisation/order_status_form', $data));
+    }
 
-	/**
+    /**
      * Save
      */
-    public function save(): void {
-		$this->load->language('localisation/order_status');
+    public function save(): void
+    {
+        $this->load->language('localisation/order_status');
 
-		$json = [];
+        $json = [];
 
-		if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
-			$json['error']['warning'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
+            $json['error']['warning'] = $this->language->get('error_permission');
+        }
 
-		$required = [
-			'order_status_id' => 0,
-			'order_status'    => []
-		];
+        $required = [
+            'order_status_id' => 0,
+            'order_status'    => [],
+        ];
 
-		$post_info = $this->request->post + $required;
+        $post_info = $this->request->post + $required;
 
-		foreach ($post_info['order_status'] as $language_id => $value) {
-			if (!oc_validate_length($value['name'], 3, 32)) {
-				$json['error']['name_' . $language_id] = $this->language->get('error_name');
-			}
-		}
+        foreach ($post_info['order_status'] as $language_id => $value) {
+            if (!oc_validate_length($value['name'], 3, 32)) {
+                $json['error']['name_' . $language_id] = $this->language->get('error_name');
+            }
+        }
 
-		if (!$json) {
-			// Order Status
-			$this->load->model('localisation/order_status');
+        if (!$json) {
+            // Order Status
+            $this->load->model('localisation/order_status');
 
-			if (!$post_info['order_status_id']) {
-				$json['order_status_id'] = $this->model_localisation_order_status->addOrderStatus($post_info);
-			} else {
-				$this->model_localisation_order_status->editOrderStatus($post_info['order_status_id'], $post_info);
-			}
+            if (!$post_info['order_status_id']) {
+                $json['order_status_id'] = $this->model_localisation_order_status->addOrderStatus($post_info);
+            } else {
+                $this->model_localisation_order_status->editOrderStatus($post_info['order_status_id'], $post_info);
+            }
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
-	/**
+    /**
      * Delete
      */
-    public function delete(): void {
-		$this->load->language('localisation/order_status');
+    public function delete(): void
+    {
+        $this->load->language('localisation/order_status');
 
-		$json = [];
+        $json = [];
 
-		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
-		} else {
-			$selected = [];
-		}
+        if (isset($this->request->post['selected'])) {
+            $selected = (array)$this->request->post['selected'];
+        } else {
+            $selected = [];
+        }
 
-		if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
+        if (!$this->user->hasPermission('modify', 'localisation/order_status')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
 
-		// Setting
-		$this->load->model('setting/store');
+        // Setting
+        $this->load->model('setting/store');
 
-		// Orders
-		$this->load->model('sale/order');
+        // Orders
+        $this->load->model('sale/order');
 
-		foreach ($selected as $order_status_id) {
-			if ($this->config->get('config_order_status_id') == $order_status_id) {
-				$json['error'] = $this->language->get('error_default');
-			}
+        foreach ($selected as $order_status_id) {
+            if ($this->config->get('config_order_status_id') == $order_status_id) {
+                $json['error'] = $this->language->get('error_default');
+            }
 
-			// Total Orders
-			$order_total = $this->model_sale_order->getTotalOrdersByOrderStatusId($order_status_id);
+            // Total Orders
+            $order_total = $this->model_sale_order->getTotalOrdersByOrderStatusId($order_status_id);
 
-			if ($order_total) {
-				$json['error'] = sprintf($this->language->get('error_order'), $order_total);
-			}
+            if ($order_total) {
+                $json['error'] = sprintf($this->language->get('error_order'), $order_total);
+            }
 
-			// Total Histories
-			$order_total = $this->model_sale_order->getTotalHistoriesByOrderStatusId($order_status_id);
+            // Total Histories
+            $order_total = $this->model_sale_order->getTotalHistoriesByOrderStatusId($order_status_id);
 
-			if ($order_total) {
-				$json['error'] = sprintf($this->language->get('error_order'), $order_total);
-			}
-		}
+            if ($order_total) {
+                $json['error'] = sprintf($this->language->get('error_order'), $order_total);
+            }
+        }
 
-		if (!$json) {
-			// Order Status
-			$this->load->model('localisation/order_status');
+        if (!$json) {
+            // Order Status
+            $this->load->model('localisation/order_status');
 
-			foreach ($selected as $order_status_id) {
-				$this->model_localisation_order_status->deleteOrderStatus($order_status_id);
-			}
+            foreach ($selected as $order_status_id) {
+                $this->model_localisation_order_status->deleteOrderStatus($order_status_id);
+            }
 
-			$json['success'] = $this->language->get('text_success');
-		}
+            $json['success'] = $this->language->get('text_success');
+        }
 
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 }

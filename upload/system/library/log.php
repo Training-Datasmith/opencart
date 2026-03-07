@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -8,32 +10,37 @@
  *
  * @see		https://www.opencart.com
  */
+
 namespace Opencart\System\Library;
+
 /**
  * Class Log
  */
-class Log {
-	private string $file;
+class Log
+{
+    private string $file;
 
-	/**
+    /**
      * Constructor
      */
-    public function __construct(string $filename) {
-		$this->file = DIR_LOGS . $filename;
+    public function __construct(string $filename)
+    {
+        $this->file = DIR_LOGS . $filename;
 
-		if (!is_file($this->file)) {
-			$handle = fopen($this->file, 'w');
+        if (!is_file($this->file)) {
+            $handle = fopen($this->file, 'w');
 
-			fclose($handle);
-		}
-	}
+            fclose($handle);
+        }
+    }
 
-	/**
+    /**
      * Write
      *
      * @param mixed $message
      */
-    public function write($message): void {
-		file_put_contents($this->file, date('Y-m-d H:i:s') . ' - ' . print_r($message, true) . "\n", FILE_APPEND);
-	}
+    public function write($message): void
+    {
+        file_put_contents($this->file, date('Y-m-d H:i:s') . ' - ' . print_r($message, true) . "\n", FILE_APPEND);
+    }
 }

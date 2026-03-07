@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_success']       = 'Succès: L\'adresse d\'expédition a été définie!';
 

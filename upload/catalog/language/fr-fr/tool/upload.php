@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_upload']     = 'Votre fichier a été téléchargé avec succès!';
 

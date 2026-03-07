@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Todaymade\Daux\Format\HTML;
 
 use League\Plates\Engine;

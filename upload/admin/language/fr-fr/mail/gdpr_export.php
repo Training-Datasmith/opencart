@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']    = '%s - Demande d\'exportation RGPD terminée!';
 $_['text_request']    = 'Exporter les données personnelles';

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // Texte
 $_['text_subject']  = '%s - Demande de réinitialisation de mot de passe';
 $_['text_greeting'] = 'Un nouveau mot de passe a été demandé pour l\'administration de %s.';

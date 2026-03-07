@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -8,142 +10,157 @@
  *
  * @see		https://www.opencart.com
  */
+
 namespace Opencart\System\Library;
+
 /**
  * Class Document
  */
-class Document {
-	private string $title = '';
-	private string $description = '';
-	private string $keywords = '';
-	/**
-	 * @var array<string, array<string, string>>
-	 */
-	private array $links = [];
-	/**
-	 * @var array<string, array<string, string>>
-	 */
-	private array $styles = [];
-	/**
-	 * @var array<string, array<string, array<string, string>>>
-	 */
-	private array $scripts = [];
-	/**
-	 * @var array<int, array<string, string>> Meta tags with their attributes
-	 */
-	private array $metas = [];
+class Document
+{
+    private string $title = '';
+    private string $description = '';
+    private string $keywords = '';
+    /**
+     * @var array<string, array<string, string>>
+     */
+    private array $links = [];
+    /**
+     * @var array<string, array<string, string>>
+     */
+    private array $styles = [];
+    /**
+     * @var array<string, array<string, array<string, string>>>
+     */
+    private array $scripts = [];
+    /**
+     * @var array<int, array<string, string>> Meta tags with their attributes
+     */
+    private array $metas = [];
 
-	/**
+    /**
      * Set Title
      *
      *
      */
-    public function setTitle(string $title): void {
-		$this->title = $title;
-	}
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
 
-	/**
+    /**
      * Get Title
      */
-    public function getTitle(): string {
-		return $this->title;
-	}
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
 
-	/**
+    /**
      * Set Description
      *
      *
      */
-    public function setDescription(string $description): void {
-		$this->description = $description;
-	}
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
 
-	/**
+    /**
      * Get Description
      */
-    public function getDescription(): string {
-		return $this->description;
-	}
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
 
-	/**
+    /**
      * Set Keywords
      */
-    public function setKeywords(string $keywords): void {
-		$this->keywords = $keywords;
-	}
+    public function setKeywords(string $keywords): void
+    {
+        $this->keywords = $keywords;
+    }
 
-	/**
+    /**
      * Get Keywords
      */
-    public function getKeywords(): string {
-		return $this->keywords;
-	}
+    public function getKeywords(): string
+    {
+        return $this->keywords;
+    }
 
-	/**
+    /**
      * Add Link
      *
      *
      */
-    public function addLink(string $href, string $rel): void {
-		$this->links[$href] = [
-			'href' => $href,
-			'rel'  => $rel
-		];
-	}
+    public function addLink(string $href, string $rel): void
+    {
+        $this->links[$href] = [
+            'href' => $href,
+            'rel'  => $rel,
+        ];
+    }
 
-	/**
-	 * Get Links
-	 *
-	 * @return array<string, array<string, string>>
-	 */
-	public function getLinks(): array {
-		return $this->links;
-	}
+    /**
+     * Get Links
+     *
+     * @return array<string, array<string, string>>
+     */
+    public function getLinks(): array
+    {
+        return $this->links;
+    }
 
-	/**
+    /**
      * Add Style
      *
      *
      */
-    public function addStyle(string $href, string $rel = 'stylesheet', string $media = 'screen'): void {
-		$this->styles[$href] = [
-			'href'  => $href,
-			'rel'   => $rel,
-			'media' => $media
-		];
-	}
+    public function addStyle(string $href, string $rel = 'stylesheet', string $media = 'screen'): void
+    {
+        $this->styles[$href] = [
+            'href'  => $href,
+            'rel'   => $rel,
+            'media' => $media,
+        ];
+    }
 
-	/**
-	 * Get Styles
-	 *
-	 * @return array<string, array<string, string>>
-	 */
-	public function getStyles(): array {
-		return $this->styles;
-	}
+    /**
+     * Get Styles
+     *
+     * @return array<string, array<string, string>>
+     */
+    public function getStyles(): array
+    {
+        return $this->styles;
+    }
 
-	/**
+    /**
      * Add Script
      *
      * @param string $position
      *
      */
-    public function addScript(string $href): void {
-		$this->scripts[$href] = ['href'  => $href];
-	}
+    public function addScript(string $href): void
+    {
+        $this->scripts[$href] = ['href'  => $href];
+    }
 
-	/**
-	 * Get Scripts
-	 *
-	 * @param string $position
-	 *
-	 * @return array<string, array<string, string>>
-	 */
-	public function getScripts(): array {
-		return $this->scripts;
-	}
+    /**
+     * Get Scripts
+     *
+     * @param string $position
+     *
+     * @return array<string, array<string, string>>
+     */
+    public function getScripts(): array
+    {
+        return $this->scripts;
+    }
 
-	/**
+    /**
      * Add Meta
      *
      * Adds a meta tag with specified attributes to the document.
@@ -161,16 +178,18 @@ class Document {
      * $this->document->addMeta(['property' => 'og:title', 'content' => 'Page Title']);
      * $this->document->addMeta(['name' => 'theme-color', 'content' => '#000', 'media' => '(prefers-color-scheme: dark)']);
      */
-    public function addMeta(array $attributes): void {
-		$this->metas[] = $attributes;
-	}
+    public function addMeta(array $attributes): void
+    {
+        $this->metas[] = $attributes;
+    }
 
-	/**
-	 * Get Metas
-	 *
-	 * @return array<int, array<string, string>>
-	 */
-	public function getMetas(): array {
-		return $this->metas;
-	}
+    /**
+     * Get Metas
+     *
+     * @return array<int, array<string, string>>
+     */
+    public function getMetas(): array
+    {
+        return $this->metas;
+    }
 }
