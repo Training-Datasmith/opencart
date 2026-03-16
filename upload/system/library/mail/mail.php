@@ -202,7 +202,7 @@ class Mail
         ini_set('sendmail_from', $this->from);
 
         if (!empty($this->parameter)) {
-            return mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header, $this->parameter);
+            return mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header, escapeshellarg($this->parameter));
         }
         return mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header);
     }

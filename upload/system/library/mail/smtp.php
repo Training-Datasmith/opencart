@@ -164,21 +164,24 @@ class Smtp
 
         $boundary = '----=_NextPart_' . md5((string)time());
 
+        $from = str_replace(["\r", "\n"], '', $this->from);
+        $reply_to = str_replace(["\r", "\n"], '', $this->reply_to);
+
         // Header
         $header  = 'MIME-Version: 1.0' . PHP_EOL;
         $header .= 'To: <' . $to . '>' . PHP_EOL;
         $header .= 'Subject: =?UTF-8?B?' . base64_encode($this->subject) . '?=' . PHP_EOL;
         $header .= 'Date: ' . date('D, d M Y H:i:s O') . PHP_EOL;
-        $header .= 'From: =?UTF-8?B?' . base64_encode($this->sender) . '?= <' . $this->from . '>' . PHP_EOL;
+        $header .= 'From: =?UTF-8?B?' . base64_encode($this->sender) . '?= <' . $from . '>' . PHP_EOL;
 
-        if (empty($this->reply_to)) {
-            $header .= 'Reply-To: =?UTF-8?B?' . base64_encode($this->sender) . '?= <' . $this->from . '>' . PHP_EOL;
+        if (empty($reply_to)) {
+            $header .= 'Reply-To: =?UTF-8?B?' . base64_encode($this->sender) . '?= <' . $from . '>' . PHP_EOL;
         } else {
-            $header .= 'Reply-To: =?UTF-8?B?' . base64_encode($this->reply_to) . '?= <' . $this->reply_to . '>' . PHP_EOL;
+            $header .= 'Reply-To: =?UTF-8?B?' . base64_encode($reply_to) . '?= <' . $reply_to . '>' . PHP_EOL;
         }
 
-        $header .= 'Message-ID: <' . base_convert(str_replace(['.', ' '], '', microtime()), 10, 36) . '.' . base_convert(bin2hex(openssl_random_pseudo_bytes(8)), 16, 36) . substr($this->from, strrpos($this->from, '@')) . '>' . PHP_EOL;
-        $header .= 'Return-Path: ' . $this->from . PHP_EOL;
+        $header .= 'Message-ID: <' . base_convert(str_replace(['.', ' '], '', microtime()), 10, 36) . '.' . base_convert(bin2hex(openssl_random_pseudo_bytes(8)), 16, 36) . substr($from, strrpos($from, '@')) . '>' . PHP_EOL;
+        $header .= 'Return-Path: ' . $from . PHP_EOL;
         $header .= 'X-Mailer: PHP/' . PHP_VERSION . PHP_EOL;
         $header .= 'Content-Type: multipart/mixed; boundary="' . $boundary . '"' . PHP_EOL . PHP_EOL;
 
