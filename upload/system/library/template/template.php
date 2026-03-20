@@ -29,10 +29,26 @@ class Template
         }
     }
     /**
-     * Render
+     * Renders a `.tpl` template file by compiling it and executing it in an isolated scope.
      *
-     * @param array<string, mixed> $data
+     * All keys in $data are extracted into local variables before the compiled template
+     * is included. This is the standard OpenCart template rendering pattern — the
+     * `extract()` call is intentional and required for template variable injection.
      *
+     * @param string               $filename Template path relative to the configured directory
+     *                                       (e.g. 'checkout/cart_list' — no .tpl suffix)
+     * @param array<string, mixed> $data     Template variables; each key becomes a local variable
+     *                                       in the template scope
+     * @param string               $code     Pre-compiled template code; if non-empty, the file
+     *                                       is not loaded from disk
+     *
+     * @return string The rendered template output as a string
+     *
+     * @throws \Exception If the template file does not exist on disk
+     *
+     * @warning $data keys become local variables via extract(). Avoid passing untrusted
+     *          keys that could shadow built-in PHP variables or the $data/$code/$filename
+     *          variables already in scope.
      */
     public function render(string $filename, array $data = [], string $code = ''): string
     {

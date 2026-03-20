@@ -13,7 +13,12 @@ namespace Opencart\Catalog\Controller\Checkout;
 class Cart extends \Opencart\System\Engine\Controller
 {
     /**
-     * Index
+     * Renders the full cart page with breadcrumbs, column blocks, and the cart list partial.
+     *
+     * Loads language strings, sets the page title, enqueues cart.js, and assembles
+     * the page layout before sending the rendered view to the HTTP response.
+     *
+     * @return void Output is sent directly via $this->response->set_output()
      */
     public function index(): void
     {
@@ -34,15 +39,29 @@ class Cart extends \Opencart\System\Engine\Controller
         $this->response->set_output($this->load->view('checkout/cart', $data));
     }
     /**
-     * List
+     * Renders the cart list partial (AJAX/partial-page refresh endpoint).
+     *
+     * Intended to be called via AJAX to refresh only the cart items area
+     * without reloading the full page layout.
+     *
+     * @return void Output is sent via $this->response->set_output()
      */
     public function list(): void
     {
         $this->load->language('checkout/cart');
         $this->response->set_output($this->get_list());
     }
+
     /**
-     * Get List
+     * Builds and returns the HTML string for the cart item list.
+     *
+     * Resolves stock errors, customer price visibility, product options (truncated
+     * at 20 chars), subscription labels, totals, and extension modules. The returned
+     * HTML is produced by the `checkout/cart_list` view template.
+     *
+     * @return string Rendered HTML of the cart list partial
+     *
+     * @complexity O(p*o) where p = number of cart products, o = options per product
      */
     public function get_list(): string
     {
@@ -148,9 +167,13 @@ class Cart extends \Opencart\System\Engine\Controller
         return $this->load->view('checkout/cart_list', $data);
     }
     /**
-     * Index
+     * Returns the cart contents as JSON for front-end cart widgets.
      *
-     * @return array<string, mixed>
+     * Used by the persistent mini-cart and AJAX cart refresh. Includes product
+     * thumbnails, subscription labels, prices (if customer is allowed to see prices),
+     * totals, and navigation links. Subscription option values are not truncated here.
+     *
+     * @return void Outputs JSON via $this->response with Content-Type: application/json
      */
     public function json(): void
     {
@@ -210,7 +233,20 @@ class Cart extends \Opencart\System\Engine\Controller
         $this->response->set_output(json_encode($json));
     }
     /**
-     * Add
+     * Adds a product to the cart via POST request.
+     *
+     * Validates required product options, subscription plan selection, and product
+     * existence. On success, adds the product to the session cart and returns a
+     * JSON success message with a link to the product and cart pages. On failure,
+     * returns a JSON error map keyed by option/field name.
+     *
+     * Expected POST fields:
+     *   - product_id (int): The product to add
+     *   - quantity (int, default 1): Quantity to add
+     *   - option (array): Selected product option values
+     *   - subscription_plan_id (int, optional): Subscription plan ID if applicable
+     *
+     * @return void Outputs JSON via $this->response with Content-Type: application/json
      */
     public function add(): void
     {
@@ -288,7 +324,17 @@ class Cart extends \Opencart\System\Engine\Controller
         $this->response->set_output(json_encode($json));
     }
     /**
-     * Edit
+     * Updates the quantity of an existing cart item.
+     *
+     * If the new quantity reduces the cart to empty, returns a redirect URL to
+     * the cart page rather than a success message. Resets shipping/payment session
+     * keys on success so rates are re-calculated on next checkout step visit.
+     *
+     * Expected POST fields:
+     *   - key (int): The cart item key to update
+     *   - quantity (int, default 1): The new quantity
+     *
+     * @return void Outputs JSON via $this->response
      */
     public function edit(): void
     {

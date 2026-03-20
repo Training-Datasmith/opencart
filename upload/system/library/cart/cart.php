@@ -21,7 +21,18 @@ class Cart
      */
     private array $data = [];
     /**
-     * Constructor
+     * Bootstraps the cart library by resolving services from the registry
+     * and populating the in-memory product data cache.
+     *
+     * On construction the library:
+     * 1. Resolves db, config, customer, session, tax, and weight from the registry
+     * 2. Purges expired anonymous cart rows older than `session_expire` seconds
+     * 3. Migrates session-based cart items to the authenticated customer's account on login
+     * 4. Pre-loads all cart product records into $this->data via get_products()
+     *
+     * @param \Opencart\System\Engine\Registry $registry Central service registry
+     *
+     * @see self::get_products() for the data structure returned
      */
     public function __construct(\Opencart\System\Engine\Registry $registry)
     {
@@ -43,13 +54,22 @@ class Cart
         $this->data = $this->get_products();
     }
     /**
-     * Get Products
+     * Returns all active cart product records for the current customer/session.
      *
-     * @return array<int, array<string, mixed>> product records
+     * Results are cached in $this->data after the first DB read. Each entry contains:
+     * - product_id, cart_id, master_id, variant (array), override (array)
+     * - name, model, image, price (formatted), total (formatted)
+     * - quantity, minimum, minimum_status
+     * - option (array of selected option values, including file uploads)
+     * - subscription (subscription plan data or empty array)
+     * - stock_status, stock (bool)
+     * - shipping, shipping_class_id, tax_class_id, reward, points
+     * - weight, weight_class_id, length, width, height, length_class_id
      *
-     * @example
+     * @return array<int, array<string, mixed>> Cart product records, keyed sequentially
      *
-     * $cart = $this->cart->getProducts();
+     * @complexity O(n*o) where n = number of cart rows, o = average number of options per product
+     * @see self::add() for adding products
      */
     public function get_products(): array
     {
@@ -205,12 +225,18 @@ class Cart
         return $this->data;
     }
     /**
-     * Add
+     * Adds a product to the cart, or increments its quantity if an identical row already exists.
      *
-     * @param int                  $product_id primary key of the product record
-     * @param array<string, mixed> $option
-     * @param int                  $subscription_plan_id primary key of the subscription plan record
-     * @param array<string, mixed> $override
+     * Matching is done by (store_id, customer_id/session_id, product_id, subscription_plan_id, option JSON).
+     * If a matching row exists its quantity is incremented; otherwise a new row is inserted.
+     * The in-memory data cache ($this->data) is cleared after the write so the next
+     * call to get_products() re-queries the database.
+     *
+     * @param int                  $product_id           Primary key of the product record
+     * @param int                  $quantity             Number of units to add (default 1)
+     * @param array<string, mixed> $option               Selected product option values keyed by product_option_id
+     * @param int                  $subscription_plan_id Primary key of the subscription plan (0 = none)
+     * @param array<string, mixed> $override             Variant field overrides (populated from product variant data)
      *
      *
      * @example
@@ -402,36 +428,34 @@ class Cart
         return $product_total;
     }
     /**
-     * Has Products
+     * Returns whether the cart contains at least one product.
      *
-     *
-     * @example
-     *
-     * $cart = $this->cart->hasProducts();
+     * @return bool True when get_products() returns a non-empty array
      */
     public function has_products(): bool
     {
         return (bool) count($this->get_products());
     }
+
     /**
-     * Has Subscription
+     * Returns whether the cart contains at least one subscription product.
      *
-     *
-     * @example
-     *
-     * $cart = $this->cart->hasSubscription();
+     * @return bool True when get_subscriptions() returns a non-empty array
      */
     public function has_subscription(): bool
     {
         return (bool) count($this->get_subscriptions());
     }
+
     /**
-     * Has Stock
+     * Returns whether all products in the cart are in stock.
      *
+     * Iterates all cart products and returns false as soon as any product has a
+     * falsy stock_status value. Returns true for empty carts.
      *
-     * @example
+     * @return bool True when every product has stock_status = true (or cart is empty)
      *
-     * $cart = $this->cart->hasStock();
+     * @complexity O(n) where n is the number of cart products
      */
     public function has_stock(): bool
     {
