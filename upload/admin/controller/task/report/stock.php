@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Task\Report;
 
 /**
@@ -17,13 +16,9 @@ class Stock extends \Opencart\System\Engine\Controller
     public function index(array $args = []): array
     {
         $this->load->language('task/report/stock');
-
         $this->load->model('catalog/product');
-
         $this->load->model('report/statistics');
-
-        $this->model_report_statistics->editValue('product', $this->model_catalog_product->getTotalProducts(['filter_quantity_to' => 0]));
-
+        $this->model_report_statistics->edit_value('product', $this->model_catalog_product->get_total_products(['filter_quantity_to' => 0]));
         return ['success' => $this->language->get('text_success')];
     }
 }

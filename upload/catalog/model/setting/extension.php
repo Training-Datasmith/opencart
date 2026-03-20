@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Setting;
 
 /**
@@ -26,13 +25,11 @@ class Extension extends \Opencart\System\Engine\Model
      *
      * $extensions = $this->model_setting_extension->getExtensions();
      */
-    public function getExtensions(): array
+    public function get_extensions(): array
     {
         $query = $this->db->query('SELECT DISTINCT `extension` FROM `' . DB_PREFIX . 'extension`');
-
         return $query->rows;
     }
-
     /**
      * Get Extensions By Type
      *
@@ -44,13 +41,11 @@ class Extension extends \Opencart\System\Engine\Model
      *
      * $extensions = $this->model_setting_extension->getExtensionsByType($type);
      */
-    public function getExtensionsByType(string $type): array
+    public function get_extensions_by_type(string $type): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "extension` WHERE `type` = '" . $this->db->escape($type) . "'");
-
         return $query->rows;
     }
-
     /**
      * Get Extension By Code
      *
@@ -63,20 +58,17 @@ class Extension extends \Opencart\System\Engine\Model
      *
      * $extension_info = $this->model_setting_extension->getExtensionByCode($type, $code);
      */
-    public function getExtensionByCode(string $type, string $code): array
+    public function get_extension_by_code(string $type, string $code): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "extension` WHERE `type` = '" . $this->db->escape($type) . "' AND `code` = '" . $this->db->escape($code) . "'");
-
         return $query->row;
     }
-
     /*
      * Get Installs
      */
-    public function getInstalls(): array
+    public function get_installs(): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'extension_install`');
-
         return $query->rows;
     }
 }

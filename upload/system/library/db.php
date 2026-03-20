@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package        OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see           https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -21,7 +20,6 @@ namespace Opencart\System\Library;
 class DB
 {
     private object $adaptor;
-
     /**
      * Constructor
      *
@@ -55,29 +53,18 @@ class DB
      */
     public function __construct(array $option = [])
     {
-        $required = [
-            'engine',
-            'hostname',
-            'username',
-            'database',
-            'port',
-        ];
-
+        $required = ['engine', 'hostname', 'username', 'database', 'port'];
         foreach ($required as $key) {
             if (empty($option[$key])) {
                 throw new \Exception('Error: Database ' . $key . ' required!');
             }
         }
-
         $class = 'Opencart\System\Library\DB\\' . $option['engine'];
-
         if (!class_exists($class)) {
             throw new \Exception('Error: Could not load database adaptor ' . $option['engine'] . '!');
         }
-
         $this->adaptor = new $class($option);
     }
-
     /**
      * Query
      *
@@ -89,7 +76,6 @@ class DB
     {
         return $this->adaptor->query($sql);
     }
-
     /**
      * Escape
      *
@@ -101,7 +87,6 @@ class DB
     {
         return $this->adaptor->escape($value);
     }
-
     /**
      * Count Affected
      *
@@ -109,11 +94,10 @@ class DB
      *
      * @return int returns the total number of affected rows
      */
-    public function countAffected(): int
+    public function count_affected(): int
     {
-        return $this->adaptor->countAffected();
+        return $this->adaptor->count_affected();
     }
-
     /**
      * Get Last ID
      *
@@ -121,18 +105,17 @@ class DB
      *
      * @return int Returns last ID
      */
-    public function getLastId(): int
+    public function get_last_id(): int
     {
-        return $this->adaptor->getLastId();
+        return $this->adaptor->get_last_id();
     }
-
     /**
      * Is Connected
      *
      * Checks if a DB connection is active.
      */
-    public function isConnected(): bool
+    public function is_connected(): bool
     {
-        return $this->adaptor->isConnected();
+        return $this->adaptor->is_connected();
     }
 }

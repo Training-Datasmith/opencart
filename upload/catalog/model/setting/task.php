@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Setting;
 
 /**
@@ -26,13 +25,11 @@ class Task extends \Opencart\System\Engine\Model
      *
      * $task_id = $this->model_setting_task->addTask($data);
      */
-    public function addTask(array $data): int
+    public function add_task(array $data): int
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "task` SET `code` = '" . $this->db->escape($data['code']) . "', `action` = '" . $this->db->escape($data['action']) . "', `args` = '" . $this->db->escape(!empty($data['args']) ? json_encode($data['args']) : '') . "', `status` = 'pending', `date_added` = NOW(), `date_modified` = NOW()");
-
-        return $this->db->getLastId();
+        return $this->db->get_last_id();
     }
-
     /**
      * Get Total Task(s)
      *
@@ -53,26 +50,20 @@ class Task extends \Opencart\System\Engine\Model
      *
      * $task_total = $this->model_setting_task->getTotalTasks($filter_data);
      */
-    public function getTotalTasks(array $data = []): int
+    public function get_total_tasks(array $data = []): int
     {
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'task`';
-
         $implode = [];
-
         if (!empty($data['filter_code'])) {
             $implode[] = "LCASE(`code`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_code'])) . "'";
         }
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
             $implode[] = "`status` = '" . $this->db->escape($data['filter_status']) . "'";
         }
-
         if ($implode) {
             $sql .= ' WHERE ' . implode(' AND ', $implode);
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Localisation;
  *
  * @package Opencart\Catalog\Model\Localisation
  */
-class OrderStatus extends \Opencart\System\Engine\Model
+class Order_Status extends \Opencart\System\Engine\Model
 {
     /**
      * Get Order Status
@@ -28,13 +27,11 @@ class OrderStatus extends \Opencart\System\Engine\Model
      *
      * $order_status_info = $this->model_localisation_order_status->getOrderStatus($order_status_id);
      */
-    public function getOrderStatus(int $order_status_id): array
+    public function get_order_status(int $order_status_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "order_status` WHERE `order_status_id` = '" . $order_status_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "order_status` WHERE `order_status_id` = '" . $order_status_id . "' AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Order Statuses
      *
@@ -48,22 +45,16 @@ class OrderStatus extends \Opencart\System\Engine\Model
      *
      * $order_statuses = $this->model_localisation_order_status->getOrderStatuses();
      */
-    public function getOrderStatuses(): array
+    public function get_order_statuses(): array
     {
-        $sql = 'SELECT `order_status_id`, `name` FROM `' . DB_PREFIX . "order_status` WHERE `language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY `name`";
-
+        $sql = 'SELECT `order_status_id`, `name` FROM `' . DB_PREFIX . "order_status` WHERE `language_id` = '" . (int) $this->config->get('config_language_id') . "' ORDER BY `name`";
         $key = md5($sql);
-
         $order_status_data = $this->cache->get('order_status.' . $key);
-
         if (!$order_status_data) {
             $query = $this->db->query($sql);
-
             $order_status_data = $query->rows;
-
             $this->cache->set('order_status.' . $key, $order_status_data);
         }
-
         return $order_status_data;
     }
 }

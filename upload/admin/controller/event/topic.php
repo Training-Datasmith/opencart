@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -24,19 +23,12 @@ class Topic extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function addTopic(string &$route, array &$args, string &$output): void
+    public function add_topic(string &$route, array &$args, string &$output): void
     {
-        $task_data = [
-            'code'   => 'topic.info.' . $output,
-            'action' => 'task/catalog/topic.info',
-            'args'   => ['topic_id' => $output],
-        ];
-
+        $task_data = ['code' => 'topic.info.' . $output, 'action' => 'task/catalog/topic.info', 'args' => ['topic_id' => $output]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /*
      * Edit Topic
      *
@@ -50,19 +42,12 @@ class Topic extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function editTopic(string &$route, array &$args, &$output): void
+    public function edit_topic(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'topic.info.' . $args[0],
-            'action' => 'task/catalog/topic.info',
-            'args'   => ['topic_id' => $args[0]],
-        ];
-
+        $task_data = ['code' => 'topic.info.' . $args[0], 'action' => 'task/catalog/topic.info', 'args' => ['topic_id' => $args[0]]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /*
      * Delete Topic
      *
@@ -76,16 +61,10 @@ class Topic extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function deleteTopic(string &$route, array &$args, &$output): void
+    public function delete_topic(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'topic.delete.' . $args[0],
-            'action' => 'task/catalog/topic.delete',
-            'args'   => ['topic_id' => $args[0]],
-        ];
-
+        $task_data = ['code' => 'topic.delete.' . $args[0], 'action' => 'task/catalog/topic.delete', 'args' => ['topic_id' => $args[0]]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\Cart;
 
 /**
@@ -17,7 +16,6 @@ class Currency
      * @var array<string, array<string, mixed>>
      */
     private array $currencies = [];
-
     /**
      * Constructor
      */
@@ -25,21 +23,11 @@ class Currency
     {
         $this->db = $registry->get('db');
         $this->language = $registry->get('language');
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'currency`');
-
         foreach ($query->rows as $result) {
-            $this->currencies[$result['code']] = [
-                'currency_id'   => $result['currency_id'],
-                'title'         => $result['title'],
-                'symbol_left'   => $result['symbol_left'],
-                'symbol_right'  => $result['symbol_right'],
-                'decimal_place' => $result['decimal_place'],
-                'value'         => $result['value'],
-            ];
+            $this->currencies[$result['code']] = ['currency_id' => $result['currency_id'], 'title' => $result['title'], 'symbol_left' => $result['symbol_left'], 'symbol_right' => $result['symbol_right'], 'decimal_place' => $result['decimal_place'], 'value' => $result['value']];
         }
     }
-
     /**
      * Format
      *
@@ -54,38 +42,27 @@ class Currency
         if (!isset($this->currencies[$currency])) {
             return '';
         }
-
         $symbol_left = $this->currencies[$currency]['symbol_left'];
         $symbol_right = $this->currencies[$currency]['symbol_right'];
         $decimal_place = $this->currencies[$currency]['decimal_place'];
-
         if (!$value) {
             $value = $this->currencies[$currency]['value'];
         }
-
         $number = round($number, $decimal_place);
-
         $amount = $value ? $number * $value : $number;
-
         if (!$format) {
             return $amount;
         }
-
         $string = '';
-
         if ($symbol_left) {
             $string .= $symbol_left;
         }
-
         $string .= number_format($amount, $decimal_place, $this->language->get('decimal_point'), $this->language->get('thousand_point'));
-
         if ($symbol_right) {
             $string .= $symbol_right;
         }
-
         return $string;
     }
-
     /**
      * Convert
      *
@@ -102,16 +79,13 @@ class Currency
         } else {
             $from = 1;
         }
-
         if (isset($this->currencies[$to])) {
             $to = $this->currencies[$to]['value'];
         } else {
             $to = 1;
         }
-
         return $value * ($to / $from);
     }
-
     /**
      * Get Id
      *
@@ -121,14 +95,13 @@ class Currency
      *
      * $currency_id = $this->currency->getId($currency);
      */
-    public function getId(string $currency): int
+    public function get_id(string $currency): int
     {
         if (isset($this->currencies[$currency])) {
             return $this->currencies[$currency]['currency_id'];
         }
         return 0;
     }
-
     /**
      * Get Symbol Left
      *
@@ -138,14 +111,13 @@ class Currency
      *
      * $symbol_left = $this->currency->getSymbolLeft($currency);
      */
-    public function getSymbolLeft(string $currency): string
+    public function get_symbol_left(string $currency): string
     {
         if (isset($this->currencies[$currency])) {
             return $this->currencies[$currency]['symbol_left'];
         }
         return '';
     }
-
     /**
      * Get Symbol Right
      *
@@ -155,14 +127,13 @@ class Currency
      *
      * $symbol_right = $this->currency->getSymbolRight($currency);
      */
-    public function getSymbolRight(string $currency): string
+    public function get_symbol_right(string $currency): string
     {
         if (isset($this->currencies[$currency])) {
             return $this->currencies[$currency]['symbol_right'];
         }
         return '';
     }
-
     /**
      * Get Decimal Place
      *
@@ -172,14 +143,13 @@ class Currency
      *
      * $decimal_place = $this->currency->getDecimalPlace($currency);
      */
-    public function getDecimalPlace(string $currency): int
+    public function get_decimal_place(string $currency): int
     {
         if (isset($this->currencies[$currency])) {
-            return (int)$this->currencies[$currency]['decimal_place'];
+            return (int) $this->currencies[$currency]['decimal_place'];
         }
         return 0;
     }
-
     /**
      * Get Value
      *
@@ -189,14 +159,13 @@ class Currency
      *
      * $value = $this->currency->getValue($currency);
      */
-    public function getValue(string $currency): float
+    public function get_value(string $currency): float
     {
         if (isset($this->currencies[$currency])) {
             return $this->currencies[$currency]['value'];
         }
         return 0;
     }
-
     /**
      * Has
      *

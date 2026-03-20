@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see		https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -24,32 +23,26 @@ class Session
      * @var array<mixed>
      */
     public array $data = [];
-
     /**
      * Constructor
      */
     public function __construct(string $adaptor, \Opencart\System\Engine\Registry $registry)
     {
         $class = 'Opencart\System\Library\Session\\' . $adaptor;
-
         if (!class_exists($class)) {
             throw new \Exception('Error: Could not load session adaptor ' . $adaptor . ' session!');
         }
-
         $this->adaptor = new $class($registry);
-
         register_shutdown_function([&$this, 'close']);
         register_shutdown_function([&$this, 'gc']);
     }
-
     /**
      * Get Session ID
      */
-    public function getId(): string
+    public function get_id(): string
     {
         return $this->session_id;
     }
-
     /**
      * Start
      *
@@ -63,18 +56,13 @@ class Session
         if (!$session_id) {
             $session_id = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
         }
-
         if (!preg_match('/^[a-zA-Z0-9,\-]{22,52}$/', $session_id)) {
             throw new \Exception('Error: Invalid session ID!');
         }
-
         $this->session_id = $session_id;
-
         $this->data = $this->adaptor->read($session_id);
-
         return $session_id;
     }
-
     /**
      * Close
      *
@@ -84,7 +72,6 @@ class Session
     {
         $this->adaptor->write($this->session_id, $this->data);
     }
-
     /**
      * Destroy
      *
@@ -93,10 +80,8 @@ class Session
     public function destroy(): void
     {
         $this->data = [];
-
         $this->adaptor->destroy($this->session_id);
     }
-
     /**
      * GC
      *

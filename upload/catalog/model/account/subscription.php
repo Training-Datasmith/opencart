@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Account;
 
 /**
@@ -28,20 +27,14 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $subscription_info = $this->model_account_subscription->getSubscription($subscription_id);
      */
-    public function getSubscription(int $subscription_id): array
+    public function get_subscription(int $subscription_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription` WHERE `subscription_id` = '" . $subscription_id . "' AND `customer_id` = '" . (int)$this->customer->getId() . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription` WHERE `subscription_id` = '" . $subscription_id . "' AND `customer_id` = '" . (int) $this->customer->get_id() . "'");
         if ($query->num_rows) {
-            return [
-                'payment_method'  => $query->row['payment_method'] ? json_decode($query->row['payment_method'], true) : [],
-                'shipping_method' => $query->row['shipping_method'] ? json_decode($query->row['shipping_method'], true) : [],
-            ] + $query->row;
+            return ['payment_method' => $query->row['payment_method'] ? json_decode($query->row['payment_method'], true) : [], 'shipping_method' => $query->row['shipping_method'] ? json_decode($query->row['shipping_method'], true) : []] + $query->row;
         }
-
         return [];
     }
-
     /**
      * Get Subscriptions
      *
@@ -56,21 +49,17 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_account_subscription->getSubscriptions();
      */
-    public function getSubscriptions(int $start = 0, int $limit = 20): array
+    public function get_subscriptions(int $start = 0, int $limit = 20): array
     {
         if ($start < 0) {
             $start = 0;
         }
-
         if ($limit < 1) {
             $limit = 1;
         }
-
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int)$this->customer->getId() . "' AND `subscription_status_id` > '0' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' ORDER BY `subscription_id` DESC LIMIT " . $start . ',' . $limit);
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int) $this->customer->get_id() . "' AND `subscription_status_id` > '0' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' ORDER BY `subscription_id` DESC LIMIT " . $start . ',' . $limit);
         return $query->rows;
     }
-
     /**
      * Get Total Subscriptions
      *
@@ -84,16 +73,14 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $subscription_total = $this->model_account_subscription->getTotalSubscriptions();
      */
-    public function getTotalSubscriptions(): int
+    public function get_total_subscriptions(): int
     {
-        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int)$this->customer->getId() . "' AND `subscription_status_id` > '0' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
-
+        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int) $this->customer->get_id() . "' AND `subscription_status_id` > '0' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
         if ($query->num_rows) {
-            return (int)$query->row['total'];
+            return (int) $query->row['total'];
         }
         return 0;
     }
-
     /**
      * Get Total Subscription By Shipping Address ID
      *
@@ -109,13 +96,11 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $subscription_total = $this->model_account_subscription->getTotalSubscriptionByShippingAddressId($address_id);
      */
-    public function getTotalSubscriptionByShippingAddressId(int $address_id): int
+    public function get_total_subscription_by_shipping_address_id(int $address_id): int
     {
-        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int)$this->customer->getId() . "' AND `shipping_address_id` = '" . $address_id . "'");
-
-        return (int)$query->row['total'];
+        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int) $this->customer->get_id() . "' AND `shipping_address_id` = '" . $address_id . "'");
+        return (int) $query->row['total'];
     }
-
     /**
      * Get Total Subscription By Payment Address ID
      *
@@ -131,13 +116,11 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $subscription_total = $this->model_account_subscription->getTotalSubscriptionByPaymentAddressId($address_id);
      */
-    public function getTotalSubscriptionByPaymentAddressId(int $address_id): int
+    public function get_total_subscription_by_payment_address_id(int $address_id): int
     {
-        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int)$this->customer->getId() . "' AND `payment_address_id` = '" . $address_id . "'");
-
-        return (int)$query->row['total'];
+        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int) $this->customer->get_id() . "' AND `payment_address_id` = '" . $address_id . "'");
+        return (int) $query->row['total'];
     }
-
     /**
      * Get Subscription By Order Product ID
      *
@@ -154,13 +137,11 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $subscription_product_info = $this->model_account_subscription->getProductByOrderProductId($order_id, $order_product_id);
      */
-    public function getProductByOrderProductId(int $order_id, int $order_product_id): array
+    public function get_product_by_order_product_id(int $order_id, int $order_product_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription_product` WHERE `order_id` = '" . $order_id . "' AND `order_product_id` = '" . $order_product_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Subscription Products
      *
@@ -176,13 +157,11 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_account_subscription->getProducts($subscription_id);
      */
-    public function getProducts(int $subscription_id): array
+    public function get_products(int $subscription_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription_product` WHERE `subscription_id` = '" . $subscription_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Get Total Products
      *
@@ -198,13 +177,11 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $subscription_product_total = $this->model_account_subscription->getTotalProducts($subscription_id);
      */
-    public function getTotalProducts(int $subscription_id): int
+    public function get_total_products(int $subscription_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription_product` WHERE `subscription_id` = '" . $subscription_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Get Options
      *
@@ -221,13 +198,11 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $options = $this->model_account_subscription->getOptions($subscription_id, $subscription_product_id);
      */
-    public function getOptions(int $subscription_id, int $subscription_product_id): array
+    public function get_options(int $subscription_id, int $subscription_product_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription_option` WHERE `subscription_id` = '" . $subscription_id . "' AND `subscription_product_id` = '" . $subscription_product_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Get Histories
      *
@@ -243,21 +218,17 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_account_subscription->getHistories($subscription_id);
      */
-    public function getHistories(int $subscription_id, int $start = 0, int $limit = 10): array
+    public function get_histories(int $subscription_id, int $start = 0, int $limit = 10): array
     {
         if ($start < 0) {
             $start = 0;
         }
-
         if ($limit < 1) {
             $limit = 10;
         }
-
-        $query = $this->db->query('SELECT `sh`.`date_added`, `ss`.`name` AS `status`, `sh`.`comment`, `sh`.`notify` FROM `' . DB_PREFIX . 'subscription_history` `sh` LEFT JOIN `' . DB_PREFIX . "subscription_status` `ss` ON `sh`.`subscription_status_id` = `ss`.`subscription_status_id` WHERE `sh`.`subscription_id` = '" . $subscription_id . "' AND `ss`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY `sh`.`date_added` DESC LIMIT " . $start . ',' . $limit);
-
+        $query = $this->db->query('SELECT `sh`.`date_added`, `ss`.`name` AS `status`, `sh`.`comment`, `sh`.`notify` FROM `' . DB_PREFIX . 'subscription_history` `sh` LEFT JOIN `' . DB_PREFIX . "subscription_status` `ss` ON `sh`.`subscription_status_id` = `ss`.`subscription_status_id` WHERE `sh`.`subscription_id` = '" . $subscription_id . "' AND `ss`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' ORDER BY `sh`.`date_added` DESC LIMIT " . $start . ',' . $limit);
         return $query->rows;
     }
-
     /**
      * Get Total Histories
      *
@@ -273,10 +244,9 @@ class Subscription extends \Opencart\System\Engine\Model
      *
      * $history_total = $this->model_account_subscription->getTotalHistories($subscription_id);
      */
-    public function getTotalHistories(int $subscription_id): int
+    public function get_total_histories(int $subscription_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "subscription_history` WHERE `subscription_id` = '" . $subscription_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

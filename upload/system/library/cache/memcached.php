@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\Cache;
 
 /**
@@ -12,18 +11,15 @@ namespace Opencart\System\Library\Cache;
 class Memcached
 {
     private \Memcached $memcached;
-
     public const CACHEDUMP_LIMIT = 9999;
-
     /**
      * Constructor
      */
     public function __construct(private int $expire = 3600)
     {
         $this->memcached = new \Memcached();
-        $this->memcached->addServer(CACHE_HOSTNAME, CACHE_PORT);
+        $this->memcached->add_server(CACHE_HOSTNAME, CACHE_PORT);
     }
-
     /**
      * Get
      *
@@ -33,7 +29,6 @@ class Memcached
     {
         return $this->memcached->get(CACHE_PREFIX . $key);
     }
-
     /**
      * Set
      *
@@ -45,10 +40,8 @@ class Memcached
         if (!$expire) {
             $expire = $this->expire;
         }
-
         $this->memcached->set(CACHE_PREFIX . $key, $value, $expire);
     }
-
     /**
      * Delete
      *

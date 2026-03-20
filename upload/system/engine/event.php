@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see		https://www.opencart.com
  */
-
 namespace Opencart\System\Engine;
 
 /**
@@ -24,14 +23,12 @@ class Event
      * @var array<int, array<string, mixed>>
      */
     protected array $data = [];
-
     /**
      * Constructor
      */
     public function __construct(protected \Opencart\System\Engine\Registry $registry)
     {
     }
-
     /**
      * Register
      *
@@ -39,21 +36,13 @@ class Event
      */
     public function register(string $trigger, \Opencart\System\Engine\Action $action, int $priority = 0): void
     {
-        $this->data[] = [
-            'trigger'  => $trigger,
-            'action'   => $action,
-            'priority' => $priority,
-        ];
-
+        $this->data[] = ['trigger' => $trigger, 'action' => $action, 'priority' => $priority];
         $sort_order = [];
-
         foreach ($this->data as $key => $value) {
             $sort_order[$key] = $value['priority'];
         }
-
         array_multisort($sort_order, SORT_ASC, $this->data);
     }
-
     /**
      * Trigger
      *
@@ -67,10 +56,8 @@ class Event
                 $value['action']->execute($this->registry, $args);
             }
         }
-
         return '';
     }
-
     /**
      * Unregister
      *
@@ -79,12 +66,11 @@ class Event
     public function unregister(string $trigger, string $route): void
     {
         foreach ($this->data as $key => $value) {
-            if ($trigger == $value['trigger'] && $value['action']->getId() == $route) {
+            if ($trigger == $value['trigger'] && $value['action']->get_id() == $route) {
                 unset($this->data[$key]);
             }
         }
     }
-
     /**
      * Clear
      *

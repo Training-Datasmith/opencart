@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\Session;
 
 /**
@@ -14,22 +13,20 @@ class Redis
     private object $config;
     private \Redis $redis;
     public string $prefix;
-
     /**
      * Constructor
      */
     public function __construct(\Opencart\System\Engine\Registry $registry)
     {
         $this->config = $registry->get('config');
-
         try {
             $this->redis = new \Redis();
             $this->redis->pconnect(CACHE_HOSTNAME, CACHE_PORT);
-            $this->prefix = CACHE_PREFIX . '.session.'; // session prefix to identify session keys
-        } catch (\RedisException) {
+            $this->prefix = CACHE_PREFIX . '.session.';
+            // session prefix to identify session keys
+        } catch (\Redis_Exception) {
         }
     }
-
     /**
      * Read
      *
@@ -39,13 +36,11 @@ class Redis
     public function read(string $session_id): array
     {
         $data = $this->redis->get($this->prefix . $session_id);
-
         if (!$data) {
             return [];
         }
         return json_decode($data, true);
     }
-
     /**
      * Write
      *
@@ -57,10 +52,8 @@ class Redis
         if ($session_id) {
             $this->redis->set($this->prefix . $session_id, $data ? json_encode($data) : '', $this->config->get('session_expire'));
         }
-
         return true;
     }
-
     /**
      * Destroy
      *
@@ -69,17 +62,14 @@ class Redis
     public function destroy(string $session_id): bool
     {
         $this->redis->unlink($this->prefix . $session_id);
-
         return true;
     }
-
     /**
      * GC
      */
     public function gc(): bool
     {
         // Redis will take care of Garbage Collection itself.
-
         return true;
     }
 }

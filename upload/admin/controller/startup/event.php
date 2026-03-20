@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Startup;
 
 /**
@@ -20,19 +19,14 @@ class Event extends \Opencart\System\Engine\Controller
     {
         // Add events from the DB
         $this->load->model('setting/event');
-
-        $results = $this->model_setting_event->getEvents();
-
+        $results = $this->model_setting_event->get_events();
         foreach ($results as $result) {
             if ($result['status']) {
                 $part = explode('/', $result['trigger']);
-
                 if ($part[0] == 'admin') {
                     array_shift($part);
-
                     $this->event->register(implode('/', $part), new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
                 }
-
                 if ($part[0] == 'system') {
                     $this->event->register($result['trigger'], new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
                 }

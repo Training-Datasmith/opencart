@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Startup;
 
 /**
@@ -20,24 +19,14 @@ class Session extends \Opencart\System\Engine\Controller
     {
         $session = new \Opencart\System\Library\Session($this->config->get('session_engine'), $this->registry);
         $this->registry->set('session', $session);
-
         if (isset($this->request->cookie[$this->config->get('session_name')])) {
             $session_id = $this->request->cookie[$this->config->get('session_name')];
         } else {
             $session_id = '';
         }
-
         $session->start($session_id);
-
         // Require higher security for session cookies
-        $option = [
-            'expires'  => $this->config->get('session_expire') ? time() + (int)$this->config->get('session_expire') : 0,
-            'path'     => $this->config->get('session_path'),
-            'secure'   => $this->request->server['HTTPS'],
-            'httponly' => false,
-            'SameSite' => $this->config->get('session_samesite'),
-        ];
-
-        setcookie($this->config->get('session_name'), $session->getId(), $option);
+        $option = ['expires' => $this->config->get('session_expire') ? time() + (int) $this->config->get('session_expire') : 0, 'path' => $this->config->get('session_path'), 'secure' => $this->request->server['HTTPS'], 'httponly' => false, 'SameSite' => $this->config->get('session_samesite')];
+        setcookie($this->config->get('session_name'), $session->get_id(), $option);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Account;
 
 /**
@@ -28,12 +27,11 @@ class Wishlist extends \Opencart\System\Engine\Model
      *
      * $this->model_account_customer->addWishlist($customer_id, $product_id);
      */
-    public function addWishlist(int $customer_id, int $product_id): void
+    public function add_wishlist(int $customer_id, int $product_id): void
     {
-        $this->db->query('DELETE FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `product_id` = '" . $product_id . "'");
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_wishlist` SET `customer_id` = '" . $customer_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `product_id` = '" . $product_id . "', `date_added` = NOW()");
+        $this->db->query('DELETE FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `product_id` = '" . $product_id . "'");
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_wishlist` SET `customer_id` = '" . $customer_id . "', `store_id` = '" . (int) $this->config->get('config_store_id') . "', `product_id` = '" . $product_id . "', `date_added` = NOW()");
     }
-
     /**
      * Delete Wishlists
      *
@@ -49,17 +47,14 @@ class Wishlist extends \Opencart\System\Engine\Model
      *
      * $this->model_account_wishlist->deleteWishlists($customer_id, $product_id);
      */
-    public function deleteWishlists(int $customer_id, int $product_id = 0): void
+    public function delete_wishlists(int $customer_id, int $product_id = 0): void
     {
-        $sql = 'DELETE FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'";
-
+        $sql = 'DELETE FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'";
         if ($product_id) {
-            $sql .= " AND `product_id` = '" . (int)$product_id . "'";
+            $sql .= " AND `product_id` = '" . (int) $product_id . "'";
         }
-
         $this->db->query($sql);
     }
-
     /**
      * Get Wishlist
      *
@@ -75,13 +70,11 @@ class Wishlist extends \Opencart\System\Engine\Model
      *
      * $wishlist_info = $this->model_account_wishlist->getWishlist($customer_id);
      */
-    public function getWishlist(int $customer_id): array
+    public function get_wishlist(int $customer_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
         return $query->rows;
     }
-
     /**
      * Get Total Wishlist
      *
@@ -97,10 +90,9 @@ class Wishlist extends \Opencart\System\Engine\Model
      *
      * $wishlist_total = $this->model_account_wishlist->getTotalWishlist($customer_id);
      */
-    public function getTotalWishlist(int $customer_id): int
+    public function get_total_wishlist(int $customer_id): int
     {
-        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
-
-        return (int)$query->row['total'];
+        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "customer_wishlist` WHERE `customer_id` = '" . $customer_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
+        return (int) $query->row['total'];
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -22,27 +21,14 @@ class Information extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function addInformation(string &$route, array &$args, string &$output): void
+    public function add_information(string &$route, array &$args, string &$output): void
     {
-        $task_data = [
-            'code'   => 'information.list',
-            'action' => 'task/catalog/information.list',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'information.list', 'action' => 'task/catalog/information.list', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'information.info.' . $output,
-            'action' => 'task/catalog/information.info',
-            'args'   => ['information_id' => $output],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'information.info.' . $output, 'action' => 'task/catalog/information.info', 'args' => ['information_id' => $output]];
+        $this->model_setting_task->add_task($task_data);
     }
-
     /**
      * Edit Information
      *
@@ -54,27 +40,14 @@ class Information extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function editInformation(string &$route, array &$args, &$output): void
+    public function edit_information(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'information.list',
-            'action' => 'task/catalog/information.list',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'information.list', 'action' => 'task/catalog/information.list', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'information.info.' . $args[0],
-            'action' => 'task/catalog/information.info',
-            'args'   => ['information_id' => $args[0]],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'information.info.' . $args[0], 'action' => 'task/catalog/information.info', 'args' => ['information_id' => $args[0]]];
+        $this->model_setting_task->add_task($task_data);
     }
-
     /**
      * Delete Information
      *
@@ -86,24 +59,12 @@ class Information extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function deleteInformation(string &$route, array &$args, &$output): void
+    public function delete_information(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'information.list',
-            'action' => 'task/catalog/information.list',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'information.list', 'action' => 'task/catalog/information.list', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'information.delete.' . $args[0],
-            'action' => 'task/catalog/information.delete',
-            'args'   => ['information_id' => $args[0]],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'information.delete.' . $args[0], 'action' => 'task/catalog/information.delete', 'args' => ['information_id' => $args[0]]];
+        $this->model_setting_task->add_task($task_data);
     }
 }

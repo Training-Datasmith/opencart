@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Catalog;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Catalog;
  *
  * @package Opencart\Catalog\Model\Catalog
  */
-class SubscriptionPlan extends \Opencart\System\Engine\Model
+class Subscription_Plan extends \Opencart\System\Engine\Model
 {
     /**
      * Get Subscription Plan
@@ -28,13 +27,11 @@ class SubscriptionPlan extends \Opencart\System\Engine\Model
      *
      * $subscription_plan_info = $this->model_catalog_subscription_plan->getSubscriptionPlan($subscription_plan_id);
      */
-    public function getSubscriptionPlan(int $subscription_plan_id): array
+    public function get_subscription_plan(int $subscription_plan_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'subscription_plan` `sp` LEFT JOIN `' . DB_PREFIX . "subscription_plan_description` `spd` ON (`sp`.`subscription_plan_id` = `spd`.`subscription_plan_id`) WHERE `sp`.`subscription_plan_id` = '" . $subscription_plan_id . "' AND `spd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'subscription_plan` `sp` LEFT JOIN `' . DB_PREFIX . "subscription_plan_description` `spd` ON (`sp`.`subscription_plan_id` = `spd`.`subscription_plan_id`) WHERE `sp`.`subscription_plan_id` = '" . $subscription_plan_id . "' AND `spd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Subscription Plans
      *
@@ -50,48 +47,35 @@ class SubscriptionPlan extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_subscription_plan->getSubscriptionPlans();
      */
-    public function getSubscriptionPlans(array $data = []): array
+    public function get_subscription_plans(array $data = []): array
     {
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'subscription_plan` `sp` LEFT JOIN `' . DB_PREFIX . "subscription_plan_description` `spd` ON (`sp`.`subscription_plan_id` = `spd`.`subscription_plan_id`) WHERE `spd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'";
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'subscription_plan` `sp` LEFT JOIN `' . DB_PREFIX . "subscription_plan_description` `spd` ON (`sp`.`subscription_plan_id` = `spd`.`subscription_plan_id`) WHERE `spd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND `spd`.`name` LIKE '" . $this->db->escape($data['filter_name'] . '%') . "'";
         }
-
-        $sort_data = [
-            'name'       => 'spd.name',
-            'sort_order' => 'sp.order_id',
-        ];
-
+        $sort_data = ['name' => 'spd.name', 'sort_order' => 'sp.order_id'];
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $sort_data[$data['sort']];
         } else {
             $sql .= ' ORDER BY `spd`.`name`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Subscription Plans
      *
@@ -105,10 +89,9 @@ class SubscriptionPlan extends \Opencart\System\Engine\Model
      *
      * $subscription_plan_total = $this->model_catalog_subscription_plan->getTotalSubscriptionPlans();
      */
-    public function getTotalSubscriptionPlans(): int
+    public function get_total_subscription_plans(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'subscription_plan`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

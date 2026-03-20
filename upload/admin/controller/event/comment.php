@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -24,19 +23,12 @@ class Comment extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function addComment(string &$route, array &$args, &$output): void
+    public function add_comment(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'comment.' . $args['article_id'],
-            'action' => 'task/catalog/comment',
-            'args'   => ['article_id' => $args['article_id']],
-        ];
-
+        $task_data = ['code' => 'comment.' . $args['article_id'], 'action' => 'task/catalog/comment', 'args' => ['article_id' => $args['article_id']]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /*
      * Edit Comment
      *
@@ -50,19 +42,12 @@ class Comment extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function editComment(string &$route, array &$args, &$output): void
+    public function edit_comment(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'comment.' . $args['article_id'],
-            'action' => 'task/catalog/comment',
-            'args'   => ['article_id' => $args['article_id']],
-        ];
-
+        $task_data = ['code' => 'comment.' . $args['article_id'], 'action' => 'task/catalog/comment', 'args' => ['article_id' => $args['article_id']]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /*
      * Delete Comment
      *
@@ -76,16 +61,10 @@ class Comment extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function deleteComment(string &$route, array &$args, &$output): void
+    public function delete_comment(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'comment.' . $args['article_id'],
-            'action' => 'task/catalog/comment',
-            'args'   => ['article_id' => $args['article_id']],
-        ];
-
+        $task_data = ['code' => 'comment.' . $args['article_id'], 'action' => 'task/catalog/comment', 'args' => ['article_id' => $args['article_id']]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

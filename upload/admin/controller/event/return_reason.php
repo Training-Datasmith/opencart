@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -9,7 +8,7 @@ namespace Opencart\Admin\Controller\Event;
  *
  * @package Opencart\Admin\Controller\Event
  */
-class ReturnReason extends \Opencart\System\Engine\Controller
+class Return_Reason extends \Opencart\System\Engine\Controller
 {
     /**
      * Index
@@ -26,14 +25,8 @@ class ReturnReason extends \Opencart\System\Engine\Controller
      */
     public function index(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'return_reason',
-            'action' => 'task/catalog/return_reason',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'return_reason', 'action' => 'task/catalog/return_reason', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

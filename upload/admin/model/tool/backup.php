@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Tool;
 
 /**
@@ -24,21 +23,17 @@ class Backup extends \Opencart\System\Engine\Model
      *
      * $tables = $this->model_tool_backup->getTables();
      */
-    public function getTables(): array
+    public function get_tables(): array
     {
         $table_data = [];
-
         $query = $this->db->query('SHOW TABLES FROM `' . DB_DATABASE . '`');
-
         foreach ($query->rows as $result) {
             if (isset($result['Tables_in_' . DB_DATABASE]) && str_starts_with($result['Tables_in_' . DB_DATABASE], DB_PREFIX)) {
                 $table_data[] = $result['Tables_in_' . DB_DATABASE];
             }
         }
-
         return $table_data;
     }
-
     /**
      * Get Records
      *
@@ -53,38 +48,29 @@ class Backup extends \Opencart\System\Engine\Model
      *
      * $records = $this->model_tool_backup->getRecords($table, $start, $limit);
      */
-    public function getRecords(string $table, int $start = 0, int $limit = 100): array
+    public function get_records(string $table, int $start = 0, int $limit = 100): array
     {
         $primary_data = [];
-
         $query = $this->db->query("SELECT COLUMN_NAME AS `name` FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '" . DB_DATABASE . "' AND TABLE_NAME = '" . $table . "' AND COLUMN_KEY = 'PRI'");
-
         foreach ($query->rows as $result) {
             $primary_data[] = '`' . $result['name'] . '`';
         }
-
         $sql = 'SELECT * FROM `' . $table . '`';
-
         if ($primary_data) {
             $sql .= ' ORDER BY ' . implode(', ', $primary_data);
         }
-
         if ($start < 0) {
             $start = 0;
         }
-
         if ($limit < 1) {
             $limit = 10;
         }
-
         $query = $this->db->query($sql . ' LIMIT ' . $start . ',' . $limit);
-
         if ($query->num_rows) {
             return $query->rows;
         }
         return [];
     }
-
     /**
      * Get Total Records
      *
@@ -98,12 +84,11 @@ class Backup extends \Opencart\System\Engine\Model
      *
      * $record_total = $this->model_tool_backup->getTotalRecords($table);
      */
-    public function getTotalRecords(string $table): int
+    public function get_total_records(string $table): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . $table . '`');
-
         if ($query->num_rows) {
-            return (int)$query->row['total'];
+            return (int) $query->row['total'];
         }
         return 0;
     }

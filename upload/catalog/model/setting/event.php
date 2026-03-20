@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Setting;
 
 /**
@@ -26,10 +25,9 @@ class Event extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_setting_event->getEvents();
      */
-    public function getEvents(): array
+    public function get_events(): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "event` WHERE `status` = '1' ORDER BY `sort_order` ASC");
-
         return $query->rows;
     }
 }

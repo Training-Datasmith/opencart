@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Localisation;
  *
  * @package Opencart\Admin\Model\Localisation
  */
-class AddressFormat extends \Opencart\System\Engine\Model
+class Address_Format extends \Opencart\System\Engine\Model
 {
     /**
      * Get Address Format
@@ -28,10 +27,9 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $address_format_info = $this->model_localisation_address_format->getAddressFormat($address_format_id);
      */
-    public function getAddressFormat(int $address_format_id): array
+    public function get_address_format(int $address_format_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . $address_format_id . "'");
-
         return $query->row;
     }
 }

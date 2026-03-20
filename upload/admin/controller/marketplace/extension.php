@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Marketplace;
 
 /**
@@ -17,50 +16,27 @@ class Extension extends \Opencart\System\Engine\Controller
     public function index(): void
     {
         $this->load->language('marketplace/extension');
-
-        $this->document->setTitle($this->language->get('heading_title'));
-
+        $this->document->set_title($this->language->get('heading_title'));
         $data['breadcrumbs'] = [];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
-        ];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token']),
-        ];
-
+        $data['breadcrumbs'][] = ['text' => $this->language->get('text_home'), 'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])];
+        $data['breadcrumbs'][] = ['text' => $this->language->get('heading_title'), 'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'])];
         if (isset($this->request->get['type'])) {
             $data['type'] = $this->request->get['type'];
         } else {
             $data['type'] = '';
         }
-
         $data['categories'] = [];
-
         // Extension
         $this->load->model('setting/extension');
-
         $files = oc_directory_read(DIR_APPLICATION . 'controller/extension/', false, '/\.php$/');
-
         foreach ($files as $file) {
             $extension = basename($file, '.php');
-
             $this->load->language('extension/' . $extension, $extension);
-
-            if ($this->user->hasPermission('access', 'extension/' . $extension)) {
+            if ($this->user->has_permission('access', 'extension/' . $extension)) {
                 $extension_total = count(oc_directory_read(DIR_EXTENSION, true, '/admin\/controller\/' . $extension . '\/.+\.php$/'));
-
-                $data['categories'][] = [
-                    'code' => $extension,
-                    'text' => $this->language->get($extension . '_heading_title') . ' (' . $extension_total. ')',
-                    'href' => $this->url->link('extension/' . $extension, 'user_token=' . $this->session->data['user_token']),
-                ];
+                $data['categories'][] = ['code' => $extension, 'text' => $this->language->get($extension . '_heading_title') . ' (' . $extension_total . ')', 'href' => $this->url->link('extension/' . $extension, 'user_token=' . $this->session->data['user_token'])];
             }
         }
-
         if (isset($this->request->get['type'])) {
             $data['extension'] = $this->load->controller('extension/' . basename($this->request->get['type']) . '.getList');
         } elseif ($data['categories']) {
@@ -68,13 +44,10 @@ class Extension extends \Opencart\System\Engine\Controller
         } else {
             $data['extension'] = '';
         }
-
         $data['user_token'] = $this->session->data['user_token'];
-
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
-
-        $this->response->setOutput($this->load->view('marketplace/extension', $data));
+        $this->response->set_output($this->load->view('marketplace/extension', $data));
     }
 }

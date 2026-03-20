@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see		   https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -24,7 +23,6 @@ class Mail
      * @var array<string, mixed>
      */
     private object $adaptor;
-
     /**
      * Constructor
      *
@@ -33,94 +31,83 @@ class Mail
     public function __construct(string $adaptor = 'mail', array $option = [])
     {
         $class = 'Opencart\System\Library\Mail\\' . $adaptor;
-
         if (!class_exists($class)) {
             throw new \Exception('Error: Could not load mail adaptor ' . $adaptor . '!');
         }
-
         $this->adaptor = new $class($option);
     }
-
     /**
      * Set To
      *
      * @param array<string>|string $to
      */
-    public function setTo(string|array $to): void
+    public function set_to(string|array $to): void
     {
-        $this->adaptor->setTo($to);
+        $this->adaptor->set_to($to);
     }
-
     /**
      * Set From
      *
      *
      */
-    public function setFrom(string $from): void
+    public function set_from(string $from): void
     {
-        $this->adaptor->setFrom($from);
+        $this->adaptor->set_from($from);
     }
-
     /**
      * Set Sender
      *
      *
      */
-    public function setSender(string $sender): void
+    public function set_sender(string $sender): void
     {
-        $this->adaptor->setSender($sender);
+        $this->adaptor->set_sender($sender);
     }
-
     /**
      * Set Reply To
      *
      *
      */
-    public function setReplyTo(string $reply_to): void
+    public function set_reply_to(string $reply_to): void
     {
-        $this->adaptor->setReplyTo($reply_to);
+        $this->adaptor->set_reply_to($reply_to);
     }
-
     /**
      * Set Subject
      *
      *
      */
-    public function setSubject(string $subject): void
+    public function set_subject(string $subject): void
     {
-        $this->adaptor->setSubject($subject);
+        $this->adaptor->set_subject($subject);
     }
-
     /**
      * Set Text
      *
      *
      */
-    public function setText(string $text): void
+    public function set_text(string $text): void
     {
-        $this->adaptor->setText($text);
+        $this->adaptor->set_text($text);
     }
-
     /**
      * Set Html
      *
      *
      */
-    public function setHtml(string $html): void
+    public function set_html(string $html): void
     {
-        $this->adaptor->setHtml($html);
+        $this->adaptor->set_html($html);
     }
-
     /**
      * Add Attachment
      *
      *
      */
-    public function addAttachment(string $filename): void
+    public function add_attachment(string $filename): void
     {
         $this->attachments[] = $filename;
     }
-
     /**
      * Send
      */

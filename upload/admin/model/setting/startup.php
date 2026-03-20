@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Setting;
 
 /**
@@ -35,13 +34,11 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $startup_id = $this->model_setting_startup->addStartup($startup_data);
      */
-    public function addStartup(array $data): int
+    public function add_startup(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "startup` SET `code` = '" . $this->db->escape($data['code']) . "', `description` = '" . $this->db->escape($data['description']) . "', `action` = '" . $this->db->escape($data['action']) . "', `status` = '" . (bool)$data['status'] . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
-
-        return $this->db->getLastId();
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "startup` SET `code` = '" . $this->db->escape($data['code']) . "', `description` = '" . $this->db->escape($data['description']) . "', `action` = '" . $this->db->escape($data['action']) . "', `status` = '" . (bool) $data['status'] . "', `sort_order` = '" . (int) $data['sort_order'] . "'");
+        return $this->db->get_last_id();
     }
-
     /**
      * Delete Startup
      *
@@ -56,11 +53,10 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $this->model_setting_startup->deleteStartup($startup_id);
      */
-    public function deleteStartup(int $startup_id): void
+    public function delete_startup(int $startup_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "startup` WHERE `startup_id` = '" . $startup_id . "'");
     }
-
     /**
      * Delete Startup By Code
      *
@@ -72,11 +68,10 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $this->model_setting_startup->deleteStartupByCode($code);
      */
-    public function deleteStartupByCode(string $code): void
+    public function delete_startup_by_code(string $code): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "startup` WHERE `code` = '" . $this->db->escape($code) . "'");
     }
-
     /**
      * Edit Status
      *
@@ -91,11 +86,10 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $this->model_setting_startup->editStatus($startup_id, $status);
      */
-    public function editStatus(int $startup_id, bool $status): void
+    public function edit_status(int $startup_id, bool $status): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "startup` SET `status` = '" . $status . "' WHERE `startup_id` = '" . $startup_id . "'");
     }
-
     /**
      * Get Startup
      *
@@ -111,13 +105,11 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $startup_info = $this->model_setting_startup->getStartup($startup_id);
      */
-    public function getStartup(int $startup_id): array
+    public function get_startup(int $startup_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "startup` WHERE `startup_id` = '" . $startup_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Startup By Code
      *
@@ -129,13 +121,11 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $startup_info = $this->model_setting_startup->getStartupByCode($code);
      */
-    public function getStartupByCode(string $code): array
+    public function get_startup_by_code(string $code): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "startup` WHERE `code` = '" . $this->db->escape($code) . "' LIMIT 1");
-
         return $query->row;
     }
-
     /**
      * Get Startups
      *
@@ -158,27 +148,21 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_setting_startup->getStartups($filter_data);
      */
-    public function getStartups(array $data = []): array
+    public function get_startups(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'startup` ORDER BY `code` ASC, `sort_order` ASC';
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Startups
      *
@@ -192,10 +176,9 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $startup_total = $this->model_setting_startup->getTotalStartups();
      */
-    public function getTotalStartups(): int
+    public function get_total_startups(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'startup`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

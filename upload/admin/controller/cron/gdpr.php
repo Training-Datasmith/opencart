@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Cron;
 
 /**
@@ -18,14 +17,8 @@ class Gdpr extends \Opencart\System\Engine\Controller
      */
     public function index(int $cron_id, string $code, string $cycle, string $date_added, string $date_modified): void
     {
-        $task_data = [
-            'code'   => 'gdpr',
-            'action' => 'task/admin/gdpr',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'gdpr', 'action' => 'task/admin/gdpr', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

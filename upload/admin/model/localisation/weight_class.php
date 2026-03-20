@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Admin\Model\Localisation;
  *
  * @package Opencart\Admin\Model\Localisation
  */
-class WeightClass extends \Opencart\System\Engine\Model
+class Weight_Class extends \Opencart\System\Engine\Model
 {
     /**
      * Add Weight Class
@@ -33,21 +32,16 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $weight_class_id = $this->model_localisation_weight_class->addWeightClass($weight_class_data);
      */
-    public function addWeightClass(array $data): int
+    public function add_weight_class(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "weight_class` SET `value` = '" . (float)$data['value'] . "'");
-
-        $weight_class_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "weight_class` SET `value` = '" . (float) $data['value'] . "'");
+        $weight_class_id = $this->db->get_last_id();
         foreach ($data['weight_class_description'] as $language_id => $value) {
-            $this->addDescription($weight_class_id, $language_id, $value);
+            $this->add_description($weight_class_id, $language_id, $value);
         }
-
         $this->cache->delete('weight_class');
-
         return $weight_class_id;
     }
-
     /**
      * Edit Weight Class
      *
@@ -68,19 +62,15 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_weight_class->editWeightClass($weight_class_id, $weight_class_data);
      */
-    public function editWeightClass(int $weight_class_id, array $data): void
+    public function edit_weight_class(int $weight_class_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "weight_class` SET `value` = '" . (float)$data['value'] . "' WHERE `weight_class_id` = '" . $weight_class_id . "'");
-
-        $this->deleteDescriptions($weight_class_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "weight_class` SET `value` = '" . (float) $data['value'] . "' WHERE `weight_class_id` = '" . $weight_class_id . "'");
+        $this->delete_descriptions($weight_class_id);
         foreach ($data['weight_class_description'] as $language_id => $value) {
-            $this->addDescription($weight_class_id, $language_id, $value);
+            $this->add_description($weight_class_id, $language_id, $value);
         }
-
         $this->cache->delete('weight_class');
     }
-
     /**
      * Delete Weight Class
      *
@@ -95,15 +85,12 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_weight_class->deleteWeightClass($weight_class_id);
      */
-    public function deleteWeightClass(int $weight_class_id): void
+    public function delete_weight_class(int $weight_class_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "weight_class` WHERE `weight_class_id` = '" . $weight_class_id . "'");
-
-        $this->deleteDescriptions($weight_class_id);
-
+        $this->delete_descriptions($weight_class_id);
         $this->cache->delete('weight_class');
     }
-
     /**
      * Get Weight Class
      *
@@ -119,13 +106,11 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $weight_class_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
      */
-    public function getWeightClass(int $weight_class_id): array
+    public function get_weight_class(int $weight_class_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'weight_class` `wc` LEFT JOIN `' . DB_PREFIX . "weight_class_description` `wcd` ON (`wc`.`weight_class_id` = `wcd`.`weight_class_id`) WHERE `wc`.`weight_class_id` = '" . $weight_class_id . "' AND `wcd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'weight_class` `wc` LEFT JOIN `' . DB_PREFIX . "weight_class_description` `wcd` ON (`wc`.`weight_class_id` = `wcd`.`weight_class_id`) WHERE `wc`.`weight_class_id` = '" . $weight_class_id . "' AND `wcd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Weight Classes
      *
@@ -148,61 +133,43 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_localisation_weight_class->getWeightClasses($filter_data);
      */
-    public function getWeightClasses(array $data = []): array
+    public function get_weight_classes(array $data = []): array
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'weight_class` `wc` LEFT JOIN `' . DB_PREFIX . "weight_class_description` `wcd` ON (`wc`.`weight_class_id` = `wcd`.`weight_class_id`) WHERE `wcd`.`language_id` = '" . (int)$language_id . "'";
-
-        $sort_data = [
-            'title',
-            'unit',
-            'value',
-        ];
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'weight_class` `wc` LEFT JOIN `' . DB_PREFIX . "weight_class_description` `wcd` ON (`wc`.`weight_class_id` = `wcd`.`weight_class_id`) WHERE `wcd`.`language_id` = '" . (int) $language_id . "'";
+        $sort_data = ['title', 'unit', 'value'];
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $data['sort'];
         } else {
             $sql .= ' ORDER BY `title`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $key = md5($sql);
-
         $weight_class_data = $this->cache->get('weight_class.' . $key);
-
         if (!$weight_class_data) {
             $query = $this->db->query($sql);
-
             $weight_class_data = $query->rows;
-
             $this->cache->set('weight_class.' . $key, $weight_class_data);
         }
-
         return $weight_class_data;
     }
-
     /**
      * Get Total Weight Classes
      *
@@ -216,19 +183,16 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $weight_class_total = $this->model_localisation_weight_class->getTotalWeightClasses();
      */
-    public function getTotalWeightClasses(array $data = []): int
+    public function get_total_weight_classes(array $data = []): int
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'weight_class` `wc` LEFT JOIN `' . DB_PREFIX . "weight_class_description` `wcd` ON (`wc`.`weight_class_id` = `wcd`.`weight_class_id`) WHERE `wcd`.`language_id` = '" . (int)$language_id . "'");
-
-        return (int)$query->row['total'];
+        $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'weight_class` `wc` LEFT JOIN `' . DB_PREFIX . "weight_class_description` `wcd` ON (`wc`.`weight_class_id` = `wcd`.`weight_class_id`) WHERE `wcd`.`language_id` = '" . (int) $language_id . "'");
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -252,11 +216,10 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_weight_class->addDescription($weight_class_id, $language_id, $weight_class_data);
      */
-    public function addDescription(int $weight_class_id, int $language_id, array $data): void
+    public function add_description(int $weight_class_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "weight_class_description` SET `weight_class_id` = '" . $weight_class_id . "', `language_id` = '" . $language_id . "', `title` = '" . $this->db->escape($data['title']) . "', `unit` = '" . $this->db->escape($data['unit']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -271,11 +234,10 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_weight_class->deleteDescriptions($weight_class_id);
      */
-    public function deleteDescriptions(int $weight_class_id): void
+    public function delete_descriptions(int $weight_class_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "weight_class_description` WHERE `weight_class_id` = '" . $weight_class_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -290,11 +252,10 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_weight_class->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteDescriptionsByLanguageId(int $language_id): void
+    public function delete_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "weight_class_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Description
      *
@@ -311,13 +272,11 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $description = $this->model_localisation_country->getDescription($country_id, $language_id);
      */
-    public function getDescription(int $weight_class_id, int $language_id): array
+    public function get_description(int $weight_class_id, int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "weight_class_description` WHERE `weight_class_id` = '" . $weight_class_id . "' AND `language_id` = '" . $language_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Descriptions
      *
@@ -333,19 +292,15 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $weight_class_description = $this->model_localisation_weight_class->getDescriptions($weight_class_id);
      */
-    public function getDescriptions(int $weight_class_id): array
+    public function get_descriptions(int $weight_class_id): array
     {
         $weight_class_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "weight_class_description` WHERE `weight_class_id` = '" . $weight_class_id . "'");
-
         foreach ($query->rows as $result) {
             $weight_class_data[$result['language_id']] = $result;
         }
-
         return $weight_class_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -361,13 +316,11 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_localisation_weight_class->getDescriptionsByLanguageId($language_id);
      */
-    public function getDescriptionsByLanguageId(int $language_id): array
+    public function get_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "weight_class_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Get Descriptions By Unit
      *
@@ -379,10 +332,9 @@ class WeightClass extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_localisation_weight_class->getDescriptionsByUnit($unit);
      */
-    public function getDescriptionsByUnit(string $unit): array
+    public function get_descriptions_by_unit(string $unit): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "weight_class_description` WHERE `unit` = '" . $this->db->escape($unit) . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "weight_class_description` WHERE `unit` = '" . $this->db->escape($unit) . "' AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
 }

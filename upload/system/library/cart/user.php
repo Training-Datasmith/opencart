@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\Cart;
 
 /**
@@ -23,7 +22,6 @@ class User
      * @var array<string, array<int, string>>
      */
     private array $permission = [];
-
     /**
      * Constructor
      */
@@ -31,10 +29,8 @@ class User
     {
         $this->db = $registry->get('db');
         $this->session = $registry->get('session');
-
         if (isset($this->session->data['user_id'])) {
-            $user_query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "user` WHERE `user_id` = '" . (int)$this->session->data['user_id'] . "' AND `status` = '1'");
-
+            $user_query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "user` WHERE `user_id` = '" . (int) $this->session->data['user_id'] . "' AND `status` = '1'");
             if ($user_query->num_rows) {
                 $this->user_id = $user_query->row['user_id'];
                 $this->username = $user_query->row['username'];
@@ -42,13 +38,9 @@ class User
                 $this->lastname = $user_query->row['lastname'];
                 $this->email = $user_query->row['email'];
                 $this->user_group_id = $user_query->row['user_group_id'];
-
-                $this->db->query('UPDATE `' . DB_PREFIX . "user` SET `ip` = '" . $this->db->escape(oc_get_ip()) . "' WHERE `user_id` = '" . (int)$this->session->data['user_id'] . "'");
-
-                $user_group_query = $this->db->query('SELECT `permission` FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_query->row['user_group_id'] . "'");
-
+                $this->db->query('UPDATE `' . DB_PREFIX . "user` SET `ip` = '" . $this->db->escape(oc_get_ip()) . "' WHERE `user_id` = '" . (int) $this->session->data['user_id'] . "'");
+                $user_group_query = $this->db->query('SELECT `permission` FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int) $user_query->row['user_group_id'] . "'");
                 $permissions = json_decode($user_group_query->row['permission'], true);
-
                 if (is_array($permissions)) {
                     foreach ($permissions as $key => $value) {
                         $this->permission[$key] = $value;
@@ -59,7 +51,6 @@ class User
             }
         }
     }
-
     /**
      * Login
      *
@@ -72,7 +63,6 @@ class User
     public function login(string $username, string $password): bool
     {
         $user_query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "user` WHERE `username` = '" . $this->db->escape($username) . "' AND `status` = '1'");
-
         if ($user_query->num_rows) {
             if (password_verify($password, $user_query->row['password'])) {
                 $rehash = password_needs_rehash($user_query->row['password'], PASSWORD_DEFAULT);
@@ -83,35 +73,27 @@ class User
             } else {
                 return false;
             }
-
             if ($rehash) {
-                $this->db->query('UPDATE `' . DB_PREFIX . "user` SET `password` = '" . $this->db->escape(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE `user_id` = '" . (int)$user_query->row['user_id'] . "'");
+                $this->db->query('UPDATE `' . DB_PREFIX . "user` SET `password` = '" . $this->db->escape(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE `user_id` = '" . (int) $user_query->row['user_id'] . "'");
             }
-
             $this->session->data['user_id'] = $user_query->row['user_id'];
-
             $this->user_id = $user_query->row['user_id'];
             $this->username = $user_query->row['username'];
             $this->firstname = $user_query->row['firstname'];
             $this->lastname = $user_query->row['lastname'];
             $this->email = $user_query->row['email'];
             $this->user_group_id = $user_query->row['user_group_id'];
-
-            $user_group_query = $this->db->query('SELECT `permission` FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_query->row['user_group_id'] . "'");
-
+            $user_group_query = $this->db->query('SELECT `permission` FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int) $user_query->row['user_group_id'] . "'");
             $permissions = json_decode($user_group_query->row['permission'], true);
-
             if (is_array($permissions)) {
                 foreach ($permissions as $key => $value) {
                     $this->permission[$key] = $value;
                 }
             }
-
             return true;
         }
         return false;
     }
-
     /**
      * Logout
      *
@@ -123,7 +105,6 @@ class User
     public function logout(): void
     {
         unset($this->session->data['user_id']);
-
         $this->user_id = 0;
         $this->username = '';
         $this->firstname = '';
@@ -131,7 +112,6 @@ class User
         $this->email = '';
         $this->user_group_id = 0;
     }
-
     /**
      * Has Permission
      *
@@ -141,14 +121,13 @@ class User
      *
      * $permission = $this->user->hasPermission();
      */
-    public function hasPermission(string $key, string $value): bool
+    public function has_permission(string $key, string $value): bool
     {
         if (isset($this->permission[$key])) {
             return in_array($value, $this->permission[$key]);
         }
         return false;
     }
-
     /**
      * Is Logged
      *
@@ -157,11 +136,10 @@ class User
      *
      * $logged = $this->user->isLogged();
      */
-    public function isLogged(): bool
+    public function is_logged(): bool
     {
         return $this->user_id ? true : false;
     }
-
     /**
      * Get Id
      *
@@ -170,11 +148,10 @@ class User
      *
      * $user_id = $this->user->getId();
      */
-    public function getId(): int
+    public function get_id(): int
     {
         return $this->user_id;
     }
-
     /**
      * Get User Name
      *
@@ -183,11 +160,10 @@ class User
      *
      * $username = $this->user->getUserName();
      */
-    public function getUserName(): string
+    public function get_user_name(): string
     {
         return $this->username;
     }
-
     /**
      * Get First Name
      *
@@ -196,11 +172,10 @@ class User
      *
      * $firstname = $this->user->getFirstName();
      */
-    public function getFirstName(): string
+    public function get_first_name(): string
     {
         return $this->firstname;
     }
-
     /**
      * Get Last Name
      *
@@ -209,11 +184,10 @@ class User
      *
      * $lastname = $this->user->getLastName();
      */
-    public function getLastName(): string
+    public function get_last_name(): string
     {
         return $this->lastname;
     }
-
     /**
      * Get Email
      *
@@ -222,11 +196,10 @@ class User
      *
      * $user = $this->user->getEmail();
      */
-    public function getEmail(): string
+    public function get_email(): string
     {
         return $this->email;
     }
-
     /**
      * Get Group Id
      *
@@ -235,7 +208,7 @@ class User
      *
      * $group_id = $this->user->getGroupId();
      */
-    public function getGroupId(): int
+    public function get_group_id(): int
     {
         return $this->user_group_id;
     }

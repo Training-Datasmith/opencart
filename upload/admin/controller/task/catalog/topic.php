@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Task\Catalog;
 
 /**
@@ -18,10 +17,9 @@ class Topic extends \Opencart\System\Engine\Controller
      *
      * @param array<string, string> $args
      */
-    public function addTopic(array $args = []): array
+    public function add_topic(array $args = []): array
     {
         $this->load->language('task/catalog/topic');
-
         return ['success' => $this->language->get('text_task')];
     }
 }

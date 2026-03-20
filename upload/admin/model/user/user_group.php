@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\User;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Admin\Model\User;
  *
  * @package Opencart\Admin\Model\User
  */
-class UserGroup extends \Opencart\System\Engine\Model
+class User_Group extends \Opencart\System\Engine\Model
 {
     /**
      * Add User Group
@@ -32,13 +31,11 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $user_group_id = $this->model_user_user_group->addUserGroup($user_group_data);
      */
-    public function addUserGroup(array $data): int
+    public function add_user_group(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "'");
-
-        return $this->db->getLastId();
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "'");
+        return $this->db->get_last_id();
     }
-
     /**
      * Edit User Group
      *
@@ -59,11 +56,10 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $this->model_user_user_group->editUserGroup($user_group_id, $user_group_data);
      */
-    public function editUserGroup(int $user_group_id, array $data): void
+    public function edit_user_group(int $user_group_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "' WHERE `user_group_id` = '" . $user_group_id . "'");
+        $this->db->query('UPDATE `' . DB_PREFIX . "user_group` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `permission` = '" . (isset($data['permission']) ? $this->db->escape(json_encode($data['permission'])) : '') . "' WHERE `user_group_id` = '" . $user_group_id . "'");
     }
-
     /**
      * Delete User Group
      *
@@ -78,11 +74,10 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $this->model_user_user_group->deleteUserGroup($user_group_id);
      */
-    public function deleteUserGroup(int $user_group_id): void
+    public function delete_user_group(int $user_group_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
     }
-
     /**
      * Get User Group
      *
@@ -98,13 +93,11 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $user_group_info = $this->model_user_user_group->getUserGroup($user_group_id);
      */
-    public function getUserGroup(int $user_group_id): array
+    public function get_user_group(int $user_group_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
-
         return ['permission' => $query->row['permission'] ? json_decode($query->row['permission'], true) : []] + $query->row;
     }
-
     /**
      * Get User Groups
      *
@@ -127,33 +120,26 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_user_user_group->getUserGroups($filter_data);
      */
-    public function getUserGroups(array $data = []): array
+    public function get_user_groups(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'user_group` ORDER BY `name`';
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total User Groups
      *
@@ -167,13 +153,11 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $user_group_total = $this->model_user_user_group->getTotalUserGroups();
      */
-    public function getTotalUserGroups(): int
+    public function get_total_user_groups(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'user_group`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Permission
      *
@@ -188,19 +172,15 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $this->model_user_user_group->addPermission($user_group_id, $type, $route);
      */
-    public function addPermission(int $user_group_id, string $type, string $route): void
+    public function add_permission(int $user_group_id, string $type, string $route): void
     {
         $user_group_query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
-
         if ($user_group_query->num_rows) {
             $data = $user_group_query->row['permission'] ? json_decode($user_group_query->row['permission'], true) : [];
-
             $data[$type][] = $route;
-
             $this->db->query('UPDATE `' . DB_PREFIX . "user_group` SET `permission` = '" . $this->db->escape(json_encode($data)) . "' WHERE `user_group_id` = '" . $user_group_id . "'");
         }
     }
-
     /**
      * Remove Permission
      *
@@ -215,17 +195,14 @@ class UserGroup extends \Opencart\System\Engine\Model
      *
      * $this->model_user_user_group->removePermission($user_group_id, $type, $route);
      */
-    public function removePermission(int $user_group_id, string $type, string $route): void
+    public function remove_permission(int $user_group_id, string $type, string $route): void
     {
         $user_group_query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . $user_group_id . "'");
-
         if ($user_group_query->num_rows) {
             $data = $user_group_query->row['permission'] ? json_decode($user_group_query->row['permission'], true) : [];
-
             if (isset($data[$type])) {
                 $data[$type] = array_diff($data[$type], [$route]);
             }
-
             $this->db->query('UPDATE `' . DB_PREFIX . "user_group` SET `permission` = '" . $this->db->escape(json_encode($data)) . "' WHERE `user_group_id` = '" . $user_group_id . "'");
         }
     }

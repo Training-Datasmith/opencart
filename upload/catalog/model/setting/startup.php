@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Setting;
 
 /**
@@ -26,10 +25,9 @@ class Startup extends \Opencart\System\Engine\Model
      *
      * $startups = $this->model_setting_startup->getStartups();
      */
-    public function getStartups(): array
+    public function get_startups(): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "startup` WHERE `status` = '1' ORDER BY `sort_order` ASC");
-
         return $query->rows;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Localisation;
  *
  * @package Opencart\Catalog\Model\Localisation
  */
-class GeoZone extends \Opencart\System\Engine\Model
+class Geo_Zone extends \Opencart\System\Engine\Model
 {
     /**
      * Get Geo Zone
@@ -30,13 +29,11 @@ class GeoZone extends \Opencart\System\Engine\Model
      *
      * $geo_zone_info = $this->model_localisation_geo_zone->getZone($geo_zone_id, $country_id, $zone_id);
      */
-    public function getGeoZone(int $geo_zone_id, int $country_id, int $zone_id): array
+    public function get_geo_zone(int $geo_zone_id, int $country_id, int $zone_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "zone_to_geo_zone` WHERE `geo_zone_id` = '" . $geo_zone_id . "' AND `country_id` = '" . $country_id . "' AND (`zone_id` = '" . $zone_id . "' OR `zone_id` = '0')");
-
         return $query->row;
     }
-
     /**
      * Get Geo Zones
      *
@@ -50,10 +47,9 @@ class GeoZone extends \Opencart\System\Engine\Model
      *
      * $geo_zones = $this->model_localisation_geo_zone->getGeoZones();
      */
-    public function getGeoZones(): array
+    public function get_geo_zones(): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'geo_zone` ORDER BY `name`');
-
         return $query->rows;
     }
 }

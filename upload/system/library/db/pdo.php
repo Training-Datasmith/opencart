@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\DB;
 
 /**
@@ -17,7 +16,6 @@ class PDO
      */
     private array $data = [];
     private int $affected;
-
     /**
      * Constructor
      *
@@ -41,39 +39,28 @@ class PDO
      */
     public function __construct(array $option = [])
     {
-        $required = [
-            'hostname',
-            'username',
-            'database',
-        ];
-
+        $required = ['hostname', 'username', 'database'];
         foreach ($required as $key) {
             if (empty($option[$key])) {
                 throw new \Exception('Error: Database ' . $key . ' required!');
             }
         }
-
         if (isset($option['port'])) {
             $port = $option['port'];
         } else {
             $port = '3306';
         }
-
         try {
             $pdo = new \PDO('mysql:host=' . $option['hostname'] . ';port=' . $port . ';dbname=' . $option['database'] . ';charset=utf8mb4', $option['username'], $option['password'], [\PDO::ATTR_PERSISTENT => false, \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci']);
         } catch (\PDOException) {
             throw new \Exception('Error: Could not connect to the database please make sure the database server, username and password is correct!');
         }
-
         $this->db = $pdo;
-
         $this->query("SET SESSION sql_mode = 'NO_ZERO_IN_DATE,NO_ENGINE_SUBSTITUTION'");
         $this->query('SET FOREIGN_KEY_CHECKS = 0');
-
         // Sync PHP and DB time zones
         $this->query("SET `time_zone` = '" . $this->escape(date('P')) . "'");
     }
-
     /**
      * Query
      *
@@ -88,37 +75,31 @@ class PDO
     public function query(string $sql): \stdClass|bool
     {
         $sql = preg_replace('/(?:\'\:)([a-z0-9]*.)(?:\')/', ':$1', $sql);
-
         $statement = $this->db->prepare($sql);
-
         try {
             if ($statement && $statement->execute($this->data)) {
                 $this->data = [];
-
-                if ($statement->columnCount()) {
-                    $data = $statement->fetchAll(\PDO::FETCH_ASSOC);
-                    $statement->closeCursor();
-
+                if ($statement->column_count()) {
+                    $data = $statement->fetch_all(\PDO::FETCH_ASSOC);
+                    $statement->close_cursor();
                     $result = new \stdClass();
                     $result->row = $data[0] ?? [];
                     $result->rows = $data;
                     $result->num_rows = count($data);
                     $this->affected = 0;
-
                     return $result;
                 }
-                $this->affected = $statement->rowCount();
-                $statement->closeCursor();
+                $this->affected = $statement->row_count();
+                $statement->close_cursor();
                 return true;
             }
             $this->data = [];
             return true;
         } catch (\PDOException $e) {
             $this->data = [];
-            throw new \Exception('Error: ' . $e->getMessage() . ' <br/>Error Code : ' . $e->getCode() . ' <br/>' . $sql);
+            throw new \Exception('Error: ' . $e->get_message() . ' <br/>Error Code : ' . $e->get_code() . ' <br/>' . $sql);
         }
     }
-
     /**
      * Escape
      *
@@ -131,12 +112,9 @@ class PDO
     public function escape(string $value): string
     {
         $key = ':' . count($this->data);
-
         $this->data[$key] = $value;
-
         return $key;
     }
-
     /**
      * Count Affected
      *
@@ -144,11 +122,10 @@ class PDO
      *
      * @return int Number of affected rows
      */
-    public function countAffected(): int
+    public function count_affected(): int
     {
         return $this->affected;
     }
-
     /**
      * Get Last Id
      *
@@ -156,13 +133,11 @@ class PDO
      *
      * @return int|null Last inserted auto-increment ID, null if none
      */
-    public function getLastId(): ?int
+    public function get_last_id(): ?int
     {
-        $id = $this->db->lastInsertId();
-
-        return $id ? (int)$id : null;
+        $id = $this->db->last_insert_id();
+        return $id ? (int) $id : null;
     }
-
     /**
      * Is Connected
      *
@@ -170,11 +145,10 @@ class PDO
      *
      * @return bool True if connected, false otherwise
      */
-    public function isConnected(): bool
+    public function is_connected(): bool
     {
         return $this->db !== null;
     }
-
     /**
      * Destructor
      *

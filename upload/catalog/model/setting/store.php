@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Setting;
 
 /**
@@ -28,22 +27,14 @@ class Store extends \Opencart\System\Engine\Model
      *
      * $store_info = $this->model_setting_store->getStore($store_id);
      */
-    public function getStore(int $store_id): array
+    public function get_store(int $store_id): array
     {
         if ($store_id == 0) {
-            return [
-                'store_id'  => 0,
-                'logo'      => html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8'),
-                'name'      => html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'),
-                'store_url' => $this->config->get('config_url'),
-            ];
+            return ['store_id' => 0, 'logo' => html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8'), 'name' => html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'), 'store_url' => $this->config->get('config_url')];
         }
-
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "store` WHERE `store_id` = '" . (int)$store_id . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "store` WHERE `store_id` = '" . (int) $store_id . "'");
         return $query->row;
     }
-
     /**
      * Get Store By Hostname
      *
@@ -55,13 +46,11 @@ class Store extends \Opencart\System\Engine\Model
      *
      * $store_info = $this->model_setting_store->getStoreByHostname($url);
      */
-    public function getStoreByHostname(string $url): array
+    public function get_store_by_hostname(string $url): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "store` WHERE REPLACE(`url`, 'www.', '') = '" . $this->db->escape($url) . "'");
-
         return $query->row;
     }
-
     /**
      * Get Stores
      *
@@ -75,22 +64,16 @@ class Store extends \Opencart\System\Engine\Model
      *
      * $stores = $this->model_setting_store->getStores();
      */
-    public function getStores(): array
+    public function get_stores(): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'store` ORDER BY `url`';
-
         $key = md5($sql);
-
         $store_data = $this->cache->get('store.' . $key);
-
         if (!$store_data) {
             $query = $this->db->query($sql);
-
             $store_data = $query->rows;
-
             $this->cache->set('store.' . $key, $store_data);
         }
-
         return $store_data;
     }
 }

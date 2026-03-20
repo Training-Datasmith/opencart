@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see		https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -19,31 +18,26 @@ namespace Opencart\System\Library;
 class Template
 {
     private object $adaptor;
-
     /**
      * Constructor
      */
     public function __construct(string $adaptor)
     {
         $class = 'Opencart\System\Library\Template\\' . $adaptor;
-
         if (!class_exists($class)) {
             throw new \Exception('Error: Could not load template adaptor ' . $adaptor . '!');
         }
-
         $this->adaptor = new $class();
     }
-
     /**
      * Add Path
      *
      *
      */
-    public function addPath(string $namespace, string $directory = ''): void
+    public function add_path(string $namespace, string $directory = ''): void
     {
-        $this->adaptor->addPath($namespace, $directory);
+        $this->adaptor->add_path($namespace, $directory);
     }
-
     /**
      * Render
      *

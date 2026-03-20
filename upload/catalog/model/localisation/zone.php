@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -28,13 +27,11 @@ class Zone extends \Opencart\System\Engine\Model
      *
      * $zone_info = $this->model_localisation_zone->getZone($zone_id);
      */
-    public function getZone(int $zone_id): array
+    public function get_zone(int $zone_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'zone` `z` LEFT JOIN `' . DB_PREFIX . "zone_description` `zd` ON (`z`.`zone_id` = `zd`.`zone_id`) WHERE `z`.`zone_id` = '" . $zone_id . "' AND `zd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `z`.`status` = '1'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'zone` `z` LEFT JOIN `' . DB_PREFIX . "zone_description` `zd` ON (`z`.`zone_id` = `zd`.`zone_id`) WHERE `z`.`zone_id` = '" . $zone_id . "' AND `zd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND `z`.`status` = '1'");
         return $query->row;
     }
-
     /**
      * Get Zones By Country ID
      *
@@ -50,25 +47,18 @@ class Zone extends \Opencart\System\Engine\Model
      *
      * $zones = $this->model_localisation_zone->getZonesByCountryId($country_id);
      */
-    public function getZonesByCountryId(int $country_id): array
+    public function get_zones_by_country_id(int $country_id): array
     {
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'zone` `z` LEFT JOIN `' . DB_PREFIX . "zone_description` `zd` ON (`z`.`zone_id` = `zd`.`zone_id`) WHERE `z`.`country_id` = '" . $country_id . "' AND `zd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `z`.`status` = '1' ORDER BY `zd`.`name`";
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'zone` `z` LEFT JOIN `' . DB_PREFIX . "zone_description` `zd` ON (`z`.`zone_id` = `zd`.`zone_id`) WHERE `z`.`country_id` = '" . $country_id . "' AND `zd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND `z`.`status` = '1' ORDER BY `zd`.`name`";
         $key = md5($sql);
-
         $zone_data = $this->cache->get('zone.' . $key);
-
         if (!$zone_data) {
             $query = $this->db->query($sql);
-
             $zone_data = $query->rows;
-
             $this->cache->set('zone.' . $key, $zone_data);
         }
-
         return $zone_data;
     }
-
     /**
      * Get Total Zones By Country ID
      *
@@ -83,10 +73,9 @@ class Zone extends \Opencart\System\Engine\Model
      *
      * $zone_total = $this->model_localisation_zone->getTotalZonesByCountryId($country_id);
      */
-    public function getTotalZonesByCountryId(int $country_id): int
+    public function get_total_zones_by_country_id(int $country_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "zone` WHERE `country_id` = '" . $country_id . "' AND `status` = '1'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

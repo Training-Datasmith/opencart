@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Design;
 
 /**
@@ -33,13 +32,11 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $template_id = $this->model_design_template->addTemplate($template_data);
      */
-    public function addTemplate(array $data): int
+    public function add_template(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "template` SET `store_id` = '" . (int)$data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW()");
-
-        return $this->db->getLastId();
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "template` SET `store_id` = '" . (int) $data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool) $data['status'] . "', `date_added` = NOW()");
+        return $this->db->get_last_id();
     }
-
     /**
      * Edit Template
      *
@@ -61,11 +58,10 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $this->model_design_template->editTemplate($template_id, $template_data);
      */
-    public function editTemplate(int $template_id, array $data): void
+    public function edit_template(int $template_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "template` SET `store_id` = '" . (int)$data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW() WHERE `template_id` = '" . $template_id . "'");
+        $this->db->query('UPDATE `' . DB_PREFIX . "template` SET `store_id` = '" . (int) $data['store_id'] . "', `route` = '" . $this->db->escape($data['route']) . "', `code` = '" . $this->db->escape($data['code']) . "', `status` = '" . (bool) $data['status'] . "', `date_added` = NOW() WHERE `template_id` = '" . $template_id . "'");
     }
-
     /**
      * Edit Status
      *
@@ -80,11 +76,10 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_category->editStatus($category_id, $status);
      */
-    public function editStatus(int $template_id, bool $status): void
+    public function edit_status(int $template_id, bool $status): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "template` SET `status` = '" . $status . "' WHERE `template_id` = '" . $template_id . "'");
     }
-
     /**
      * Delete Template
      *
@@ -99,11 +94,10 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $this->model_design_template->deleteTemplate($template_id);
      */
-    public function deleteTemplate(int $template_id): void
+    public function delete_template(int $template_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "template` WHERE `template_id` = '" . $template_id . "'");
     }
-
     /**
      * Delete Templates By Store ID
      *
@@ -118,11 +112,10 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $this->model_design_template->deleteTemplatesByStoreId($store_id);
      */
-    public function deleteTemplatesByStoreId(int $store_id): void
+    public function delete_templates_by_store_id(int $store_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "template` WHERE `store_id` = '" . $store_id . "'");
     }
-
     /**
      * Get Template
      *
@@ -138,13 +131,11 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $template_info = $this->model_design_template->getTemplate($template_id);
      */
-    public function getTemplate(int $template_id): array
+    public function get_template(int $template_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "template` WHERE `template_id` = '" . $template_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Templates
      *
@@ -161,27 +152,21 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_design_template->getTemplates();
      */
-    public function getTemplates(array $data = []): array
+    public function get_templates(array $data = []): array
     {
         $sql = 'SELECT *, (SELECT `name` FROM `' . DB_PREFIX . 'store` `s` WHERE `s`.`store_id` = `t`.`store_id`) AS `store` FROM `' . DB_PREFIX . 'template` `t` ORDER BY `t`.`date_added`';
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Templates
      *
@@ -195,10 +180,9 @@ class Template extends \Opencart\System\Engine\Model
      *
      * $template_total = $this->model_design_template->getTotalTemplates();
      */
-    public function getTotalTemplates(): int
+    public function get_total_templates(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'template`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

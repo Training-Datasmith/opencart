@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Catalog;
 
 /**
@@ -28,13 +27,11 @@ class Manufacturer extends \Opencart\System\Engine\Model
      *
      * $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
      */
-    public function getManufacturer(int $manufacturer_id): array
+    public function get_manufacturer(int $manufacturer_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'manufacturer` `m` LEFT JOIN `' . DB_PREFIX . 'manufacturer_description` `md` ON (`m`.`manufacturer_id` = `md`.`manufacturer_id`) LEFT JOIN `' . DB_PREFIX . "manufacturer_to_store` `m2s` ON (`m`.`manufacturer_id` = `m2s`.`manufacturer_id`) WHERE `m`.`manufacturer_id` = '" . $manufacturer_id . "' AND `m2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `md`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'manufacturer` `m` LEFT JOIN `' . DB_PREFIX . 'manufacturer_description` `md` ON (`m`.`manufacturer_id` = `md`.`manufacturer_id`) LEFT JOIN `' . DB_PREFIX . "manufacturer_to_store` `m2s` ON (`m`.`manufacturer_id` = `m2s`.`manufacturer_id`) WHERE `m`.`manufacturer_id` = '" . $manufacturer_id . "' AND `m2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `md`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Manufacturer(s)
      *
@@ -50,54 +47,38 @@ class Manufacturer extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_manufacturer->getManufacturers();
      */
-    public function getManufacturers(array $data = []): array
+    public function get_manufacturers(array $data = []): array
     {
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'manufacturer` `m` LEFT JOIN `' . DB_PREFIX . 'manufacturer_description` `md` ON (`m`.`manufacturer_id` = `md`.`manufacturer_id`) LEFT JOIN `' . DB_PREFIX . "manufacturer_to_store` `m2s` ON (`m`.`manufacturer_id` = `m2s`.`manufacturer_id`) WHERE `m2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `md`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'";
-
-        $sort_data = [
-            'name',
-            'sort_order',
-        ];
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'manufacturer` `m` LEFT JOIN `' . DB_PREFIX . 'manufacturer_description` `md` ON (`m`.`manufacturer_id` = `md`.`manufacturer_id`) LEFT JOIN `' . DB_PREFIX . "manufacturer_to_store` `m2s` ON (`m`.`manufacturer_id` = `m2s`.`manufacturer_id`) WHERE `m2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `md`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
+        $sort_data = ['name', 'sort_order'];
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY `' . $data['sort'] . '`';
         } else {
             $sql .= ' ORDER BY `name`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $key = md5($sql);
-
         $manufacturer_data = $this->cache->get('manufacturer.' . $key);
-
         if (!$manufacturer_data) {
             $query = $this->db->query($sql);
-
             $manufacturer_data = $query->rows;
-
             $this->cache->set('manufacturer.' . $key, $manufacturer_data);
         }
-
         return $manufacturer_data;
     }
-
     /**
      * Get Layout ID
      *
@@ -113,12 +94,11 @@ class Manufacturer extends \Opencart\System\Engine\Model
      *
      * $layout_id = $this->model_catalog_manufacturer->getLayoutId($manufacturer_id);
      */
-    public function getLayoutId(int $manufacturer_id): int
+    public function get_layout_id(int $manufacturer_id): int
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "manufacturer_to_layout` WHERE `manufacturer_id` = '" . $manufacturer_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "manufacturer_to_layout` WHERE `manufacturer_id` = '" . $manufacturer_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
         if ($query->num_rows) {
-            return (int)$query->row['layout_id'];
+            return (int) $query->row['layout_id'];
         }
         return 0;
     }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Design;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Design;
  *
  * @package Opencart\Catalog\Model\Design
  */
-class SeoUrl extends \Opencart\System\Engine\Model
+class Seo_Url extends \Opencart\System\Engine\Model
 {
     /**
      * Get Seo Url By Keyword
@@ -24,13 +23,11 @@ class SeoUrl extends \Opencart\System\Engine\Model
      *
      * $seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword);
      */
-    public function getSeoUrlByKeyword(string $keyword): array
+    public function get_seo_url_by_keyword(string $keyword): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "seo_url` WHERE (`keyword` = '" . $this->db->escape($keyword) . "' OR `keyword` LIKE '" . $this->db->escape('%/' . $keyword) . "') AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' LIMIT 1");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "seo_url` WHERE (`keyword` = '" . $this->db->escape($keyword) . "' OR `keyword` LIKE '" . $this->db->escape('%/' . $keyword) . "') AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' LIMIT 1");
         return $query->row;
     }
-
     /**
      * Get Seo Url By Key Value
      *
@@ -43,10 +40,9 @@ class SeoUrl extends \Opencart\System\Engine\Model
      *
      * $seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyValue($key, $value);
      */
-    public function getSeoUrlByKeyValue(string $key, string $value): array
+    public function get_seo_url_by_key_value(string $key, string $value): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "seo_url` WHERE `key` = '" . $this->db->escape($key) . "' AND `value` = '" . $this->db->escape($value) . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "seo_url` WHERE `key` = '" . $this->db->escape($key) . "' AND `value` = '" . $this->db->escape($value) . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
 }

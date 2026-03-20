@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Startup;
 
 /**
@@ -19,48 +18,25 @@ class Login extends \Opencart\System\Engine\Controller
     public function index(): ?object
     {
         if (isset($this->request->get['route'])) {
-            $route = (string)$this->request->get['route'];
+            $route = (string) $this->request->get['route'];
         } else {
             $route = '';
         }
-
         // Remove any method call for checking ignore pages.
         $pos = strrpos($route, '.');
-
         if ($pos !== false) {
             $route = substr($route, 0, $pos);
         }
-
-        $ignore = [
-            'common/login',
-            'common/forgotten',
-            'common/language',
-            'common/authorize',
-            'cron/cron',
-        ];
-
+        $ignore = ['common/login', 'common/forgotten', 'common/language', 'common/authorize', 'cron/cron'];
         // User
         $this->registry->set('user', new \Opencart\System\Library\Cart\User($this->registry));
-
-        if (!$this->user->isLogged() && !in_array($route, $ignore)) {
+        if (!$this->user->is_logged() && !in_array($route, $ignore)) {
             return new \Opencart\System\Engine\Action('common/login');
         }
-
-        $ignore = [
-            'common/login',
-            'common/logout',
-            'common/forgotten',
-            'common/language',
-            'common/authorize',
-            'cron/cron',
-            'error/not_found',
-            'error/permission',
-        ];
-
-        if (!in_array($route, $ignore) && (!isset($this->request->get['user_token']) || !isset($this->session->data['user_token']) || ($this->request->get['user_token'] != $this->session->data['user_token']))) {
+        $ignore = ['common/login', 'common/logout', 'common/forgotten', 'common/language', 'common/authorize', 'cron/cron', 'error/not_found', 'error/permission'];
+        if (!in_array($route, $ignore) && (!isset($this->request->get['user_token']) || !isset($this->session->data['user_token']) || $this->request->get['user_token'] != $this->session->data['user_token'])) {
             return new \Opencart\System\Engine\Action('common/login');
         }
-
         return null;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -24,13 +23,11 @@ class Currency extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_currency->editValueByCode($code, $value);
      */
-    public function editValueByCode(string $code, float $value): void
+    public function edit_value_by_code(string $code, float $value): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "currency` SET `value` = '" . $value . "', `date_modified` = NOW() WHERE `code` = '" . $this->db->escape($code) . "'");
-
         $this->cache->delete('currency');
     }
-
     /**
      * Get Currency
      *
@@ -46,13 +43,11 @@ class Currency extends \Opencart\System\Engine\Model
      *
      * $currency_info = $this->model_localisation_currency->getCurrency($currency_id);
      */
-    public function getCurrency(int $currency_id): array
+    public function get_currency(int $currency_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "currency` WHERE `currency_id` = '" . $currency_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Currency By Code
      *
@@ -66,13 +61,11 @@ class Currency extends \Opencart\System\Engine\Model
      *
      * $currency_info = $this->model_localisation_currency->getCurrencyByCode($currency);
      */
-    public function getCurrencyByCode(string $currency): array
+    public function get_currency_by_code(string $currency): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "currency` WHERE `code` = '" . $this->db->escape($currency) . "' AND `status` = '1'");
-
         return $query->row;
     }
-
     /**
      * Get Currencies
      *
@@ -86,24 +79,18 @@ class Currency extends \Opencart\System\Engine\Model
      *
      * $currencies = $this->model_localisation_currency->getCurrencies();
      */
-    public function getCurrencies(): array
+    public function get_currencies(): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . "currency` WHERE `status` = '1' ORDER BY `title` ASC";
-
         $currency_data = $this->cache->get('currency.' . md5($sql));
-
         if (!$currency_data) {
             $currency_data = [];
-
             $query = $this->db->query($sql);
-
             foreach ($query->rows as $result) {
                 $currency_data[$result['code']] = $result;
             }
-
             $this->cache->set('currency.' . md5($sql), $currency_data);
         }
-
         return $currency_data;
     }
 }

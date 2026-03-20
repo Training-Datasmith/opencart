@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Controller\Startup;
 
 /**
@@ -19,7 +18,6 @@ class Error extends \Opencart\System\Engine\Controller
         set_error_handler([$this, 'error']);
         set_exception_handler([$this, 'exception']);
     }
-
     /**
      * Error
      *
@@ -32,10 +30,8 @@ class Error extends \Opencart\System\Engine\Controller
         if (!(error_reporting() & $code)) {
             return false;
         }
-
         throw new \ErrorException($message, 0, $code, $file, $line);
     }
-
     /**
      * Exception
      *
@@ -43,17 +39,15 @@ class Error extends \Opencart\System\Engine\Controller
      */
     public function exception(object $e): void
     {
-        $message = $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine();
-
+        $message = $e->get_message() . ' in ' . $e->get_file() . ' on line ' . $e->get_line();
         if ($this->config->get('config_error_log')) {
             $this->log->write($message);
         }
-
         if ($this->config->get('config_error_display')) {
             echo $message;
         } else {
             header('Location: ' . $this->config->get('error_page'));
-            exit();
+            exit;
         }
     }
 }

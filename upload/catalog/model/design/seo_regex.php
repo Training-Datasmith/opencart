@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Design;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Design;
  *
  * @package Opencart\Catalog\Model\Design
  */
-class SeoRegex extends \Opencart\System\Engine\Model
+class Seo_Regex extends \Opencart\System\Engine\Model
 {
     /**
      * Get Seo Regexes
@@ -26,10 +25,9 @@ class SeoRegex extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_design_seo_regex->getSeoRegexes();
      */
-    public function getSeoRegexes(): array
+    public function get_seo_regexes(): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'seo_regex`');
-
         return $query->rows;
     }
 }

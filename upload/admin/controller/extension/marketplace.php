@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Extension;
 
 /**
@@ -16,31 +15,23 @@ class Marketplace extends \Opencart\System\Engine\Controller
      */
     public function index(): void
     {
-        $this->response->setOutput($this->getList());
+        $this->response->set_output($this->get_list());
     }
-
     /**
      * Get List
      */
-    public function getList(): string
+    public function get_list(): string
     {
         $this->load->language('extension/marketplace');
-
         $available = [];
-
         $results = oc_directory_read(DIR_EXTENSION, true, '/admin\/controller\/marketplace\/.+\.php$/');
-
         foreach ($results as $result) {
             $available[] = basename($result, '.php');
         }
-
         $installed = [];
-
         // Extensions
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('marketplace');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('marketplace');
         foreach ($extensions as $extension) {
             if (in_array($extension['code'], $available)) {
                 $installed[] = $extension['code'];
@@ -48,126 +39,85 @@ class Marketplace extends \Opencart\System\Engine\Controller
                 $this->model_setting_extension->uninstall('marketplace', $extension['code']);
             }
         }
-
         $data['extensions'] = [];
-
         foreach ($results as $result) {
             $path = substr($result, strlen(DIR_EXTENSION));
-
             $extension = substr($path, 0, strpos($path, '/'));
-
             $code = basename($result, '.php');
-
             $this->load->language('extension/' . $extension . '/marketplace/' . $code, $code);
-
-            $data['extensions'][] = [
-                'name'      => $this->language->get($code . '_heading_title'),
-                'status'    => $this->config->get('language_' . $code . '_status'),
-                'install'   => $this->url->link('extension/marketplace.install', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension . '&code=' . $code),
-                'uninstall' => $this->url->link('extension/marketplace.uninstall', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension . '&code=' . $code),
-                'installed' => in_array($code, $installed),
-                'edit'      => $this->url->link('extension/' . $extension . '/marketplace/' . $code, 'user_token=' . $this->session->data['user_token']),
-            ];
+            $data['extensions'][] = ['name' => $this->language->get($code . '_heading_title'), 'status' => $this->config->get('language_' . $code . '_status'), 'install' => $this->url->link('extension/marketplace.install', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension . '&code=' . $code), 'uninstall' => $this->url->link('extension/marketplace.uninstall', 'user_token=' . $this->session->data['user_token'] . '&extension=' . $extension . '&code=' . $code), 'installed' => in_array($code, $installed), 'edit' => $this->url->link('extension/' . $extension . '/marketplace/' . $code, 'user_token=' . $this->session->data['user_token'])];
         }
-
         $data['promotion'] = $this->load->controller('marketplace/promotion');
-
         return $this->load->view('extension/marketplace', $data);
     }
-
     /**
      * Install
      */
     public function install(): void
     {
         $this->load->language('extension/marketplace');
-
         $json = [];
-
         if (isset($this->request->get['extension'])) {
-            $extension = basename((string)$this->request->get['extension']);
+            $extension = basename((string) $this->request->get['extension']);
         } else {
             $extension = '';
         }
-
         if (isset($this->request->get['code'])) {
-            $code = basename((string)$this->request->get['code']);
+            $code = basename((string) $this->request->get['code']);
         } else {
             $code = '';
         }
-
-        if (!$this->user->hasPermission('modify', 'extension/marketplace')) {
+        if (!$this->user->has_permission('modify', 'extension/marketplace')) {
             $json['error'] = $this->language->get('error_permission');
         }
-
         if (!is_file(DIR_EXTENSION . $extension . '/admin/controller/marketplace/' . $code . '.php')) {
             $json['error'] = $this->language->get('error_extension');
         }
-
         if (!$json) {
             // Extension
             $this->load->model('setting/extension');
-
             $this->model_setting_extension->install('marketplace', $extension, $code);
-
             // User Group
             $this->load->model('user/user_group');
-
-            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/' . $extension . '/marketplace/' . $code);
-            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/' . $extension . '/marketplace/' . $code);
-
+            $this->model_user_user_group->add_permission($this->user->get_group_id(), 'access', 'extension/' . $extension . '/marketplace/' . $code);
+            $this->model_user_user_group->add_permission($this->user->get_group_id(), 'modify', 'extension/' . $extension . '/marketplace/' . $code);
             $namespace = str_replace(['_', '/'], ['', '\\'], ucwords($extension, '_/'));
-
             // Register controllers, models and system extension folders
             $this->autoloader->register('Opencart\Admin\Controller\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/admin/controller/');
             $this->autoloader->register('Opencart\Admin\Model\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/admin/model/');
             $this->autoloader->register('Opencart\System\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/system/');
-
             // Template directory
-            $this->template->addPath('extension/' . $extension, DIR_EXTENSION . $extension . '/admin/view/template/');
-
+            $this->template->add_path('extension/' . $extension, DIR_EXTENSION . $extension . '/admin/view/template/');
             // Language directory
-            $this->language->addPath('extension/' . $extension, DIR_EXTENSION . $extension . '/admin/language/');
-
+            $this->language->add_path('extension/' . $extension, DIR_EXTENSION . $extension . '/admin/language/');
             // Config directory
-            $this->config->addPath('extension/' . $extension, DIR_EXTENSION . $extension . '/system/config/');
-
+            $this->config->add_path('extension/' . $extension, DIR_EXTENSION . $extension . '/system/config/');
             // Call install method if it exists
             $this->load->controller('extension/' . $extension . '/marketplace/' . $code . '.install');
-
             $json['success'] = $this->language->get('text_success');
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
-
     /**
      * Uninstall
      */
     public function uninstall(): void
     {
         $this->load->language('extension/marketplace');
-
         $json = [];
-
-        if (!$this->user->hasPermission('modify', 'extension/marketplace')) {
+        if (!$this->user->has_permission('modify', 'extension/marketplace')) {
             $json['error'] = $this->language->get('error_permission');
         }
-
         if (!$json) {
             // Extension
             $this->load->model('setting/extension');
-
             $this->model_setting_extension->uninstall('marketplace', $this->request->get['code']);
-
             // Call uninstall method if it exists
             $this->load->controller('extension/' . $this->request->get['extension'] . '/marketplace/' . $this->request->get['code'] . '.uninstall');
-
             $json['success'] = $this->language->get('text_success');
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
 }

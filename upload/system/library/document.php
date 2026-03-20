@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see		https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -37,117 +36,98 @@ class Document
      * @var array<int, array<string, string>> Meta tags with their attributes
      */
     private array $metas = [];
-
     /**
      * Set Title
      *
      *
      */
-    public function setTitle(string $title): void
+    public function set_title(string $title): void
     {
         $this->title = $title;
     }
-
     /**
      * Get Title
      */
-    public function getTitle(): string
+    public function get_title(): string
     {
         return $this->title;
     }
-
     /**
      * Set Description
      *
      *
      */
-    public function setDescription(string $description): void
+    public function set_description(string $description): void
     {
         $this->description = $description;
     }
-
     /**
      * Get Description
      */
-    public function getDescription(): string
+    public function get_description(): string
     {
         return $this->description;
     }
-
     /**
      * Set Keywords
      */
-    public function setKeywords(string $keywords): void
+    public function set_keywords(string $keywords): void
     {
         $this->keywords = $keywords;
     }
-
     /**
      * Get Keywords
      */
-    public function getKeywords(): string
+    public function get_keywords(): string
     {
         return $this->keywords;
     }
-
     /**
      * Add Link
      *
      *
      */
-    public function addLink(string $href, string $rel): void
+    public function add_link(string $href, string $rel): void
     {
-        $this->links[$href] = [
-            'href' => $href,
-            'rel'  => $rel,
-        ];
+        $this->links[$href] = ['href' => $href, 'rel' => $rel];
     }
-
     /**
      * Get Links
      *
      * @return array<string, array<string, string>>
      */
-    public function getLinks(): array
+    public function get_links(): array
     {
         return $this->links;
     }
-
     /**
      * Add Style
      *
      *
      */
-    public function addStyle(string $href, string $rel = 'stylesheet', string $media = 'screen'): void
+    public function add_style(string $href, string $rel = 'stylesheet', string $media = 'screen'): void
     {
-        $this->styles[$href] = [
-            'href'  => $href,
-            'rel'   => $rel,
-            'media' => $media,
-        ];
+        $this->styles[$href] = ['href' => $href, 'rel' => $rel, 'media' => $media];
     }
-
     /**
      * Get Styles
      *
      * @return array<string, array<string, string>>
      */
-    public function getStyles(): array
+    public function get_styles(): array
     {
         return $this->styles;
     }
-
     /**
      * Add Script
      *
      * @param string $position
      *
      */
-    public function addScript(string $href): void
+    public function add_script(string $href): void
     {
-        $this->scripts[$href] = ['href'  => $href];
+        $this->scripts[$href] = ['href' => $href];
     }
-
     /**
      * Get Scripts
      *
@@ -155,11 +135,10 @@ class Document
      *
      * @return array<string, array<string, string>>
      */
-    public function getScripts(): array
+    public function get_scripts(): array
     {
         return $this->scripts;
     }
-
     /**
      * Add Meta
      *
@@ -178,17 +157,16 @@ class Document
      * $this->document->addMeta(['property' => 'og:title', 'content' => 'Page Title']);
      * $this->document->addMeta(['name' => 'theme-color', 'content' => '#000', 'media' => '(prefers-color-scheme: dark)']);
      */
-    public function addMeta(array $attributes): void
+    public function add_meta(array $attributes): void
     {
         $this->metas[] = $attributes;
     }
-
     /**
      * Get Metas
      *
      * @return array<int, array<string, string>>
      */
-    public function getMetas(): array
+    public function get_metas(): array
     {
         return $this->metas;
     }

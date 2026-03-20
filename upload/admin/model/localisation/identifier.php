@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Localisation;
 
 /**
@@ -36,17 +35,13 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * $identifier_id = $this->model_localisation_identifier->addIdentifier($identifier_data);
      */
-    public function addIdentifier(array $data): int
+    public function add_identifier(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "identifier` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `code` = '" . $this->db->escape((string)$data['code']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "'");
-
-        $identifier_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "identifier` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `code` = '" . $this->db->escape((string) $data['code']) . "', `status` = '" . (bool) ($data['status'] ?? 0) . "'");
+        $identifier_id = $this->db->get_last_id();
         $this->cache->delete('identifier');
-
         return $identifier_id;
     }
-
     /**
      * Edit Identifier
      *
@@ -70,13 +65,11 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_identifier->editIdentifier($identifier_id, $identifier_data);
      */
-    public function editIdentifier(int $identifier_id, array $data): void
+    public function edit_identifier(int $identifier_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "identifier` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `code` = '" . $this->db->escape((string)$data['code']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `identifier_id` = '" . $identifier_id . "'");
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "identifier` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `code` = '" . $this->db->escape((string) $data['code']) . "', `status` = '" . (bool) ($data['status'] ?? 0) . "' WHERE `identifier_id` = '" . $identifier_id . "'");
         $this->cache->delete('identifier');
     }
-
     /**
      * Delete Identifier
      *
@@ -91,13 +84,11 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_identifier->deleteIdentifier($identifier_id);
      */
-    public function deleteIdentifier(int $identifier_id): void
+    public function delete_identifier(int $identifier_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "identifier` WHERE `identifier_id` = '" . $identifier_id . "'");
-
         $this->cache->delete('identifier');
     }
-
     /**
      * Get Identifier
      *
@@ -113,13 +104,11 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * $identifier_info = $this->model_localisation_identifier->getIdentifier($identifier_id);
      */
-    public function getIdentifier(int $identifier_id): array
+    public function get_identifier(int $identifier_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "identifier` WHERE `identifier_id` = '" . $identifier_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Identifier By Code
      *
@@ -128,13 +117,11 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * @return array<string, mixed>
      */
-    public function getIdentifierByCode(string $code): array
+    public function get_identifier_by_code(string $code): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "identifier` WHERE `code` = '" . $this->db->escape($code) . "'");
-
         return $query->row;
     }
-
     /**
      * Get Identifiers
      *
@@ -155,27 +142,21 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_localisation_identifier->getIdentifiers($filter_data);
      */
-    public function getIdentifiers(array $data = []): array
+    public function get_identifiers(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'identifier` ORDER BY `name` ASC';
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Identifiers
      *
@@ -189,10 +170,9 @@ class Identifier extends \Opencart\System\Engine\Model
      *
      * $identifier_total = $this->model_localisation_identifier->getTotalIdentifiers();
      */
-    public function getTotalIdentifiers(): int
+    public function get_total_identifiers(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'identifier`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

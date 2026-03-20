@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -22,49 +21,26 @@ class Product extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function addProduct(string &$route, array &$args, string &$output): void
+    public function add_product(string &$route, array &$args, string &$output): void
     {
-        $task_data = [
-            'code'   => 'product.info.' . $output,
-            'action' => 'task/catalog/product.info',
-            'args'   => ['product_id' => $output],
-        ];
-
+        $task_data = ['code' => 'product.info.' . $output, 'action' => 'task/catalog/product.info', 'args' => ['product_id' => $output]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
+        $this->model_setting_task->add_task($task_data);
         // Categories
         $this->load->model('catalog/category');
-
-        $results = $this->model_catalog_category->getProductsByFilterId($output);
-
+        $results = $this->model_catalog_category->get_products_by_filter_id($output);
         foreach ($results as $result) {
-            $task_data = [
-                'code'   => 'filter.' . $result['filter_id'],
-                'action' => 'task/catalog/filter',
-                'args'   => ['filter_id' => $result['filter_id']],
-            ];
-
-            $this->model_setting_task->addTask($task_data);
+            $task_data = ['code' => 'filter.' . $result['filter_id'], 'action' => 'task/catalog/filter', 'args' => ['filter_id' => $result['filter_id']]];
+            $this->model_setting_task->add_task($task_data);
         }
-
         // Filters
         $this->load->model('catalog/filter');
-
-        $results = $this->model_catalog_product->getProductsByFilterId($output);
-
+        $results = $this->model_catalog_product->get_products_by_filter_id($output);
         foreach ($results as $result) {
-            $task_data = [
-                'code'   => 'filter.' . $result['filter_id'],
-                'action' => 'task/catalog/filter',
-                'args'   => ['filter_id' => $result['filter_id']],
-            ];
-
-            $this->model_setting_task->addTask($task_data);
+            $task_data = ['code' => 'filter.' . $result['filter_id'], 'action' => 'task/catalog/filter', 'args' => ['filter_id' => $result['filter_id']]];
+            $this->model_setting_task->add_task($task_data);
         }
     }
-
     /**
      * Edit Product
      *
@@ -76,19 +52,12 @@ class Product extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function editProduct(string &$route, array &$args, &$output): void
+    public function edit_product(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'product.info.' . $args[0],
-            'action' => 'task/catalog/product.info',
-            'args'   => ['product_id' => $args[0]],
-        ];
-
+        $task_data = ['code' => 'product.info.' . $args[0], 'action' => 'task/catalog/product.info', 'args' => ['product_id' => $args[0]]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /**
      * Delete Product
      *
@@ -100,16 +69,10 @@ class Product extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function deleteProduct(string &$route, array &$args, &$output): void
+    public function delete_product(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'product.delete.' . $args[0],
-            'action' => 'task/catalog/product.delete',
-            'args'   => ['product_id' => $args[0]],
-        ];
-
+        $task_data = ['code' => 'product.delete.' . $args[0], 'action' => 'task/catalog/product.delete', 'args' => ['product_id' => $args[0]]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

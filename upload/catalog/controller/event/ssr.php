@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Controller\Event;
 
 /**
@@ -41,12 +40,9 @@ class Ssr extends \Opencart\System\Engine\Controller
         if (!isset($this->request->get['_route_'])) {
             return;
         }
-
-        $output = $this->response->getOutput();
+        $output = $this->response->get_output();
         parse_url($this->config->get('config_url'), PHP_URL_HOST);
-
         //oc_directory_create($base . $directory, 0777);
-
         //file_put_contents($base . $directory . $filename, $output);
     }
 }

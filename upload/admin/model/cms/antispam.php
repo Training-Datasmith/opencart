@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Cms;
 
 /**
@@ -31,13 +30,11 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $antispam_id = $this->model_cms_antispam->addAntispam($antispam_data);
      */
-    public function addAntispam(array $data = []): int
+    public function add_antispam(array $data = []): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string)$data['keyword']) . "'");
-
-        return $this->db->getLastId();
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string) $data['keyword']) . "'");
+        return $this->db->get_last_id();
     }
-
     /**
      * Edit Antispam
      *
@@ -57,11 +54,10 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_antispam->editAntispam($antispam_id, $antispam_data);
      */
-    public function editAntispam(int $antispam_id, array $data = []): void
+    public function edit_antispam(int $antispam_id, array $data = []): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string)$data['keyword']) . "' WHERE `antispam_id` = '" . $antispam_id . "'");
+        $this->db->query('UPDATE `' . DB_PREFIX . "antispam` SET `keyword` = '" . $this->db->escape((string) $data['keyword']) . "' WHERE `antispam_id` = '" . $antispam_id . "'");
     }
-
     /**
      * Delete Antispam
      *
@@ -76,11 +72,10 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_antispam->deleteAntispam($antispam_id);
      */
-    public function deleteAntispam(int $antispam_id): void
+    public function delete_antispam(int $antispam_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "antispam` WHERE `antispam_id` = '" . $antispam_id . "'");
     }
-
     /**
      * Get Antispam
      *
@@ -96,13 +91,11 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $antispam_info = $this->model_cms_antispam->getAntispam($antispam_id);
      */
-    public function getAntispam(int $antispam_id): array
+    public function get_antispam(int $antispam_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "antispam` WHERE `antispam_id` = '" . $antispam_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Antispam(s)
      *
@@ -126,45 +119,35 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_cms_antispam->getAntispams($filter_data);
      */
-    public function getAntispams(array $data = []): array
+    public function get_antispams(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'antispam`';
-
         if (!empty($data['filter_keyword'])) {
             $sql .= " WHERE LCASE(`keyword`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_keyword'])) . "'";
         }
-
         $sort_data = ['keyword'];
-
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $data['sort'];
         } else {
             $sql .= ' ORDER BY `keyword`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Antispam(s)
      *
@@ -188,16 +171,13 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $antispam_total = $this->model_cms_antispam->getTotalAntispams($filter_data);
      */
-    public function getTotalAntispams(array $data = []): int
+    public function get_total_antispams(array $data = []): int
     {
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'antispam`';
-
         if (!empty($data['filter_keyword'])) {
             $sql .= " WHERE LCASE(`keyword`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_keyword'])) . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

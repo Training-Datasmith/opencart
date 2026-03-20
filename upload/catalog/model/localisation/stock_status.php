@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Localisation;
  *
  * @package Opencart\Catalog\Model\Localisation
  */
-class StockStatus extends \Opencart\System\Engine\Model
+class Stock_Status extends \Opencart\System\Engine\Model
 {
     /**
      * Get Stock Status
@@ -28,13 +27,11 @@ class StockStatus extends \Opencart\System\Engine\Model
      *
      * $stock_status_info = $this->model_localisation_stock_status->getStockStatus($stock_status_id);
      */
-    public function getStockStatus(int $stock_status_id): array
+    public function get_stock_status(int $stock_status_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "stock_status` WHERE `stock_status_id` = '" . $stock_status_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "stock_status` WHERE `stock_status_id` = '" . $stock_status_id . "' AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Stock Statuses
      *
@@ -50,40 +47,30 @@ class StockStatus extends \Opencart\System\Engine\Model
      *
      * $stock_statuses = $this->model_localisation_stock_status->getStockStatuses();
      */
-    public function getStockStatuses(array $data = []): array
+    public function get_stock_statuses(array $data = []): array
     {
-        $sql = 'SELECT * FROM `' . DB_PREFIX . "stock_status` WHERE `language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY `name`";
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        $sql = 'SELECT * FROM `' . DB_PREFIX . "stock_status` WHERE `language_id` = '" . (int) $this->config->get('config_language_id') . "' ORDER BY `name`";
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $key = md5($sql);
-
         $stock_status_data = $this->cache->get('stock_status.' . $key);
-
         if (!$stock_status_data) {
             $query = $this->db->query($sql);
-
             $stock_status_data = $query->rows;
-
             $this->cache->set('stock_status.' . $key, $stock_status_data);
         }
-
         return $stock_status_data;
     }
 }

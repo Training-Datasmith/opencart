@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Design;
 
 /**
@@ -19,328 +18,201 @@ class Template extends \Opencart\System\Engine\Controller
     public function index(): void
     {
         $this->load->language('design/template');
-
-        $this->document->setTitle($this->language->get('heading_title'));
-
+        $this->document->set_title($this->language->get('heading_title'));
         if (isset($this->request->get['filter_store_id'])) {
-            $filter_store_id = (int)$this->request->get['filter_store_id'];
+            $filter_store_id = (int) $this->request->get['filter_store_id'];
         } else {
             $filter_store_id = '';
         }
-
         if (isset($this->request->get['filter_status'])) {
             $filter_status = $this->request->get['filter_status'];
         } else {
             $filter_status = '';
         }
-
-        $allowed = [
-            'filter_store_id',
-            'filter_status',
-            'page',
-        ];
-
+        $allowed = ['filter_store_id', 'filter_status', 'page'];
         $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
-
         $data['breadcrumbs'] = [];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
-        ];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('design/template', 'user_token=' . $this->session->data['user_token'] . $url),
-        ];
-
+        $data['breadcrumbs'][] = ['text' => $this->language->get('text_home'), 'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])];
+        $data['breadcrumbs'][] = ['text' => $this->language->get('heading_title'), 'href' => $this->url->link('design/template', 'user_token=' . $this->session->data['user_token'] . $url)];
         $data['add'] = $this->url->link('design/template.form', 'user_token=' . $this->session->data['user_token'] . $url);
         $data['delete'] = $this->url->link('design/template.delete', 'user_token=' . $this->session->data['user_token']);
-        $data['enable']	= $this->url->link('design/template.enable', 'user_token=' . $this->session->data['user_token']);
+        $data['enable'] = $this->url->link('design/template.enable', 'user_token=' . $this->session->data['user_token']);
         $data['disable'] = $this->url->link('design/template.disable', 'user_token=' . $this->session->data['user_token']);
-
         $data['list'] = $this->load->controller('design/template.getList');
-
         // Stores
         $data['stores'] = [];
-
-        $data['stores'][] = [
-            'store_id' => 0,
-            'name'     => $this->config->get('config_name'),
-        ];
-
+        $data['stores'][] = ['store_id' => 0, 'name' => $this->config->get('config_name')];
         $this->load->model('setting/store');
-
-        $data['stores'] = array_merge($data['stores'], $this->model_setting_store->getStores());
-
+        $data['stores'] = array_merge($data['stores'], $this->model_setting_store->get_stores());
         $data['filter_store_id'] = $filter_store_id;
         $data['filter_status'] = $filter_status;
-
         $data['user_token'] = $this->session->data['user_token'];
-
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
-
-        $this->response->setOutput($this->load->view('design/template', $data));
+        $this->response->set_output($this->load->view('design/template', $data));
     }
-
     /**
      * List
      */
     public function list(): void
     {
         $this->load->language('design/template');
-
-        $this->response->setOutput($this->load->controller('design/template.getList'));
+        $this->response->set_output($this->load->controller('design/template.getList'));
     }
-
     /**
      * Get List
      */
-    public function getList(): string
+    public function get_list(): string
     {
         if (isset($this->request->get['filter_store_id'])) {
-            $filter_store_id = (int)$this->request->get['filter_store_id'];
+            $filter_store_id = (int) $this->request->get['filter_store_id'];
         } else {
             $filter_store_id = '';
         }
-
         if (isset($this->request->get['filter_status'])) {
             $filter_status = $this->request->get['filter_status'];
         } else {
             $filter_status = '';
         }
-
         if (isset($this->request->get['page'])) {
-            $page = (int)$this->request->get['page'];
+            $page = (int) $this->request->get['page'];
         } else {
             $page = 1;
         }
-
-        $allowed = [
-            'filter_store_id',
-            'filter_status',
-            'page',
-        ];
-
+        $allowed = ['filter_store_id', 'filter_status', 'page'];
         $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
-
         $data['action'] = $this->url->link('design/template.list', 'user_token=' . $this->session->data['user_token'] . $url);
-
         $data['templates'] = [];
-
-        $filter_data = [
-            'filter_store_id' => $filter_store_id,
-            'filter_status'   => $filter_status,
-            'start'           => ($page - 1) * $this->config->get('config_pagination_admin'),
-            'limit'           => $this->config->get('config_pagination_admin'),
-        ];
-
+        $filter_data = ['filter_store_id' => $filter_store_id, 'filter_status' => $filter_status, 'start' => ($page - 1) * $this->config->get('config_pagination_admin'), 'limit' => $this->config->get('config_pagination_admin')];
         // Templates
         $this->load->model('design/template');
-
         // Setting
         $this->load->model('setting/store');
-
-        $results = $this->model_design_template->getTemplates($filter_data);
-
+        $results = $this->model_design_template->get_templates($filter_data);
         foreach ($results as $result) {
-            $store_info = $this->model_setting_store->getStore($result['store_id']);
-
+            $store_info = $this->model_setting_store->get_store($result['store_id']);
             if ($store_info) {
                 $store = $store_info['name'];
             } else {
                 $store = '';
             }
-
-            $data['templates'][] = [
-                'store'      => ($result['store_id'] ? $store : $this->language->get('text_default')),
-                'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-                'edit'       => $this->url->link('design/template.form', 'user_token=' . $this->session->data['user_token'] . '&template_id=' . $result['template_id']),
-                'delete'     => $this->url->link('design/template.delete', 'user_token=' . $this->session->data['user_token'] . '&template_id=' . $result['template_id']),
-            ] + $result;
+            $data['templates'][] = ['store' => $result['store_id'] ? $store : $this->language->get('text_default'), 'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])), 'edit' => $this->url->link('design/template.form', 'user_token=' . $this->session->data['user_token'] . '&template_id=' . $result['template_id']), 'delete' => $this->url->link('design/template.delete', 'user_token=' . $this->session->data['user_token'] . '&template_id=' . $result['template_id'])] + $result;
         }
-
         // Total Templates
-        $template_total = $this->model_design_template->getTotalTemplates();
-
-        $allowed = [
-            'filter_store_id',
-            'filter_status',
-        ];
-
+        $template_total = $this->model_design_template->get_total_templates();
+        $allowed = ['filter_store_id', 'filter_status'];
         $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
-
         // Pagination
         $data['total'] = $template_total;
         $data['page'] = $page;
         $data['limit'] = $this->config->get('config_pagination_admin');
         $data['pagination'] = $this->url->link('design/template.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}');
-
-        $data['results'] = sprintf($this->language->get('text_pagination'), ($template_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($template_total - $this->config->get('config_pagination_admin'))) ? $template_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $template_total, ceil($template_total / $this->config->get('config_pagination_admin')));
-
+        $data['results'] = sprintf($this->language->get('text_pagination'), $template_total ? ($page - 1) * $this->config->get('config_pagination_admin') + 1 : 0, ($page - 1) * $this->config->get('config_pagination_admin') > $template_total - $this->config->get('config_pagination_admin') ? $template_total : ($page - 1) * $this->config->get('config_pagination_admin') + $this->config->get('config_pagination_admin'), $template_total, ceil($template_total / $this->config->get('config_pagination_admin')));
         return $this->load->view('design/template_list', $data);
     }
-
     /**
      * Get Form
      */
     public function form(): void
     {
         $this->load->language('design/template');
-
-        $this->document->setTitle($this->language->get('heading_title'));
-
+        $this->document->set_title($this->language->get('heading_title'));
         $data['text_form'] = !isset($this->request->get['template_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
-
-        $allowed = [
-            'filter_store_id',
-            'filter_status',
-            'page',
-        ];
-
+        $allowed = ['filter_store_id', 'filter_status', 'page'];
         $url = '&' . http_build_query(array_intersect_key($this->request->get, array_flip($allowed)));
-
         $data['breadcrumbs'] = [];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']),
-        ];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('design/template', 'user_token=' . $this->session->data['user_token'] . $url),
-        ];
-
+        $data['breadcrumbs'][] = ['text' => $this->language->get('text_home'), 'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])];
+        $data['breadcrumbs'][] = ['text' => $this->language->get('heading_title'), 'href' => $this->url->link('design/template', 'user_token=' . $this->session->data['user_token'] . $url)];
         $data['save'] = $this->url->link('design/template.save', 'user_token=' . $this->session->data['user_token']);
         $data['back'] = $this->url->link('design/template', 'user_token=' . $this->session->data['user_token'] . $url);
-
         // Template
         if (isset($this->request->get['template_id'])) {
             $this->load->model('design/template');
-
-            $template_info = $this->model_design_template->getTemplate((int)$this->request->get['template_id']);
+            $template_info = $this->model_design_template->get_template((int) $this->request->get['template_id']);
         }
-
         if (!empty($template_info)) {
             $data['template_id'] = $template_info['template_id'];
         } else {
             $data['template_id'] = 0;
         }
-
         // Setting
         $data['stores'] = [];
-
-        $data['stores'][] = [
-            'store_id' => 0,
-            'name'     => $this->config->get('config_name'),
-        ];
-
+        $data['stores'][] = ['store_id' => 0, 'name' => $this->config->get('config_name')];
         $this->load->model('setting/store');
-
-        $data['stores'] = array_merge($data['stores'], $this->model_setting_store->getStores());
-
+        $data['stores'] = array_merge($data['stores'], $this->model_setting_store->get_stores());
         if (!empty($template_info)) {
             $data['store_id'] = $template_info['store_id'];
         } else {
             $data['store_id'] = 0;
         }
-
         // We grab the files from the default template directory
         $directory = DIR_CATALOG . 'view/stylesheet/';
-
         $data['stylesheets'] = [];
-
         $files = oc_directory_read($directory, true);
-
         foreach ($files as $file) {
             $stylesheet = substr(substr($file, 0, strrpos($file, '.')), strlen($directory));
-
             if ($stylesheet) {
                 $data['stylesheets'][] = $stylesheet;
             }
         }
-
         // We grab the files from the default template directory
         $directory = DIR_CATALOG . 'view/template/';
-
         $data['templates'] = [];
-
         $files = oc_directory_read($directory, true);
-
         foreach ($files as $file) {
             $template = substr(substr($file, 0, strrpos($file, '.')), strlen($directory));
-
             if ($template) {
                 $data['templates'][] = $template;
             }
         }
-
         // We grab the files from the extension template directory
         $data['extensions'] = [];
-
         $directories = oc_directory_read(DIR_EXTENSION, false);
-
         foreach ($directories as $directory) {
             $extension = basename($directory);
-
             $path = DIR_EXTENSION . $extension . '/catalog/view/template/';
-
             $files = oc_directory_read($path, true, '/.+\.twig$/');
-
             foreach ($files as $file) {
                 $template = substr(substr($file, 0, strrpos($file, '.')), strlen($path));
-
                 if ($template) {
                     $data['extensions'][] = 'extension/' . $extension . '/' . $template;
                 }
             }
         }
-
         if (!empty($template_info)) {
             $data['route'] = $template_info['route'];
         } else {
             $data['route'] = '';
         }
-
         if (!empty($template_info)) {
             $data['code'] = $template_info['code'];
         } else {
             $data['code'] = '';
         }
-
         if (!empty($template_info)) {
             $data['status'] = $template_info['status'];
         } else {
             $data['status'] = 1;
         }
-
         $data['user_token'] = $this->session->data['user_token'];
-
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
-
-        $this->response->setOutput($this->load->view('design/template_form', $data));
+        $this->response->set_output($this->load->view('design/template_form', $data));
     }
-
     /**
      * Template
      */
     public function template(): void
     {
         $this->load->language('design/template');
-
         $json = [];
-
         if (isset($this->request->get['path'])) {
             $path = $this->request->get['path'];
         } else {
             $path = '';
         }
-
         // Default template load
         if (!str_starts_with($path, 'extension/')) {
             $directory = DIR_CATALOG . 'view/template';
@@ -348,194 +220,141 @@ class Template extends \Opencart\System\Engine\Controller
         } else {
             // Extension template load
             $part = explode('/', $path);
-
             $directory = DIR_EXTENSION . $part[1] . '/catalog/view/template';
-
             unset($part[0]);
             unset($part[1]);
-
             $file = $directory . '/' . implode('/', $part) . '.twig';
         }
-
-        if (!is_file($file) || (!str_starts_with(str_replace('\\', '/', realpath($file)), $directory))) {
+        if (!is_file($file) || !str_starts_with(str_replace('\\', '/', realpath($file)), $directory)) {
             $json['code'] = '';
         }
-
         if (!$json) {
             $json['code'] = file_get_contents($file);
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
-
     /**
      * Save
      */
     public function save(): void
     {
         $this->load->language('design/template');
-
         $json = [];
-
-        $required = [
-            'template_id' => 0,
-            'route'    => '',
-            'code'     => '',
-            'status'   => 0,
-        ];
-
+        $required = ['template_id' => 0, 'route' => '', 'code' => '', 'status' => 0];
         $post_info = $this->request->post + $required;
-
         // Check user has permission
-        if (!$this->user->hasPermission('modify', 'design/template')) {
+        if (!$this->user->has_permission('modify', 'design/template')) {
             $json['error'] = $this->language->get('error_permission');
         }
-
         $directory = DIR_CATALOG . 'view/template';
         $file = $directory . '/' . $post_info['route'] . '.twig';
-
-        if (!is_file($file) || (!str_starts_with(str_replace('\\', '/', realpath($file)), $directory))) {
+        if (!is_file($file) || !str_starts_with(str_replace('\\', '/', realpath($file)), $directory)) {
             $json['error'] = $this->language->get('error_file');
         }
-
         // Extension template load
         if (str_starts_with($post_info['route'], 'extension/')) {
             $part = explode('/', $post_info['route']);
-
             $directory = DIR_EXTENSION . $part[1] . '/catalog/view/template';
-
             unset($part[0]);
             unset($part[1]);
-
             $route = implode('/', $part);
-
             $file = $directory . '/' . $route . '.twig';
-
             if (!is_file($file) || !str_starts_with(str_replace('\\', '/', realpath($file)), $directory)) {
                 $json['error'] = $this->language->get('error_file');
             }
         }
-
         if (!$json) {
             // Template
             $this->load->model('design/template');
-
             if (!$post_info['template_id']) {
-                $json['template_id'] = $this->model_design_template->addTemplate($post_info);
+                $json['template_id'] = $this->model_design_template->add_template($post_info);
             } else {
-                $this->model_design_template->editTemplate($post_info['template_id'], $post_info);
+                $this->model_design_template->edit_template($post_info['template_id'], $post_info);
             }
-
             $json['success'] = $this->language->get('text_success');
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
-
     /**
      * Enable
      */
     public function enable(): void
     {
         $this->load->language('design/template');
-
         $json = [];
-
         if (isset($this->request->post['selected'])) {
-            $selected = (array)$this->request->post['selected'];
+            $selected = (array) $this->request->post['selected'];
         } else {
             $selected = [];
         }
-
-        if (!$this->user->hasPermission('modify', 'design/template')) {
+        if (!$this->user->has_permission('modify', 'design/template')) {
             $json['error'] = $this->language->get('error_permission');
         }
-
         if (!$json) {
             $this->load->model('design/template');
-
             foreach ($selected as $template_id) {
-                $this->model_design_template->editStatus((int)$template_id, true);
+                $this->model_design_template->edit_status((int) $template_id, true);
             }
-
             $json['success'] = $this->language->get('text_success');
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
-
     /**
      * Disable
      */
     public function disable(): void
     {
         $this->load->language('design/template');
-
         $json = [];
-
         if (isset($this->request->post['selected'])) {
-            $selected = (array)$this->request->post['selected'];
+            $selected = (array) $this->request->post['selected'];
         } else {
             $selected = [];
         }
-
-        if (!$this->user->hasPermission('modify', 'design/template')) {
+        if (!$this->user->has_permission('modify', 'design/template')) {
             $json['error'] = $this->language->get('error_permission');
         }
-
         if (!$json) {
             $this->load->model('design/template');
-
             foreach ($selected as $template_id) {
-                $this->model_design_template->editStatus((int)$template_id, false);
+                $this->model_design_template->edit_status((int) $template_id, false);
             }
-
             $json['success'] = $this->language->get('text_success');
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
-
     /**
      * Delete
      */
     public function delete(): void
     {
         $this->load->language('design/template');
-
         $json = [];
-
         if (isset($this->request->post['selected'])) {
-            $selected = (array)$this->request->post['selected'];
+            $selected = (array) $this->request->post['selected'];
         } else {
             $selected = [];
         }
-
         if (isset($this->request->get['template_id'])) {
-            $selected[] = (int)$this->request->get['template_id'];
+            $selected[] = (int) $this->request->get['template_id'];
         }
-
         // Check user has permission
-        if (!$this->user->hasPermission('modify', 'design/template')) {
+        if (!$this->user->has_permission('modify', 'design/template')) {
             $json['error'] = $this->language->get('error_permission');
         }
-
         if (!$json) {
             // Template
             $this->load->model('design/template');
-
             foreach ($selected as $template_id) {
-                $this->model_design_template->deleteTemplate($template_id);
+                $this->model_design_template->delete_template($template_id);
             }
-
             $json['success'] = $this->language->get('text_success');
         }
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($json));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($json));
     }
 }

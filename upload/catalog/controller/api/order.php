@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Controller\Api;
 
 /**
@@ -19,187 +18,148 @@ class Order extends \Opencart\System\Engine\Controller
     public function index(): void
     {
         $this->load->language('api/order');
-
         if (isset($this->request->get['call'])) {
             $call = $this->request->get['call'];
         } else {
             $call = '';
         }
-
         // Allowed calls
         $output = match ($call) {
-            'customer' => $this->setCustomer(),
-            'cart' => $this->getCart(),
-            'product_add' => $this->addProduct(),
-            'payment_address' => $this->setPaymentAddress(),
-            'shipping_address' => $this->setShippingAddress(),
-            'shipping_method' => $this->setShippingMethod(),
-            'shipping_methods' => $this->getShippingMethods(),
-            'payment_method' => $this->setPaymentMethod(),
-            'payment_methods' => $this->getPaymentMethods(),
+            'customer' => $this->set_customer(),
+            'cart' => $this->get_cart(),
+            'product_add' => $this->add_product(),
+            'payment_address' => $this->set_payment_address(),
+            'shipping_address' => $this->set_shipping_address(),
+            'shipping_method' => $this->set_shipping_method(),
+            'shipping_methods' => $this->get_shipping_methods(),
+            'payment_method' => $this->set_payment_method(),
+            'payment_methods' => $this->get_payment_methods(),
             'extension' => $this->extension(),
-            'affiliate' => $this->setAffiliate(),
+            'affiliate' => $this->set_affiliate(),
             'confirm' => $this->confirm(),
-            'history_add' => $this->addHistory(),
+            'history_add' => $this->add_history(),
             default => ['error' => $this->language->get('error_call')],
         };
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode($output));
+        $this->response->add_header('Content-Type: application/json');
+        $this->response->set_output(json_encode($output));
     }
-
     /**
      * Set customer
      *
      * @return array<string, mixed>
      */
-    protected function setCustomer(): array
+    protected function set_customer(): array
     {
         return $this->load->controller('api/customer');
     }
-
     /**
      * Set Payment Address
      *
      * @return array<string, mixed>
      */
-    protected function setPaymentAddress(): array
+    protected function set_payment_address(): array
     {
         return $this->load->controller('api/payment_address');
     }
-
     /**
      * Set Shipping Address
      *
      * @return array<string, mixed>
      */
-    protected function setShippingAddress(): array
+    protected function set_shipping_address(): array
     {
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
         return $this->load->controller('api/shipping_address');
     }
-
     /**
      * Get Shipping Methods
      *
      * @return array<string, mixed>
      */
-    protected function getShippingMethods(): array
+    protected function get_shipping_methods(): array
     {
         $this->load->controller('api/customer');
-
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
         $this->load->controller('api/payment_address');
         $this->load->controller('api/shipping_address');
-
         return $this->load->controller('api/shipping_method.getShippingMethods');
     }
-
     /**
      * Set Shipping Method
      *
      * @return array<string, mixed>
      */
-    protected function setShippingMethod(): array
+    protected function set_shipping_method(): array
     {
         $this->load->controller('api/customer');
-
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
         $this->load->controller('api/shipping_address');
         $this->load->controller('api/payment_address');
-
         $output = $this->load->controller('api/shipping_method');
-
         // Extensions
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('total');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('total');
         foreach ($extensions as $extension) {
             $this->load->controller('extension/' . $extension['extension'] . '/api/' . $extension['code']);
         }
-
         $output['products'] = $this->load->controller('api/cart.getProducts');
         $output['totals'] = $this->load->controller('api/cart.getTotals');
-        $output['shipping_required'] = $this->cart->hasShipping();
-
+        $output['shipping_required'] = $this->cart->has_shipping();
         return $output;
     }
-
     /**
      * Get Payment Methods
      *
      * @return array<string, mixed>
      */
-    protected function getPaymentMethods(): array
+    protected function get_payment_methods(): array
     {
         $this->load->controller('api/customer');
-
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
         $this->load->controller('api/payment_address');
         $this->load->controller('api/shipping_address');
         $this->load->controller('api/shipping_method');
-
         return $this->load->controller('api/payment_method.getPaymentMethods');
     }
-
     /**
      * Set Payment Method
      *
      * @return array<string, mixed>
      */
-    protected function setPaymentMethod(): array
+    protected function set_payment_method(): array
     {
         $this->load->controller('api/customer');
-
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
         $this->load->controller('api/payment_address');
         $this->load->controller('api/shipping_address');
         $this->load->controller('api/shipping_method');
-
         $output = $this->load->controller('api/payment_method');
-
         // Extensions
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('total');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('total');
         foreach ($extensions as $extension) {
             $this->load->controller('extension/' . $extension['extension'] . '/api/' . $extension['code']);
         }
-
         $output['products'] = $this->load->controller('api/cart.getProducts');
         $output['totals'] = $this->load->controller('api/cart.getTotals');
-        $output['shipping_required'] = $this->cart->hasShipping();
-
+        $output['shipping_required'] = $this->cart->has_shipping();
         return $output;
     }
-
     /**
      * Extension
      *
@@ -214,118 +174,88 @@ class Order extends \Opencart\System\Engine\Controller
         $this->load->controller('api/shipping_method');
         $this->load->controller('api/payment_method');
         $this->load->controller('api/affiliate');
-
         if (isset($this->request->get['code'])) {
-            $code = (string)$this->request->get['code'];
+            $code = (string) $this->request->get['code'];
         } else {
             $code = '';
         }
-
         $output = [];
-
         // Extensions
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('total');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('total');
         foreach ($extensions as $extension) {
             $result = $this->load->controller('extension/' . $extension['extension'] . '/api/' . $extension['code']);
-
             if (!$result instanceof \Exception && $extension['code'] == $code) {
                 $output = $result;
             }
         }
-
         $output['products'] = $this->load->controller('api/cart.getProducts');
         $output['totals'] = $this->load->controller('api/cart.getTotals');
-        $output['shipping_required'] = $this->cart->hasShipping();
-
+        $output['shipping_required'] = $this->cart->has_shipping();
         return $output;
     }
-
     /**
      * Set Affiliate
      *
      * @return array<string, mixed>
      */
-    protected function setAffiliate(): array
+    protected function set_affiliate(): array
     {
         return $this->load->controller('api/affiliate');
     }
-
     /**
      * Get Cart
      *
      * @return array<string, mixed>
      */
-    protected function getCart(): array
+    protected function get_cart(): array
     {
         $this->load->controller('api/customer');
-
         // If any errors at the cart level such as products don't exist then we want to return the error
         $output = $this->load->controller('api/cart');
-
         $this->load->controller('api/payment_address');
         $this->load->controller('api/shipping_address');
-
         // Extensions
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('total');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('total');
         foreach ($extensions as $extension) {
             $this->load->controller('extension/' . $extension['extension'] . '/api/' . $extension['code']);
         }
-
         $this->load->controller('api/shipping_method');
         $this->load->controller('api/payment_method');
-
         $output['products'] = $this->load->controller('api/cart.getProducts');
         $output['totals'] = $this->load->controller('api/cart.getTotals');
-        $output['shipping_required'] = $this->cart->hasShipping();
-
+        $output['shipping_required'] = $this->cart->has_shipping();
         return $output;
     }
-
     /**
      * Add Product
      *
      * @return array<string, mixed>
      */
-    protected function addProduct(): array
+    protected function add_product(): array
     {
         $this->load->controller('api/customer');
-
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
         $this->load->controller('api/payment_address');
         $this->load->controller('api/shipping_address');
-
         $output = $this->load->controller('api/cart.addProduct');
-
         $this->load->controller('api/shipping_method');
         $this->load->controller('api/payment_method');
-
         // Extensions
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('total');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('total');
         foreach ($extensions as $extension) {
             $this->load->controller('extension/' . $extension['extension'] . '/api/' . $extension['code']);
         }
-
         $output['products'] = $this->load->controller('api/cart.getProducts');
         $output['totals'] = $this->load->controller('api/cart.getTotals');
-        $output['shipping_required'] = $this->cart->hasShipping();
-
+        $output['shipping_required'] = $this->cart->has_shipping();
         return $output;
     }
-
     /**
      * Confirm Order
      *
@@ -334,60 +264,42 @@ class Order extends \Opencart\System\Engine\Controller
     protected function confirm(): array
     {
         $this->load->controller('api/customer');
-
         // Validate cart has products and has stock.
         $output = $this->load->controller('api/cart');
-
         if (isset($output['error'])) {
             return $output;
         }
-
-        $required = [
-            'order_id'        => 0,
-            'affiliate_id'    => 0,
-            'comment'         => '',
-            'order_status_id' => 0,
-        ];
-
+        $required = ['order_id' => 0, 'affiliate_id' => 0, 'comment' => '', 'order_status_id' => 0];
         $post_info = $this->request->post + $required;
-
         $this->load->controller('api/payment_address');
         $this->load->controller('api/shipping_address');
         $this->load->controller('api/shipping_method');
         $this->load->controller('api/payment_method');
         $this->load->controller('api/affiliate');
-
         $this->load->language('api/order');
-
         $output = [];
-
         // 1. Validate customer data exists
         if (!isset($this->session->data['customer'])) {
             $output['error']['customer'] = $this->language->get('error_customer');
         }
-
         // 2. Validate cart has products.
-        if (!$this->cart->hasProducts()) {
+        if (!$this->cart->has_products()) {
             $output['error']['product'] = $this->language->get('error_product');
         }
-
         // 3. Validate cart has products and has stock
-        if ((!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) || !$this->cart->hasMinimum()) {
+        if (!$this->cart->has_stock() && !$this->config->get('config_stock_checkout') || !$this->cart->has_minimum()) {
             $output['error']['product'] = $this->language->get('error_stock');
         }
-
         // 4. Validate payment address, if required
         if ($this->config->get('config_checkout_payment_address') && !isset($this->session->data['payment_address'])) {
             $output['error']['payment_address'] = $this->language->get('error_payment_address');
         }
-
         // 5. Validate shipping address and method, if required
-        if ($this->cart->hasShipping()) {
+        if ($this->cart->has_shipping()) {
             // Shipping Address
             if (!isset($this->session->data['shipping_address'])) {
                 $output['error']['shipping_address'] = $this->language->get('error_shipping_address');
             }
-
             // Validate shipping method
             if (!isset($this->session->data['shipping_method'])) {
                 $output['error']['shipping_method'] = $this->language->get('error_shipping_method');
@@ -396,43 +308,32 @@ class Order extends \Opencart\System\Engine\Controller
             unset($this->session->data['shipping_address']);
             unset($this->session->data['shipping_method']);
         }
-
         // 6. Validate payment method
         if (!isset($this->session->data['payment_method'])) {
             $output['error']['payment_method'] = $this->language->get('error_payment_method');
         }
-
         // 7. Validate affiliate if set
         if (isset($this->request->post['affiliate_id']) && !isset($this->session->data['affiliate_id'])) {
             $output['error']['affiliate'] = $this->language->get('error_affiliate');
         }
-
         // 8. Validate coupons, rewards
         $this->load->model('setting/extension');
-
-        $extensions = $this->model_setting_extension->getExtensionsByType('total');
-
+        $extensions = $this->model_setting_extension->get_extensions_by_type('total');
         foreach ($extensions as $extension) {
             $result = $this->load->controller('extension/' . $extension['extension'] . '/api/' . $extension['code']);
-
             if (!$result instanceof \Exception && isset($result['error'])) {
                 $this->load->language('extension/' . $extension['extension'] . '/api/' . $extension['code'], 'total');
-
                 $output['error'][$extension['code']] = $this->language->get('total_error_confirm');
             }
         }
-
         if (!$output) {
             $order_data = [];
-
             // Store Details
             $order_data['invoice_prefix'] = $this->config->get('config_invoice_prefix');
             $order_data['subscription_id'] = 0;
-
             $order_data['store_id'] = $this->config->get('config_store_id');
             $order_data['store_name'] = $this->config->get('config_name');
             $order_data['store_url'] = $this->config->get('config_url');
-
             // Customer Details
             $order_data['customer_id'] = $this->session->data['customer']['customer_id'];
             $order_data['customer_group_id'] = $this->session->data['customer']['customer_group_id'];
@@ -441,7 +342,6 @@ class Order extends \Opencart\System\Engine\Controller
             $order_data['email'] = $this->session->data['customer']['email'];
             $order_data['telephone'] = $this->session->data['customer']['telephone'];
             $order_data['custom_field'] = $this->session->data['customer']['custom_field'] ?? [];
-
             // Payment Details
             if (isset($this->session->data['payment_address'])) {
                 $order_data['payment_address_id'] = $this->session->data['payment_address']['address_id'];
@@ -474,11 +374,9 @@ class Order extends \Opencart\System\Engine\Controller
                 $order_data['payment_address_format'] = '';
                 $order_data['payment_custom_field'] = [];
             }
-
             $order_data['payment_method'] = $this->session->data['payment_method'];
-
             // Shipping Details
-            if ($this->cart->hasShipping()) {
+            if ($this->cart->has_shipping()) {
                 $order_data['shipping_address_id'] = $this->session->data['shipping_address']['address_id'];
                 $order_data['shipping_firstname'] = $this->session->data['shipping_address']['firstname'];
                 $order_data['shipping_lastname'] = $this->session->data['shipping_address']['lastname'];
@@ -493,7 +391,6 @@ class Order extends \Opencart\System\Engine\Controller
                 $order_data['shipping_country_id'] = $this->session->data['shipping_address']['country_id'];
                 $order_data['shipping_address_format'] = $this->session->data['shipping_address']['address_format'];
                 $order_data['shipping_custom_field'] = $this->session->data['shipping_address']['custom_field'] ?? [];
-
                 $order_data['shipping_method'] = $this->session->data['shipping_method'];
             } else {
                 $order_data['shipping_address_id'] = 0;
@@ -510,89 +407,56 @@ class Order extends \Opencart\System\Engine\Controller
                 $order_data['shipping_country_id'] = 0;
                 $order_data['shipping_address_format'] = '';
                 $order_data['shipping_custom_field'] = [];
-
                 $order_data['shipping_method'] = [];
             }
-
             $points = 0;
-
             // Products
             $order_data['products'] = [];
-
-            $products = $this->cart->getProducts();
-
+            $products = $this->cart->get_products();
             foreach ($products as $product) {
                 $subscription_data = [];
-
                 if ($product['subscription']) {
-                    $subscription_data = [
-                        'trial_tax' => $this->tax->getTax($product['subscription']['trial_price'], $product['tax_class_id']),
-                        'tax'       => $this->tax->getTax($product['subscription']['price'], $product['tax_class_id']),
-                    ] + $product['subscription'];
+                    $subscription_data = ['trial_tax' => $this->tax->get_tax($product['subscription']['trial_price'], $product['tax_class_id']), 'tax' => $this->tax->get_tax($product['subscription']['price'], $product['tax_class_id'])] + $product['subscription'];
                 }
-
-                $order_data['products'][] = [
-                    'subscription' => $subscription_data,
-                    'tax'          => $this->tax->getTax($product['price'], $product['tax_class_id']),
-                ] + $product;
-
+                $order_data['products'][] = ['subscription' => $subscription_data, 'tax' => $this->tax->get_tax($product['price'], $product['tax_class_id'])] + $product;
                 $points += $product['reward'];
             }
-
             if (isset($post_info['comment'])) {
-                $order_data['comment'] = (string)$post_info['comment'];
+                $order_data['comment'] = (string) $post_info['comment'];
             } else {
                 $order_data['comment'] = '';
             }
-
             // Order Totals
             $totals = [];
-            $taxes = $this->cart->getTaxes();
+            $taxes = $this->cart->get_taxes();
             $total = 0;
-
             // Cart
             $this->load->model('checkout/cart');
-
-            ($this->model_checkout_cart->getTotals)($totals, $taxes, $total);
-
-            $total_data = [
-                'totals' => $totals,
-                'taxes'  => $taxes,
-                'total'  => $total,
-            ];
-
+            ($this->model_checkout_cart->get_totals)($totals, $taxes, $total);
+            $total_data = ['totals' => $totals, 'taxes' => $taxes, 'total' => $total];
             $order_data = array_merge($order_data, $total_data);
-
             $order_data['affiliate_id'] = 0;
             $order_data['commission'] = 0;
             $order_data['marketing_id'] = 0;
             $order_data['tracking'] = '';
-
             if (isset($this->session->data['affiliate_id'])) {
-                $subtotal = $this->cart->getSubTotal();
-
+                $subtotal = $this->cart->get_sub_total();
                 // Affiliate
                 $this->load->model('account/affiliate');
-
-                $affiliate_info = $this->model_account_affiliate->getAffiliate($this->session->data['affiliate_id']);
-
+                $affiliate_info = $this->model_account_affiliate->get_affiliate($this->session->data['affiliate_id']);
                 if ($affiliate_info) {
                     $order_data['affiliate_id'] = $affiliate_info['customer_id'];
-                    $order_data['commission'] = ($subtotal / 100) * $affiliate_info['commission'];
+                    $order_data['commission'] = $subtotal / 100 * $affiliate_info['commission'];
                     $order_data['tracking'] = $affiliate_info['tracking'];
                 }
             }
-
             // We use session to store language code for API access
             $order_data['language_id'] = $this->config->get('config_language_id');
             $order_data['language_code'] = $this->config->get('config_language');
-
-            $order_data['currency_id'] = $this->currency->getId($this->session->data['currency']);
+            $order_data['currency_id'] = $this->currency->get_id($this->session->data['currency']);
             $order_data['currency_code'] = $this->session->data['currency'];
-            $order_data['currency_value'] = $this->currency->getValue($this->session->data['currency']);
-
+            $order_data['currency_value'] = $this->currency->get_value($this->session->data['currency']);
             $order_data['ip'] = oc_get_ip();
-
             if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {
                 $order_data['forwarded_ip'] = $this->request->server['HTTP_X_FORWARDED_FOR'];
             } elseif (!empty($this->request->server['HTTP_CLIENT_IP'])) {
@@ -600,102 +464,72 @@ class Order extends \Opencart\System\Engine\Controller
             } else {
                 $order_data['forwarded_ip'] = '';
             }
-
             if (isset($this->request->server['HTTP_USER_AGENT'])) {
                 $order_data['user_agent'] = $this->request->server['HTTP_USER_AGENT'];
             } else {
                 $order_data['user_agent'] = '';
             }
-
             if (isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) {
                 $order_data['accept_language'] = $this->request->server['HTTP_ACCEPT_LANGUAGE'];
             } else {
                 $order_data['accept_language'] = '';
             }
-
             if (isset($post_info['order_id'])) {
-                $order_id = (int)$post_info['order_id'];
+                $order_id = (int) $post_info['order_id'];
             } else {
                 $order_id = 0;
             }
-
             // Order
             $this->load->model('checkout/order');
-
             if (!$order_id) {
-                $order_id = $this->model_checkout_order->addOrder($order_data);
+                $order_id = $this->model_checkout_order->add_order($order_data);
             } else {
-                $order_info = $this->model_checkout_order->getOrder($order_id);
-
+                $order_info = $this->model_checkout_order->get_order($order_id);
                 if ($order_info) {
-                    $this->model_checkout_order->editOrder($order_id, $order_data);
+                    $this->model_checkout_order->edit_order($order_id, $order_data);
                 }
             }
-
             $output['order_id'] = $order_id;
-
             // Set the order history
             if (isset($post_info['order_status_id'])) {
-                $order_status_id = (int)$post_info['order_status_id'];
+                $order_status_id = (int) $post_info['order_status_id'];
             } else {
-                $order_status_id = (int)$this->config->get('config_order_status_id');
+                $order_status_id = (int) $this->config->get('config_order_status_id');
             }
-
-            $this->model_checkout_order->addHistory($order_id, $order_status_id);
-
+            $this->model_checkout_order->add_history($order_id, $order_status_id);
             $output['success'] = $this->language->get('text_success');
-
             $output['points'] = $points;
-
             if (isset($order_data['affiliate_id'])) {
                 $output['commission'] = $this->currency->format($order_data['commission'], $this->config->get('config_currency'));
             }
         }
-
         $output['products'] = $this->load->controller('api/cart.getProducts');
         $output['totals'] = $this->load->controller('api/cart.getTotals');
-        $output['shipping_required'] = $this->cart->hasShipping();
-
+        $output['shipping_required'] = $this->cart->has_shipping();
         return $output;
     }
-
     /**
      * Add History
      *
      * @return array<string, mixed>
      */
-    protected function addHistory(): array
+    protected function add_history(): array
     {
         $this->load->language('api/order');
-
         $output = [];
-
         // Add keys for missing post vars
-        $required = [
-            'order_id'        => 0,
-            'order_status_id' => 0,
-            'comment'         => '',
-            'notify'          => 0,
-            'override'        => 0,
-        ];
-
+        $required = ['order_id' => 0, 'order_status_id' => 0, 'comment' => '', 'notify' => 0, 'override' => 0];
         $post_info = $this->request->post + $required;
-
         // Order
         $this->load->model('checkout/order');
-
-        $order_info = $this->model_checkout_order->getOrder((int)$post_info['order_id']);
-
+        $order_info = $this->model_checkout_order->get_order((int) $post_info['order_id']);
         if (!$order_info) {
             $output['error'] = $this->language->get('error_order');
         }
-
         if (!$output) {
-            $this->model_checkout_order->addHistory((int)$post_info['order_id'], (int)$post_info['order_status_id'], (string)$post_info['comment'], (bool)$post_info['notify'], (bool)$post_info['override']);
-
+            $this->model_checkout_order->add_history((int) $post_info['order_id'], (int) $post_info['order_status_id'], (string) $post_info['comment'], (bool) $post_info['notify'], (bool) $post_info['override']);
             $output['success'] = $this->language->get('text_success');
         }
-
         return $output;
     }
 }

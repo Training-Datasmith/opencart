@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Task\Report;
 
 /**
@@ -19,13 +18,9 @@ class Returns extends \Opencart\System\Engine\Controller
     public function index(array $args = []): array
     {
         $this->load->language('task/report/returns');
-
         $this->load->model('sale/returns');
-
         $this->load->model('report/statistics');
-
-        $this->model_report_statistics->editValue('return', $this->model_sale_returns->getTotalReturns(['filter_return_status_id' => $this->config->get('config_return_status_id')]));
-
+        $this->model_report_statistics->edit_value('return', $this->model_sale_returns->get_total_returns(['filter_return_status_id' => $this->config->get('config_return_status_id')]));
         return ['success' => $this->language->get('text_success')];
     }
 }

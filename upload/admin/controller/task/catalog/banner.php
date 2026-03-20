@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Task\Catalog;
 
 /**
@@ -23,47 +22,28 @@ class Banner extends \Opencart\System\Engine\Controller
     public function index(array $args = []): array
     {
         $this->load->language('task/catalog/banner');
-
         if (!array_key_exists('banner_id', $args)) {
             return ['error' => $this->language->get('error_required')];
         }
-
         // Banner
         $this->load->model('design/banner');
-
-        $banner_info = $this->model_design_banner->getBanner((int)$args['banner_id']);
-
+        $banner_info = $this->model_design_banner->get_banner((int) $args['banner_id']);
         if (!$banner_info || !$banner_info['status']) {
             return ['error' => $this->language->get('error_banner')];
         }
-
         $this->load->model('setting/store');
         $this->load->model('setting/setting');
         $this->load->model('setting/task');
-
-        $store_ids = [0, ...array_column($this->model_setting_store->getStores(), 'store_id')];
-
+        $store_ids = [0, ...array_column($this->model_setting_store->get_stores(), 'store_id')];
         foreach ($store_ids as $store_id) {
-            $language_ids = $this->model_setting_setting->getValue('config_language_list', $store_id);
-
+            $language_ids = $this->model_setting_setting->get_value('config_language_list', $store_id);
             foreach ($language_ids as $language_id) {
-                $task_data = [
-                    'code'   => 'banner.info.' . $store_id . '.' . $language_id . '.' . $banner_info['banner_id'],
-                    'action' => 'task/catalog/banner.info',
-                    'args'   => [
-                        'banner_id'   => $banner_info['banner_id'],
-                        'store_id'    => $store_id,
-                        'language_id' => $language_id,
-                    ],
-                ];
-
-                $this->model_setting_task->addTask($task_data);
+                $task_data = ['code' => 'banner.info.' . $store_id . '.' . $language_id . '.' . $banner_info['banner_id'], 'action' => 'task/catalog/banner.info', 'args' => ['banner_id' => $banner_info['banner_id'], 'store_id' => $store_id, 'language_id' => $language_id]];
+                $this->model_setting_task->add_task($task_data);
             }
         }
-
         return ['success' => $this->language->get('text_task')];
     }
-
     /**
      * Info
      *
@@ -74,67 +54,45 @@ class Banner extends \Opencart\System\Engine\Controller
     public function info(array $args = []): array
     {
         $this->load->language('task/catalog/banner');
-
         // Store
-        $store_info = [
-            'name' => $this->config->get('config_name'),
-            'url'  => HTTP_CATALOG,
-        ];
-
+        $store_info = ['name' => $this->config->get('config_name'), 'url' => HTTP_CATALOG];
         if ($args['store_id']) {
             $this->load->model('setting/store');
-
-            $store_info = $this->model_setting_store->getStore((int)$args['store_id']);
-
+            $store_info = $this->model_setting_store->get_store((int) $args['store_id']);
             if (!$store_info) {
                 return ['error' => $this->language->get('error_store')];
             }
         }
-
         // Language
         $this->load->model('localisation/language');
-
-        $language_info = $this->model_localisation_language->getLanguage((int)$args['language_id']);
-
+        $language_info = $this->model_localisation_language->get_language((int) $args['language_id']);
         if (!$language_info || !$language_info['status']) {
             return ['error' => $this->language->get('error_language')];
         }
-
         // Banner
         $this->load->model('design/banner');
-
-        $banner_info = $this->model_design_banner->getBanner((int)$args['banner_id']);
-
+        $banner_info = $this->model_design_banner->get_banner((int) $args['banner_id']);
         if (!$banner_info || !$banner_info['status']) {
             return ['error' => $this->language->get('error_banner')];
         }
-
         // Banner Images
-        $banners = $this->model_design_banner->getImages($banner_info['banner_id'], $language_info['language_id']);
-
+        $banners = $this->model_design_banner->get_images($banner_info['banner_id'], $language_info['language_id']);
         $sort_order = [];
-
         foreach ($banners as $key => $value) {
             $sort_order[$key] = $value['name'];
         }
-
         array_multisort($sort_order, SORT_ASC, $banners);
-
         $base = DIR_CATALOG . 'view/data/';
         $directory = parse_url($store_info['url'], PHP_URL_HOST) . '/' . $language_info['code'] . '/design/';
         $filename = 'banner-' . $args['banner_id'] . '.yaml';
-
         if (!oc_directory_create($base . $directory, 0777)) {
             return ['error' => sprintf($this->language->get('error_directory'), $directory)];
         }
-
         if (!file_put_contents($base . $directory . $filename, oc_yaml_encode($banners))) {
             return ['error' => sprintf($this->language->get('error_file'), $directory . $filename)];
         }
-
         return ['success' => sprintf($this->language->get('text_list'), $store_info['name'], $language_info['name'], $banner_info['name'])];
     }
-
     /**
      * Delete
      *
@@ -145,32 +103,20 @@ class Banner extends \Opencart\System\Engine\Controller
     public function delete(array $args = []): array
     {
         $this->load->language('task/catalog/language');
-
         $stores = [];
-
-        $stores[] = [
-            'store_id' => 0,
-            'name'     => $this->config->get('config_name'),
-        ];
-
+        $stores[] = ['store_id' => 0, 'name' => $this->config->get('config_name')];
         $this->load->model('setting/store');
-
-        $stores = array_merge($stores, $this->model_setting_store->getStores());
-
+        $stores = array_merge($stores, $this->model_setting_store->get_stores());
         $this->load->model('localisation/language');
-
-        $languages = $this->model_localisation_language->getLanguages();
-
+        $languages = $this->model_localisation_language->get_languages();
         foreach ($stores as $store) {
             foreach ($languages as $language) {
                 $files = oc_directory_read(DIR_CATALOG . 'view/data/' . parse_url($store['url'], PHP_URL_HOST) . '/' . $language['code'] . '/design/', false, '/banner\-.+\.json$/');
-
                 foreach ($files as $file) {
                     unlink($file);
                 }
             }
         }
-
         return ['success' => $this->language->get('text_clear')];
     }
 }

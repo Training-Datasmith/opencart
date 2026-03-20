@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Admin\Model\Localisation;
  *
  * @package Opencart\Admin\Model\Localisation
  */
-class TaxClass extends \Opencart\System\Engine\Model
+class Tax_Class extends \Opencart\System\Engine\Model
 {
     /**
      * Add Tax Class
@@ -33,23 +32,18 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $tax_class_id = $this->model_localisation_tax_class->addTaxClass($tax_class_data);
      */
-    public function addTaxClass(array $data): int
+    public function add_tax_class(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "tax_class` SET `title` = '" . $this->db->escape((string)$data['title']) . "', `description` = '" . $this->db->escape((string)$data['description']) . "'");
-
-        $tax_class_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "tax_class` SET `title` = '" . $this->db->escape((string) $data['title']) . "', `description` = '" . $this->db->escape((string) $data['description']) . "'");
+        $tax_class_id = $this->db->get_last_id();
         if (isset($data['tax_rule'])) {
             foreach ($data['tax_rule'] as $tax_rule) {
-                $this->addTaxRule($tax_class_id, $tax_rule);
+                $this->add_tax_rule($tax_class_id, $tax_rule);
             }
         }
-
         $this->cache->delete('tax_class');
-
         return $tax_class_id;
     }
-
     /**
      * Edit Tax Class
      *
@@ -70,21 +64,17 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_tax_class->editTaxClass($tax_class_id, $tax_class_data);
      */
-    public function editTaxClass(int $tax_class_id, array $data): void
+    public function edit_tax_class(int $tax_class_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "tax_class` SET `title` = '" . $this->db->escape((string)$data['title']) . "', `description` = '" . $this->db->escape((string)$data['description']) . "' WHERE `tax_class_id` = '" . $tax_class_id . "'");
-
-        $this->deleteTaxRules($tax_class_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "tax_class` SET `title` = '" . $this->db->escape((string) $data['title']) . "', `description` = '" . $this->db->escape((string) $data['description']) . "' WHERE `tax_class_id` = '" . $tax_class_id . "'");
+        $this->delete_tax_rules($tax_class_id);
         if (isset($data['tax_rule'])) {
             foreach ($data['tax_rule'] as $tax_rule) {
-                $this->addTaxRule($tax_class_id, $tax_rule);
+                $this->add_tax_rule($tax_class_id, $tax_rule);
             }
         }
-
         $this->cache->delete('tax_class');
     }
-
     /**
      * Delete Tax Class
      *
@@ -99,15 +89,12 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_tax_class->deleteTaxClass($tax_class_id);
      */
-    public function deleteTaxClass(int $tax_class_id): void
+    public function delete_tax_class(int $tax_class_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "tax_class` WHERE `tax_class_id` = '" . $tax_class_id . "'");
-
-        $this->deleteTaxRules($tax_class_id);
-
+        $this->delete_tax_rules($tax_class_id);
         $this->cache->delete('tax_class');
     }
-
     /**
      * Get Tax Class
      *
@@ -123,13 +110,11 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $tax_class_info = $this->model_localisation_tax_class->getTaxClass($tax_class_id);
      */
-    public function getTaxClass(int $tax_class_id): array
+    public function get_tax_class(int $tax_class_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "tax_class` WHERE `tax_class_id` = '" . $tax_class_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Tax Classes
      *
@@ -152,43 +137,32 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $tax_classes = $this->model_localisation_tax_class->getTaxClasses($filter_data);
      */
-    public function getTaxClasses(array $data = []): array
+    public function get_tax_classes(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'tax_class` ORDER BY `title`';
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $key = md5($sql);
-
         $tax_class_data = $this->cache->get('tax_class.' . $key);
-
         if (!$tax_class_data) {
             $query = $this->db->query($sql);
-
             $tax_class_data = $query->rows;
-
             $this->cache->set('tax_class.' . $key, $tax_class_data);
         }
-
         return $tax_class_data;
     }
-
     /**
      * Get Total Tax Classes
      *
@@ -202,13 +176,11 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $tax_class_total = $this->model_localisation_tax_class->getTotalTaxClasses();
      */
-    public function getTotalTaxClasses(): int
+    public function get_total_tax_classes(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'tax_class`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Tax Rule
      *
@@ -230,11 +202,10 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_tax_class->addTaxRule($tax_class_id, $tax_class_data);
      */
-    public function addTaxRule(int $tax_class_id, array $data): void
+    public function add_tax_rule(int $tax_class_id, array $data): void
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "tax_rule` SET `tax_class_id` = '" . $tax_class_id . "', `tax_rate_id` = '" . (int)$data['tax_rate_id'] . "', `based` = '" . $this->db->escape($data['based']) . "', `priority` = '" . (int)$data['priority'] . "'");
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "tax_rule` SET `tax_class_id` = '" . $tax_class_id . "', `tax_rate_id` = '" . (int) $data['tax_rate_id'] . "', `based` = '" . $this->db->escape($data['based']) . "', `priority` = '" . (int) $data['priority'] . "'");
     }
-
     /**
      * Delete Tax Rules
      *
@@ -249,11 +220,10 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_tax_class->deleteTaxRules($tax_class_id);
      */
-    public function deleteTaxRules(int $tax_class_id): void
+    public function delete_tax_rules(int $tax_class_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "tax_rule` WHERE `tax_class_id` = '" . $tax_class_id . "'");
     }
-
     /**
      * Get Tax Rules
      *
@@ -269,13 +239,11 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $tax_rules = $this->model_localisation_tax_class->getTaxRules($tax_class_id);
      */
-    public function getTaxRules(int $tax_class_id): array
+    public function get_tax_rules(int $tax_class_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "tax_rule` WHERE `tax_class_id` = '" . $tax_class_id . "' ORDER BY `priority` ASC");
-
         return $query->rows;
     }
-
     /**
      * Get Total Tax Rules By Tax Rate ID
      *
@@ -291,10 +259,9 @@ class TaxClass extends \Opencart\System\Engine\Model
      *
      * $tax_rule_total = $this->model_localisation_tax_class->getTotalTaxRulesByTaxRateId($tax_rate_id);
      */
-    public function getTotalTaxRulesByTaxRateId(int $tax_rate_id): int
+    public function get_total_tax_rules_by_tax_rate_id(int $tax_rate_id): int
     {
         $query = $this->db->query('SELECT COUNT(DISTINCT `tax_class_id`) AS `total` FROM `' . DB_PREFIX . "tax_rule` WHERE `tax_rate_id` = '" . $tax_rate_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

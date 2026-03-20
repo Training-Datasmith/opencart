@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package		OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see		https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -26,25 +25,22 @@ class Response
     private array $headers = [];
     private int $level = 0;
     private string $output = '';
-
     /**
      * Constructor
      */
-    public function addHeader(string $header): void
+    public function add_header(string $header): void
     {
         $this->headers[] = $header;
     }
-
     /**
      * Get Headers
      *
      * @return array<int, string>
      */
-    public function getHeaders(): array
+    public function get_headers(): array
     {
         return $this->headers;
     }
-
     /**
      * Redirect
      *
@@ -53,37 +49,33 @@ class Response
     public function redirect(string $url, int $status = 302): void
     {
         header('Location: ' . str_replace(['&amp;', "\n", "\r"], ['&', '', ''], $url), true, $status);
-        exit();
+        exit;
     }
-
     /**
      * Set Compression
      *
      *
      */
-    public function setCompression(int $level): void
+    public function set_compression(int $level): void
     {
         $this->level = $level;
     }
-
     /**
      * Set Output
      *
      *
      */
-    public function setOutput(string $output): void
+    public function set_output(string $output): void
     {
         $this->output = $output;
     }
-
     /**
      * Get Output
      */
-    public function getOutput(): string
+    public function get_output(): string
     {
         return $this->output;
     }
-
     /**
      * Compress
      *
@@ -91,35 +83,27 @@ class Response
      */
     private function compress(string $data, int $level = 0): string
     {
-        if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (str_contains($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip'))) {
+        if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && str_contains($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
             $encoding = 'gzip';
         }
-
-        if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (str_contains($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip'))) {
+        if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && str_contains($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip')) {
             $encoding = 'x-gzip';
         }
-
         if (!isset($encoding) || ($level < -1 || $level > 9)) {
             return $data;
         }
-
         if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
             return $data;
         }
-
         if (headers_sent()) {
             return $data;
         }
-
         if (connection_status()) {
             return $data;
         }
-
-        $this->addHeader('Content-Encoding: ' . $encoding);
-
+        $this->add_header('Content-Encoding: ' . $encoding);
         return gzencode($data, $level);
     }
-
     /**
      * Output
      *
@@ -129,13 +113,11 @@ class Response
     {
         if ($this->output) {
             $output = $this->level ? $this->compress($this->output, $this->level) : $this->output;
-
             if (!headers_sent()) {
                 foreach ($this->headers as $header) {
                     header($header, true);
                 }
             }
-
             echo $output;
         }
     }

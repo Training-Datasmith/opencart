@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -28,10 +27,9 @@ class Location extends \Opencart\System\Engine\Model
      *
      * $location_info = $this->model_localisation_location->getLocation($location_id);
      */
-    public function getLocation(int $location_id): array
+    public function get_location(int $location_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "location` WHERE `location_id` = '" . $location_id . "'");
-
         return $query->row;
     }
 }

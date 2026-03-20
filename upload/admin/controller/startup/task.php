@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Startup;
 
 /**
@@ -28,7 +27,6 @@ class Task extends \Opencart\System\Engine\Controller
             register_shutdown_function([$this, 'start']);
         }
     }
-
     /*
      * Start
      *
@@ -37,13 +35,10 @@ class Task extends \Opencart\System\Engine\Controller
     public function start(): void
     {
         $this->load->model('setting/task');
-
-        $task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
-
+        $task_total = $this->model_setting_task->get_total_tasks(['filter_status' => 'processing']);
         if ($task_total) {
             return;
         }
-
         if (strtoupper(substr(php_uname(), 0, 3)) == 'WIN') {
             pclose(popen('start /B php ' . DIR_APPLICATION . 'index.php start', 'r'));
         } else {

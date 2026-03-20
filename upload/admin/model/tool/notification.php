@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Tool;
 
 /**
@@ -33,13 +32,11 @@ class Notification extends \Opencart\System\Engine\Model
      *
      * $notification_id = $this->model_tool_notification->addNotification($notification_data);
      */
-    public function addNotification(array $data): int
+    public function add_notification(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "notification` SET `title` = '" . $this->db->escape((string)$data['title']) . "', `text` = '" . $this->db->escape((string)$data['text']) . "', `status` = '" . (bool)$data['status'] . "', `date_added` = NOW()");
-
-        return $this->db->getLastId();
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "notification` SET `title` = '" . $this->db->escape((string) $data['title']) . "', `text` = '" . $this->db->escape((string) $data['text']) . "', `status` = '" . (bool) $data['status'] . "', `date_added` = NOW()");
+        return $this->db->get_last_id();
     }
-
     /**
      * Edit Status
      *
@@ -54,11 +51,10 @@ class Notification extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_notification->editStatus($notification_id, $status);
      */
-    public function editStatus(int $notification_id, bool $status): void
+    public function edit_status(int $notification_id, bool $status): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "notification` SET `status` = '" . $status . "' WHERE `notification_id` = '" . $notification_id . "'");
     }
-
     /**
      * Delete Notification
      *
@@ -73,11 +69,10 @@ class Notification extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_notification->deleteNotification($notification_id);
      */
-    public function deleteNotification(int $notification_id): void
+    public function delete_notification(int $notification_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "notification` WHERE `notification_id` = '" . $notification_id . "'");
     }
-
     /**
      * Get Notification
      *
@@ -93,13 +88,11 @@ class Notification extends \Opencart\System\Engine\Model
      *
      * $notification_info = $this->model_tool_notification->getNotification($notification_id);
      */
-    public function getNotification(int $notification_id): array
+    public function get_notification(int $notification_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "notification` WHERE `notification_id` = '" . $notification_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Notifications
      *
@@ -121,33 +114,25 @@ class Notification extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_tool_notification->getNotifications($filter_data);
      */
-    public function getNotifications(array $data = []): array
+    public function get_notifications(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'notification`';
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-            $sql .= " WHERE `status` = '" . (bool)$data['filter_status'] . "'";
+            $sql .= " WHERE `status` = '" . (bool) $data['filter_status'] . "'";
         }
-
         $sql .= ' ORDER BY `date_added` DESC';
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Notifications
      *
@@ -169,16 +154,13 @@ class Notification extends \Opencart\System\Engine\Model
      *
      * $notification_total = $this->model_tool_notification->getTotalNotifications();
      */
-    public function getTotalNotifications(array $data = []): int
+    public function get_total_notifications(array $data = []): int
     {
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'notification`';
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-            $sql .= " WHERE `status` = '" . (bool)$data['filter_status'] . "'";
+            $sql .= " WHERE `status` = '" . (bool) $data['filter_status'] . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

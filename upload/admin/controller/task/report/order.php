@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Task\Report;
 
 /**
@@ -19,48 +18,21 @@ class Order extends \Opencart\System\Engine\Controller
     public function index(array $args = []): array
     {
         $this->load->language('task/report/order');
-
         // Sale
-        $task_data = [
-            'code'   => 'report',
-            'action' => 'task/report/order.sale',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'report', 'action' => 'task/report/order.sale', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
+        $this->model_setting_task->add_task($task_data);
         // Processing
-        $task_data = [
-            'code'   => 'report',
-            'action' => 'task/report/order.processing',
-            'args'   => [],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
-
+        $task_data = ['code' => 'report', 'action' => 'task/report/order.processing', 'args' => []];
+        $this->model_setting_task->add_task($task_data);
         // Complete
-        $task_data = [
-            'code'   => 'report',
-            'action' => 'task/report/order.complete',
-            'args'   => [],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
-
+        $task_data = ['code' => 'report', 'action' => 'task/report/order.complete', 'args' => []];
+        $this->model_setting_task->add_task($task_data);
         // Other
-        $task_data = [
-            'code'   => 'report',
-            'action' => 'task/report/order.other',
-            'args'   => [],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
-
+        $task_data = ['code' => 'report', 'action' => 'task/report/order.other', 'args' => []];
+        $this->model_setting_task->add_task($task_data);
         return ['success' => $this->language->get('text_task')];
     }
-
     /**
      * Order Sale
      *
@@ -69,16 +41,11 @@ class Order extends \Opencart\System\Engine\Controller
     public function sale(array $args = []): array
     {
         $this->load->language('task/report/order');
-
         $this->load->model('sale/order');
-
         $this->load->model('report/statistics');
-
-        $this->model_report_statistics->editValue('order_sale', $this->model_sale_order->getTotalSales(['filter_order_status' => implode(',', (array)$this->config->get('config_complete_status'))]));
-
+        $this->model_report_statistics->edit_value('order_sale', $this->model_sale_order->get_total_sales(['filter_order_status' => implode(',', (array) $this->config->get('config_complete_status'))]));
         return ['success' => $this->language->get('text_sale')];
     }
-
     /**
      * Order Processing
      *
@@ -87,16 +54,11 @@ class Order extends \Opencart\System\Engine\Controller
     public function processing(array $args = []): array
     {
         $this->load->language('task/report/order');
-
         $this->load->model('sale/order');
-
         $this->load->model('report/statistics');
-
-        $this->model_report_statistics->editValue('order_processing', $this->model_sale_order->getTotalOrders(['filter_order_status' => implode(',', $this->config->get('config_processing_status'))]));
-
+        $this->model_report_statistics->edit_value('order_processing', $this->model_sale_order->get_total_orders(['filter_order_status' => implode(',', $this->config->get('config_processing_status'))]));
         return ['success' => $this->language->get('text_processing')];
     }
-
     /**
      * Order Complete
      *
@@ -105,16 +67,11 @@ class Order extends \Opencart\System\Engine\Controller
     public function complete(array $args = []): array
     {
         $this->load->language('task/report/order');
-
         $this->load->model('sale/order');
-
         $this->load->model('report/statistics');
-
-        $this->model_report_statistics->editValue('order_complete', $this->model_sale_order->getTotalOrders(['filter_order_status' => implode(',', (array)$this->config->get('config_complete_status'))]));
-
+        $this->model_report_statistics->edit_value('order_complete', $this->model_sale_order->get_total_orders(['filter_order_status' => implode(',', (array) $this->config->get('config_complete_status'))]));
         return ['success' => $this->language->get('text_complete')];
     }
-
     /**
      * Order Other
      *
@@ -123,27 +80,18 @@ class Order extends \Opencart\System\Engine\Controller
     public function other(array $args = []): array
     {
         $this->load->language('task/report/order');
-
         $order_status_data = [];
-
         $this->load->model('localisation/order_status');
-
-        $results = $this->model_localisation_order_status->getOrderStatuses();
-
+        $results = $this->model_localisation_order_status->get_order_statuses();
         foreach ($results as $result) {
-            if (!in_array($result['order_status_id'], array_merge((array)$this->config->get('config_complete_status'), (array)$this->config->get('config_processing_status')))) {
+            if (!in_array($result['order_status_id'], array_merge((array) $this->config->get('config_complete_status'), (array) $this->config->get('config_processing_status')))) {
                 $order_status_data[] = $result['order_status_id'];
             }
         }
-
         $this->load->model('sale/order');
-
-        $other_total = $this->model_sale_order->getTotalOrders(['filter_order_status' => implode(',', $order_status_data)]);
-
+        $other_total = $this->model_sale_order->get_total_orders(['filter_order_status' => implode(',', $order_status_data)]);
         $this->load->model('report/statistics');
-
-        $this->model_report_statistics->editValue('order_other', $other_total);
-
+        $this->model_report_statistics->edit_value('order_other', $other_total);
         return ['success' => $this->language->get('text_other')];
     }
 }

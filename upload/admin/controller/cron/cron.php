@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Cron;
 
 /**
@@ -17,17 +16,13 @@ class Cron extends \Opencart\System\Engine\Controller
     public function index(): void
     {
         $time = time();
-
         // Crons
         $this->load->model('setting/cron');
-
-        $results = $this->model_setting_cron->getCrons();
-
+        $results = $this->model_setting_cron->get_crons();
         foreach ($results as $result) {
-            if ($result['status'] && (strtotime('+1 ' . $result['cycle'], strtotime($result['date_modified'])) < ($time + 10))) {
+            if ($result['status'] && strtotime('+1 ' . $result['cycle'], strtotime($result['date_modified'])) < $time + 10) {
                 $this->load->controller($result['action'], $result['cron_id'], $result['code'], $result['cycle'], $result['date_added'], $result['date_modified']);
-
-                $this->model_setting_cron->editCron($result['cron_id']);
+                $this->model_setting_cron->edit_cron($result['cron_id']);
             }
         }
     }

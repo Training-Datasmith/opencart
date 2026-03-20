@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\Template;
 
 /**
@@ -12,13 +11,12 @@ namespace Opencart\System\Library\Template;
 class Twig
 {
     protected string $root;
-    protected \Twig\Loader\FilesystemLoader $loader;
+    protected \Twig\Loader\Filesystem_Loader $loader;
     protected string $directory;
     /**
      * @var array<string, string>
      */
     protected array $path = [];
-
     /**
      * Constructor
      */
@@ -26,19 +24,17 @@ class Twig
     {
         // Unfortunately, we have to set the web root directory as the base since Twig confuses which template cache to use.
         $this->root = substr(DIR_OPENCART, 0, -1);
-
         // We have to add the C directory as the base directory because twig can only accept the first namespace/,
         // rather than a multiple namespace system, which took me less than a minute to write. If symphony is like
         // this, then I have no idea why people use the framework.
-        $this->loader = new \Twig\Loader\FilesystemLoader('./', $this->root);
+        $this->loader = new \Twig\Loader\Filesystem_Loader('./', $this->root);
     }
-
     /**
      * Add Path
      *
      *
      */
-    public function addPath(string $namespace, string $directory = ''): void
+    public function add_path(string $namespace, string $directory = ''): void
     {
         if (!$directory) {
             $this->directory = $namespace;
@@ -46,7 +42,6 @@ class Twig
             $this->path[$namespace] = $directory;
         }
     }
-
     /**
      * Render
      *
@@ -56,7 +51,6 @@ class Twig
     public function render(string $filename, array $data = [], string $code = ''): string
     {
         $file = $this->directory . $filename . '.html';
-
         /*
          * FYI: To all the Twig lovers out there!
          * The Twig syntax is good, but the implementation and the available methods is a joke!
@@ -66,51 +60,35 @@ class Twig
          *
          * The fact that this system cache is just compiling php into more php code instead of html, is a disgrace!
          */
-
         $namespace = '';
-
         $parts = explode('/', $filename);
-
         foreach ($parts as $part) {
             if (!$namespace) {
                 $namespace .= $part;
             } else {
                 $namespace .= '/' . $part;
             }
-
             if (isset($this->path[$namespace])) {
                 $file = $this->path[$namespace] . substr($filename, strlen($namespace) + 1) . '.html';
             }
         }
-
         // We have to remove the root web directory.
         $file = substr($file, strlen($this->root) + 1);
-
         if ($code) {
             // render from modified template code
-            $loader = new \Twig\Loader\ArrayLoader([$file => $code]);
+            $loader = new \Twig\Loader\Array_Loader([$file => $code]);
         } else {
             $loader = $this->loader;
         }
-
         try {
             // Initialize Twig environment
-            $config = [
-                'charset'     => 'utf-8',
-                'autoescape'  => false,
-                'debug'       => true,
-                'auto_reload' => true,
-                'cache'       => DIR_CACHE . 'template/',
-            ];
-
+            $config = ['charset' => 'utf-8', 'autoescape' => false, 'debug' => true, 'auto_reload' => true, 'cache' => DIR_CACHE . 'template/'];
             $twig = new \Twig\Environment($loader, $config);
-
             if ($config['debug']) {
-                $twig->addExtension(new \Twig\Extension\DebugExtension());
+                $twig->add_extension(new \Twig\Extension\Debug_Extension());
             }
-
             return $twig->render($file, $data);
-        } catch (\Twig\Error\SyntaxError) {
+        } catch (\Twig\Error\Syntax_Error) {
             throw new \Exception('Error: Could not load template ' . $filename . '!');
         }
     }

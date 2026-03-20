@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -24,29 +23,15 @@ class Category extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function addCategory(string &$route, array &$args, string &$output): void
+    public function add_category(string &$route, array &$args, string &$output): void
     {
-        $task_data = [
-            'code'   => 'category.list',
-            'action' => 'task/catalog/category.list',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'category.list', 'action' => 'task/catalog/category.list', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'category.info.' . $output,
-            'action' => 'task/catalog/category.info',
-            'args'   => ['category_id' => $output],
-        ];
-
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'category.info.' . $output, 'action' => 'task/catalog/category.info', 'args' => ['category_id' => $output]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /*
      * Edit Category
      *
@@ -60,27 +45,14 @@ class Category extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function editCategory(string &$route, array &$args, &$output): void
+    public function edit_category(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'category.list',
-            'action' => 'task/catalog/category.list',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'category.list', 'action' => 'task/catalog/category.list', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'category.info.' . $args[0],
-            'action' => 'task/catalog/category.info',
-            'args'   => ['category_id' => $args[0]],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'category.info.' . $args[0], 'action' => 'task/catalog/category.info', 'args' => ['category_id' => $args[0]]];
+        $this->model_setting_task->add_task($task_data);
     }
-
     /*
      * Delete Category
      *
@@ -94,24 +66,12 @@ class Category extends \Opencart\System\Engine\Controller
      *
      * @return void
      */
-    public function deleteCategory(string &$route, array &$args, &$output): void
+    public function delete_category(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'category.list',
-            'action' => 'task/catalog/category.list',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'category.list', 'action' => 'task/catalog/category.list', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'category.delete.' . $args[0],
-            'action' => 'task/catalog/category.delete',
-            'args'   => ['category_id' => $args[0]],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'category.delete.' . $args[0], 'action' => 'task/catalog/category.delete', 'args' => ['category_id' => $args[0]]];
+        $this->model_setting_task->add_task($task_data);
     }
 }

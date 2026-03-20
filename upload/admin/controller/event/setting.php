@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -24,53 +23,23 @@ class Setting extends \Opencart\System\Engine\Controller
     {
         if ($route != 'setting/setting.editSetting') {
             // Location
-            $task_data = [
-                'code'   => 'location',
-                'action' => 'task/catalog/location',
-                'args'   => [],
-            ];
-
+            $task_data = ['code' => 'location', 'action' => 'task/catalog/location', 'args' => []];
             $this->load->model('setting/task');
-
-            $this->model_setting_task->addTask($task_data);
-
+            $this->model_setting_task->add_task($task_data);
             // Language
-            $task_data = [
-                'code'   => 'language',
-                'action' => 'task/catalog/language',
-                'args'   => [],
-            ];
-
-            $this->model_setting_task->addTask($task_data);
-
+            $task_data = ['code' => 'language', 'action' => 'task/catalog/language', 'args' => []];
+            $this->model_setting_task->add_task($task_data);
             // Currency
             if ($this->config->get('config_currency_auto')) {
-                $task_data = [
-                    'code'   => 'currency',
-                    'action' => 'task/catalog/currency',
-                    'args'   => [],
-                ];
-
-                $this->model_setting_task->addTask($task_data);
+                $task_data = ['code' => 'currency', 'action' => 'task/catalog/currency', 'args' => []];
+                $this->model_setting_task->add_task($task_data);
             }
-
             // Country
-            $task_data = [
-                'code'   => 'country.list',
-                'action' => 'task/catalog/country.list',
-                'args'   => [],
-            ];
-
-            $this->model_setting_task->addTask($task_data);
-
+            $task_data = ['code' => 'country.list', 'action' => 'task/catalog/country.list', 'args' => []];
+            $this->model_setting_task->add_task($task_data);
             // Customer Group
-            $task_data = [
-                'code'   => 'customer_group.list',
-                'action' => 'task/catalog/customer_group.list',
-                'args'   => [],
-            ];
-
-            $this->model_setting_task->addTask($task_data);
+            $task_data = ['code' => 'customer_group.list', 'action' => 'task/catalog/customer_group.list', 'args' => []];
+            $this->model_setting_task->add_task($task_data);
         }
     }
 }

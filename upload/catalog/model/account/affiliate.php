@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Account;
 
 /**
@@ -43,18 +42,15 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $this->model_account_affiliate->addAffiliate($customer_id, $affiliate_data);
      */
-    public function addAffiliate(int $customer_id, array $data): void
+    public function add_affiliate(int $customer_id, array $data): void
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_affiliate` SET `customer_id` = '" . $customer_id . "', `company` = '" . $this->db->escape($data['company']) . "', `website` = '" . $this->db->escape($data['website']) . "', `tracking` = '" . $this->db->escape(oc_token(10)) . "', `commission` = '" . (float)$this->config->get('config_affiliate_commission') . "', `tax` = '" . $this->db->escape($data['tax']) . "', `payment_method` = '" . $this->db->escape($data['payment_method']) . "', `cheque` = '" . $this->db->escape($data['cheque']) . "', `paypal` = '" . $this->db->escape($data['paypal']) . "', `bank_name` = '" . $this->db->escape($data['bank_name']) . "', `bank_branch_number` = '" . $this->db->escape($data['bank_branch_number']) . "', `bank_swift_code` = '" . $this->db->escape($data['bank_swift_code']) . "', `bank_account_name` = '" . $this->db->escape($data['bank_account_name']) . "', `bank_account_number` = '" . $this->db->escape($data['bank_account_number']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', `status` = '" . (int)!$this->config->get('config_affiliate_approval') . "', `date_added` = NOW()");
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_affiliate` SET `customer_id` = '" . $customer_id . "', `company` = '" . $this->db->escape($data['company']) . "', `website` = '" . $this->db->escape($data['website']) . "', `tracking` = '" . $this->db->escape(oc_token(10)) . "', `commission` = '" . (float) $this->config->get('config_affiliate_commission') . "', `tax` = '" . $this->db->escape($data['tax']) . "', `payment_method` = '" . $this->db->escape($data['payment_method']) . "', `cheque` = '" . $this->db->escape($data['cheque']) . "', `paypal` = '" . $this->db->escape($data['paypal']) . "', `bank_name` = '" . $this->db->escape($data['bank_name']) . "', `bank_branch_number` = '" . $this->db->escape($data['bank_branch_number']) . "', `bank_swift_code` = '" . $this->db->escape($data['bank_swift_code']) . "', `bank_account_name` = '" . $this->db->escape($data['bank_account_name']) . "', `bank_account_number` = '" . $this->db->escape($data['bank_account_number']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "', `status` = '" . (int) !$this->config->get('config_affiliate_approval') . "', `date_added` = NOW()");
         // Approval
         if ($this->config->get('config_affiliate_approval')) {
             $this->load->model('account/approval');
-
-            $this->model_account_approval->addApproval($customer_id, 'affiliate');
+            $this->model_account_approval->add_approval($customer_id, 'affiliate');
         }
     }
-
     /**
      * Edit Affiliate
      *
@@ -85,11 +81,10 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $this->model_account_affiliate->editAffiliate($customer_id, $affiliate_data);
      */
-    public function editAffiliate(int $customer_id, array $data): void
+    public function edit_affiliate(int $customer_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "customer_affiliate` SET `company` = '" . $this->db->escape($data['company']) . "', `website` = '" . $this->db->escape($data['website']) . "', `commission` = '" . (float)$this->config->get('config_affiliate_commission') . "', `tax` = '" . $this->db->escape($data['tax']) . "', `payment_method` = '" . $this->db->escape($data['payment_method']) . "', `cheque` = '" . $this->db->escape($data['cheque']) . "', `paypal` = '" . $this->db->escape($data['paypal']) . "', `bank_name` = '" . $this->db->escape($data['bank_name']) . "', `bank_branch_number` = '" . $this->db->escape($data['bank_branch_number']) . "', `bank_swift_code` = '" . $this->db->escape($data['bank_swift_code']) . "', `bank_account_name` = '" . $this->db->escape($data['bank_account_name']) . "', `bank_account_number` = '" . $this->db->escape($data['bank_account_number']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "' WHERE `customer_id` = '" . $customer_id . "'");
+        $this->db->query('UPDATE `' . DB_PREFIX . "customer_affiliate` SET `company` = '" . $this->db->escape($data['company']) . "', `website` = '" . $this->db->escape($data['website']) . "', `commission` = '" . (float) $this->config->get('config_affiliate_commission') . "', `tax` = '" . $this->db->escape($data['tax']) . "', `payment_method` = '" . $this->db->escape($data['payment_method']) . "', `cheque` = '" . $this->db->escape($data['cheque']) . "', `paypal` = '" . $this->db->escape($data['paypal']) . "', `bank_name` = '" . $this->db->escape($data['bank_name']) . "', `bank_branch_number` = '" . $this->db->escape($data['bank_branch_number']) . "', `bank_swift_code` = '" . $this->db->escape($data['bank_swift_code']) . "', `bank_account_name` = '" . $this->db->escape($data['bank_account_name']) . "', `bank_account_number` = '" . $this->db->escape($data['bank_account_number']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : '') . "' WHERE `customer_id` = '" . $customer_id . "'");
     }
-
     /**
      * Delete Affiliate
      *
@@ -104,13 +99,11 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $this->model_account_affiliate->deleteAffiliate($customer_id);
      */
-    public function deleteAffiliate(int $customer_id): void
+    public function delete_affiliate(int $customer_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "customer_affiliate` WHERE `customer_id` = '" . $customer_id . "'");
-
-        $this->deleteReports($customer_id);
+        $this->delete_reports($customer_id);
     }
-
     /**
      * Get Affiliate
      *
@@ -126,16 +119,14 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $affiliate_info = $this->model_account_affiliate->getAffiliate($customer_id);
      */
-    public function getAffiliate(int $customer_id): array
+    public function get_affiliate(int $customer_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "customer_affiliate` WHERE `customer_id` = '" . $customer_id . "'");
-
         if ($query->num_rows) {
             return ['custom_field' => $query->row['custom_field'] ? json_decode($query->row['custom_field'], true) : []] + $query->row;
         }
         return [];
     }
-
     /**
      * Get Affiliate By Tracking
      *
@@ -147,16 +138,14 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $affiliate_info = $this->model_account_affiliate->getAffiliateByTracking($code);
      */
-    public function getAffiliateByTracking(string $code): array
+    public function get_affiliate_by_tracking(string $code): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "customer_affiliate` WHERE `tracking` = '" . $this->db->escape($code) . "'");
-
         if ($query->num_rows) {
             return ['custom_field' => $query->row['custom_field'] ? json_decode($query->row['custom_field'], true) : []] + $query->row;
         }
         return [];
     }
-
     /**
      * Add Report
      *
@@ -171,11 +160,10 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $this->model_account_affiliate->addReport($customer_id, $ip, $country);
      */
-    public function addReport(int $customer_id, string $ip, string $country = ''): void
+    public function add_report(int $customer_id, string $ip, string $country = ''): void
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_affiliate_report` SET `customer_id` = '" . $customer_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "customer_affiliate_report` SET `customer_id` = '" . $customer_id . "', `store_id` = '" . (int) $this->config->get('config_store_id') . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
     }
-
     /**
      * Delete Customer Affiliate Reports
      *
@@ -190,7 +178,7 @@ class Affiliate extends \Opencart\System\Engine\Model
      *
      * $this->model_account_affiliate->deleteReports($customer_id);
      */
-    public function deleteReports(int $customer_id): void
+    public function delete_reports(int $customer_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "customer_affiliate_report` WHERE `customer_id` = '" . $customer_id . "'");
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package        OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see           https://www.opencart.com
  */
-
 namespace Opencart\System\Library;
 
 /**
@@ -19,12 +18,11 @@ namespace Opencart\System\Library;
 class Image
 {
     private string $file;
-    private \GdImage|bool|null $image = null;
+    private \Gd_Image|bool|null $image = null;
     private int $width;
     private int $height;
     private string $bits;
     private string $mime;
-
     /**
      * Constructor
      */
@@ -33,25 +31,19 @@ class Image
         if (!extension_loaded('gd')) {
             exit('Error: PHP GD is not installed!');
         }
-
         if (!is_file($file)) {
             throw new \Exception('Error: Could not load image ' . $file . '!');
         }
-
         $this->file = $file;
-
         $info = getimagesize($file);
-
         $this->width = $info[0];
         $this->height = $info[1];
         $this->bits = $info['bits'] ?? '';
         $this->mime = $info['mime'] ?? '';
-
         if ($this->mime == 'image/gif') {
             $this->image = imagecreatefromgif($file);
         } elseif ($this->mime == 'image/png') {
             $this->image = imagecreatefrompng($file);
-
             imageinterlace($this->image, false);
         } elseif ($this->mime == 'image/jpeg') {
             $this->image = imagecreatefromjpeg($file);
@@ -59,57 +51,50 @@ class Image
             $this->image = imagecreatefromwebp($file);
         }
     }
-
     /**
      * Get File
      */
-    public function getFile(): string
+    public function get_file(): string
     {
         return $this->file;
     }
-
     /**
      * Get Image
      *
      * @return mixed
      */
-    public function getImage()
+    public function get_image()
     {
         return $this->image ?: null;
     }
-
     /**
      * Get Width
      */
-    public function getWidth(): int
+    public function get_width(): int
     {
         return $this->width;
     }
-
     /**
      * Get Height
      */
-    public function getHeight(): int
+    public function get_height(): int
     {
         return $this->height;
     }
-
     /**
      * Get Bits
      */
-    public function getBits(): string
+    public function get_bits(): string
     {
         return $this->bits;
     }
-
     /**
      * Get Mime
      */
-    public function getMime(): string
+    public function get_mime(): string
     {
         return $this->mime;
     }
-
     /**
      * Save
      *
@@ -118,9 +103,7 @@ class Image
     public function save(string $file, int $quality = 90): void
     {
         $info = pathinfo($file);
-
         $extension = strtolower($info['extension']);
-
         if (is_object($this->image) || is_resource($this->image)) {
             if ($extension == 'jpeg' || $extension == 'jpg') {
                 imagejpeg($this->image, $file, $quality);
@@ -131,11 +114,9 @@ class Image
             } elseif ($extension == 'webp') {
                 imagewebp($this->image, $file);
             }
-
             imagedestroy($this->image);
         }
     }
-
     /**
      * Resize
      *
@@ -146,14 +127,11 @@ class Image
         if (!$this->width || !$this->height) {
             return;
         }
-
         $xpos = 0;
         $ypos = 0;
         $scale = 1;
-
         $scale_w = $width / $this->width;
         $scale_h = $height / $this->height;
-
         if ($default == 'w') {
             $scale = $scale_w;
         } elseif ($default == 'h') {
@@ -161,46 +139,34 @@ class Image
         } else {
             $scale = min($scale_w, $scale_h);
         }
-
         if ($scale == 1 && $scale_h == $scale_w && ($this->mime != 'image/png' && $this->mime != 'image/webp')) {
             return;
         }
-
-        $new_width = (int)($this->width * $scale);
-        $new_height = (int)($this->height * $scale);
-        $xpos = (int)(($width - $new_width) / 2);
-        $ypos = (int)(($height - $new_height) / 2);
-
+        $new_width = (int) ($this->width * $scale);
+        $new_height = (int) ($this->height * $scale);
+        $xpos = (int) (($width - $new_width) / 2);
+        $ypos = (int) (($height - $new_height) / 2);
         $image_old = $this->image;
         $this->image = imagecreatetruecolor($width, $height);
-
         if ($this->mime == 'image/png') {
             imagealphablending($this->image, false);
             imagesavealpha($this->image, true);
-
             $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-
             imagecolortransparent($this->image, $background);
         } elseif ($this->mime == 'image/webp') {
             imagealphablending($this->image, false);
             imagesavealpha($this->image, true);
-
             $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-
             imagecolortransparent($this->image, $background);
         } else {
             $background = imagecolorallocate($this->image, 255, 255, 255);
         }
-
         imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
-
         imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->width, $this->height);
         imagedestroy($image_old);
-
         $this->width = $width;
         $this->height = $height;
     }
-
     /**
      * Watermark
      *
@@ -215,46 +181,43 @@ class Image
                 $watermark_pos_y = 0;
                 break;
             case 'topcenter':
-                $watermark_pos_x = (int)(($this->width - $watermark->getWidth()) / 2);
+                $watermark_pos_x = (int) (($this->width - $watermark->get_width()) / 2);
                 $watermark_pos_y = 0;
                 break;
             case 'topright':
-                $watermark_pos_x = ($this->width - $watermark->getWidth());
+                $watermark_pos_x = $this->width - $watermark->get_width();
                 $watermark_pos_y = 0;
                 break;
             case 'middleleft':
                 $watermark_pos_x = 0;
-                $watermark_pos_y = (int)(($this->height - $watermark->getHeight()) / 2);
+                $watermark_pos_y = (int) (($this->height - $watermark->get_height()) / 2);
                 break;
             case 'middlecenter':
-                $watermark_pos_x = (int)(($this->width - $watermark->getWidth()) / 2);
-                $watermark_pos_y = (int)(($this->height - $watermark->getHeight()) / 2);
+                $watermark_pos_x = (int) (($this->width - $watermark->get_width()) / 2);
+                $watermark_pos_y = (int) (($this->height - $watermark->get_height()) / 2);
                 break;
             case 'middleright':
-                $watermark_pos_x = ($this->width - $watermark->getWidth());
-                $watermark_pos_y = (int)(($this->height - $watermark->getHeight()) / 2);
+                $watermark_pos_x = $this->width - $watermark->get_width();
+                $watermark_pos_y = (int) (($this->height - $watermark->get_height()) / 2);
                 break;
             case 'bottomleft':
                 $watermark_pos_x = 0;
-                $watermark_pos_y = ($this->height - $watermark->getHeight());
+                $watermark_pos_y = $this->height - $watermark->get_height();
                 break;
             case 'bottomcenter':
-                $watermark_pos_x = (int)(($this->width - $watermark->getWidth()) / 2);
-                $watermark_pos_y = ($this->height - $watermark->getHeight());
+                $watermark_pos_x = (int) (($this->width - $watermark->get_width()) / 2);
+                $watermark_pos_y = $this->height - $watermark->get_height();
                 break;
             case 'bottomright':
-                $watermark_pos_x = ($this->width - $watermark->getWidth());
-                $watermark_pos_y = ($this->height - $watermark->getHeight());
+                $watermark_pos_x = $this->width - $watermark->get_width();
+                $watermark_pos_y = $this->height - $watermark->get_height();
                 break;
         }
-
         imagealphablending($this->image, true);
         imagesavealpha($this->image, true);
-        imagecopy($this->image, $watermark->getImage(), $watermark_pos_x, $watermark_pos_y, 0, 0, $watermark->getWidth(), $watermark->getHeight());
-
-        imagedestroy($watermark->getImage());
+        imagecopy($this->image, $watermark->get_image(), $watermark_pos_x, $watermark_pos_y, 0, 0, $watermark->get_width(), $watermark->get_height());
+        imagedestroy($watermark->get_image());
     }
-
     /**
      * Crop
      *
@@ -264,14 +227,11 @@ class Image
     {
         $image_old = $this->image;
         $this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
-
         imagecopy($this->image, $image_old, 0, 0, $top_x, $top_y, $this->width, $this->height);
         imagedestroy($image_old);
-
         $this->width = $bottom_x - $top_x;
         $this->height = $bottom_y - $top_y;
     }
-
     /**
      * Rotate
      *
@@ -280,13 +240,10 @@ class Image
     public function rotate(int $degree, string $color = 'FFFFFF'): void
     {
         $rgb = $this->html2rgb($color);
-
         $this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
-
         $this->width = imagesx($this->image);
         $this->height = imagesy($this->image);
     }
-
     /**
      * HTML2RGB
      *
@@ -298,39 +255,16 @@ class Image
         if ($color[0] == '#') {
             $color = substr($color, 1);
         }
-
         if (strlen($color) == 6) {
-            [
-                $r,
-                $g,
-                $b
-            ] = [
-                $color[0] . $color[1],
-                $color[2] . $color[3],
-                $color[4] . $color[5],
-            ];
+            [$r, $g, $b] = [$color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5]];
         } elseif (strlen($color) == 3) {
-            [
-                $r,
-                $g,
-                $b
-            ] = [
-                $color[0] . $color[0],
-                $color[1] . $color[1],
-                $color[2] . $color[2],
-            ];
+            [$r, $g, $b] = [$color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2]];
         } else {
             return [];
         }
-
         $r = hexdec($r);
         $g = hexdec($g);
         $b = hexdec($b);
-
-        return [
-            $r,
-            $g,
-            $b,
-        ];
+        return [$r, $g, $b];
     }
 }

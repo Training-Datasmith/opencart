@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Cron;
 
 /**
@@ -19,9 +18,7 @@ class Task extends \Opencart\System\Engine\Controller
     public function index(int $cron_id, string $code, string $cycle, string $date_added, string $date_modified): void
     {
         $this->load->model('setting/task');
-
-        $task_total = $this->model_setting_task->getTotalTasks(['filter_status' => 'processing']);
-
+        $task_total = $this->model_setting_task->get_total_tasks(['filter_status' => 'processing']);
         if (!$task_total) {
             if (str_starts_with(strtoupper(php_uname()), 'WIN')) {
                 pclose(popen('start /B php ' . DIR_APPLICATION . 'index.php start', 'r'));

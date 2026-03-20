@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Cron;
 
 /**
@@ -21,15 +20,8 @@ class Currency extends \Opencart\System\Engine\Controller
         if (!$this->config->get('config_currency_auto')) {
             return;
         }
-
-        $task_data = [
-            'code'   => 'currency',
-            'action' => 'task/admin/currency.refresh',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'currency', 'action' => 'task/admin/currency.refresh', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Tool;
 
 /**
@@ -27,42 +26,33 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $menu_id = $this->model_tool_menu->addMenu($code, $description, $cycle, $action, $status);
      */
-    public function addMenu(array $data): int
+    public function add_menu(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "menu` SET `code` = '" . $this->db->escape($data['code']) . "', `type` = '" . $this->db->escape($data['type']) . "', `route` = '" . $this->db->escape($data['route']) . "', `parent` = '" . $this->db->escape($data['parent']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
-
-        $menu_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "menu` SET `code` = '" . $this->db->escape($data['code']) . "', `type` = '" . $this->db->escape($data['type']) . "', `route` = '" . $this->db->escape($data['route']) . "', `parent` = '" . $this->db->escape($data['parent']) . "', sort_order = '" . (int) $data['sort_order'] . "'");
+        $menu_id = $this->db->get_last_id();
         foreach ($data['menu_description'] as $language_id => $menu_description) {
-            $this->model_tool_menu->addDescription($menu_id, $language_id, $menu_description);
+            $this->model_tool_menu->add_description($menu_id, $language_id, $menu_description);
         }
-
         return $menu_id;
     }
-
     /**
      * Edit Menu
      *
      * @param int                  $menu_id primary key of the menu record
      * @param array<string, mixed> $data    array of data
      */
-    public function editMenu(int $menu_id, array $data): void
+    public function edit_menu(int $menu_id, array $data): void
     {
-        $menu_info = $this->getMenu($menu_id);
-
+        $menu_info = $this->get_menu($menu_id);
         if ($menu_info) {
-            $this->db->query('UPDATE `' . DB_PREFIX . "menu` SET `code` = '" . $this->db->escape($data['code']) . "', `type` = '" . $this->db->escape($data['type']) . "', `route` = '" . $this->db->escape($data['route']) . "', `parent` = '" . $this->db->escape($data['parent']) . "', sort_order = '" . (int)$data['sort_order'] . "' WHERE `menu_id` = '" . $menu_id . "'");
-
+            $this->db->query('UPDATE `' . DB_PREFIX . "menu` SET `code` = '" . $this->db->escape($data['code']) . "', `type` = '" . $this->db->escape($data['type']) . "', `route` = '" . $this->db->escape($data['route']) . "', `parent` = '" . $this->db->escape($data['parent']) . "', sort_order = '" . (int) $data['sort_order'] . "' WHERE `menu_id` = '" . $menu_id . "'");
             $this->db->query('UPDATE `' . DB_PREFIX . "menu` SET `parent` = '" . $this->db->escape($data['code']) . "' WHERE `parent` = '" . $this->db->escape($menu_info['code']) . "'");
-
-            $this->model_tool_menu->deleteDescriptions($menu_id);
-
+            $this->model_tool_menu->delete_descriptions($menu_id);
             foreach ($data['menu_description'] as $language_id => $menu_description) {
-                $this->model_tool_menu->addDescription($menu_id, $language_id, $menu_description);
+                $this->model_tool_menu->add_description($menu_id, $language_id, $menu_description);
             }
         }
     }
-
     /**
      * Delete Menu By Code
      *
@@ -75,20 +65,16 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_menu->deleteMenu($menu_id);
      */
-    public function deleteMenu(int $menu_id): void
+    public function delete_menu(int $menu_id): void
     {
-        $menu_info = $this->getMenu($menu_id);
-
+        $menu_info = $this->get_menu($menu_id);
         if ($menu_info) {
             $this->db->query('DELETE FROM `' . DB_PREFIX . "menu` WHERE `menu_id` = '" . $menu_id . "'");
-
             // Save the sub menus
             $this->db->query('UPDATE `' . DB_PREFIX . "menu` SET `parent` = '" . $this->db->escape($menu_info['parent']) . "' WHERE `parent` = '" . $this->db->escape($menu_info['code']) . "'");
-
-            $this->model_tool_menu->deleteDescriptions($menu_id);
+            $this->model_tool_menu->delete_descriptions($menu_id);
         }
     }
-
     /**
      * Delete Menu By Code
      *
@@ -100,15 +86,13 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_menu->deleteMenuByCode($code);
      */
-    public function deleteMenuByCode(string $code): void
+    public function delete_menu_by_code(string $code): void
     {
-        $results = $this->getMenuByCode($code);
-
+        $results = $this->get_menu_by_code($code);
         foreach ($results as $result) {
-            $this->model_tool_menu->deleteMenu($result['menu_id']);
+            $this->model_tool_menu->delete_menu($result['menu_id']);
         }
     }
-
     /**
      * Get Menu
      *
@@ -124,13 +108,11 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $menu_info = $this->model_tool_menu->getMenu($menu_id);
      */
-    public function getMenu(int $menu_id): array
+    public function get_menu(int $menu_id): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'menu` `m` LEFT JOIN `' . DB_PREFIX . "menu_description` `md` ON (`m`.`menu_id` = `md`.`menu_id`) WHERE `m`.`menu_id` = '" . $menu_id . "' AND `md`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'menu` `m` LEFT JOIN `' . DB_PREFIX . "menu_description` `md` ON (`m`.`menu_id` = `md`.`menu_id`) WHERE `m`.`menu_id` = '" . $menu_id . "' AND `md`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Menu By Code
      *
@@ -146,13 +128,11 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $menu_info = $this->model_tool_menu->getMenuByCode($code);
      */
-    public function getMenuByCode(string $code): array
+    public function get_menu_by_code(string $code): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'menu` `m` LEFT JOIN `' . DB_PREFIX . "menu_description` `md` ON (`m`.`menu_id` = `md`.`menu_id`) WHERE `m`.`code` = '" . $this->db->escape($code) . "' AND `md`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'menu` `m` LEFT JOIN `' . DB_PREFIX . "menu_description` `md` ON (`m`.`menu_id` = `md`.`menu_id`) WHERE `m`.`code` = '" . $this->db->escape($code) . "' AND `md`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Menu(s)
      *
@@ -166,20 +146,16 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_tool_menu->getMenus();
      */
-    public function getMenus(): array
+    public function get_menus(): array
     {
         $menu_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'menu` `m` LEFT JOIN `' . DB_PREFIX . 'menu_description` `md` ON (`m`.`menu_id` = `md`.`menu_id`) ORDER BY `m`.`sort_order` ASC');
-
         // Index
         foreach ($query->rows as $result) {
             $menu_data[$result['code']] = $result;
         }
-
         return $menu_data;
     }
-
     /**
      * Get Total Menu(s)
      *
@@ -193,13 +169,11 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $menu_total = $this->model_tool_menu->getTotalMenus();
      */
-    public function getTotalMenus(): int
+    public function get_total_menus(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'menu`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -220,11 +194,10 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_menu->addDescription($menu_id, $language_id, $menu_data);
      */
-    public function addDescription(int $menu_id, int $language_id, array $data): void
+    public function add_description(int $menu_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "menu_description` SET `menu_id` = '" . $menu_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -239,11 +212,10 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_menu->deleteDescriptions($menu_id);
      */
-    public function deleteDescriptions(int $menu_id): void
+    public function delete_descriptions(int $menu_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "menu_description` WHERE `menu_id` = '" . $menu_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -258,11 +230,10 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_menu->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteDescriptionsByLanguageId(int $language_id): void
+    public function delete_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "menu_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Descriptions
      *
@@ -278,19 +249,15 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $menu_description = $this->model_tool_menu->getDescriptions($menu_id);
      */
-    public function getDescriptions(int $menu_id): array
+    public function get_descriptions(int $menu_id): array
     {
         $menu_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "menu_description` WHERE `menu_id` = '" . $menu_id . "'");
-
         foreach ($query->rows as $result) {
             $menu_data[$result['language_id']] = $result;
         }
-
         return $menu_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -306,10 +273,9 @@ class Menu extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_tool_menu->getDescriptionsByLanguageId($language_id);
      */
-    public function getDescriptionsByLanguageId(int $language_id): array
+    public function get_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "menu_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
 }

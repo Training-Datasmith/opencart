@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -9,7 +8,7 @@ namespace Opencart\Admin\Controller\Event;
  *
  * @package Opencart\Admin\Controller\Event
  */
-class TaxClass extends \Opencart\System\Engine\Controller
+class Tax_Class extends \Opencart\System\Engine\Controller
 {
     /**
      * Index
@@ -24,14 +23,8 @@ class TaxClass extends \Opencart\System\Engine\Controller
      */
     public function index(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'tax_class',
-            'action' => 'task/catalog/tax_class',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'tax_class', 'action' => 'task/catalog/tax_class', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

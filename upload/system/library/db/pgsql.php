@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\System\Library\DB;
 
 /**
@@ -9,10 +8,9 @@ namespace Opencart\System\Library\DB;
  *
  * @package Opencart\System\Library\DB
  */
-class PgSQL
+class Pg_Sql
 {
-    private ?\PgSql\Connection $db = null;
-
+    private ?\Pg_Sql\Connection $db = null;
     /**
      * Constructor
      *
@@ -36,39 +34,29 @@ class PgSQL
      */
     public function __construct(array $option = [])
     {
-        $required = [
-            'hostname',
-            'username',
-            'database',
-        ];
-
+        $required = ['hostname', 'username', 'database'];
         foreach ($required as $key) {
             if (empty($option[$key])) {
                 throw new \Exception('Error: Database ' . $key . ' required!');
             }
         }
-
         if (isset($option['port'])) {
             $port = $option['port'];
         } else {
             $port = '5432';
         }
-
         try {
             $pg = @pg_connect('host=' . $option['hostname'] . ' port=' . $port . ' user=' . $option['username'] . ' password=' . $option['password'] . ' dbname=' . $option['database'] . ' options=\'--client_encoding=UTF8\' ');
         } catch (\Exception) {
             throw new \Exception('Error: Could not connect to the database please make sure the database server, username and password is correct!');
         }
-
         if ($pg) {
             $this->db = $pg;
             pg_query($this->db, "SET CLIENT_ENCODING TO 'UTF8'");
-
             // Sync PHP and DB time zones
             pg_query($this->db, "SET TIMEZONE = '" . $this->escape(date('P')) . "'");
         }
     }
-
     /**
      * Query
      *
@@ -83,27 +71,20 @@ class PgSQL
     public function query(string $sql): \stdClass
     {
         $resource = pg_query($this->db, $sql);
-
         if ($resource === false) {
             throw new \Exception('Error: ' . pg_last_error($this->db) . '<br/>' . $sql);
         }
-
         $data = [];
-
         while ($result = pg_fetch_assoc($resource)) {
             $data[] = $result;
         }
-
         pg_free_result($resource);
-
         $query = new \stdClass();
         $query->row = $data[0] ?? [];
         $query->rows = $data;
         $query->num_rows = count($data);
-
         return $query;
     }
-
     /**
      * Escape
      *
@@ -117,7 +98,6 @@ class PgSQL
     {
         return pg_escape_string($this->db, $value);
     }
-
     /**
      * Count Affected
      *
@@ -125,11 +105,10 @@ class PgSQL
      *
      * @return int Number of affected rows
      */
-    public function countAffected(): int
+    public function count_affected(): int
     {
         return pg_affected_rows($this->db);
     }
-
     /**
      * Get Last Id
      *
@@ -139,13 +118,11 @@ class PgSQL
      *
      * @throws \Exception If sequence value cannot be retrieved
      */
-    public function getLastId(): int
+    public function get_last_id(): int
     {
         $query = $this->query('SELECT LASTVAL() AS `id`');
-
         return $query->row['id'];
     }
-
     /**
      * Is Connected
      *
@@ -153,11 +130,10 @@ class PgSQL
      *
      * @return bool True if connected, false otherwise
      */
-    public function isConnected(): bool
+    public function is_connected(): bool
     {
         return pg_connection_status($this->db) == PGSQL_CONNECTION_OK;
     }
-
     /**
      * Destructor
      *
@@ -167,7 +143,6 @@ class PgSQL
     {
         if ($this->db) {
             pg_close($this->db);
-
             $this->db = null;
         }
     }

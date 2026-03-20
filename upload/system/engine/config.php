@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
 /**
  * @package        OpenCart
  *
@@ -10,7 +10,6 @@ declare(strict_types=1);
  *
  * @see           https://www.opencart.com
  */
-
 namespace Opencart\System\Engine;
 
 /**
@@ -27,11 +26,10 @@ class Config
      * @var array<string, string>
      */
     private array $data = [];
-
     /**
      * Add Path
      */
-    public function addPath(string $namespace, string $directory = ''): void
+    public function add_path(string $namespace, string $directory = ''): void
     {
         if (!$directory) {
             $this->directory = $namespace;
@@ -39,7 +37,6 @@ class Config
             $this->path[$namespace] = $directory;
         }
     }
-
     /**
      * Get
      *
@@ -50,7 +47,6 @@ class Config
     {
         return $this->data[$key] ?? '';
     }
-
     /**
      * Set
      *
@@ -60,7 +56,6 @@ class Config
     {
         $this->data[$key] = $value;
     }
-
     /**
      * Has
      *
@@ -70,7 +65,6 @@ class Config
     {
         return isset($this->data[$key]);
     }
-
     /**
      * Load
      *
@@ -80,30 +74,22 @@ class Config
     public function load(string $filename): array
     {
         $file = $this->directory . $filename . '.php';
-
         $namespace = '';
-
         $parts = explode('/', $filename);
-
         foreach ($parts as $part) {
             if (!$namespace) {
                 $namespace .= $part;
             } else {
                 $namespace .= '/' . $part;
             }
-
             if (isset($this->path[$namespace])) {
                 $file = $this->path[$namespace] . substr($filename, strlen($namespace)) . '.php';
             }
         }
-
         if (is_file($file)) {
             $_ = [];
-
-            require($file);
-
+            require $file;
             $this->data = array_merge($this->data, $_);
-
             return $this->data;
         }
         return [];

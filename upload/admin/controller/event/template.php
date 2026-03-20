@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -22,19 +21,12 @@ class Template extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function addTemplate(string &$route, array &$args, string &$output): void
+    public function add_template(string &$route, array &$args, string &$output): void
     {
-        $task_data = [
-            'code'   => 'template.info.' . $output,
-            'action' => 'task/catalog/template.info',
-            'args'   => ['template_id' => $output],
-        ];
-
+        $task_data = ['code' => 'template.info.' . $output, 'action' => 'task/catalog/template.info', 'args' => ['template_id' => $output]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /**
      * Edit Template
      *
@@ -46,19 +38,12 @@ class Template extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function editTemplate(string &$route, array &$args, &$output): void
+    public function edit_template(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'template.info.' . $args[0],
-            'action' => 'task/catalog/template.info',
-            'args'   => ['template_id' => $args[0]],
-        ];
-
+        $task_data = ['code' => 'template.info.' . $args[0], 'action' => 'task/catalog/template.info', 'args' => ['template_id' => $args[0]]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
-
     /**
      * Delete Template
      *
@@ -70,16 +55,10 @@ class Template extends \Opencart\System\Engine\Controller
      * @param mixed             $output
      *
      */
-    public function deleteTemplate(string &$route, array &$args, &$output): void
+    public function delete_template(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'template.delete.' . $args[0],
-            'action' => 'task/catalog/template.delete',
-            'args'   => ['template_id' => $args[0]],
-        ];
-
+        $task_data = ['code' => 'template.delete.' . $args[0], 'action' => 'task/catalog/template.delete', 'args' => ['template_id' => $args[0]]];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

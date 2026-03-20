@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Setting;
 
 /**
@@ -33,15 +32,12 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $module_id = $this->model_setting_module->addModule($code, $module_data);
      */
-    public function addModule(string $code, array $data): int
+    public function add_module(string $code, array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "module` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `code` = '" . $this->db->escape($code) . "', `setting` = '" . $this->db->escape(json_encode($data)) . "'");
-
-        $module_id = $this->db->getLastId();
-
-        return (int)$module_id;
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "module` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `code` = '" . $this->db->escape($code) . "', `setting` = '" . $this->db->escape(json_encode($data)) . "'");
+        $module_id = $this->db->get_last_id();
+        return (int) $module_id;
     }
-
     /**
      * Edit Module
      *
@@ -63,11 +59,10 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $this->model_setting_module->editModule($module_id, $module_data);
      */
-    public function editModule(int $module_id, array $data): void
+    public function edit_module(int $module_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "module` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `setting` = '" . $this->db->escape(json_encode($data)) . "' WHERE `module_id` = '" . $module_id . "'");
+        $this->db->query('UPDATE `' . DB_PREFIX . "module` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `setting` = '" . $this->db->escape(json_encode($data)) . "' WHERE `module_id` = '" . $module_id . "'");
     }
-
     /**
      * Delete Module
      *
@@ -82,11 +77,10 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $this->model_setting_module->deleteModule($module_id);
      */
-    public function deleteModule(int $module_id): void
+    public function delete_module(int $module_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "module` WHERE `module_id` = '" . $module_id . "'");
     }
-
     /**
      * Delete Modules By Code
      *
@@ -98,16 +92,13 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $this->model_setting_module->deleteModulesByCode($code);
      */
-    public function deleteModulesByCode(string $code): void
+    public function delete_modules_by_code(string $code): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "module` WHERE `code` = '" . $this->db->escape($code) . "'");
-
         // Layout
         $this->load->model('design/layout');
-
-        $this->model_design_layout->deleteModulesByCode($code);
+        $this->model_design_layout->delete_modules_by_code($code);
     }
-
     /**
      * Get Module
      *
@@ -123,16 +114,14 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $module_info = $this->model_setting_module->getModule($module_id);
      */
-    public function getModule(int $module_id): array
+    public function get_module(int $module_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "module` WHERE `module_id` = '" . $module_id . "'");
-
         if ($query->row) {
             return $query->row['setting'] ? json_decode($query->row['setting'], true) : [];
         }
         return [];
     }
-
     /**
      * Get Modules
      *
@@ -146,13 +135,11 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $modules = $this->model_setting_module->getModules();
      */
-    public function getModules(): array
+    public function get_modules(): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'module` ORDER BY `code`');
-
         return $query->rows;
     }
-
     /**
      * Get Modules By Code
      *
@@ -164,10 +151,9 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $modules = $this->model_setting_module->getModulesByCode($code);
      */
-    public function getModulesByCode(string $code): array
+    public function get_modules_by_code(string $code): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "module` WHERE `code` = '" . $this->db->escape($code) . "' ORDER BY `name`");
-
         return $query->rows;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Cms;
 
 /**
@@ -26,10 +25,9 @@ class Antispam extends \Opencart\System\Engine\Model
      *
      * $spam_total = $this->model_cms_antispam->getSpam($comment);
      */
-    public function getSpam(string $comment): int
+    public function get_spam(string $comment): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "antispam` WHERE '" . $this->db->escape(str_replace(' ', '', $comment)) . "' LIKE CONCAT('%', `keyword`, '%')");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

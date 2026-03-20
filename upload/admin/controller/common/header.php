@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Common;
 
 /**
@@ -20,56 +19,34 @@ class Header extends \Opencart\System\Engine\Controller
     {
         $data['lang'] = $this->language->get('code');
         $data['direction'] = $this->language->get('direction');
-
-        $data['title'] = $this->document->getTitle();
+        $data['title'] = $this->document->get_title();
         $data['base'] = HTTP_SERVER;
-        $data['description'] = $this->document->getDescription();
-        $data['keywords'] = $this->document->getKeywords();
-        $data['styles'] = $this->document->getStyles();
-        $data['links'] = $this->document->getLinks();
-
+        $data['description'] = $this->document->get_description();
+        $data['keywords'] = $this->document->get_keywords();
+        $data['styles'] = $this->document->get_styles();
+        $data['links'] = $this->document->get_links();
         $this->load->language('common/header');
-
-        if (!isset($this->request->get['user_token']) || !isset($this->session->data['user_token']) || ($this->request->get['user_token'] != $this->session->data['user_token'])) {
+        if (!isset($this->request->get['user_token']) || !isset($this->session->data['user_token']) || $this->request->get['user_token'] != $this->session->data['user_token']) {
             $data['logged'] = false;
-
             $data['home'] = $this->url->link('common/login');
         } else {
             $data['logged'] = true;
-
             $data['home'] = $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']);
-
             $data['language'] = $this->load->controller('common/language');
-
             // Notifications
-            $filter_data = [
-                'start' => 0,
-                'limit' => 5,
-            ];
-
+            $filter_data = ['start' => 0, 'limit' => 5];
             $data['notifications'] = [];
-
             $this->load->model('tool/notification');
-
-            $results = $this->model_tool_notification->getNotifications($filter_data);
-
+            $results = $this->model_tool_notification->get_notifications($filter_data);
             foreach ($results as $result) {
-                $data['notifications'][] = [
-                    'title' => $result['title'],
-                    'href'  => $this->url->link('tool/notification.info', 'user_token=' . $this->session->data['user_token'] . '&notification_id=' . $result['notification_id']),
-                ];
+                $data['notifications'][] = ['title' => $result['title'], 'href' => $this->url->link('tool/notification.info', 'user_token=' . $this->session->data['user_token'] . '&notification_id=' . $result['notification_id'])];
             }
-
             $data['notification_all'] = $this->url->link('tool/notification', 'user_token=' . $this->session->data['user_token']);
-            $data['notification_total'] = $this->model_tool_notification->getTotalNotifications(['filter_status' => 0]);
-
+            $data['notification_total'] = $this->model_tool_notification->get_total_notifications(['filter_status' => 0]);
             $data['profile'] = $this->url->link('user/profile', 'user_token=' . $this->session->data['user_token']);
-
             // User
             $this->load->model('user/user');
-
-            $user_info = $this->model_user_user->getUser($this->user->getId());
-
+            $user_info = $this->model_user_user->get_user($this->user->get_id());
             if ($user_info) {
                 $data['firstname'] = $user_info['firstname'];
                 $data['lastname'] = $user_info['lastname'];
@@ -77,31 +54,20 @@ class Header extends \Opencart\System\Engine\Controller
                 $data['firstname'] = '';
                 $data['lastname'] = '';
             }
-
             // Image
             $this->load->model('tool/image');
-
             if ($user_info['image'] && is_file(DIR_IMAGE . html_entity_decode($user_info['image'], ENT_QUOTES, 'UTF-8'))) {
                 $data['image'] = $this->model_tool_image->resize($user_info['image'], 45, 45);
             } else {
                 $data['image'] = $this->model_tool_image->resize('profile.png', 45, 45);
             }
-
             // Stores
             $data['stores'] = [];
-
-            $data['stores'][] = [
-                'store_id' => 0,
-                'name'     => $this->config->get('config_name'),
-            ];
-
+            $data['stores'][] = ['store_id' => 0, 'name' => $this->config->get('config_name')];
             $this->load->model('setting/store');
-
-            $data['stores'] = array_merge($data['stores'], $this->model_setting_store->getStores());
-
+            $data['stores'] = array_merge($data['stores'], $this->model_setting_store->get_stores());
             $data['logout'] = $this->url->link('common/logout', 'user_token=' . $this->session->data['user_token']);
         }
-
         return $this->load->view('common/header', $data);
     }
 }

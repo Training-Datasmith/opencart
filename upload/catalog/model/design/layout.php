@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Design;
 
 /**
@@ -26,16 +25,14 @@ class Layout extends \Opencart\System\Engine\Model
      *
      * $layout_id = $this->model_design_layout->getLayout($route);
      */
-    public function getLayout(string $route): int
+    public function get_layout(string $route): int
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "layout_route` WHERE '" . $this->db->escape($route) . "' LIKE `route` AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' ORDER BY `route` DESC LIMIT 1");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "layout_route` WHERE '" . $this->db->escape($route) . "' LIKE `route` AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' ORDER BY `route` DESC LIMIT 1");
         if ($query->num_rows) {
-            return (int)$query->row['layout_id'];
+            return (int) $query->row['layout_id'];
         }
         return 0;
     }
-
     /**
      * Get Modules
      *
@@ -50,10 +47,9 @@ class Layout extends \Opencart\System\Engine\Model
      *
      * $modules = $this->model_design_banner->getModules($layout_id, $position);
      */
-    public function getModules(int $layout_id, string $position): array
+    public function get_modules(int $layout_id, string $position): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . $layout_id . "' AND `position` = '" . $this->db->escape($position) . "' ORDER BY `sort_order`");
-
         return $query->rows;
     }
 }

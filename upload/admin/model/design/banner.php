@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Design;
 
 /**
@@ -34,23 +33,19 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $banner_id = $this->model_design_banner->addBanner($banner_data);
      */
-    public function addBanner(array $data): int
+    public function add_banner(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "banner` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "'");
-
-        $banner_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "banner` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `status` = '" . (bool) ($data['status'] ?? 0) . "'");
+        $banner_id = $this->db->get_last_id();
         if (isset($data['banner_image'])) {
             foreach ($data['banner_image'] as $language_id => $value) {
                 foreach ($value as $banner_image) {
-                    $this->addImage($banner_id, $language_id, $banner_image);
+                    $this->add_image($banner_id, $language_id, $banner_image);
                 }
             }
         }
-
         return $banner_id;
     }
-
     /**
      * Edit Status
      *
@@ -65,11 +60,10 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_category->editStatus($category_id, $status);
      */
-    public function editStatus(int $banner_id, bool $status): void
+    public function edit_status(int $banner_id, bool $status): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "banner` SET `status` = '" . $status . "' WHERE `banner_id` = '" . $banner_id . "'");
     }
-
     /**
      * Edit Banner
      *
@@ -91,21 +85,18 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $this->model_design_banner->editBanner($banner_id, $banner_data);
      */
-    public function editBanner(int $banner_id, array $data): void
+    public function edit_banner(int $banner_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "banner` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `banner_id` = '" . $banner_id . "'");
-
-        $this->deleteImages($banner_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "banner` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `status` = '" . (bool) ($data['status'] ?? 0) . "' WHERE `banner_id` = '" . $banner_id . "'");
+        $this->delete_images($banner_id);
         if (isset($data['banner_image'])) {
             foreach ($data['banner_image'] as $language_id => $value) {
                 foreach ($value as $banner_image) {
-                    $this->addImage($banner_id, $language_id, $banner_image);
+                    $this->add_image($banner_id, $language_id, $banner_image);
                 }
             }
         }
     }
-
     /**
      * Delete Banner
      *
@@ -120,13 +111,11 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $this->model_design_banner->deleteBanner($banner_id);
      */
-    public function deleteBanner(int $banner_id): void
+    public function delete_banner(int $banner_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "banner` WHERE `banner_id` = '" . $banner_id . "'");
-
-        $this->deleteImages($banner_id);
+        $this->delete_images($banner_id);
     }
-
     /**
      * Get Banner
      *
@@ -142,13 +131,11 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $banner_info = $this->model_design_banner->getBanner($banner_id);
      */
-    public function getBanner(int $banner_id): array
+    public function get_banner(int $banner_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "banner` WHERE `banner_id` = '" . $banner_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Banners
      *
@@ -171,44 +158,32 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_design_banner->getBanners($filter_data);
      */
-    public function getBanners(array $data = []): array
+    public function get_banners(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'banner`';
-
-        $sort_data = [
-            'name',
-            'status',
-        ];
-
+        $sort_data = ['name', 'status'];
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $data['sort'];
         } else {
             $sql .= ' ORDER BY `name`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Banners
      *
@@ -222,13 +197,11 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $banner_total = $this->model_design_banner->getTotalBanners();
      */
-    public function getTotalBanners(): int
+    public function get_total_banners(): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'banner`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Image
      *
@@ -252,11 +225,10 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $this->model_design_banner->addImage($banner_id, $language_id, $banner_image_data);
      */
-    public function addImage(int $banner_id, int $language_id, array $data): void
+    public function add_image(int $banner_id, int $language_id, array $data): void
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "banner_image` SET `banner_id` = '" . $banner_id . "', `language_id` = '" . $language_id . "', `title` = '" . $this->db->escape($data['title']) . "', `link` = '" . $this->db->escape($data['link']) . "', `image` = '" . $this->db->escape($data['image']) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "banner_image` SET `banner_id` = '" . $banner_id . "', `language_id` = '" . $language_id . "', `title` = '" . $this->db->escape($data['title']) . "', `link` = '" . $this->db->escape($data['link']) . "', `image` = '" . $this->db->escape($data['image']) . "', `sort_order` = '" . (int) $data['sort_order'] . "'");
     }
-
     /**
      * Delete Images
      *
@@ -271,11 +243,10 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $this->model_design_banner->deleteImages($banner_id);
      */
-    public function deleteImages(int $banner_id): void
+    public function delete_images(int $banner_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "banner_image` WHERE `banner_id` = '" . $banner_id . "'");
     }
-
     /**
      * Delete Images By Language ID
      *
@@ -290,11 +261,10 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $this->model_design_banner->deleteImagesByLanguageId($language_id);
      */
-    public function deleteImagesByLanguageId(int $language_id): void
+    public function delete_images_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "banner_image` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Images
      *
@@ -310,13 +280,11 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $banner_images = $this->model_design_banner->getImages($banner_id);
      */
-    public function getImages(int $banner_id, int $language_id): array
+    public function get_images(int $banner_id, int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "banner_image` WHERE `banner_id` = '" . $banner_id . "' AND `language_id` = '" . $language_id . "' ORDER BY `sort_order` ASC");
-
         return $query->rows;
     }
-
     /**
      * Get Images By Language ID
      *
@@ -332,10 +300,9 @@ class Banner extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_design_banner->getImagesByLanguageId($language_id);
      */
-    public function getImagesByLanguageId(int $language_id): array
+    public function get_images_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "banner_image` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
 }

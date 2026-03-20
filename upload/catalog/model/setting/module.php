@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Setting;
 
 /**
@@ -28,10 +27,9 @@ class Module extends \Opencart\System\Engine\Model
      *
      * $module_info = $this->model_setting_module->getModule($module_id);
      */
-    public function getModule(int $module_id): array
+    public function get_module(int $module_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "module` WHERE `module_id` = '" . $module_id . "'");
-
         if ($query->row) {
             return $query->row['setting'] ? json_decode($query->row['setting'], true) : [];
         }

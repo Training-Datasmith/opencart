@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Tool;
 
 /**
@@ -26,15 +25,12 @@ class Upload extends \Opencart\System\Engine\Model
      *
      * $code = $this->model_tool_upload->addUpload($name, $filename);
      */
-    public function addUpload(string $name, string $filename): string
+    public function add_upload(string $name, string $filename): string
     {
         $code = oc_token(32);
-
         $this->db->query('INSERT INTO `' . DB_PREFIX . "upload` SET `name` = '" . $this->db->escape($name) . "', `filename` = '" . $this->db->escape($filename) . "', `code` = '" . $this->db->escape($code) . "', `date_added` = NOW()");
-
         return $code;
     }
-
     /**
      * Delete Upload
      *
@@ -49,11 +45,10 @@ class Upload extends \Opencart\System\Engine\Model
      *
      * $this->model_tool_upload->deleteUpload($upload_id);
      */
-    public function deleteUpload(int $upload_id): void
+    public function delete_upload(int $upload_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "upload` WHERE `upload_id` = '" . $upload_id . "'");
     }
-
     /**
      * Get Upload
      *
@@ -69,13 +64,11 @@ class Upload extends \Opencart\System\Engine\Model
      *
      * $upload_info = $this->model_tool_upload->getUpload($upload_id);
      */
-    public function getUpload(int $upload_id): array
+    public function get_upload(int $upload_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "upload` WHERE `upload_id` = '" . $upload_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Upload By Code
      *
@@ -87,13 +80,11 @@ class Upload extends \Opencart\System\Engine\Model
      *
      * $upload_info = $this->model_tool_upload->getUploadByCode($code);
      */
-    public function getUploadByCode(string $code): array
+    public function get_upload_by_code(string $code): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "upload` WHERE `code` = '" . $this->db->escape($code) . "'");
-
         return $query->row;
     }
-
     /**
      * Get Uploads
      *
@@ -119,67 +110,48 @@ class Upload extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_tool_upload->getUploads($filter_data);
      */
-    public function getUploads(array $data = []): array
+    public function get_uploads(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'upload`';
-
         $implode = [];
-
         if (!empty($data['filter_name'])) {
             $implode[] = "LCASE(`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name']) . '%') . "'";
         }
-
         if (!empty($data['filter_code'])) {
             $implode[] = "LCASE(`code`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_code']) . '%') . "'";
         }
-
         if (!empty($data['filter_date_from'])) {
-            $implode[] = "DATE(`date_added`) >= DATE('" . $this->db->escape((string)$data['filter_date_from']) . "')";
+            $implode[] = "DATE(`date_added`) >= DATE('" . $this->db->escape((string) $data['filter_date_from']) . "')";
         }
-
         if (!empty($data['filter_date_to'])) {
-            $implode[] = "DATE(`date_added`) <= DATE('" . $this->db->escape((string)$data['filter_date_to']) . "')";
+            $implode[] = "DATE(`date_added`) <= DATE('" . $this->db->escape((string) $data['filter_date_to']) . "')";
         }
-
         if ($implode) {
             $sql .= ' WHERE ' . implode(' AND ', $implode);
         }
-
-        $sort_data = [
-            'name',
-            'code',
-            'date_added',
-        ];
-
+        $sort_data = ['name', 'code', 'date_added'];
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $data['sort'];
         } else {
             $sql .= ' ORDER BY `date_added`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Uploads
      *
@@ -205,34 +177,26 @@ class Upload extends \Opencart\System\Engine\Model
      *
      * $upload_total = $this->model_tool_upload->getTotalUploads($filter_data);
      */
-    public function getTotalUploads(array $data = []): int
+    public function get_total_uploads(array $data = []): int
     {
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'upload`';
-
         $implode = [];
-
         if (!empty($data['filter_name'])) {
             $implode[] = "LCASE(`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name']) . '%') . "'";
         }
-
         if (!empty($data['filter_code'])) {
             $implode[] = "LCASE(`code`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_code']) . '%') . "'";
         }
-
         if (!empty($data['filter_date_from'])) {
-            $implode[] = "DATE(`date_added`) >= DATE('" . $this->db->escape((string)$data['filter_date_from']) . "')";
+            $implode[] = "DATE(`date_added`) >= DATE('" . $this->db->escape((string) $data['filter_date_from']) . "')";
         }
-
         if (!empty($data['filter_date_to'])) {
-            $implode[] = "DATE(`date_added`) <= DATE('" . $this->db->escape((string)$data['filter_date_to']) . "')";
+            $implode[] = "DATE(`date_added`) <= DATE('" . $this->db->escape((string) $data['filter_date_to']) . "')";
         }
-
         if ($implode) {
             $sql .= ' WHERE ' . implode(' AND ', $implode);
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

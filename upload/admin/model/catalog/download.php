@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Catalog;
 
 /**
@@ -34,19 +33,15 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $download_id = $this->model_catalog_download->addDownload($download_data);
      */
-    public function addDownload(array $data): int
+    public function add_download(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string)$data['filename']) . "', `mask` = '" . $this->db->escape((string)$data['mask']) . "', `date_added` = NOW()");
-
-        $download_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string) $data['filename']) . "', `mask` = '" . $this->db->escape((string) $data['mask']) . "', `date_added` = NOW()");
+        $download_id = $this->db->get_last_id();
         foreach ($data['download_description'] as $language_id => $download_description) {
-            $this->model_catalog_download->addDescription($download_id, $language_id, $download_description);
+            $this->model_catalog_download->add_description($download_id, $language_id, $download_description);
         }
-
         return $download_id;
     }
-
     /**
      * Edit Download
      *
@@ -68,17 +63,14 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_download->editDownload($download_id, $download_data);
      */
-    public function editDownload(int $download_id, array $data): void
+    public function edit_download(int $download_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string)$data['filename']) . "', `mask` = '" . $this->db->escape((string)$data['mask']) . "' WHERE `download_id` = '" . $download_id . "'");
-
-        $this->model_catalog_download->deleteDescriptions($download_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string) $data['filename']) . "', `mask` = '" . $this->db->escape((string) $data['mask']) . "' WHERE `download_id` = '" . $download_id . "'");
+        $this->model_catalog_download->delete_descriptions($download_id);
         foreach ($data['download_description'] as $language_id => $download_description) {
-            $this->model_catalog_download->addDescription($download_id, $language_id, $download_description);
+            $this->model_catalog_download->add_description($download_id, $language_id, $download_description);
         }
     }
-
     /**
      * Delete Download
      *
@@ -93,19 +85,15 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_download->deleteDownload($download_id);
      */
-    public function deleteDownload(int $download_id): void
+    public function delete_download(int $download_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "download` WHERE `download_id` = '" . $download_id . "'");
-
-        $this->model_catalog_download->deleteDescriptions($download_id);
-        $this->model_catalog_download->deleteReports($download_id);
-
+        $this->model_catalog_download->delete_descriptions($download_id);
+        $this->model_catalog_download->delete_reports($download_id);
         // Product
         $this->load->model('catalog/product');
-
-        $this->model_catalog_product->deleteDownloadsByDownloadId($download_id);
+        $this->model_catalog_product->delete_downloads_by_download_id($download_id);
     }
-
     /**
      * Get Download
      *
@@ -121,13 +109,11 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $download_info = $this->model_catalog_download->getDownload($download_id);
      */
-    public function getDownload(int $download_id): array
+    public function get_download(int $download_id): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'download` `d` LEFT JOIN `' . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `d`.`download_id` = '" . $download_id . "' AND `dd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'download` `d` LEFT JOIN `' . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `d`.`download_id` = '" . $download_id . "' AND `dd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Downloads
      *
@@ -150,54 +136,40 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_download->getDownloads($filter_data);
      */
-    public function getDownloads(array $data = []): array
+    public function get_downloads(array $data = []): array
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'download` `d` LEFT JOIN `' . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `dd`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'download` `d` LEFT JOIN `' . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `dd`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`dd`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name']) . '%') . "'";
         }
-
-        $sort_data = [
-            'name'       => 'dd.name',
-            'date_added' => 'd.date_added',
-        ];
-
+        $sort_data = ['name' => 'dd.name', 'date_added' => 'd.date_added'];
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $sort_data[$data['sort']];
         } else {
             $sql .= ' ORDER BY `dd`.`name`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Downloads
      *
@@ -211,25 +183,20 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $download_total = $this->model_catalog_download->getTotalDownloads();
      */
-    public function getTotalDownloads(array $data = []): int
+    public function get_total_downloads(array $data = []): int
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'download` `d` LEFT JOIN `' . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `dd`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'download` `d` LEFT JOIN `' . DB_PREFIX . "download_description` `dd` ON (`d`.`download_id` = `dd`.`download_id`) WHERE `dd`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`dd`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name']) . '%') . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -250,11 +217,10 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_download->addDescription($download_id, $language_id, $download_data);
      */
-    public function addDescription(int $download_id, int $language_id, array $data): void
+    public function add_description(int $download_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "download_description` SET `download_id` = '" . $download_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -269,11 +235,10 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_download->deleteDescriptions($download_id);
      */
-    public function deleteDescriptions(int $download_id): void
+    public function delete_descriptions(int $download_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "download_description` WHERE `download_id` = '" . $download_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -288,11 +253,10 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_download->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteDescriptionsByLanguageId(int $language_id): void
+    public function delete_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "download_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Descriptions
      *
@@ -308,19 +272,15 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $download_description = $this->model_catalog_download->getDescriptions($download_id);
      */
-    public function getDescriptions(int $download_id): array
+    public function get_descriptions(int $download_id): array
     {
         $download_description_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "download_description` WHERE `download_id` = '" . $download_id . "'");
-
         foreach ($query->rows as $result) {
             $download_description_data[$result['language_id']] = $result;
         }
-
         return $download_description_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -336,13 +296,11 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_download->getDescriptionsByLanguageId($language_id);
      */
-    public function getDescriptionsByLanguageId(int $language_id): array
+    public function get_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "download_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Get Reports
      *
@@ -358,21 +316,17 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_download->getReports($download_id, $start, $limit);
      */
-    public function getReports(int $download_id, int $start = 0, int $limit = 10): array
+    public function get_reports(int $download_id, int $start = 0, int $limit = 10): array
     {
         if ($start < 0) {
             $start = 0;
         }
-
         if ($limit < 1) {
             $limit = 10;
         }
-
         $query = $this->db->query('SELECT `ip`, `store_id`, `country`, `date_added` FROM `' . DB_PREFIX . "download_report` WHERE `download_id` = '" . $download_id . "' ORDER BY `date_added` ASC LIMIT " . $start . ',' . $limit);
-
         return $query->rows;
     }
-
     /**
      * Delete Reports
      *
@@ -387,11 +341,10 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_download->deleteReports($download_id);
      */
-    public function deleteReports(int $download_id): void
+    public function delete_reports(int $download_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "download_report` WHERE `download_id` = '" . $download_id . "'");
     }
-
     /**
      * Get Total Reports
      *
@@ -407,10 +360,9 @@ class Download extends \Opencart\System\Engine\Model
      *
      * $report_total = $this->model_catalog_download->getTotalReports($download_id);
      */
-    public function getTotalReports(int $download_id): int
+    public function get_total_reports(int $download_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "download_report` WHERE `download_id` = '" . $download_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

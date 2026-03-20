@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Admin\Model\Localisation;
  *
  * @package Opencart\Admin\Model\Localisation
  */
-class AddressFormat extends \Opencart\System\Engine\Model
+class Address_Format extends \Opencart\System\Engine\Model
 {
     /**
      * Add Address Format
@@ -32,13 +31,11 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $address_format_id = $this->model_localisation_address_format->addAddressFormat($address_format_data);
      */
-    public function addAddressFormat(array $data): int
+    public function add_address_format(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address_format` = '" . $this->db->escape((string)$data['address_format']) . "'");
-
-        return $this->db->getLastId();
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `address_format` = '" . $this->db->escape((string) $data['address_format']) . "'");
+        return $this->db->get_last_id();
     }
-
     /**
      * Edit Address Format
      *
@@ -59,11 +56,10 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_address_format->editAddressFormat($address_format_id, $address_format_data);
      */
-    public function editAddressFormat(int $address_format_id, array $data): void
+    public function edit_address_format(int $address_format_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `address_format` = '" . $this->db->escape((string)$data['address_format']) . "' WHERE `address_format_id` = '" . $address_format_id . "'");
+        $this->db->query('UPDATE `' . DB_PREFIX . "address_format` SET `name` = '" . $this->db->escape((string) $data['name']) . "', `address_format` = '" . $this->db->escape((string) $data['address_format']) . "' WHERE `address_format_id` = '" . $address_format_id . "'");
     }
-
     /**
      * Delete Address Format
      *
@@ -78,11 +74,10 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $this->model_localisation_address_format->deleteAddressFormat($address_format_id);
      */
-    public function deleteAddressFormat(int $address_format_id): void
+    public function delete_address_format(int $address_format_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . $address_format_id . "'");
     }
-
     /**
      * Get Address Format
      *
@@ -98,13 +93,11 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $address_format_info = $this->model_localisation_address_format->getAddressFormat($address_format_id);
      */
-    public function getAddressFormat(int $address_format_id): array
+    public function get_address_format(int $address_format_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "address_format` WHERE `address_format_id` = '" . $address_format_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Address Formats
      *
@@ -125,27 +118,21 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_localisation_address_format->getAddressFormats($filter_data);
      */
-    public function getAddressFormats(array $data = []): array
+    public function get_address_formats(array $data = []): array
     {
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'address_format`';
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Address Formats
      *
@@ -166,10 +153,9 @@ class AddressFormat extends \Opencart\System\Engine\Model
      *
      * $address_format_total = $this->model_localisation_address_format->getTotalAddressFormats($filter_data);
      */
-    public function getTotalAddressFormats(array $data = []): int
+    public function get_total_address_formats(array $data = []): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'address_format`');
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

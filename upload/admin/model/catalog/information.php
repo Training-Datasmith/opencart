@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Catalog;
 
 /**
@@ -34,44 +33,35 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_id = $this->model_catalog_information->addInformation($information_data);
      */
-    public function addInformation(array $data): int
+    public function add_information(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "information` SET `sort_order` = '" . (int)$data['sort_order'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "'");
-
-        $information_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "information` SET `sort_order` = '" . (int) $data['sort_order'] . "', `status` = '" . (bool) ($data['status'] ?? 0) . "'");
+        $information_id = $this->db->get_last_id();
         foreach ($data['information_description'] as $language_id => $information_description) {
-            $this->model_catalog_information->addDescription($information_id, $language_id, $information_description);
+            $this->model_catalog_information->add_description($information_id, $language_id, $information_description);
         }
-
         if (isset($data['information_store'])) {
             foreach ($data['information_store'] as $store_id) {
-                $this->model_catalog_information->addStore($information_id, $store_id);
+                $this->model_catalog_information->add_store($information_id, $store_id);
             }
         }
-
         // SEO
         $this->load->model('design/seo_url');
-
         foreach ($data['information_seo_url'] as $store_id => $language) {
             foreach ($language as $language_id => $keyword) {
-                $this->model_design_seo_url->addSeoUrl('information_id', $information_id, $keyword, $store_id, $language_id);
+                $this->model_design_seo_url->add_seo_url('information_id', $information_id, $keyword, $store_id, $language_id);
             }
         }
-
         if (isset($data['information_layout'])) {
             foreach ($data['information_layout'] as $store_id => $layout_id) {
                 if ($layout_id) {
-                    $this->model_catalog_information->addLayout($information_id, $store_id, $layout_id);
+                    $this->model_catalog_information->add_layout($information_id, $store_id, $layout_id);
                 }
             }
         }
-
         $this->cache->delete('information');
-
         return $information_id;
     }
-
     /**
      * Edit Information
      *
@@ -93,48 +83,37 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->editInformation($information_id, $information_data);
      */
-    public function editInformation(int $information_id, array $data): void
+    public function edit_information(int $information_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "information` SET `sort_order` = '" . (int)$data['sort_order'] . "', `status` = '" . (bool)($data['status'] ?? 0) . "' WHERE `information_id` = '" . $information_id . "'");
-
-        $this->model_catalog_information->deleteDescriptions($information_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "information` SET `sort_order` = '" . (int) $data['sort_order'] . "', `status` = '" . (bool) ($data['status'] ?? 0) . "' WHERE `information_id` = '" . $information_id . "'");
+        $this->model_catalog_information->delete_descriptions($information_id);
         foreach ($data['information_description'] as $language_id => $information_description) {
-            $this->model_catalog_information->addDescription($information_id, $language_id, $information_description);
+            $this->model_catalog_information->add_description($information_id, $language_id, $information_description);
         }
-
-        $this->model_catalog_information->deleteStores($information_id);
-
+        $this->model_catalog_information->delete_stores($information_id);
         if (isset($data['information_store'])) {
             foreach ($data['information_store'] as $store_id) {
-                $this->model_catalog_information->addStore($information_id, $store_id);
+                $this->model_catalog_information->add_store($information_id, $store_id);
             }
         }
-
         // SEO
         $this->load->model('design/seo_url');
-
-        $this->model_design_seo_url->deleteSeoUrlsByKeyValue('information_id', $information_id);
-
+        $this->model_design_seo_url->delete_seo_urls_by_key_value('information_id', $information_id);
         foreach ($data['information_seo_url'] as $store_id => $language) {
             foreach ($language as $language_id => $keyword) {
-                $this->model_design_seo_url->addSeoUrl('information_id', $information_id, $keyword, $store_id, $language_id);
+                $this->model_design_seo_url->add_seo_url('information_id', $information_id, $keyword, $store_id, $language_id);
             }
         }
-
-        $this->model_catalog_information->deleteLayouts($information_id);
-
+        $this->model_catalog_information->delete_layouts($information_id);
         if (isset($data['information_layout'])) {
             foreach ($data['information_layout'] as $store_id => $layout_id) {
                 if ($layout_id) {
-                    $this->model_catalog_information->addLayout($information_id, $store_id, $layout_id);
+                    $this->model_catalog_information->add_layout($information_id, $store_id, $layout_id);
                 }
             }
         }
-
         $this->cache->delete('information');
     }
-
     /**
      * Edit Status
      *
@@ -149,13 +128,11 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->editStatus($information_id, $status);
      */
-    public function editStatus(int $information_id, bool $status): void
+    public function edit_status(int $information_id, bool $status): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "information` SET `status` = '" . $status . "' WHERE `information_id` = '" . $information_id . "'");
-
         $this->cache->delete('information');
     }
-
     /**
      * Delete Information
      *
@@ -170,22 +147,17 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteInformation($information_id);
      */
-    public function deleteInformation(int $information_id): void
+    public function delete_information(int $information_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information` WHERE `information_id` = '" . $information_id . "'");
-
-        $this->model_catalog_information->deleteDescriptions($information_id);
-        $this->model_catalog_information->deleteStores($information_id);
-        $this->model_catalog_information->deleteLayouts($information_id);
-
+        $this->model_catalog_information->delete_descriptions($information_id);
+        $this->model_catalog_information->delete_stores($information_id);
+        $this->model_catalog_information->delete_layouts($information_id);
         // SEO
         $this->load->model('design/seo_url');
-
-        $this->model_design_seo_url->deleteSeoUrlsByKeyValue('information_id', $information_id);
-
+        $this->model_design_seo_url->delete_seo_urls_by_key_value('information_id', $information_id);
         $this->cache->delete('information');
     }
-
     /**
      * Get Information
      *
@@ -201,13 +173,11 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_info = $this->model_catalog_information->getInformation($information_id);
      */
-    public function getInformation(int $information_id): array
+    public function get_information(int $information_id): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'information` `i` LEFT JOIN `' . DB_PREFIX . "information_description` `id` ON (`i`.`information_id` = `id`.`information_id`) WHERE `i`.`information_id` = '" . $information_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'information` `i` LEFT JOIN `' . DB_PREFIX . "information_description` `id` ON (`i`.`information_id` = `id`.`information_id`) WHERE `i`.`information_id` = '" . $information_id . "' AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Information(s)
      *
@@ -230,70 +200,50 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_information->getInformations($filter_data);
      */
-    public function getInformations(array $data = []): array
+    public function get_informations(array $data = []): array
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'information` `i` LEFT JOIN `' . DB_PREFIX . "information_description` `id` ON (`i`.`information_id` = `id`.`information_id`) WHERE `id`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'information` `i` LEFT JOIN `' . DB_PREFIX . "information_description` `id` ON (`i`.`information_id` = `id`.`information_id`) WHERE `id`.`language_id` = '" . (int) $language_id . "'";
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
             $sql .= ' LEFT JOIN `' . DB_PREFIX . 'information_to_store` `i2s` ON (`i`.`information_id` = `i2s`.`information_id`)';
-            $sql .= " AND `i2s`.`store_id` = '" . (int)$data['filter_store_id'] . "'";
+            $sql .= " AND `i2s`.`store_id` = '" . (int) $data['filter_store_id'] . "'";
         }
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-            $sql .= " AND `i`.`status` = '" . (int)$data['filter_status'] . "'";
+            $sql .= " AND `i`.`status` = '" . (int) $data['filter_status'] . "'";
         }
-
-        $sort_data = [
-            'title'      => 'id.title',
-            'status'     => 'i.status',
-            'sort_order' => 'i.sort_order',
-        ];
-
+        $sort_data = ['title' => 'id.title', 'status' => 'i.status', 'sort_order' => 'i.sort_order'];
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $sort_data[$data['sort']];
         } else {
             $sql .= ' ORDER BY `id`.`title`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $key = md5($sql);
-
         $information_data = $this->cache->get('information.' . $key);
-
         if (!$information_data) {
             $query = $this->db->query($sql);
-
             $information_data = $query->rows;
-
             $this->cache->set('information.' . $key, $information_data);
         }
-
         return $information_data;
     }
-
     /**
      * Get Total Information(s)
      *
@@ -307,35 +257,27 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_total = $this->model_catalog_information->getTotalInformations();
      */
-    public function getTotalInformations(array $data = []): int
+    public function get_total_informations(array $data = []): int
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'information` `i` LEFT JOIN `' . DB_PREFIX . 'information_description` `id` ON (`i`.`information_id` = `id`.`information_id`)';
-
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-            $sql .= ' LEFT JOIN `' . DB_PREFIX . "information_to_store` `i2s` ON (`i`.`information_id` = `i2s`.`information_id`) WHERE `i2s`.`store_id` = '" . (int)$data['filter_store_id'] . "'";
+            $sql .= ' LEFT JOIN `' . DB_PREFIX . "information_to_store` `i2s` ON (`i`.`information_id` = `i2s`.`information_id`) WHERE `i2s`.`store_id` = '" . (int) $data['filter_store_id'] . "'";
         }
-
-        $sql .= " WHERE `id`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql .= " WHERE `id`.`language_id` = '" . (int) $language_id . "'";
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-            $sql .= " AND `i2s`.`store_id` = '" . (int)$data['filter_store_id'] . "'";
+            $sql .= " AND `i2s`.`store_id` = '" . (int) $data['filter_store_id'] . "'";
         }
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-            $sql .= " AND `i`.`status` = '" . (int)$data['filter_status'] . "'";
+            $sql .= " AND `i`.`status` = '" . (int) $data['filter_status'] . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -360,11 +302,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->addDescription($information_id, $language_id, $information_data);
      */
-    public function addDescription(int $information_id, int $language_id, array $data): void
+    public function add_description(int $information_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "information_description` SET `information_id` = '" . $information_id . "', `language_id` = '" . $language_id . "', `title` = '" . $this->db->escape($data['title']) . "', `description` = '" . $this->db->escape($data['description']) . "', `meta_title` = '" . $this->db->escape($data['meta_title']) . "', `meta_description` = '" . $this->db->escape($data['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($data['meta_keyword']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -379,11 +320,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteDescriptions($information_id);
      */
-    public function deleteDescriptions(int $information_id): void
+    public function delete_descriptions(int $information_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_description` WHERE `information_id` = '" . $information_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -398,11 +338,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteDescriptionsByLanguageId(int $language_id): void
+    public function delete_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Descriptions
      *
@@ -418,19 +357,15 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_description = $this->model_catalog_information->getDescriptions($information_id);
      */
-    public function getDescriptions(int $information_id): array
+    public function get_descriptions(int $information_id): array
     {
         $information_description_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "information_description` WHERE `information_id` = '" . $information_id . "'");
-
         foreach ($query->rows as $result) {
             $information_description_data[$result['language_id']] = $result;
         }
-
         return $information_description_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -446,13 +381,11 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_information->getDescriptionsByLanguageId($language_id);
      */
-    public function getDescriptionsByLanguageId(int $language_id): array
+    public function get_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "information_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Add Store
      *
@@ -468,11 +401,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->addStore($information_id, $store_id);
      */
-    public function addStore(int $information_id, int $store_id): void
+    public function add_store(int $information_id, int $store_id): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "information_to_store` SET `information_id` = '" . $information_id . "', `store_id` = '" . $store_id . "'");
     }
-
     /**
      * Delete Stores
      *
@@ -487,11 +419,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteStores($information_id);
      */
-    public function deleteStores(int $information_id): void
+    public function delete_stores(int $information_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_to_store` WHERE `information_id` = '" . $information_id . "'");
     }
-
     /**
      * Delete Stores By Store ID
      *
@@ -506,11 +437,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteStoresByStoreId($store_id);
      */
-    public function deleteStoresByStoreId(int $store_id): void
+    public function delete_stores_by_store_id(int $store_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_to_store` WHERE `store_id` = '" . $store_id . "'");
     }
-
     /**
      * Get Stores
      *
@@ -526,35 +456,27 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_store = $this->model_catalog_information->getStores($information_id);
      */
-    public function getStores(int $information_id): array
+    public function get_stores(int $information_id): array
     {
         $store_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "information_to_store` WHERE `information_id` = '" . $information_id . "'");
-
         foreach ($query->rows as $result) {
             $store_data[] = $result['store_id'];
         }
-
         return $store_data;
     }
-
     /*
      * Get information data based on stores
      */
-    public function getStoresByStoreId(int $store_id): array
+    public function get_stores_by_store_id(int $store_id): array
     {
         $information_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "information_to_store` WHERE `store_id` = '" . $store_id . "'");
-
         foreach ($query->rows as $result) {
             $information_data[] = $result['information_id'];
         }
-
         return $information_data;
     }
-
     /**
      * Add Layout
      *
@@ -571,11 +493,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->addLayout($information_id, $store_id, $layout_id);
      */
-    public function addLayout(int $information_id, int $store_id, int $layout_id): void
+    public function add_layout(int $information_id, int $store_id, int $layout_id): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "information_to_layout` SET `information_id` = '" . $information_id . "', `store_id` = '" . $store_id . "', `layout_id` = '" . $layout_id . "'");
     }
-
     /**
      * Delete Layouts
      *
@@ -590,11 +511,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteLayouts($information_id);
      */
-    public function deleteLayouts(int $information_id): void
+    public function delete_layouts(int $information_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_to_layout` WHERE `information_id` = '" . $information_id . "'");
     }
-
     /**
      * Delete Layouts By Layout ID
      *
@@ -609,11 +529,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteLayoutsByLayoutId($layout_id);
      */
-    public function deleteLayoutsByLayoutId(int $layout_id): void
+    public function delete_layouts_by_layout_id(int $layout_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
     }
-
     /**
      * Delete Layouts By Store ID
      *
@@ -628,11 +547,10 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_information->deleteLayoutsByStoreId($store_id);
      */
-    public function deleteLayoutsByStoreId(int $store_id): void
+    public function delete_layouts_by_store_id(int $store_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "information_to_layout` WHERE `store_id` = '" . $store_id . "'");
     }
-
     /**
      * Get Layouts
      *
@@ -648,19 +566,15 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_layout = $this->model_catalog_information->getLayouts($information_id);
      */
-    public function getLayouts(int $information_id): array
+    public function get_layouts(int $information_id): array
     {
         $information_layout_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "information_to_layout` WHERE `information_id` = '" . $information_id . "'");
-
         foreach ($query->rows as $result) {
             $information_layout_data[$result['store_id']] = $result['layout_id'];
         }
-
         return $information_layout_data;
     }
-
     /**
      * Get Total Layouts By Layout ID
      *
@@ -676,10 +590,9 @@ class Information extends \Opencart\System\Engine\Model
      *
      * $information_total = $this->model_catalog_information->getTotalLayoutsByLayoutId($layout_id);
      */
-    public function getTotalLayoutsByLayoutId(int $layout_id): int
+    public function get_total_layouts_by_layout_id(int $layout_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "information_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

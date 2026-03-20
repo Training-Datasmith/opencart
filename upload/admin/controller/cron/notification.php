@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Cron;
 
 /**
@@ -16,14 +15,8 @@ class Notification extends \Opencart\System\Engine\Controller
      */
     public function index(): void
     {
-        $task_data = [
-            'code'   => 'currency',
-            'action' => 'task/system/notification',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'currency', 'action' => 'task/system/notification', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
     }
 }

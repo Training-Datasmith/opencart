@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Event;
 
 /**
@@ -26,25 +25,12 @@ class Language extends \Opencart\System\Engine\Controller
      */
     public function index(string &$route, array &$args, &$output): void
     {
-        $task_data = [
-            'code'   => 'language',
-            'action' => 'task/catalog/language',
-            'args'   => [],
-        ];
-
+        $task_data = ['code' => 'language', 'action' => 'task/catalog/language', 'args' => []];
         $this->load->model('setting/task');
-
-        $this->model_setting_task->addTask($task_data);
-
-        $task_data = [
-            'code'   => 'language.list',
-            'action' => 'task/admin/language',
-            'args'   => [],
-        ];
-
-        $this->model_setting_task->addTask($task_data);
+        $this->model_setting_task->add_task($task_data);
+        $task_data = ['code' => 'language.list', 'action' => 'task/admin/language', 'args' => []];
+        $this->model_setting_task->add_task($task_data);
     }
-
     /**
      * template
      *
@@ -63,7 +49,6 @@ class Language extends \Opencart\System\Engine\Controller
             }
         }
     }
-
     /**
      * Before
      *
@@ -77,12 +62,10 @@ class Language extends \Opencart\System\Engine\Controller
     public function before(string &$route, array &$args): void
     {
         $data = $this->language->all();
-
         if ($data) {
             $this->language->set('backup', json_encode($data));
         }
     }
-
     /**
      * After
      *
@@ -97,10 +80,8 @@ class Language extends \Opencart\System\Engine\Controller
     public function after(string &$route, array &$args, &$output): void
     {
         $data = json_decode($this->language->get('backup'), true);
-
         if (is_array($data)) {
             $this->language->clear();
-
             foreach ($data as $key => $value) {
                 $this->language->set($key, $value);
             }

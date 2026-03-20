@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Controller\Task\Admin;
 
 /**
@@ -21,39 +20,25 @@ class Store extends \Opencart\System\Engine\Controller
     public function index(array $args = []): array
     {
         $this->load->language('task/admin/store');
-
         $stores = [];
-
-        $stores[] = [
-            'store_id' => 0,
-            'name'     => $this->config->get('config_name'),
-        ];
-
+        $stores[] = ['store_id' => 0, 'name' => $this->config->get('config_name')];
         $this->load->model('setting/store');
-
-        $stores = array_merge($stores, $this->model_setting_store->getStores());
-
+        $stores = array_merge($stores, $this->model_setting_store->get_stores());
         $this->load->model('localisation/language');
-
-        $languages = $this->model_localisation_language->getLanguages();
-
+        $languages = $this->model_localisation_language->get_languages();
         foreach ($languages as $language) {
             $base = DIR_OPENCART . 'view/data/';
             $directory = $language['code'] . '/setting/';
             $filename = 'store.json';
-
             if (!oc_directory_create($base . $directory, 0777)) {
                 return ['error' => sprintf($this->language->get('error_directory'), $directory)];
             }
-
             if (!file_put_contents($base . $directory . $filename, json_encode($stores))) {
                 return ['error' => sprintf($this->language->get('error_file'), $directory . $filename)];
             }
         }
-
         return ['success' => $this->language->get('text_success')];
     }
-
     /**
      * Clear
      *
@@ -64,19 +49,14 @@ class Store extends \Opencart\System\Engine\Controller
     public function clear(array $args = []): array
     {
         $this->load->language('task/admin/store');
-
         $this->load->model('localisation/language');
-
-        $languages = $this->model_localisation_language->getLanguages();
-
+        $languages = $this->model_localisation_language->get_languages();
         foreach ($languages as $language) {
             $file = DIR_APPLICATION . 'view/data/' . $language['code'] . '/setting/setting.json';
-
             if (is_file($file)) {
                 unlink($file);
             }
         }
-
         return ['success' => $this->language->get('text_clear')];
     }
 }

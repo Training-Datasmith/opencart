@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Catalog\Model\Localisation;
 
 /**
@@ -11,7 +10,7 @@ namespace Opencart\Catalog\Model\Localisation;
  *
  * @package Opencart\Catalog\Model\Localisation
  */
-class SubscriptionStatus extends \Opencart\System\Engine\Model
+class Subscription_Status extends \Opencart\System\Engine\Model
 {
     /**
      * Get Subscription Status
@@ -28,13 +27,11 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model
      *
      * $subscription_status_info = $this->model_localisation_subscription_status->getSubscriptionStatus($subscription_status_id);
      */
-    public function getSubscriptionStatus(int $subscription_status_id): array
+    public function get_subscription_status(int $subscription_status_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . $subscription_status_id . "' AND `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "subscription_status` WHERE `subscription_status_id` = '" . $subscription_status_id . "' AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Subscription Statuses
      *
@@ -48,22 +45,16 @@ class SubscriptionStatus extends \Opencart\System\Engine\Model
      *
      * $subscription_statuses = $this->model_localisation_subscription_status->getSubscriptionStatuses();
      */
-    public function getSubscriptionStatuses(): array
+    public function get_subscription_statuses(): array
     {
-        $sql = 'SELECT `subscription_status_id`, `name` FROM `' . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY `name`";
-
+        $sql = 'SELECT `subscription_status_id`, `name` FROM `' . DB_PREFIX . "subscription_status` WHERE `language_id` = '" . (int) $this->config->get('config_language_id') . "' ORDER BY `name`";
         $key = md5($sql);
-
         $subscription_status_data = $this->cache->get('subscription_status.' . $key);
-
         if (!$subscription_status_data) {
             $query = $this->db->query($sql);
-
             $subscription_status_data = $query->rows;
-
             $this->cache->set('subscription_status.' . $key, $subscription_status_data);
         }
-
         return $subscription_status_data;
     }
 }

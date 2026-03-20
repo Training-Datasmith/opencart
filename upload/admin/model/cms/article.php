@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Cms;
 
 /**
@@ -34,47 +33,38 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $article_id = $this->model_cms_article->addArticle($article_data);
      */
-    public function addArticle(array $data): int
+    public function add_article(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "article` SET `topic_id` = '" . (int)$data['topic_id'] . "', `author` = '" . $this->db->escape($data['author']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_added` = NOW(), `date_modified` = NOW()");
-
-        $article_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "article` SET `topic_id` = '" . (int) $data['topic_id'] . "', `author` = '" . $this->db->escape($data['author']) . "', `status` = '" . (bool) ($data['status'] ?? 0) . "', `date_added` = NOW(), `date_modified` = NOW()");
+        $article_id = $this->db->get_last_id();
         // Description
         foreach ($data['article_description'] as $language_id => $value) {
-            $this->model_cms_article->addDescription($article_id, $language_id, $value);
+            $this->model_cms_article->add_description($article_id, $language_id, $value);
         }
-
         // Store
         if (isset($data['article_store'])) {
             foreach ($data['article_store'] as $store_id) {
-                $this->model_cms_article->addStore($article_id, $store_id);
+                $this->model_cms_article->add_store($article_id, $store_id);
             }
         }
-
         // SEO
         $this->load->model('design/seo_url');
-
         foreach ($data['article_seo_url'] as $store_id => $language) {
             foreach ($language as $language_id => $keyword) {
-                $this->model_design_seo_url->addSeoUrl('article_id', $article_id, $keyword, $store_id, $language_id);
+                $this->model_design_seo_url->add_seo_url('article_id', $article_id, $keyword, $store_id, $language_id);
             }
         }
-
         // Layouts
         if (isset($data['article_layout'])) {
             foreach ($data['article_layout'] as $store_id => $layout_id) {
                 if ($layout_id) {
-                    $this->model_cms_article->addLayout($article_id, $store_id, $layout_id);
+                    $this->model_cms_article->add_layout($article_id, $store_id, $layout_id);
                 }
             }
         }
-
         $this->cache->delete('article');
-
         return $article_id;
     }
-
     /**
      * Edit Article
      *
@@ -96,51 +86,40 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->editArticle($article_id, $article_data);
      */
-    public function editArticle(int $article_id, array $data): void
+    public function edit_article(int $article_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "article` SET `topic_id` = '" . (int)$data['topic_id'] . "', `author` = '" . $this->db->escape($data['author']) . "', `status` = '" . (bool)($data['status'] ?? 0) . "', `date_modified` = NOW() WHERE `article_id` = '" . $article_id . "'");
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "article` SET `topic_id` = '" . (int) $data['topic_id'] . "', `author` = '" . $this->db->escape($data['author']) . "', `status` = '" . (bool) ($data['status'] ?? 0) . "', `date_modified` = NOW() WHERE `article_id` = '" . $article_id . "'");
         // Description
-        $this->model_cms_article->deleteDescriptions($article_id);
-
+        $this->model_cms_article->delete_descriptions($article_id);
         foreach ($data['article_description'] as $language_id => $value) {
-            $this->model_cms_article->addDescription($article_id, $language_id, $value);
+            $this->model_cms_article->add_description($article_id, $language_id, $value);
         }
-
         // Store
-        $this->model_cms_article->deleteStores($article_id);
-
+        $this->model_cms_article->delete_stores($article_id);
         if (isset($data['article_store'])) {
             foreach ($data['article_store'] as $store_id) {
-                $this->model_cms_article->addStore($article_id, $store_id);
+                $this->model_cms_article->add_store($article_id, $store_id);
             }
         }
-
         // SEO
         $this->load->model('design/seo_url');
-
-        $this->model_design_seo_url->deleteSeoUrlsByKeyValue('article_id', $article_id);
-
+        $this->model_design_seo_url->delete_seo_urls_by_key_value('article_id', $article_id);
         foreach ($data['article_seo_url'] as $store_id => $language) {
             foreach ($language as $language_id => $keyword) {
-                $this->model_design_seo_url->addSeoUrl('article_id', $article_id, $keyword, $store_id, $language_id);
+                $this->model_design_seo_url->add_seo_url('article_id', $article_id, $keyword, $store_id, $language_id);
             }
         }
-
         // Layouts
-        $this->model_cms_article->deleteLayouts($article_id);
-
+        $this->model_cms_article->delete_layouts($article_id);
         if (isset($data['article_layout'])) {
             foreach ($data['article_layout'] as $store_id => $layout_id) {
                 if ($layout_id) {
-                    $this->model_cms_article->addLayout($article_id, $store_id, $layout_id);
+                    $this->model_cms_article->add_layout($article_id, $store_id, $layout_id);
                 }
             }
         }
-
         $this->cache->delete('article');
     }
-
     /**
      * Edit Rating
      *
@@ -155,11 +134,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->editRating($article_id, $rating);
      */
-    public function editRating(int $article_id, int $rating): void
+    public function edit_rating(int $article_id, int $rating): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "article` SET `rating` = '" . $rating . "' WHERE `article_id` = '" . $article_id . "'");
     }
-
     /**
      * Delete Article
      *
@@ -174,24 +152,18 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteArticle($article_id);
      */
-    public function deleteArticle(int $article_id): void
+    public function delete_article(int $article_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article` WHERE `article_id` = '" . $article_id . "'");
-
-        $this->model_cms_article->deleteDescriptions($article_id);
-        $this->model_cms_article->deleteStores($article_id);
-        $this->model_cms_article->deleteCommentsByArticleId($article_id);
-
+        $this->model_cms_article->delete_descriptions($article_id);
+        $this->model_cms_article->delete_stores($article_id);
+        $this->model_cms_article->delete_comments_by_article_id($article_id);
         // SEO
         $this->load->model('design/seo_url');
-
-        $this->model_design_seo_url->deleteSeoUrlsByKeyValue('article_id', $article_id);
-
-        $this->model_cms_article->deleteLayouts($article_id);
-
+        $this->model_design_seo_url->delete_seo_urls_by_key_value('article_id', $article_id);
+        $this->model_cms_article->delete_layouts($article_id);
         $this->cache->delete('article');
     }
-
     /**
      * Get Article
      *
@@ -207,13 +179,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $article_info = $this->model_cms_article->getArticle($article_id);
      */
-    public function getArticle(int $article_id): array
+    public function get_article(int $article_id): array
     {
-        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'article` `a` LEFT JOIN `' . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) WHERE `a`.`article_id` = '" . $article_id . "' AND `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . 'article` `a` LEFT JOIN `' . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) WHERE `a`.`article_id` = '" . $article_id . "' AND `ad`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Articles
      *
@@ -236,80 +206,56 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_cms_article->getArticles($filter_data);
      */
-    public function getArticles(array $data = []): array
+    public function get_articles(array $data = []): array
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
         $sql = 'SELECT * FROM `' . DB_PREFIX . 'article` `a` LEFT JOIN `' . DB_PREFIX . 'article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`)';
-
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
             $sql .= ' LEFT JOIN `' . DB_PREFIX . 'article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`)';
         }
-
-        $sql .= " WHERE `ad`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql .= " WHERE `ad`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`ad`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name'])) . "'";
         }
-
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-            $sql .= " AND `a2s`.`store_id` = '" . (int)$data['filter_store_id'] . "'";
+            $sql .= " AND `a2s`.`store_id` = '" . (int) $data['filter_store_id'] . "'";
         }
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-            $sql .= " AND `a`.`status` = '" . (int)$data['filter_status'] . "'";
+            $sql .= " AND `a`.`status` = '" . (int) $data['filter_status'] . "'";
         }
-
-        $sort_data = [
-            'name'       => 'ad.name',
-            'author'     => 'a.author',
-            'rating'     => 'a.rating',
-            'date_added' => 'a.date_added',
-        ];
-
+        $sort_data = ['name' => 'ad.name', 'author' => 'a.author', 'rating' => 'a.rating', 'date_added' => 'a.date_added'];
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $sort_data[$data['sort']];
         } else {
             $sql .= ' ORDER BY `a`.`date_added`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $key = md5($sql);
-
         $article_data = $this->cache->get('article.' . $key);
-
         if (!$article_data) {
             $query = $this->db->query($sql);
-
             $article_data = $query->rows;
-
             $this->cache->set('article.' . $key, $article_data);
         }
-
         return $article_data;
     }
-
     /**
      * Get Total Articles
      *
@@ -332,39 +278,30 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $article_total = $this->model_cms_article->getTotalArticles($filter_data);
      */
-    public function getTotalArticles(array $data = []): int
+    public function get_total_articles(array $data = []): int
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'article` `a` LEFT JOIN `' . DB_PREFIX . 'article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`)';
-
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
             $sql .= ' LEFT JOIN `' . DB_PREFIX . 'article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`)';
         }
-
-        $sql .= " WHERE `ad`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql .= " WHERE `ad`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`ad`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name']) . '%') . "'";
         }
-
         if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-            $sql .= " AND `a2s`.`store_id` = '" . (int)$data['filter_store_id'] . "'";
+            $sql .= " AND `a2s`.`store_id` = '" . (int) $data['filter_store_id'] . "'";
         }
-
         if (isset($data['filter_status']) && $data['filter_status'] !== '') {
-            $sql .= " AND `a`.`status` = '" . (int)$data['filter_status'] . "'";
+            $sql .= " AND `a`.`status` = '" . (int) $data['filter_status'] . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -391,11 +328,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->addDescription($article_id, $language_id, $article_data);
      */
-    public function addDescription(int $article_id, int $language_id, array $data): void
+    public function add_description(int $article_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "article_description` SET `article_id` = '" . $article_id . "', `language_id` = '" . $language_id . "', `image` = '" . $this->db->escape($data['image']) . "', `name` = '" . $this->db->escape($data['name']) . "', `description` = '" . $this->db->escape($data['description']) . "', `tag` = '" . $this->db->escape($data['tag']) . "', `meta_title` = '" . $this->db->escape($data['meta_title']) . "', `meta_description` = '" . $this->db->escape($data['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($data['meta_keyword']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -410,11 +346,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteDescriptions($article_id);
      */
-    public function deleteDescriptions(int $article_id): void
+    public function delete_descriptions(int $article_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_description` WHERE `article_id` = '" . $article_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -429,11 +364,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteDescriptionsByLanguageId(int $language_id): void
+    public function delete_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Descriptions
      *
@@ -449,19 +383,15 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_cms_article->getDescriptions($article_id);
      */
-    public function getDescriptions(int $article_id): array
+    public function get_descriptions(int $article_id): array
     {
         $article_description_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "article_description` WHERE `article_id` = '" . $article_id . "'");
-
         foreach ($query->rows as $result) {
             $article_description_data[$result['language_id']] = $result;
         }
-
         return $article_description_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -477,13 +407,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $article_description = $this->model_cms_article->getDescriptionsByLanguageId($language_id);
      */
-    public function getDescriptionsByLanguageId(int $language_id): array
+    public function get_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "article_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Add Store
      *
@@ -499,11 +427,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->addStore($article_id, $store_id);
      */
-    public function addStore(int $article_id, int $store_id): void
+    public function add_store(int $article_id, int $store_id): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "article_to_store` SET `article_id` = '" . $article_id . "', `store_id` = '" . $store_id . "'");
     }
-
     /**
      * Delete Stores
      *
@@ -518,11 +445,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteStores($article_id);
      */
-    public function deleteStores(int $article_id): void
+    public function delete_stores(int $article_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_to_store` WHERE `article_id` = '" . $article_id . "'");
     }
-
     /**
      * Get Stores
      *
@@ -538,19 +464,15 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $article_store = $this->model_cms_article->getStores($article_id);
      */
-    public function getStores(int $article_id): array
+    public function get_stores(int $article_id): array
     {
         $article_store_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "article_to_store` WHERE `article_id` = '" . $article_id . "'");
-
         foreach ($query->rows as $result) {
             $article_store_data[] = $result['store_id'];
         }
-
         return $article_store_data;
     }
-
     /**
      * Add Layout
      *
@@ -567,11 +489,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->addLayout($article_id, $store_id, $layout_id);
      */
-    public function addLayout(int $article_id, int $store_id, int $layout_id): void
+    public function add_layout(int $article_id, int $store_id, int $layout_id): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "article_to_layout` SET `article_id` = '" . $article_id . "', `store_id` = '" . $store_id . "', `layout_id` = '" . $layout_id . "'");
     }
-
     /**
      * Delete Layouts
      *
@@ -586,11 +507,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteLayouts($article_id);
      */
-    public function deleteLayouts(int $article_id): void
+    public function delete_layouts(int $article_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . $article_id . "'");
     }
-
     /**
      * Delete Layouts By Layout ID
      *
@@ -605,11 +525,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteLayoutsByLayoutId($layout_id);
      */
-    public function deleteLayoutsByLayoutId(int $layout_id): void
+    public function delete_layouts_by_layout_id(int $layout_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
     }
-
     /**
      * Get Layouts
      *
@@ -625,19 +544,15 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $article_layout = $this->model_cms_article->getLayouts($article_id);
      */
-    public function getLayouts(int $article_id): array
+    public function get_layouts(int $article_id): array
     {
         $article_layout_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . $article_id . "'");
-
         foreach ($query->rows as $result) {
             $article_layout_data[$result['store_id']] = $result['layout_id'];
         }
-
         return $article_layout_data;
     }
-
     /**
      * Get Total Layouts By Layout ID
      *
@@ -653,13 +568,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $layout_total = $this->model_cms_article->getTotalLayoutsByLayoutId($layout_id);
      */
-    public function getTotalLayoutsByLayoutId(int $layout_id): int
+    public function get_total_layouts_by_layout_id(int $layout_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "article_to_layout` WHERE `layout_id` = '" . $layout_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Edit Comment Status
      *
@@ -674,13 +587,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->editCommentStatus($article_comment_id, $status);
      */
-    public function editCommentStatus(int $article_comment_id, bool $status): void
+    public function edit_comment_status(int $article_comment_id, bool $status): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "article_comment` SET `status` = '" . $status . "' WHERE `article_comment_id` = '" . $article_comment_id . "'");
-
         $this->cache->delete('topic');
     }
-
     /**
      * Edit Comment Rating
      *
@@ -696,11 +607,10 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->editCommentRating($article_id, $article_comment_id, $rating);
      */
-    public function editCommentRating(int $article_id, int $article_comment_id, int $rating): void
+    public function edit_comment_rating(int $article_id, int $article_comment_id, int $rating): void
     {
         $this->db->query('UPDATE `' . DB_PREFIX . "article_comment` SET `rating` = '" . $rating . "' WHERE `article_comment_id` = '" . $article_comment_id . "' AND `article_id` = '" . $article_id . "'");
     }
-
     /**
      * Delete Comment
      *
@@ -715,13 +625,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteComment($article_comment_id);
      */
-    public function deleteComment(int $article_comment_id): void
+    public function delete_comment(int $article_comment_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_comment` WHERE `article_comment_id` = '" . $article_comment_id . "'");
-
         $this->cache->delete('topic');
     }
-
     /**
      * Delete Comments by article ID
      *
@@ -736,13 +644,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $this->model_cms_article->deleteCommentsByArticleId($article_id);
      */
-    public function deleteCommentsByArticleId(int $article_id): void
+    public function delete_comments_by_article_id(int $article_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "article_comment` WHERE `article_id` = '" . $article_id . "'");
-
         $this->cache->delete('topic');
     }
-
     /**
      * Get Comment
      *
@@ -758,13 +664,11 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $comment_info = $this->model_cms_article->getComment($article_comment_id);
      */
-    public function getComment(int $article_comment_id): array
+    public function get_comment(int $article_comment_id): array
     {
         $query = $this->db->query('SELECT DISTINCT * FROM `' . DB_PREFIX . "article_comment` WHERE `article_comment_id` = '" . $article_comment_id . "'");
-
         return $query->row;
     }
-
     /**
      * Get Ratings
      *
@@ -781,21 +685,16 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_cms_article->getRatings($article_id, $article_comment_id);
      */
-    public function getRatings(int $article_id, int $article_comment_id = 0): array
+    public function get_ratings(int $article_id, int $article_comment_id = 0): array
     {
         $sql = 'SELECT rating, COUNT(*) AS `total` FROM `' . DB_PREFIX . "article_rating` WHERE `article_id` = '" . $article_id . "'";
-
         if ($article_comment_id) {
-            $sql .= " AND `article_comment_id` = '" . (int)$article_comment_id . "'";
+            $sql .= " AND `article_comment_id` = '" . (int) $article_comment_id . "'";
         }
-
         $sql .= ' GROUP BY rating';
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Comments
      *
@@ -822,53 +721,40 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_cms_article->getComments($filter_data);
      */
-    public function getComments(array $data = []): array
+    public function get_comments(array $data = []): array
     {
-        $sql = 'SELECT *, `ac`.`rating`, `ac`.`status`, `ac`.`date_added` FROM `' . DB_PREFIX . 'article_comment` `ac` LEFT JOIN `' . DB_PREFIX . 'article` `a` ON (`ac`.`article_id` = `a`.`article_id`) LEFT JOIN `' . DB_PREFIX . "article_description` `ad` ON (`ac`.`article_id` = `ad`.`article_id`) WHERE `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'";
-
+        $sql = 'SELECT *, `ac`.`rating`, `ac`.`status`, `ac`.`date_added` FROM `' . DB_PREFIX . 'article_comment` `ac` LEFT JOIN `' . DB_PREFIX . 'article` `a` ON (`ac`.`article_id` = `a`.`article_id`) LEFT JOIN `' . DB_PREFIX . "article_description` `ad` ON (`ac`.`article_id` = `ad`.`article_id`) WHERE `ad`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
         if (!empty($data['filter_keyword'])) {
             $sql .= " AND LCASE(`ac`.`comment`) LIKE '" . $this->db->escape('%' . oc_strtolower($data['filter_keyword']) . '%') . "'";
         }
-
         if (!empty($data['filter_article'])) {
             $sql .= " AND LCASE(`ad`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_article']) . '%') . "'";
         }
-
         if (!empty($data['filter_customer_id'])) {
-            $sql .= " AND `ac`.`customer_id` = '" . (int)$data['filter_customer_id'] . "'";
+            $sql .= " AND `ac`.`customer_id` = '" . (int) $data['filter_customer_id'] . "'";
         }
-
         if (!empty($data['filter_author'])) {
             $sql .= " AND LCASE(`ac`.`author`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_author']) . '%') . "'";
         }
-
         if (!empty($data['filter_status'])) {
-            $sql .= " AND `ac`.`status` = '" . (bool)$data['filter_status'] . "'";
+            $sql .= " AND `ac`.`status` = '" . (bool) $data['filter_status'] . "'";
         }
-
         if (!empty($data['filter_date_added'])) {
             $sql .= " AND DATE(`ac`.`date_added`) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
         }
-
         $sql .= ' ORDER BY `ac`.`date_added` DESC';
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Comments
      *
@@ -895,42 +781,32 @@ class Article extends \Opencart\System\Engine\Model
      *
      * $comment_total = $this->model_cms_article->getTotalComments($filter_data);
      */
-    public function getTotalComments(array $data = []): int
+    public function get_total_comments(array $data = []): int
     {
         $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'article_comment` `ac` LEFT JOIN `' . DB_PREFIX . 'article` `a` ON (`ac`.`article_id` = `a`.`article_id`)';
-
         $implode = [];
-
         if (!empty($data['filter_keyword'])) {
             $implode[] = "LCASE(`ac`.`comment`) LIKE '" . $this->db->escape('%' . oc_strtolower($data['filter_keyword']) . '%') . "'";
         }
-
         if (!empty($data['filter_article'])) {
             $implode[] = "LCASE(`ad`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_article']) . '%') . "'";
         }
-
         if (!empty($data['filter_customer_id'])) {
-            $implode[] = "`ac`.`customer_id` = '" . (int)$data['filter_customer_id'] . "'";
+            $implode[] = "`ac`.`customer_id` = '" . (int) $data['filter_customer_id'] . "'";
         }
-
         if (!empty($data['filter_author'])) {
             $implode[] = "LCASE(`ac`.`author`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_author']) . '%') . "'";
         }
-
         if (!empty($data['filter_status'])) {
-            $implode[] = "`ac`.`status` = '" . (bool)$data['filter_status'] . "'";
+            $implode[] = "`ac`.`status` = '" . (bool) $data['filter_status'] . "'";
         }
-
         if (!empty($data['filter_date_added'])) {
             $implode[] = "DATE(`ac`.`date_added`) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
         }
-
         if ($implode) {
             $sql .= ' WHERE ' . implode(' AND ', $implode);
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 }

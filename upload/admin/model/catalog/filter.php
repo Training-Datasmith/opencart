@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Opencart\Admin\Model\Catalog;
 
 /**
@@ -33,21 +32,16 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_group_id = $this->model_catalog_filter_group->addFilterGroup($filter_group_data);
      */
-    public function addFilterGroup(array $data): int
+    public function add_filter_group(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "filter_group` SET `sort_order` = '" . (int)$data['sort_order'] . "'");
-
-        $filter_group_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "filter_group` SET `sort_order` = '" . (int) $data['sort_order'] . "'");
+        $filter_group_id = $this->db->get_last_id();
         foreach ($data['filter_group_description'] as $language_id => $filter_group_description) {
-            $this->model_catalog_filter_group->addDescription($filter_group_id, $language_id, $filter_group_description);
+            $this->model_catalog_filter_group->add_description($filter_group_id, $language_id, $filter_group_description);
         }
-
         $this->cache->delete('filter_group');
-
         return $filter_group_id;
     }
-
     /**
      * Edit Filter Group
      *
@@ -68,19 +62,15 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter_group->editFilterGroup($filter_group_id, $filter_group_data);
      */
-    public function editFilterGroup(int $filter_group_id, array $data): void
+    public function edit_filter_group(int $filter_group_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "filter_group` SET `sort_order` = '" . (int)$data['sort_order'] . "' WHERE `filter_group_id` = '" . $filter_group_id . "'");
-
-        $this->model_catalog_filter_group->deleteDescriptions($filter_group_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "filter_group` SET `sort_order` = '" . (int) $data['sort_order'] . "' WHERE `filter_group_id` = '" . $filter_group_id . "'");
+        $this->model_catalog_filter_group->delete_descriptions($filter_group_id);
         foreach ($data['filter_group_description'] as $language_id => $filter_group_description) {
-            $this->model_catalog_filter_group->addDescription($filter_group_id, $language_id, $filter_group_description);
+            $this->model_catalog_filter_group->add_description($filter_group_id, $language_id, $filter_group_description);
         }
-
         $this->cache->delete('filter_group');
     }
-
     /**
      * Delete Filter Group
      *
@@ -95,15 +85,12 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter_group->deleteFilterGroup($filter_group_id);
      */
-    public function deleteFilterGroup(int $filter_group_id): void
+    public function delete_filter_group(int $filter_group_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "filter_group` WHERE `filter_group_id` = '" . $filter_group_id . "'");
-
-        $this->model_catalog_filter_group->deleteDescriptions($filter_group_id);
-
+        $this->model_catalog_filter_group->delete_descriptions($filter_group_id);
         $this->cache->delete('filter_group');
     }
-
     /**
      * Get Filter Group
      *
@@ -119,13 +106,11 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_group_info = $this->model_catalog_filter_group->getFilterGroup($filter_group_id);
      */
-    public function getFilterGroup(int $filter_group_id): array
+    public function get_filter_group(int $filter_group_id): array
     {
-        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'filter_group` `fg` LEFT JOIN `' . DB_PREFIX . "filter_group_description` `fgd` ON (`fg`.`filter_group_id` = `fgd`.`filter_group_id`) WHERE `fg`.`filter_group_id` = '" . $filter_group_id . "' AND `fgd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . 'filter_group` `fg` LEFT JOIN `' . DB_PREFIX . "filter_group_description` `fgd` ON (`fg`.`filter_group_id` = `fgd`.`filter_group_id`) WHERE `fg`.`filter_group_id` = '" . $filter_group_id . "' AND `fgd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Filter Groups
      *
@@ -148,54 +133,40 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_filter_group->getFilterGroups($filter_data);
      */
-    public function getFilterGroups(array $data = []): array
+    public function get_filter_groups(array $data = []): array
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT * FROM `' . DB_PREFIX . 'filter_group` `fg` LEFT JOIN `' . DB_PREFIX . "filter_group_description` `fgd` ON (`fg`.`filter_group_id` = `fgd`.`filter_group_id`) WHERE `fgd`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT * FROM `' . DB_PREFIX . 'filter_group` `fg` LEFT JOIN `' . DB_PREFIX . "filter_group_description` `fgd` ON (`fg`.`filter_group_id` = `fgd`.`filter_group_id`) WHERE `fgd`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`fgd`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name'])) . "'";
         }
-
-        $sort_data = [
-            'name'       => 'fgd.name',
-            'sort_order' => 'fg.sort_order',
-        ];
-
+        $sort_data = ['name' => 'fgd.name', 'sort_order' => 'fg.sort_order'];
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $sort_data[$data['sort']];
         } else {
             $sql .= ' ORDER BY `fgd`.`name`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Filter Groups
      *
@@ -209,25 +180,20 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_group_total = $this->model_catalog_filter_group->getTotalFilterGroups();
      */
-    public function getTotalFilterGroups(array $data = []): int
+    public function get_total_filter_groups(array $data = []): int
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'filter_group` `fg` LEFT JOIN `' . DB_PREFIX . "filter_group_description` `fgd` ON (`fg`.`filter_group_id` = `fgd`.`filter_group_id`) WHERE `fgd`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'filter_group` `fg` LEFT JOIN `' . DB_PREFIX . "filter_group_description` `fgd` ON (`fg`.`filter_group_id` = `fgd`.`filter_group_id`) WHERE `fgd`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`fgd`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name'])) . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -248,11 +214,10 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter_group->addDescription($filter_group_id, $language_id, $filter_group_data);
      */
-    public function addDescription(int $filter_group_id, int $language_id, array $data): void
+    public function add_description(int $filter_group_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "filter_group_description` SET `filter_group_id` = '" . $filter_group_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -267,11 +232,10 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter_group->deleteDescriptions($filter_group_id);
      */
-    public function deleteDescriptions(int $filter_group_id): void
+    public function delete_descriptions(int $filter_group_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "filter_group_description` WHERE `filter_group_id` = '" . $filter_group_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -286,11 +250,10 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter_group->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteDescriptionsByLanguageId(int $language_id): void
+    public function delete_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "filter_group_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Descriptions
      *
@@ -306,19 +269,15 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_group_description = $this->model_catalog_filter_group->getDescriptions($filter_group_id);
      */
-    public function getDescriptions(int $filter_group_id): array
+    public function get_descriptions(int $filter_group_id): array
     {
         $filter_group_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "filter_group_description` WHERE `filter_group_id` = '" . $filter_group_id . "'");
-
         foreach ($query->rows as $result) {
             $filter_group_data[$result['language_id']] = $result;
         }
-
         return $filter_group_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -334,13 +293,11 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_filter_group->getDescriptionsByLanguageId($language_id);
      */
-    public function getDescriptionsByLanguageId(int $language_id): array
+    public function get_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "filter_group_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
-
     /**
      * Add Filter
      *
@@ -361,21 +318,16 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_id = $this->model_catalog_filter->addFilter($filter_data);
      */
-    public function addFilter(array $data): int
+    public function add_filter(array $data): int
     {
-        $this->db->query('INSERT INTO `' . DB_PREFIX . "filter` SET `filter_group_id` = '" . (int)$data['filter_group_id'] . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
-
-        $filter_id = $this->db->getLastId();
-
+        $this->db->query('INSERT INTO `' . DB_PREFIX . "filter` SET `filter_group_id` = '" . (int) $data['filter_group_id'] . "', `sort_order` = '" . (int) $data['sort_order'] . "'");
+        $filter_id = $this->db->get_last_id();
         foreach ($data['filter_description'] as $language_id => $filter_description) {
-            $this->model_catalog_filter->addDescription($filter_id, $language_id, $filter_description);
+            $this->model_catalog_filter->add_description($filter_id, $language_id, $filter_description);
         }
-
         $this->cache->delete('filter');
-
         return $filter_id;
     }
-
     /**
      * Edit Filter
      *
@@ -395,19 +347,15 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter->editFilter($filter_id, $filter_data);
      */
-    public function editFilter(int $filter_id, array $data): void
+    public function edit_filter(int $filter_id, array $data): void
     {
-        $this->db->query('UPDATE `' . DB_PREFIX . "filter` SET `filter_group_id` = '" . (int)$data['filter_group_id'] . "', `sort_order` = '" . (int)$data['sort_order'] . "' WHERE `filter_id` = '" . $filter_id . "'");
-
-        $this->model_catalog_filter->deleteDescriptions($filter_id);
-
+        $this->db->query('UPDATE `' . DB_PREFIX . "filter` SET `filter_group_id` = '" . (int) $data['filter_group_id'] . "', `sort_order` = '" . (int) $data['sort_order'] . "' WHERE `filter_id` = '" . $filter_id . "'");
+        $this->model_catalog_filter->delete_descriptions($filter_id);
         foreach ($data['filter_description'] as $language_id => $filter_description) {
-            $this->model_catalog_filter->addDescription($filter_id, $language_id, $filter_description);
+            $this->model_catalog_filter->add_description($filter_id, $language_id, $filter_description);
         }
-
         $this->cache->delete('filter');
     }
-
     /**
      * Delete Filter
      *
@@ -422,25 +370,18 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter->deleteFilter($filter_id);
      */
-    public function deleteFilter(int $filter_id): void
+    public function delete_filter(int $filter_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "filter` WHERE `filter_id` = '" . $filter_id . "'");
-
-        $this->model_catalog_filter->deleteDescriptions($filter_id);
-
+        $this->model_catalog_filter->delete_descriptions($filter_id);
         // Category
         $this->load->model('catalog/category');
-
-        $this->model_catalog_category->deleteFiltersByFilterId($filter_id);
-
+        $this->model_catalog_category->delete_filters_by_filter_id($filter_id);
         // Product
         $this->load->model('catalog/product');
-
-        $this->model_catalog_product->deleteFiltersByFilterId($filter_id);
-
+        $this->model_catalog_product->delete_filters_by_filter_id($filter_id);
         $this->cache->delete('filter');
     }
-
     /**
      * Get Filter
      *
@@ -456,13 +397,11 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_info = $this->model_catalog_filter->getFilter($filter_id);
      */
-    public function getFilter(int $filter_id): array
+    public function get_filter(int $filter_id): array
     {
-        $query = $this->db->query('SELECT *, (SELECT `fgd`.`name` FROM `' . DB_PREFIX . "filter_group_description` `fgd` WHERE `fgd`.`filter_group_id` = `f`.`filter_group_id` AND `fgd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "') AS `group` FROM `" . DB_PREFIX . 'filter` `f` LEFT JOIN `' . DB_PREFIX . "filter_description` `fd` ON (`f`.`filter_id` = `fd`.`filter_id`) WHERE `f`.`filter_id` = '" . $filter_id . "' AND `fd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
-
+        $query = $this->db->query('SELECT *, (SELECT `fgd`.`name` FROM `' . DB_PREFIX . "filter_group_description` `fgd` WHERE `fgd`.`filter_group_id` = `f`.`filter_group_id` AND `fgd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "') AS `group` FROM `" . DB_PREFIX . 'filter` `f` LEFT JOIN `' . DB_PREFIX . "filter_description` `fd` ON (`f`.`filter_id` = `fd`.`filter_id`) WHERE `f`.`filter_id` = '" . $filter_id . "' AND `fd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
     /**
      * Get Filters
      *
@@ -485,55 +424,40 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_filter->getFilters($filter_data);
      */
-    public function getFilters(array $data = []): array
+    public function get_filters(array $data = []): array
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT *, (SELECT `fgd`.`name` FROM `' . DB_PREFIX . "filter_group_description` `fgd` WHERE `fgd`.`filter_group_id` = `f`.`filter_group_id` AND `fgd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "') AS `filter_group` FROM `" . DB_PREFIX . 'filter` `f` LEFT JOIN `' . DB_PREFIX . "filter_description` `fd` ON (`f`.`filter_id` = `fd`.`filter_id`) WHERE `fd`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT *, (SELECT `fgd`.`name` FROM `' . DB_PREFIX . "filter_group_description` `fgd` WHERE `fgd`.`filter_group_id` = `f`.`filter_group_id` AND `fgd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "') AS `filter_group` FROM `" . DB_PREFIX . 'filter` `f` LEFT JOIN `' . DB_PREFIX . "filter_description` `fd` ON (`f`.`filter_id` = `fd`.`filter_id`) WHERE `fd`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`fd`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name'])) . "'";
         }
-
-        $sort_data = [
-            'name'         => 'fd.name',
-            'filter_group' => 'filter_group',
-            'sort_order'   => 'f.sort_order',
-        ];
-
+        $sort_data = ['name' => 'fd.name', 'filter_group' => 'filter_group', 'sort_order' => 'f.sort_order'];
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= ' ORDER BY ' . $sort_data[$data['sort']];
         } else {
             $sql .= ' ORDER BY `filter_group`';
         }
-
-        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+        if (isset($data['order']) && $data['order'] == 'DESC') {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
         }
-
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
-            $sql .= ' LIMIT ' . (int)$data['start'] . ',' . (int)$data['limit'];
+            $sql .= ' LIMIT ' . (int) $data['start'] . ',' . (int) $data['limit'];
         }
-
         $query = $this->db->query($sql);
-
         return $query->rows;
     }
-
     /**
      * Get Total Filters
      *
@@ -556,25 +480,20 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_total = $this->model_catalog_filter->getTotalFilters();
      */
-    public function getTotalFilters(array $data = []): int
+    public function get_total_filters(array $data = []): int
     {
         if (!empty($data['filter_language_id'])) {
             $language_id = $data['filter_language_id'];
         } else {
             $language_id = $this->config->get('config_language_id');
         }
-
-        $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'filter` `f` LEFT JOIN `' . DB_PREFIX . "filter_description` `fd` ON (`f`.`filter_id` = `fd`.`filter_id`) WHERE `fd`.`language_id` = '" . (int)$language_id . "'";
-
+        $sql = 'SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . 'filter` `f` LEFT JOIN `' . DB_PREFIX . "filter_description` `fd` ON (`f`.`filter_id` = `fd`.`filter_id`) WHERE `fd`.`language_id` = '" . (int) $language_id . "'";
         if (!empty($data['filter_name'])) {
             $sql .= " AND LCASE(`fd`.`name`) LIKE '" . $this->db->escape(oc_strtolower($data['filter_name'])) . "'";
         }
-
         $query = $this->db->query($sql);
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Get Total Filters By Filter Group ID
      *
@@ -590,13 +509,11 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_total = $this->model_catalog_filter->getTotalFiltersByFilterGroupId($filter_group_id);
      */
-    public function getTotalFiltersByFilterGroupId(int $filter_group_id): int
+    public function get_total_filters_by_filter_group_id(int $filter_group_id): int
     {
         $query = $this->db->query('SELECT COUNT(*) AS `total` FROM `' . DB_PREFIX . "filter` WHERE `filter_group_id` = '" . $filter_group_id . "'");
-
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
-
     /**
      * Add Description
      *
@@ -617,11 +534,10 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter->addDescription($filter_id, $language_id, $filter_data);
      */
-    public function addFilterDescription(int $filter_id, int $language_id, array $data): void
+    public function add_filter_description(int $filter_id, int $language_id, array $data): void
     {
         $this->db->query('INSERT INTO `' . DB_PREFIX . "filter_description` SET `filter_id` = '" . $filter_id . "', `language_id` = '" . $language_id . "', `name` = '" . $this->db->escape($data['name']) . "'");
     }
-
     /**
      * Delete Descriptions
      *
@@ -636,11 +552,10 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter->deleteDescriptions($filter_id);
      */
-    public function deleteFilterDescriptions(int $filter_id): void
+    public function delete_filter_descriptions(int $filter_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "filter_description` WHERE `filter_id` = '" . $filter_id . "'");
     }
-
     /**
      * Delete Descriptions By Language ID
      *
@@ -655,11 +570,10 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $this->model_catalog_filter->deleteDescriptionsByLanguageId($language_id);
      */
-    public function deleteFilterDescriptionsByLanguageId(int $language_id): void
+    public function delete_filter_descriptions_by_language_id(int $language_id): void
     {
         $this->db->query('DELETE FROM `' . DB_PREFIX . "filter_description` WHERE `language_id` = '" . $language_id . "'");
     }
-
     /**
      * Get Descriptions
      *
@@ -675,19 +589,15 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $filter_description = $this->model_catalog_filter->getDescriptions($filter_id);
      */
-    public function getFilterDescriptions(int $filter_id): array
+    public function get_filter_descriptions(int $filter_id): array
     {
         $filter_data = [];
-
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "filter_description` WHERE `filter_id` = '" . $filter_id . "'");
-
         foreach ($query->rows as $result) {
             $filter_data[$result['language_id']] = $result;
         }
-
         return $filter_data;
     }
-
     /**
      * Get Descriptions By Language ID
      *
@@ -703,10 +613,9 @@ class Filter extends \Opencart\System\Engine\Model
      *
      * $results = $this->model_catalog_filter->getDescriptionsByLanguageId($language_id);
      */
-    public function getFilterDescriptionsByLanguageId(int $language_id): array
+    public function get_filter_descriptions_by_language_id(int $language_id): array
     {
         $query = $this->db->query('SELECT * FROM `' . DB_PREFIX . "filter_description` WHERE `language_id` = '" . $language_id . "'");
-
         return $query->rows;
     }
 }
