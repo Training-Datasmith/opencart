@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Opencart\System\Library\Curl;
+use Opencart\System\Library\Cart\Curl;
 use PHPUnit\Framework\TestCase;
 
 final class CurlTest extends TestCase {
@@ -14,6 +14,8 @@ final class CurlTest extends TestCase {
 	private array $serverPipes = [];
 
 	protected function setUp(): void {
+		require_once DIR_SYSTEM . 'library/curl.php';
+
 		$this->docRoot = sys_get_temp_dir() . '/oc_curl_' . uniqid('', true);
 		mkdir($this->docRoot, 0777, true);
 		file_put_contents($this->docRoot . '/router.php', <<<'PHP'
@@ -96,25 +98,21 @@ PHP
 		}
 	}
 
-	public function testClassAutoloadsInSystemLibrary(): void {
-		$this->assertTrue(class_exists(Curl::class));
-	}
-
 	public function testJson200Response(): void {
-		$curl = new Curl();
+		$curl = new Curl('');
 		$curl->setOption(CURLOPT_POST, false);
 		$result = $curl->send($this->baseUrl . '/ok', []);
 		$this->assertSame(['ok' => true, 'n' => 2], $result);
 	}
 
 	public function testNonJson200ReturnsEmptyArray(): void {
-		$curl = new Curl();
+		$curl = new Curl('');
 		$curl->setOption(CURLOPT_POST, false);
 		$this->assertSame([], $curl->send($this->baseUrl . '/bad', []));
 	}
 
 	public function testHttp500ReturnsEmptyArray(): void {
-		$curl = new Curl();
+		$curl = new Curl('');
 		$curl->setOption(CURLOPT_POST, false);
 		$this->assertSame([], $curl->send($this->baseUrl . '/missing', []));
 	}

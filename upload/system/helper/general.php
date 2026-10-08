@@ -178,13 +178,7 @@ function oc_file_delete(string $file): bool {
 function oc_directory_read(string $directory, bool $recursive = false, string $regex = ''): array {
 	$files = [];
 
-	$resolved = realpath($directory);
-
-	if ($resolved === false) {
-		return [];
-	}
-
-	$directory = str_replace('\\', '/', $resolved);
+	$directory = str_replace('\\', '/', realpath($directory));
 
 	if (is_dir($directory)) {
 		$stack = [rtrim($directory, '/')];

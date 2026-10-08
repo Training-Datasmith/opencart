@@ -61,7 +61,7 @@ final class ImageTest extends TestCase {
 	public function testSaveWithoutExtension(): void {
 		$file = $this->makePng(2, 2);
 		$image = new Image($file);
-		$out = sys_get_temp_dir() . '/oc_img_out_' . uniqid('', true);
+		$out = sys_get_temp_dir() . '/ocimgout' . bin2hex(random_bytes(4));
 		$image->save($out);
 		$this->assertFileDoesNotExist($out);
 	}
