@@ -1,15 +1,11 @@
 <?php
-namespace Opencart\System\Library\Cart;
+namespace Opencart\System\Library;
 /**
  * Class Curl
  *
- * @package Opencart\System\Library\Cart
+ * @package Opencart\System\Library
  */
 class Curl {
-	/**
-	 * @var string
-	 */
-	private string $url = '';
 	/**
 	 * @var array<int, mixed>
 	 */
@@ -26,8 +22,7 @@ class Curl {
 	 *
 	 * @param string $url
 	 */
-	public function __construct(string $url) {
-		$this->url = $url;
+	public function __construct(string $url = '') {
 	}
 
 	/**
@@ -47,7 +42,7 @@ class Curl {
 	/**
 	 * Send
 	 *
-	 * @param string               $route
+	 * @param string               $url
 	 * @param array<string, mixed> $data
 	 *
 	 * @return array<string, mixed>
@@ -67,12 +62,14 @@ class Curl {
 
 		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
+		curl_close($curl);
+
 		if ($status == 200) {
-			$response_info = json_decode($response, true);
+			$response_info = json_decode((string)$response, true);
 		} else {
 			$response_info = [];
 		}
 
-		return $response_info;
+		return is_array($response_info) ? $response_info : [];
 	}
 }

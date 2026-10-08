@@ -56,6 +56,10 @@ class Image {
 
 		$info = getimagesize($file);
 
+		if ($info === false) {
+			throw new \Exception('Error: Could not load image ' . $file . '!');
+		}
+
 		$this->width = $info[0];
 		$this->height = $info[1];
 		$this->bits = $info['bits'] ?? '';
@@ -139,7 +143,7 @@ class Image {
 	public function save(string $file, int $quality = 90): void {
 		$info = pathinfo($file);
 
-		$extension = strtolower($info['extension']);
+		$extension = isset($info['extension']) ? strtolower($info['extension']) : '';
 
 		if (is_object($this->image) || is_resource($this->image)) {
 			if ($extension == 'jpeg' || $extension == 'jpg') {

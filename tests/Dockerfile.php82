@@ -1,0 +1,9 @@
+FROM php@sha256:185eb902246c5757dbbb7e439bf92dfea32f627a401b1e2785bee0770fe0c41b
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libzip-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd mysqli \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app

@@ -121,7 +121,7 @@ class Mail {
 	 * @return void
 	 */
 	public function addAttachment(string $filename): void {
-		$this->attachments[] = $filename;
+		$this->adaptor->addAttachment($filename);
 	}
 
 	/**

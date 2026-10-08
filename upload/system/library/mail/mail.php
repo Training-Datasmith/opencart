@@ -38,6 +38,10 @@ class Mail {
 	 * @var string
 	 */
 	protected string $parameter = '';
+	/**
+	 * @var array<int, string>
+	 */
+	protected array $attachments = [];
 
 	/**
 	 * Constructor
@@ -125,6 +129,17 @@ class Mail {
 	 */
 	public function setHtml(string $html): void {
 		$this->html = $html;
+	}
+
+	/**
+	 * Add Attachment
+	 *
+	 * @param string $filename
+	 *
+	 * @return void
+	 */
+	public function addAttachment(string $filename): void {
+		$this->attachments[] = $filename;
 	}
 
 	/**

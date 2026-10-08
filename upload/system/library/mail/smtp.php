@@ -66,6 +66,10 @@ class Smtp {
 	 * @var bool
 	 */
 	protected bool $verp = false;
+	/**
+	 * @var array<int, string>
+	 */
+	protected array $attachments = [];
 
 	/**
 	 * Constructor
@@ -153,6 +157,17 @@ class Smtp {
 	 */
 	public function setHtml(string $html): void {
 		$this->html = $html;
+	}
+
+	/**
+	 * Add Attachment
+	 *
+	 * @param string $filename
+	 *
+	 * @return void
+	 */
+	public function addAttachment(string $filename): void {
+		$this->attachments[] = $filename;
 	}
 
 	/**
